@@ -18,11 +18,16 @@ namespace Retribution
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        Map riverDefense;
 
         public Game1()
             : base()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.IsFullScreen = true;
+            //graphics.PreferredBackBufferHeight = 800;
+            //graphics.PreferredBackBufferWidth = 800;
+            graphics.ApplyChanges();
             Content.RootDirectory = "Content";
         }
 
@@ -35,7 +40,7 @@ namespace Retribution
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            riverDefense = new Map("Content/RiverDefense.txt");
             base.Initialize();
         }
 
@@ -84,7 +89,7 @@ namespace Retribution
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-
+            riverDefense.DrawMap(spriteBatch);
             base.Draw(gameTime);
         }
     }
