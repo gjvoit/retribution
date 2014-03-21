@@ -19,16 +19,22 @@ namespace Retribution
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Map riverDefense;
+        Builder dummy;
+        MouseState mouseCurrent, mousePrev;
+
+        Tower tower;
+        Tower tower2;        
 
         public Game1()
             : base()
         {
             graphics = new GraphicsDeviceManager(this);
             graphics.IsFullScreen = false;
-            graphics.PreferredBackBufferHeight = 750;
-            graphics.PreferredBackBufferWidth = 750;
+            graphics.PreferredBackBufferHeight = 704;
+            graphics.PreferredBackBufferWidth = 704;
             graphics.ApplyChanges();
             Content.RootDirectory = "Content";
+
         }
 
         /// <summary>
@@ -41,7 +47,14 @@ namespace Retribution
         {
             // TODO: Add your initialization logic here
             riverDefense = new Map("Content/RiverDefense.txt");
+            dummy = new Builder(new Sprite(32, 32, 32, 32), this.Content);
+            tower = new Tower(new Vector2(20, 20));
+            tower.health = 50;
+            tower.damage = 2;
+            tower.attack_range = 40;
+            tower2 = new Tower(new Vector2(600, 600));
             base.Initialize();
+            this.IsMouseVisible = true;
         }
 
         /// <summary>
@@ -52,6 +65,8 @@ namespace Retribution
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            tower.LoadContent(Content);
+            tower2.LoadContent(Content);
 
             // TODO: use this.Content to load your game content here
         }
@@ -74,9 +89,37 @@ namespace Retribution
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+            mouseCurrent = Mouse.GetState();
 
+            KeyboardState keyboardState = Keyboard.GetState();
             // TODO: Add your update logic here
+            if (mouseCurrent.LeftButton == ButtonState.Pressed
+                && mousePrev.LeftButton == ButtonState.Released
+                && dummy.IsSelectable(mouseCurrent))
+            {
+                dummy.selected = true;
+            }
+            else if (mouseCurrent.LeftButton == ButtonState.Pressed
+                && mousePrev.LeftButton == ButtonState.Released)
+            {
+                dummy.selected = false;
+            }
 
+            if (mouseCurrent.RightButton == ButtonState.Pressed
+                && mousePrev.RightButton == ButtonState.Released
+                && dummy.selected == true)
+            {
+                dummy.Move(mouseCurrent);
+            }
+
+            if (keyboardState.IsKeyDown(Keys.A))
+            {
+                tower.Attack(tower2);
+            }
+
+            mousePrev = mouseCurrent;
+            tower.Update(gameTime);
+            tower2.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -89,8 +132,14 @@ namespace Retribution
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+            spriteBatch.Begin();
             riverDefense.DrawMap(spriteBatch);
+            dummy.builderSprite.Draw(spriteBatch);
+            tower.Draw(spriteBatch);
+            tower2.Draw(spriteBatch);
+            spriteBatch.End();
             base.Draw(gameTime);
+            
         }
     }
 }

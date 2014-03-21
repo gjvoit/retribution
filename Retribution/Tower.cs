@@ -1,6 +1,8 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Retribution
@@ -9,7 +11,10 @@ namespace Retribution
     class Tower : GameObject
     {
         public string state;
-        public Tower(Vector2 position, int health = 2, int damage = 0, int attack_range = 5)
+        public Texture2D image;
+        public Texture2D image2;
+
+        public Tower(Vector2 position, int health = 2, int damage = 0, int attack_range = 0)
             : base (health, position, damage, attack_range)
         {
             this.position = position;
@@ -22,11 +27,13 @@ namespace Retribution
             {
                 this.state = "RangedTower";
                 this.damage = 2;
+                this.attack_range = 5;
             }
             else if (mobiletype == "warrior")
             {
                 this.state = "EarthquakeTower";
                 this.damage = 3;
+                this.attack_range = 1;
             }
         }
 
@@ -35,25 +42,35 @@ namespace Retribution
             this.alive = false;
         }
 
+        public void LoadContent(ContentManager content)
+        {
+            this.image = content.Load<Texture2D>("tower.png");
+            this.image2 = content.Load<Texture2D>("dead.png");
+        }
+
         public void Update(GameTime gameTime)
         {
             if (this.alive)
             {
-                {
-                    // towers can't move so no movement option
-                    // TODO: attack option
-                    // TODO: Morph option
-                    for (int i = 0; i < this.tiles_in_range.Count; i++)
-                    {
-
-                    }
-                }
+                // towers can't move so no movement option
+                // TODO: attack option
+                // TODO: Morph option
 
                 if (this.health <= 0)
                 {
                     this.Die();
+                    Console.Write("hello there");
+                    this.position = new Vector2(0, 400);
                 }
             }
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            //spriteBatch.Begin();
+            spriteBatch.Draw(image, new Rectangle((int)this.position.X,(int)this.position.Y, 50, 50), Color.White);
+            //spriteBatch.End();
+            // draw the sprite here
         }
         
         /*
