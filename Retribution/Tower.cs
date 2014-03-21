@@ -67,9 +67,9 @@ namespace Retribution
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
+            //spriteBatch.Begin();
             spriteBatch.Draw(image, new Rectangle((int)this.position.X,(int)this.position.Y, 50, 50), Color.White);
-            spriteBatch.End();
+            //spriteBatch.End();
             // draw the sprite here
         }
         

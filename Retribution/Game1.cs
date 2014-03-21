@@ -19,14 +19,11 @@ namespace Retribution
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Map riverDefense;
-<<<<<<< HEAD
         Builder dummy;
         MouseState mouseCurrent, mousePrev;
 
-=======
         Tower tower;
-        Tower tower2;
->>>>>>> 9fe80ec34c488a576d2a34ac1c21a0de3ea5ffc6
+        Tower tower2;        
 
         public Game1()
             : base()
@@ -50,15 +47,12 @@ namespace Retribution
         {
             // TODO: Add your initialization logic here
             riverDefense = new Map("Content/RiverDefense.txt");
-<<<<<<< HEAD
             dummy = new Builder(new Sprite(32, 32, 32, 32), this.Content);
-=======
             tower = new Tower(new Vector2(20, 20));
             tower.health = 50;
             tower.damage = 2;
             tower.attack_range = 40;
             tower2 = new Tower(new Vector2(600, 600));
->>>>>>> 9fe80ec34c488a576d2a34ac1c21a0de3ea5ffc6
             base.Initialize();
             this.IsMouseVisible = true;
         }
@@ -97,9 +91,8 @@ namespace Retribution
                 Exit();
             mouseCurrent = Mouse.GetState();
 
-            // KeyboardState keyboardState = Keyboard.GetState();
+            KeyboardState keyboardState = Keyboard.GetState();
             // TODO: Add your update logic here
-<<<<<<< HEAD
             if (mouseCurrent.LeftButton == ButtonState.Pressed
                 && mousePrev.LeftButton == ButtonState.Released
                 && dummy.IsSelectable(mouseCurrent))
@@ -119,12 +112,14 @@ namespace Retribution
                 dummy.Move(mouseCurrent);
             }
 
+            if (keyboardState.IsKeyDown(Keys.A))
+            {
+                tower.Attack(tower2);
+            }
+
             mousePrev = mouseCurrent;
-=======
-            tower.Attack(tower2);
             tower.Update(gameTime);
             tower2.Update(gameTime);
->>>>>>> 9fe80ec34c488a576d2a34ac1c21a0de3ea5ffc6
             base.Update(gameTime);
         }
 
@@ -140,10 +135,11 @@ namespace Retribution
             spriteBatch.Begin();
             riverDefense.DrawMap(spriteBatch);
             dummy.builderSprite.Draw(spriteBatch);
-            spriteBatch.End();
-            base.Draw(gameTime);
             tower.Draw(spriteBatch);
             tower2.Draw(spriteBatch);
+            spriteBatch.End();
+            base.Draw(gameTime);
+            
         }
     }
 }
