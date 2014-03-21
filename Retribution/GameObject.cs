@@ -10,6 +10,7 @@ namespace Retribution
     abstract class GameObject
     {
         public Vector2 position;
+        public Vector2 destination;
         public Texture2D texture;
         public int health;
         public int damage;
@@ -38,12 +39,12 @@ namespace Retribution
         }
 
         //  Get a vector and move towards the destination
-        public void Move(Vector2 destination)
+        public void move()
         {
             if (canMove)
             {
                 // get the distance
-                position += destination;
+                position += destination*moveSpeed;
                 // get the slope
             }
         }
@@ -105,6 +106,17 @@ namespace Retribution
             if (health > 0)
                 return true;
             return false;
+        }
+
+        //  Getters and Setters
+        public Vector2 getPosition()
+        {
+            return this.position;
+        }
+
+        public void setDestination(Vector2 theVector)
+        {
+            this.destination = theVector;
         }
 
     }
