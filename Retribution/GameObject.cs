@@ -11,24 +11,31 @@ namespace Retribution
         public Vector2 position;
         public int damage;
         public int attack_range;
-        public int movement_range;
         public int move_speed;
         public bool can_move;
         public List<Vector2> tiles_in_range;
+        public bool alive;
 
-        public GameObject(int health, Vector2 position, int damage, int attack_range, int movement_range)
+        public GameObject(int health, Vector2 position, int damage, int attack_range)
         {
             this.health = health;
             this.position = position;
             this.damage = damage;
             this.attack_range = attack_range;
-            this.movement_range = movement_range;
             this.move_speed = 1;
             this.can_move = false;
             this.tiles_in_range = this.SetRange();
+            this.alive = true;
         }
 
-        public abstract void Move();
+        public void Move(Vector2 destination)
+        {
+            if (can_move)
+            {
+                // get the distance
+                // get the slope
+            }
+        }
 
         public List<Vector2> SetRange()
         {
@@ -56,7 +63,6 @@ namespace Retribution
 
         public void Attack(GameObject target)
         {
-            // for right now turnbased is fine; later on though should put in while loop
             target.health -= this.damage;
         }
 
