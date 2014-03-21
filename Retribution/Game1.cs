@@ -21,10 +21,10 @@ namespace Retribution
         Map riverDefense;
         Builder dummy;
         MouseState mouseCurrent, mousePrev;
-
         Tower tower;
-        Tower tower2;        
-
+        Tower tower2;
+        List<Tower> towers;
+        //Mobiles[] mobiles;        
         public Game1()
             : base()
         {
@@ -48,10 +48,17 @@ namespace Retribution
             // TODO: Add your initialization logic here
             riverDefense = new Map("Content/RiverDefense.txt");
             dummy = new Builder(new Sprite(32, 32, 32, 32), this.Content);
+            int toweroffset = 50;
+            towers = new List<Tower>();
+            for (int i = 0; i < 5; i++)
+            {
+                towers.Add(new Tower(new Vector2(20 + toweroffset, 20)));
+                toweroffset += 50;
+            }
             tower = new Tower(new Vector2(20, 20));
             tower.health = 50;
             tower.damage = 2;
-            tower.attack_range = 40;
+            tower.attackRange = 40;
             tower2 = new Tower(new Vector2(600, 600));
             base.Initialize();
             this.IsMouseVisible = true;
@@ -67,6 +74,10 @@ namespace Retribution
             spriteBatch = new SpriteBatch(GraphicsDevice);
             tower.LoadContent(Content);
             tower2.LoadContent(Content);
+            for (int i = 0; i < towers.Count; i++)
+            {
+                towers[i].LoadContent(Content);
+            }
 
             // TODO: use this.Content to load your game content here
         }
@@ -118,6 +129,7 @@ namespace Retribution
             }
 
             mousePrev = mouseCurrent;
+            tower.Attack(tower2);
             tower.Update(gameTime);
             tower2.Update(gameTime);
             base.Update(gameTime);
@@ -134,12 +146,15 @@ namespace Retribution
             // TODO: Add your drawing code here
             spriteBatch.Begin();
             riverDefense.DrawMap(spriteBatch);
+            for (int i = 0; i < 5; i++)
+            {
+                towers[i].Draw(spriteBatch);
+            }
             dummy.builderSprite.Draw(spriteBatch);
             tower.Draw(spriteBatch);
             tower2.Draw(spriteBatch);
             spriteBatch.End();
             base.Draw(gameTime);
-            
         }
     }
 }
