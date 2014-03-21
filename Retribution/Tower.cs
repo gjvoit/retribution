@@ -43,12 +43,15 @@ namespace Retribution
         }
          */
 
+        //public override void Die()
+        //{
+        //    this.alive = false;
+        //}
         public void LoadContent(ContentManager content)
         {
             this.texture = content.Load<Texture2D>("tower.png");
             this.image2 = content.Load<Texture2D>("dead.png");
         }
-
         public void Update(GameTime gameTime)
         {
             if (this.alive)

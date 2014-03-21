@@ -18,6 +18,7 @@ namespace Retribution
         {
             this.position = position;
             this.state = "Archer";
+            this.canMove = true;
         }
         public void makeArrow(GameObject target)
         {
@@ -33,7 +34,7 @@ namespace Retribution
         public void LoadContent(ContentManager content)
         {
             this.image = content.Load<Texture2D>("archer.png");
-            this.image = content.Load<Texture2D>("dead.png");
+            //this.image = content.Load<Texture2D>("dead.png");
         }
 
         public void Update(GameTime gameTime)
