@@ -14,7 +14,7 @@ namespace Retribution
         public Texture2D image;
         public Texture2D image2;
 
-        public Tower(Vector2 position, int health = 2, int damage = 0, int attackRange = 0)
+        public Tower(Vector2 position, int health = 2, int damage = 100, int attackRange = 200)
             : base (health, position, damage, attackRange)
         {
             this.position = position;
