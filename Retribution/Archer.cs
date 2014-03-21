@@ -22,7 +22,7 @@ namespace Retribution
         }
         public void makeArrow(GameObject target)
         {
-            ProjectileFactory.create("arrow", target);
+            //ProjectileFactory.create("arrow", target);
         }
   
 
@@ -34,7 +34,7 @@ namespace Retribution
         public void LoadContent(ContentManager content)
         {
             this.image = content.Load<Texture2D>("archer.png");
-            this.image = content.Load<Texture2D>("dead.png");
+            //this.image = content.Load<Texture2D>("dead.png");
         }
 
         public void Update(GameTime gameTime)

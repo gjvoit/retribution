@@ -18,6 +18,7 @@ namespace Retribution
         public int moveSpeed;
         public bool canMove;
         public bool alive;
+
         //public List<Vector2> tilesInRange;
 
         public GameObject(int health, Vector2 position, int damage, int attackRange)
@@ -80,6 +81,17 @@ namespace Retribution
         public void Attack(GameObject target)
         {
             target.health -= this.damage;
+        }
+
+        public Boolean IsInRange(GameObject target)
+        {
+            double distance;
+           distance = (int) Math.Sqrt(Math.Pow((this.position.X - target.position.X), 2) + Math.Pow((this.position.Y - target.position.Y), 2));
+           if (distance <= this.attackRange)
+           {
+               return true;
+           }
+           else return false;
         }
 
         //  Return true if passed in vector is within attack range

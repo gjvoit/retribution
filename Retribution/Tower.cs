@@ -27,20 +27,16 @@ namespace Retribution
             {
                 this.state = "RangedTower";
                 this.damage = 2;
-                this.attack_range = 5;
+                this.attackRange = 5;
             }
             else if (mobiletype == "warrior")
             {
                 this.state = "EarthquakeTower";
                 this.damage = 3;
-                this.attack_range = 1;
+                this.attackRange = 1;
             }
         }
 
-        public override void Die()
-        {
-            this.alive = false;
-        }
 
         public void LoadContent(ContentManager content)
         {
@@ -48,22 +44,6 @@ namespace Retribution
             this.image2 = content.Load<Texture2D>("dead.png");
         }
 
-        public void Update(GameTime gameTime)
-        {
-            if (this.alive)
-            {
-                // towers can't move so no movement option
-                // TODO: attack option
-                // TODO: Morph option
-
-                if (this.health <= 0)
-                {
-                    this.Die();
-                    Console.Write("hello there");
-                    this.position = new Vector2(0, 400);
-                }
-            }
-        }
 
         public void Draw(SpriteBatch spriteBatch)
         {
