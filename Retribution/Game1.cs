@@ -21,10 +21,16 @@ namespace Retribution
         Map riverDefense;
         Builder dummy;
         MouseState mouseCurrent, mousePrev;
+<<<<<<< HEAD
         Tower tower;
         Tower tower2;
         List<Tower> towers;
         //Mobiles[] mobiles;
+=======
+
+        Tower tower;
+        Tower tower2;        
+>>>>>>> 2fdaae9916323efc9ff0342dc46252bbe33604fc
 
         public Game1()
             : base()
@@ -49,6 +55,7 @@ namespace Retribution
             // TODO: Add your initialization logic here
             riverDefense = new Map("Content/RiverDefense.txt");
             dummy = new Builder(new Sprite(32, 32, 32, 32), this.Content);
+<<<<<<< HEAD
             int toweroffset = 50;
             towers = new List<Tower>();
             for (int i = 0; i < 5; i++)
@@ -56,6 +63,8 @@ namespace Retribution
                 towers.Add(new Tower(new Vector2(20 + toweroffset, 20)));
                 toweroffset += 50;
             }
+=======
+>>>>>>> 2fdaae9916323efc9ff0342dc46252bbe33604fc
             tower = new Tower(new Vector2(20, 20));
             tower.health = 50;
             tower.damage = 2;
@@ -103,7 +112,7 @@ namespace Retribution
                 Exit();
             mouseCurrent = Mouse.GetState();
 
-            // KeyboardState keyboardState = Keyboard.GetState();
+            KeyboardState keyboardState = Keyboard.GetState();
             // TODO: Add your update logic here
             if (mouseCurrent.LeftButton == ButtonState.Pressed
                 && mousePrev.LeftButton == ButtonState.Released
@@ -124,8 +133,16 @@ namespace Retribution
                 dummy.Move(mouseCurrent);
             }
 
+            if (keyboardState.IsKeyDown(Keys.A))
+            {
+                tower.Attack(tower2);
+            }
+
             mousePrev = mouseCurrent;
+<<<<<<< HEAD
             tower.Attack(tower2);
+=======
+>>>>>>> 2fdaae9916323efc9ff0342dc46252bbe33604fc
             tower.Update(gameTime);
             tower2.Update(gameTime);
             base.Update(gameTime);
@@ -151,6 +168,10 @@ namespace Retribution
             tower2.Draw(spriteBatch);
             spriteBatch.End();
             base.Draw(gameTime);
+<<<<<<< HEAD
+=======
+            
+>>>>>>> 2fdaae9916323efc9ff0342dc46252bbe33604fc
         }
     }
 }
