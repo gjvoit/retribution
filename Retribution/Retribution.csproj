@@ -42,6 +42,7 @@
     <Compile Include="HealthSystem.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="GameObject.cs" />
+    <Compile Include="MovementManager.cs" />
     <Compile Include="ObjectFactory.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

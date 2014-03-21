@@ -19,6 +19,7 @@ namespace Retribution
         {
             this.position = position;
             this.state = "Archer";
+            this.canMove = true;
         }
         public void makeArrow(GameObject target)
         {

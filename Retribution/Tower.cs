@@ -36,26 +36,15 @@ namespace Retribution
                 this.attackRange = 1;
             }
         }
-
-<<<<<<< HEAD
-<<<<<<< HEAD
         //public override void Die()
         //{
         //    this.alive = false;
         //}
-=======
->>>>>>> 3d0754205313a76004001e81ca806258029c275e
-=======
->>>>>>> 3d0754205313a76004001e81ca806258029c275e
-
         public void LoadContent(ContentManager content)
         {
             this.image = content.Load<Texture2D>("tower.png");
             this.image2 = content.Load<Texture2D>("dead.png");
         }
-
-<<<<<<< HEAD
-<<<<<<< HEAD
         public void Update(GameTime gameTime)
         {
             if (this.alive)
@@ -72,10 +61,6 @@ namespace Retribution
                 }
             }
         }
-=======
->>>>>>> 3d0754205313a76004001e81ca806258029c275e
-=======
->>>>>>> 3d0754205313a76004001e81ca806258029c275e
 
         public void Draw(SpriteBatch spriteBatch)
         {

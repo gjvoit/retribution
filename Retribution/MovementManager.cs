@@ -22,7 +22,7 @@ namespace Retribution
         }
 
         //  Call movement method of all selected objects
-        public static void moveObjects(List<GameObject> listOfSelectedObjects, Vector2 destination)
+        public static void moveObjects(List<GameObject> listOfSelectedObjects)
         {
             for (int i = 0; i < listOfSelectedObjects.Count; i++)
             {

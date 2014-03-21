@@ -25,6 +25,7 @@ namespace Retribution
         Tower tower2;
         List<Tower> towers;
         List<Archer> archers;
+        List<GameObject> gameobj;
         HealthSystem healthChecker;
         AttackSystem attackChecker;
         int attackDelay;
@@ -57,11 +58,17 @@ namespace Retribution
 
             dummy = new Builder(new Sprite(32, 32, 32, 32), this.Content);
             int toweroffset = 50;
+            gameobj = new List<GameObject>();
+            for (int i = 0; i < 5; i++)
+            {
+                gameobj.Add(new Archer(new Vector2(20 + toweroffset, 400)));
+                toweroffset += 50;
+            }
+            toweroffset = 0;
             towers = new List<Tower>();
             for (int i = 0; i < 5; i++)
             {
                 towers.Add(new Tower(new Vector2(20 + toweroffset, 600)));
-<<<<<<< HEAD
                 toweroffset += 50;
             }
 
@@ -74,12 +81,6 @@ namespace Retribution
                 archers.Add(new Archer(new Vector2( 60 + toweroffset , 20)));
                 toweroffset += 50;
             }
-=======
-                toweroffset += 50;
-            }
-
-   
-            archers = new List<Archer>();
 
             toweroffset = 0;
             for (int i = 0; i < 5; i++)
@@ -87,7 +88,7 @@ namespace Retribution
                 archers.Add(new Archer(new Vector2( 60 + toweroffset , 20)));
                 toweroffset += 50;
             }
->>>>>>> 3d0754205313a76004001e81ca806258029c275e
+
             toweroffset = 0;
             for (int i = 0; i < 5; i++)
             {
@@ -106,23 +107,12 @@ namespace Retribution
             tower.damage = 2;
             tower.attackRange = 200;
             tower2 = new Tower(new Vector2(600, 600));
-<<<<<<< HEAD
-<<<<<<< HEAD
             towers.Add(tower2);
-=======
-=======
->>>>>>> 3d0754205313a76004001e81ca806258029c275e
-
             towers.Add(tower2);
             towers.Add(tower);
 
             healthChecker = new HealthSystem(towers, archers);
             attackChecker = new AttackSystem(towers, archers);
-
-<<<<<<< HEAD
->>>>>>> 3d0754205313a76004001e81ca806258029c275e
-=======
->>>>>>> 3d0754205313a76004001e81ca806258029c275e
             base.Initialize();
             this.IsMouseVisible = true;
         }
@@ -144,6 +134,11 @@ namespace Retribution
             for (int i = 0; i < archers.Count; i++)
             {
                 archers[i].LoadContent(Content);
+            }
+            for (int i = 0; i < gameobj.Count; i++)
+            {
+                Archer temparch = (Archer)gameobj[i];
+                temparch.LoadContent(Content);
             }
 
             // TODO: use this.Content to load your game content here
@@ -211,24 +206,19 @@ namespace Retribution
                 archers = attackChecker.archers;
                 attackDelay = 60;
             }
-
             else attackDelay--;
- 
+
+            Vector2 testvec = new Vector2(50, 50);
+            MovementManager.changeDestination(gameobj, testvec);
+            MovementManager.moveObjects(gameobj);
             mousePrev = mouseCurrent;
-<<<<<<< HEAD
-<<<<<<< HEAD
             tower.Update(gameTime);
             tower2.Update(gameTime);
-=======
+            //tower.Update(gameTime);
+            //tower2.Update(gameTime);
 
             //tower.Update(gameTime);
             //tower2.Update(gameTime);
->>>>>>> 3d0754205313a76004001e81ca806258029c275e
-=======
-
-            //tower.Update(gameTime);
-            //tower2.Update(gameTime);
->>>>>>> 3d0754205313a76004001e81ca806258029c275e
             base.Update(gameTime);
         }
 
@@ -247,26 +237,22 @@ namespace Retribution
             {
                 towers[i].Draw(spriteBatch);
             }
-<<<<<<< HEAD
-<<<<<<< HEAD
             dummy.builderSprite.Draw(spriteBatch);
             tower.Draw(spriteBatch);
-=======
-=======
->>>>>>> 3d0754205313a76004001e81ca806258029c275e
 
             for (int i = 0; i < archers.Count; i++)
             {
                 archers[i].Draw(spriteBatch);
             }
+            for (int i = 0; i < gameobj.Count; i++)
+            {
+                Archer temparch = (Archer)gameobj[i];
+                temparch.Draw(spriteBatch);
+            }
 
             //dummy.builderSprite.Draw(spriteBatch);
             //tower.Draw(spriteBatch);
             //tower2.Draw(spriteBatch);
-<<<<<<< HEAD
->>>>>>> 3d0754205313a76004001e81ca806258029c275e
-=======
->>>>>>> 3d0754205313a76004001e81ca806258029c275e
             spriteBatch.End();
             base.Draw(gameTime);
         }
