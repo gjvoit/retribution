@@ -52,7 +52,7 @@ namespace Retribution
             towers = new List<Tower>();
             for (int i = 0; i < 5; i++)
             {
-                towers.Add(new Tower(new Vector2(20 + toweroffset, 20)));
+                towers.Add(new Tower(new Vector2(20 + toweroffset, 600)));
                 toweroffset += 50;
             }
             tower = new Tower(new Vector2(20, 20));
@@ -60,6 +60,7 @@ namespace Retribution
             tower.damage = 2;
             tower.attackRange = 40;
             tower2 = new Tower(new Vector2(600, 600));
+            towers.Add(tower2);
             base.Initialize();
             this.IsMouseVisible = true;
         }
@@ -122,14 +123,16 @@ namespace Retribution
             {
                 dummy.Move(mouseCurrent);
             }
-
+            for (int i = 0; i < towers.Count; i++)
+            {
+                if (towers[i].isAlive() == false) towers.Remove(towers[i]);
+            }
             if (keyboardState.IsKeyDown(Keys.A))
             {
                 tower.Attack(tower2);
             }
 
             mousePrev = mouseCurrent;
-            tower.Attack(tower2);
             tower.Update(gameTime);
             tower2.Update(gameTime);
             base.Update(gameTime);
@@ -146,13 +149,12 @@ namespace Retribution
             // TODO: Add your drawing code here
             spriteBatch.Begin();
             riverDefense.DrawMap(spriteBatch);
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < towers.Count; i++)
             {
                 towers[i].Draw(spriteBatch);
             }
             dummy.builderSprite.Draw(spriteBatch);
             tower.Draw(spriteBatch);
-            tower2.Draw(spriteBatch);
             spriteBatch.End();
             base.Draw(gameTime);
         }
