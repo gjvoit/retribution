@@ -177,6 +177,15 @@ namespace Retribution
             {
                 dummy.selected = false;
             }
+            if (dummy.selected == true)
+            {
+                if (keyboardState.IsKeyDown(Keys.B))
+                {
+                    tower = dummy.Build(mouseCurrent);
+                    tower.LoadContent(Content);
+                    towers.Add(tower);
+                }
+            }
 
             if (mouseCurrent.RightButton == ButtonState.Pressed
                 && mousePrev.RightButton == ButtonState.Released

@@ -14,8 +14,8 @@ namespace Retribution
         public Texture2D image;
         public Texture2D image2;
 
-        public Archer(Vector2 position, int health = 2, int damage = 3, int attack_range = 2)
-            : base(health, position, damage, attack_range)
+        public Archer(Vector2 position, int health = 2, int damage = 3, int attackRange = 2)
+            : base(health, position, damage, attackRange)
         {
             this.position = position;
             this.state = "Archer";
