@@ -42,9 +42,7 @@ namespace Retribution
                 for (int x = 0; x < width; x++)
                 {
                     Texture2D myTexture = mapTiles[x, y].texture;
-                    spriteBatch.Begin();
                     spriteBatch.Draw(myTexture, new Vector2(x * myTexture.Width, y * myTexture.Height), Color.White);
-                    spriteBatch.End();
                 }
             }
         }

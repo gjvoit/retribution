@@ -19,16 +19,20 @@ namespace Retribution
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Map riverDefense;
+        Builder dummy;
+        MouseState mouseCurrent, mousePrev;
+
 
         public Game1()
             : base()
         {
             graphics = new GraphicsDeviceManager(this);
             graphics.IsFullScreen = false;
-            graphics.PreferredBackBufferHeight = 750;
-            graphics.PreferredBackBufferWidth = 750;
+            graphics.PreferredBackBufferHeight = 704;
+            graphics.PreferredBackBufferWidth = 704;
             graphics.ApplyChanges();
             Content.RootDirectory = "Content";
+
         }
 
         /// <summary>
@@ -41,7 +45,9 @@ namespace Retribution
         {
             // TODO: Add your initialization logic here
             riverDefense = new Map("Content/RiverDefense.txt");
+            dummy = new Builder(new Sprite(32, 32, 32, 32), this.Content);
             base.Initialize();
+            this.IsMouseVisible = true;
         }
 
         /// <summary>
@@ -74,9 +80,30 @@ namespace Retribution
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+            mouseCurrent = Mouse.GetState();
 
+            // KeyboardState keyboardState = Keyboard.GetState();
             // TODO: Add your update logic here
+            if (mouseCurrent.LeftButton == ButtonState.Pressed
+                && mousePrev.LeftButton == ButtonState.Released
+                && dummy.IsSelectable(mouseCurrent))
+            {
+                dummy.selected = true;
+            }
+            else if (mouseCurrent.LeftButton == ButtonState.Pressed
+                && mousePrev.LeftButton == ButtonState.Released)
+            {
+                dummy.selected = false;
+            }
 
+            if (mouseCurrent.RightButton == ButtonState.Pressed
+                && mousePrev.RightButton == ButtonState.Released
+                && dummy.selected == true)
+            {
+                dummy.Move(mouseCurrent);
+            }
+
+            mousePrev = mouseCurrent;
             base.Update(gameTime);
         }
 
@@ -89,7 +116,10 @@ namespace Retribution
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+            spriteBatch.Begin();
             riverDefense.DrawMap(spriteBatch);
+            dummy.builderSprite.Draw(spriteBatch);
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }

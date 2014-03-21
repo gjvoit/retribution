@@ -27,29 +27,29 @@ namespace Retribution
             if (typeChar == '0')
             {
                 type = "grass";
-                texture = Texture2DFromFile(graphics, "Content/grass.jpg", 50, 50);
+                texture = Texture2DFromFile(graphics, "Content/grass.jpg");
             }
 
             else if (typeChar == '1')
             {
                 type = "water";
-                texture = Texture2DFromFile(graphics, "Content/water.jpg", 50, 50);
+                texture = Texture2DFromFile(graphics, "Content/water.jpg");
             }
 
             else if (typeChar == '2')
             {
                 type = "bridge";
-                texture = Texture2DFromFile(graphics, "Content/bridge.png", 50, 50);
+                texture = Texture2DFromFile(graphics, "Content/bridge.png");
             }
 
             else if (typeChar == '3')
             {
                 type = "rock";
-                texture = Texture2DFromFile(graphics, "Content/rock.jpg", 50, 50);
+                texture = Texture2DFromFile(graphics, "Content/rock.jpg");
             }
         }
 
-        public Texture2D Texture2DFromFile(GraphicsDevice myGraphics, string fileName, int width, int height)
+        public Texture2D Texture2DFromFile(GraphicsDevice myGraphics, string fileName)
 	    {
 	    Texture2D newTexture;
 	 
