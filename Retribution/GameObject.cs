@@ -10,6 +10,7 @@ namespace Retribution
     abstract class GameObject
     {
         public Vector2 position;
+        public Vector2 destination;
         public Texture2D texture;
         public int health;
         public int damage;
@@ -17,6 +18,7 @@ namespace Retribution
         public int moveSpeed;
         public bool canMove;
         public bool alive;
+
         //public List<Vector2> tilesInRange;
 
         public GameObject(int health, Vector2 position, int damage, int attackRange)
@@ -38,12 +40,12 @@ namespace Retribution
         }
 
         //  Get a vector and move towards the destination
-        public void Move(Vector2 destination)
+        public void move()
         {
             if (canMove)
             {
                 // get the distance
-                position += destination;
+                position += destination*moveSpeed;
                 // get the slope
             }
         }
@@ -81,6 +83,17 @@ namespace Retribution
             target.health -= this.damage;
         }
 
+        public Boolean IsInRange(GameObject target)
+        {
+            double distance;
+           distance = (int) Math.Sqrt(Math.Pow((this.position.X - target.position.X), 2) + Math.Pow((this.position.Y - target.position.Y), 2));
+           if (distance <= this.attackRange)
+           {
+               return true;
+           }
+           else return false;
+        }
+
         //  Return true if passed in vector is within attack range
         /*
         public bool inRange(Vector2 position)
@@ -105,6 +118,17 @@ namespace Retribution
             if (health > 0)
                 return true;
             return false;
+        }
+
+        //  Getters and Setters
+        public Vector2 getPosition()
+        {
+            return this.position;
+        }
+
+        public void setDestination(Vector2 theVector)
+        {
+            this.destination = theVector;
         }
 
     }

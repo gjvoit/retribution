@@ -7,78 +7,57 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Retribution
 {
-    
-    class Tower : GameObject
+
+    class Archer : GameObject
     {
         public string state;
         public Texture2D image;
         public Texture2D image2;
 
-        public Tower(Vector2 position, int health = 2, int damage = 0, int attackRange = 0)
-            : base (health, position, damage, attackRange)
+        public Archer(Vector2 position, int health = 2, int damage = 3, int attack_range = 2)
+            : base(health, position, damage, attack_range)
         {
             this.position = position;
-            this.state = "Wall";
+            this.state = "Archer";
         }
-
-        public void Morph(string mobiletype = "Wall")
+        public void makeArrow(GameObject target)
         {
-            if (mobiletype == "archer")
-            {
-                this.state = "RangedTower";
-                this.damage = 2;
-                this.attackRange = 5;
-            }
-            else if (mobiletype == "warrior")
-            {
-                this.state = "EarthquakeTower";
-                this.damage = 3;
-                this.attackRange = 1;
-            }
+            //ProjectileFactory.create("arrow", target);
         }
+  
 
-<<<<<<< HEAD
         //public override void Die()
         //{
-        //    this.alive = false;
+            //this.isAlive = false;
         //}
-=======
->>>>>>> 3d0754205313a76004001e81ca806258029c275e
 
         public void LoadContent(ContentManager content)
         {
-            this.image = content.Load<Texture2D>("tower.png");
-            this.image2 = content.Load<Texture2D>("dead.png");
+            this.image = content.Load<Texture2D>("archer.png");
+            //this.image = content.Load<Texture2D>("dead.png");
         }
 
-<<<<<<< HEAD
         public void Update(GameTime gameTime)
         {
-            if (this.alive)
+            if (this.isAlive())
             {
-                // towers can't move so no movement option
-                // TODO: attack option
-                // TODO: Morph option
+                
 
                 if (this.health <= 0)
                 {
-                    //this.Die();
-                    Console.Write("hello there");
                     this.position = new Vector2(0, 400);
                 }
             }
         }
-=======
->>>>>>> 3d0754205313a76004001e81ca806258029c275e
 
         public void Draw(SpriteBatch spriteBatch)
         {
             //spriteBatch.Begin();
-            spriteBatch.Draw(image, new Rectangle((int)this.position.X,(int)this.position.Y, 50, 50), Color.White);
+            spriteBatch.Draw(image, new Rectangle((int)this.position.X, (int)this.position.Y, 50, 50), Color.White);
             //spriteBatch.End();
             // draw the sprite here
         }
-        
+
         /*
         public void GetValues()
         {

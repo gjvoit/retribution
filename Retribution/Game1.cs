@@ -24,6 +24,11 @@ namespace Retribution
         Tower tower;
         Tower tower2;
         List<Tower> towers;
+        List<Archer> archers;
+        HealthSystem healthChecker;
+        AttackSystem attackChecker;
+        int attackDelay;
+
         //Mobiles[] mobiles;        
         public Game1()
             : base()
@@ -47,6 +52,9 @@ namespace Retribution
         {
             // TODO: Add your initialization logic here
             riverDefense = new Map("Content/RiverDefense.txt");
+
+            int attackDelay = 60;
+
             dummy = new Builder(new Sprite(32, 32, 32, 32), this.Content);
             int toweroffset = 50;
             towers = new List<Tower>();
@@ -55,12 +63,45 @@ namespace Retribution
                 towers.Add(new Tower(new Vector2(20 + toweroffset, 600)));
                 toweroffset += 50;
             }
+
+   
+            archers = new List<Archer>();
+
+            toweroffset = 0;
+            for (int i = 0; i < 5; i++)
+            {
+                archers.Add(new Archer(new Vector2( 60 + toweroffset , 20)));
+                toweroffset += 50;
+            }
+            toweroffset = 0;
+            for (int i = 0; i < 5; i++)
+            {
+                archers.Add(new Archer(new Vector2(60 + toweroffset, 100)));
+                toweroffset += 50;
+            }
+            toweroffset = 0;
+            for (int i = 0; i < 5; i++)
+            {
+                archers.Add(new Archer(new Vector2(60 + toweroffset, 180)));
+                toweroffset += 50;
+            }
+
             tower = new Tower(new Vector2(20, 20));
             tower.health = 50;
             tower.damage = 2;
-            tower.attackRange = 40;
+            tower.attackRange = 200;
             tower2 = new Tower(new Vector2(600, 600));
+<<<<<<< HEAD
             towers.Add(tower2);
+=======
+
+            towers.Add(tower2);
+            towers.Add(tower);
+
+            healthChecker = new HealthSystem(towers, archers);
+            attackChecker = new AttackSystem(towers, archers);
+
+>>>>>>> 3d0754205313a76004001e81ca806258029c275e
             base.Initialize();
             this.IsMouseVisible = true;
         }
@@ -78,6 +119,10 @@ namespace Retribution
             for (int i = 0; i < towers.Count; i++)
             {
                 towers[i].LoadContent(Content);
+            }
+            for (int i = 0; i < archers.Count; i++)
+            {
+                archers[i].LoadContent(Content);
             }
 
             // TODO: use this.Content to load your game content here
@@ -132,9 +177,31 @@ namespace Retribution
                 tower.Attack(tower2);
             }
 
+            healthChecker.Update(towers, archers);
+            healthChecker.checkHealth();
+            towers = healthChecker.towers;
+            archers = healthChecker.archers;
+
+            if (attackDelay == 0)
+            {
+                attackChecker.Update(towers, archers);
+                attackChecker.autoAttacks();
+                towers = attackChecker.towers;
+                archers = attackChecker.archers;
+                attackDelay = 60;
+            }
+
+            else attackDelay--;
+ 
             mousePrev = mouseCurrent;
+<<<<<<< HEAD
             tower.Update(gameTime);
             tower2.Update(gameTime);
+=======
+
+            //tower.Update(gameTime);
+            //tower2.Update(gameTime);
+>>>>>>> 3d0754205313a76004001e81ca806258029c275e
             base.Update(gameTime);
         }
 
@@ -153,10 +220,41 @@ namespace Retribution
             {
                 towers[i].Draw(spriteBatch);
             }
+<<<<<<< HEAD
             dummy.builderSprite.Draw(spriteBatch);
             tower.Draw(spriteBatch);
+=======
+
+            for (int i = 0; i < archers.Count; i++)
+            {
+                archers[i].Draw(spriteBatch);
+            }
+
+            //dummy.builderSprite.Draw(spriteBatch);
+            //tower.Draw(spriteBatch);
+            //tower2.Draw(spriteBatch);
+>>>>>>> 3d0754205313a76004001e81ca806258029c275e
             spriteBatch.End();
             base.Draw(gameTime);
+        }
+
+        public void checkHealth()
+        {
+                        for (int i = 0; i < towers.Count; i++)
+            {
+                if (towers[i].isAlive() == false)
+                {
+                    towers.Remove(towers[i]);
+                }
+            }
+
+            for (int i = 0; i < archers.Count; i++)
+            {
+                if (archers[i].isAlive() == false)
+                {
+                    archers.Remove(archers[i]);
+                }
+            }
         }
     }
 }
