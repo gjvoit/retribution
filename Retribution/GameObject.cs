@@ -36,8 +36,9 @@ namespace Retribution
         //  A rectangle to represent the object
         public Rectangle Bounds
         {
-            get { return new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height); }
+            get { return new Rectangle((int)position.X, (int)position.Y, this.texture.Width, this.texture.Height); }
         }
+        
 
         //  Get a vector and move towards the destination
         public void move()

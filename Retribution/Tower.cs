@@ -36,13 +36,20 @@ namespace Retribution
                 this.attackRange = 1;
             }
         }
+        /*
+        public override void Die()
+        {
+            this.alive = false;
+        }
+         */
+
         //public override void Die()
         //{
         //    this.alive = false;
         //}
         public void LoadContent(ContentManager content)
         {
-            this.image = content.Load<Texture2D>("tower.png");
+            this.texture = content.Load<Texture2D>("tower.png");
             this.image2 = content.Load<Texture2D>("dead.png");
         }
         public void Update(GameTime gameTime)
@@ -65,7 +72,7 @@ namespace Retribution
         public void Draw(SpriteBatch spriteBatch)
         {
             //spriteBatch.Begin();
-            spriteBatch.Draw(image, new Rectangle((int)this.position.X,(int)this.position.Y, 50, 50), Color.White);
+            spriteBatch.Draw(texture, new Rectangle((int)this.position.X,(int)this.position.Y, 50, 50), Color.White);
             //spriteBatch.End();
             // draw the sprite here
         }
