@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
@@ -33,7 +34,9 @@ namespace Retribution
             if (can_move)
             {
                 // get the distance
-                // get the slope
+                // get the normal vector
+                // multiply the normal vector with speed and time
+                // add the result to current position
             }
         }
 

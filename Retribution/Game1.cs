@@ -19,6 +19,8 @@ namespace Retribution
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Map riverDefense;
+        Tower tower;
+        Tower tower2;
 
         public Game1()
             : base()
@@ -41,6 +43,11 @@ namespace Retribution
         {
             // TODO: Add your initialization logic here
             riverDefense = new Map("Content/RiverDefense.txt");
+            tower = new Tower(new Vector2(20, 20));
+            tower.health = 50;
+            tower.damage = 2;
+            tower.attack_range = 40;
+            tower2 = new Tower(new Vector2(600, 600));
             base.Initialize();
         }
 
@@ -52,6 +59,8 @@ namespace Retribution
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            tower.LoadContent(Content);
+            tower2.LoadContent(Content);
 
             // TODO: use this.Content to load your game content here
         }
@@ -76,7 +85,9 @@ namespace Retribution
                 Exit();
 
             // TODO: Add your update logic here
-
+            tower.Attack(tower2);
+            tower.Update(gameTime);
+            tower2.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -91,6 +102,8 @@ namespace Retribution
             // TODO: Add your drawing code here
             riverDefense.DrawMap(spriteBatch);
             base.Draw(gameTime);
+            tower.Draw(spriteBatch);
+            tower2.Draw(spriteBatch);
         }
     }
 }
