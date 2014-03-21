@@ -38,10 +38,13 @@ namespace Retribution
         }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         //public override void Die()
         //{
         //    this.alive = false;
         //}
+=======
+>>>>>>> 3d0754205313a76004001e81ca806258029c275e
 =======
 >>>>>>> 3d0754205313a76004001e81ca806258029c275e
 
@@ -51,6 +54,7 @@ namespace Retribution
             this.image2 = content.Load<Texture2D>("dead.png");
         }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
         public void Update(GameTime gameTime)
         {
@@ -68,6 +72,8 @@ namespace Retribution
                 }
             }
         }
+=======
+>>>>>>> 3d0754205313a76004001e81ca806258029c275e
 =======
 >>>>>>> 3d0754205313a76004001e81ca806258029c275e
 
