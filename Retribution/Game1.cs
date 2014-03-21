@@ -24,9 +24,9 @@ namespace Retribution
             : base()
         {
             graphics = new GraphicsDeviceManager(this);
-            graphics.IsFullScreen = true;
-            //graphics.PreferredBackBufferHeight = 800;
-            //graphics.PreferredBackBufferWidth = 800;
+            graphics.IsFullScreen = false;
+            graphics.PreferredBackBufferHeight = 750;
+            graphics.PreferredBackBufferWidth = 750;
             graphics.ApplyChanges();
             Content.RootDirectory = "Content";
         }

@@ -18,7 +18,8 @@ namespace Retribution
         public Tile[,] mapTiles;
         public int height;
         public int width;
-
+        // public int xoffset = 0; For use with FullScreen
+        // public int yoffset = 0; For use with FullScreen
         public Map(String fileName)
         {
             string[] tiles = File.ReadAllLines(fileName);
