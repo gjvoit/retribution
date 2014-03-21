@@ -60,6 +60,7 @@ namespace Retribution
             tower.damage = 2;
             tower.attackRange = 40;
             tower2 = new Tower(new Vector2(600, 600));
+            tower2.health = 4;
             base.Initialize();
             this.IsMouseVisible = true;
         }
@@ -123,13 +124,36 @@ namespace Retribution
                 dummy.Move(mouseCurrent);
             }
 
+            if (mouseCurrent.LeftButton == ButtonState.Pressed)
+            {
+                Vector2 start_point = new Vector2(mouseCurrent.X, mouseCurrent.Y);
+
+                if (mouseCurrent.RightButton == ButtonState.Released)
+                {
+                    Vector2 end_point = new Vector2(mousePrev.X, mousePrev.Y);
+                    int width = (int)Math.Abs(end_point.X - start_point.X);
+                    int height = (int)Math.Abs(end_point.Y - start_point.Y);
+
+                    Rectangle r1 = new Rectangle((int)start_point.X, (int)start_point.Y, width, height);
+                    Vector2 result_vector = Vector2.Subtract(start_point, end_point);
+                    Console.WriteLine(string.Format("The start and end are {0}, {1}", start_point, end_point));
+                    // loop to see if objects' Rectangle intersects with our selected area's rectangle
+                    for (int i = 0; i < towers.Count; i++)
+                    {
+                        if (towers[i].Bounds.Intersects(r1))
+                        {
+                            towers[i].position = Vector2.Add(towers[i].position, result_vector);
+                        }
+                    }
+                }
+            }
+
             if (keyboardState.IsKeyDown(Keys.A))
             {
                 tower.Attack(tower2);
             }
 
             mousePrev = mouseCurrent;
-            tower.Attack(tower2);
             tower.Update(gameTime);
             tower2.Update(gameTime);
             base.Update(gameTime);

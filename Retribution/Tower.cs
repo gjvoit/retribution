@@ -14,8 +14,8 @@ namespace Retribution
         public Texture2D image;
         public Texture2D image2;
 
-        public Tower(Vector2 position, int health = 2, int damage = 0, int attack_range = 0)
-            : base (health, position, damage, attack_range)
+        public Tower(Vector2 position, int health = 2, int damage = 0, int attackRange = 0)
+            : base (health, position, damage, attackRange)
         {
             this.position = position;
             this.state = "Wall";
@@ -27,24 +27,25 @@ namespace Retribution
             {
                 this.state = "RangedTower";
                 this.damage = 2;
-                this.attack_range = 5;
+                this.attackRange = 5;
             }
             else if (mobiletype == "warrior")
             {
                 this.state = "EarthquakeTower";
                 this.damage = 3;
-                this.attack_range = 1;
+                this.attackRange = 1;
             }
         }
-
+        /*
         public override void Die()
         {
             this.alive = false;
         }
+         */
 
         public void LoadContent(ContentManager content)
         {
-            this.image = content.Load<Texture2D>("tower.png");
+            this.texture = content.Load<Texture2D>("tower.png");
             this.image2 = content.Load<Texture2D>("dead.png");
         }
 
@@ -58,7 +59,7 @@ namespace Retribution
 
                 if (this.health <= 0)
                 {
-                    this.Die();
+                    //this.Die();
                     Console.Write("hello there");
                     this.position = new Vector2(0, 400);
                 }
@@ -68,7 +69,7 @@ namespace Retribution
         public void Draw(SpriteBatch spriteBatch)
         {
             //spriteBatch.Begin();
-            spriteBatch.Draw(image, new Rectangle((int)this.position.X,(int)this.position.Y, 50, 50), Color.White);
+            spriteBatch.Draw(texture, new Rectangle((int)this.position.X,(int)this.position.Y, 50, 50), Color.White);
             //spriteBatch.End();
             // draw the sprite here
         }

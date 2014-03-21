@@ -12,7 +12,6 @@ namespace Retribution
     {
         public string state;
         public Texture2D image;
-        public Texture2D image2;
 
         public Archer(Vector2 position, int health = 2, int damage = 3, int attack_range = 2)
             : base(health, position, damage, attack_range)
@@ -22,7 +21,7 @@ namespace Retribution
         }
         public void makeArrow(GameObject target)
         {
-            ProjectileFactory.create("arrow", target);
+            //ProjectileFactory.create("arrow", target);
         }
   
 
