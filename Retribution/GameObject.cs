@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Input;
 
 namespace Retribution
 {
@@ -11,6 +12,7 @@ namespace Retribution
     {
         public Vector2 position;
         public Vector2 destination;
+        public Vector2 direction;
         public Texture2D texture;
         public int health;
         public int damage;
@@ -18,8 +20,7 @@ namespace Retribution
         public int moveSpeed;
         public bool canMove;
         public bool alive;
-
-        //public List<Vector2> tilesInRange;
+        public bool selected;
 
         public GameObject(int health, Vector2 position, int damage, int attackRange)
         {
@@ -29,8 +30,8 @@ namespace Retribution
             this.attackRange = attackRange;
             this.moveSpeed = 1;
             this.canMove = false;
-            //this.tilesInRange = this.SetRange();
             this.alive = true;
+            this.selected = false;
         }
 
         //  A rectangle to represent the object
@@ -45,38 +46,17 @@ namespace Retribution
         {
             if (canMove)
             {
+                Vector2 end_point = Vector2.Add(this.destination, new Vector2(2, 2));
+                Vector2 prev_point = Vector2.Subtract(this.destination, new Vector2(2, 2));
+                if (this.position.X <= end_point.X && this.position.X >= prev_point.X
+                    && this.position.Y <= end_point.Y && this.position.Y >= prev_point.Y)
+                    return;
                 // get the distance
-                position += destination*moveSpeed;
+                position += direction*moveSpeed;
+                Console.WriteLine(string.Format("new {0}", this.position));
                 // get the slope
             }
         }
-
-        /*
-        //  Set the attack range of object
-        public List<Vector2> SetRange()
-        {
-            tilesInRange = new List<Vector2>();
-            if (attackRange > 0)
-            {
-                for (int i = 1; i <= this.attackRange; i++)
-                {
-                    Vector2 extendy = new Vector2(0, i);
-                    Vector2 extendx = new Vector2(i, 0);
-                    // covers basic range in cardinal directions
-                    // need to handle diagonals somehow
-                    Vector2 covered = Vector2.Add(this.position, extendy);
-                    tilesInRange.Add(covered);
-                    covered = Vector2.Add(this.position, extendx);
-                    tilesInRange.Add(covered);
-                    covered = Vector2.Subtract(this.position, extendy);
-                    tilesInRange.Add(covered);
-                    covered = Vector2.Subtract(this.position, extendx);
-                    tilesInRange.Add(covered);
-                }
-            }
-            return tilesInRange;
-        }
-        */
 
         //  Issue attack. Alpha method that damages target. No other skills or actions are implemented in the Alpha Version
         public void Attack(GameObject target)
@@ -86,7 +66,7 @@ namespace Retribution
 
         public Boolean IsInRange(GameObject target)
         {
-            double distance;
+           double distance;
            distance = (int) Math.Sqrt(Math.Pow((this.position.X - target.position.X), 2) + Math.Pow((this.position.Y - target.position.Y), 2));
            if (distance <= this.attackRange)
            {
@@ -94,14 +74,6 @@ namespace Retribution
            }
            else return false;
         }
-
-        //  Return true if passed in vector is within attack range
-        /*
-        public bool inRange(Vector2 position)
-        {
-            return this.tilesInRange.IndexOf(position) != -1;
-        }
-        */
 
         //public abstract void Die();
 
@@ -127,10 +99,24 @@ namespace Retribution
             return this.position;
         }
 
-        public void setDestination(Vector2 theVector)
+        public void setDestination(Vector2 theVector, Vector2 destination)
         {
-            this.destination = theVector;
+            this.direction = theVector;
+            this.destination = destination;
+            Console.WriteLine(string.Format("{0}", this.position));
+            Console.WriteLine(string.Format("{0}", this.destination));
         }
 
+        public Boolean isSelectable(MouseState mouse)
+        {
+            Console.WriteLine("checking selection");
+            if ((mouse.X >= this.Bounds.Left && mouse.X <= this.Bounds.Right)
+                && (mouse.Y >= this.Bounds.Top && mouse.Y <= this.Bounds.Bottom))
+                return true;
+            else {
+                Console.WriteLine("not selected");
+                return false;
+            }
+        }
     }
 }

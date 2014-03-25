@@ -34,7 +34,7 @@ namespace Retribution
         {
             for (int i = 0; i < listOfSelectedObjects.Count; i++)
             {
-                listOfSelectedObjects[i].setDestination(getNormalizedVector(listOfSelectedObjects[i].getPosition(), destination));
+                listOfSelectedObjects[i].setDestination(getNormalizedVector(listOfSelectedObjects[i].getPosition(), destination), destination);
             }
         }
     }

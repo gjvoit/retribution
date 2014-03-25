@@ -21,9 +21,8 @@ namespace Retribution
         Map riverDefense;
         Builder dummy;
         MouseState mouseCurrent, mousePrev;
-        Tower tower;
-        Tower tower2;
         List<Tower> towers;
+        Tower tower;
         List<Archer> archers;
         List<GameObject> gameobj;
         HealthSystem healthChecker;
@@ -54,12 +53,12 @@ namespace Retribution
             // TODO: Add your initialization logic here
             riverDefense = new Map("Content/RiverDefense.txt");
 
-            int attackDelay = 60;
+            //int attackDelay = 60;
 
             dummy = new Builder(new Sprite(32, 32, 32, 32), this.Content);
             int toweroffset = 50;
             gameobj = new List<GameObject>();
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 1; i++)
             {
                 gameobj.Add(new Archer(new Vector2(20 + toweroffset, 400)));
                 toweroffset += 50;
@@ -72,7 +71,6 @@ namespace Retribution
                 toweroffset += 50;
             }
 
-   
             archers = new List<Archer>();
 
             toweroffset = 0;
@@ -102,15 +100,6 @@ namespace Retribution
                 toweroffset += 50;
             }
 
-            tower = new Tower(new Vector2(20, 20));
-            tower.health = 50;
-            tower.damage = 2;
-            tower.attackRange = 200;
-            tower2 = new Tower(new Vector2(600, 600));
-            towers.Add(tower2);
-            towers.Add(tower2);
-            towers.Add(tower);
-
             healthChecker = new HealthSystem(towers, archers);
             attackChecker = new AttackSystem(towers, archers);
             base.Initialize();
@@ -125,8 +114,6 @@ namespace Retribution
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            tower.LoadContent(Content);
-            tower2.LoadContent(Content);
             for (int i = 0; i < towers.Count; i++)
             {
                 towers[i].LoadContent(Content);
@@ -177,6 +164,15 @@ namespace Retribution
             {
                 dummy.selected = false;
             }
+            if (dummy.selected == true)
+            {
+                if (keyboardState.IsKeyDown(Keys.B))
+                {
+                    tower = dummy.Build(mouseCurrent);
+                    tower.LoadContent(Content);
+                    towers.Add(tower);
+                }
+            }
 
             if (mouseCurrent.RightButton == ButtonState.Pressed
                 && mousePrev.RightButton == ButtonState.Released
@@ -213,10 +209,6 @@ namespace Retribution
             {
                 if (towers[i].isAlive() == false) towers.Remove(towers[i]);
             }
-            if (keyboardState.IsKeyDown(Keys.A))
-            {
-                tower.Attack(tower2);
-            }
 
             healthChecker.Update(towers, archers);
             healthChecker.checkHealth();
@@ -233,17 +225,39 @@ namespace Retribution
             }
             else attackDelay--;
 
-            Vector2 testvec = new Vector2(50, 50);
-            MovementManager.changeDestination(gameobj, testvec);
+            //Vector2 testvec = new Vector2(50, 50);
+
+            if (mouseCurrent.LeftButton == ButtonState.Pressed &&
+                mousePrev.LeftButton == ButtonState.Released)
+            {
+                for (int i = 0; i < gameobj.Count; i++)
+                {
+                    if (gameobj[i].selected == true)
+                        gameobj[i].selected = false;
+                    if (gameobj[i].isSelectable(mousePrev))
+                    {
+                        gameobj[i].selected = true;
+                        Console.WriteLine("selected an archer");
+                    }
+                }
+            }
+            
+
+            if (mouseCurrent.RightButton == ButtonState.Pressed &&
+                    mousePrev.RightButton == ButtonState.Released)
+            {
+                for (int i = 0; i < gameobj.Count; i++)
+                {
+                    if (gameobj[i].selected == true)
+                    {
+                        Vector2 testvec = new Vector2(mouseCurrent.X, mouseCurrent.Y);
+                        MovementManager.changeDestination(gameobj, testvec);
+                        
+                    }
+                }
+            }
             MovementManager.moveObjects(gameobj);
             mousePrev = mouseCurrent;
-            tower.Update(gameTime);
-            tower2.Update(gameTime);
-            //tower.Update(gameTime);
-            //tower2.Update(gameTime);
-
-            //tower.Update(gameTime);
-            //tower2.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -263,7 +277,6 @@ namespace Retribution
                 towers[i].Draw(spriteBatch);
             }
             dummy.builderSprite.Draw(spriteBatch);
-            tower.Draw(spriteBatch);
 
             for (int i = 0; i < archers.Count; i++)
             {
@@ -275,16 +288,13 @@ namespace Retribution
                 temparch.Draw(spriteBatch);
             }
 
-            //dummy.builderSprite.Draw(spriteBatch);
-            //tower.Draw(spriteBatch);
-            //tower2.Draw(spriteBatch);
             spriteBatch.End();
             base.Draw(gameTime);
         }
 
         public void checkHealth()
         {
-                        for (int i = 0; i < towers.Count; i++)
+            for (int i = 0; i < towers.Count; i++)
             {
                 if (towers[i].isAlive() == false)
                 {
