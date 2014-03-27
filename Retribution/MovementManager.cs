@@ -26,7 +26,10 @@ namespace Retribution
         {
             for (int i = 0; i < listOfSelectedObjects.Count; i++)
             {
-                listOfSelectedObjects[i].move();
+                if (listOfSelectedObjects[i].selected == true)
+                {
+                    listOfSelectedObjects[i].move();
+                }
             }
         }
 
@@ -34,7 +37,10 @@ namespace Retribution
         {
             for (int i = 0; i < listOfSelectedObjects.Count; i++)
             {
-                listOfSelectedObjects[i].setDestination(getNormalizedVector(listOfSelectedObjects[i].getPosition(), destination), destination);
+                if (listOfSelectedObjects[i].selected == true)
+                {
+                    listOfSelectedObjects[i].setDestination(getNormalizedVector(listOfSelectedObjects[i].getPosition(), destination), destination);
+                }
             }
         }
     }

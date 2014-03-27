@@ -27,6 +27,8 @@ namespace Retribution
         List<GameObject> gameobj;
         HealthSystem healthChecker;
         AttackSystem attackChecker;
+        InputManager inputManager;
+        MovementManager movementManager;
         int attackDelay;
 
         //Mobiles[] mobiles;        
@@ -102,6 +104,11 @@ namespace Retribution
 
             healthChecker = new HealthSystem(towers, archers);
             attackChecker = new AttackSystem(towers, archers);
+
+            movementManager = new MovementManager();
+            inputManager = new InputManager(movementManager);
+            mousePrev = Mouse.GetState();
+
             base.Initialize();
             this.IsMouseVisible = true;
         }
@@ -153,6 +160,10 @@ namespace Retribution
 
             KeyboardState keyboardState = Keyboard.GetState();
             // TODO: Add your update logic here
+
+            inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref towers, ref gameobj);
+
+            // Movement/ placing buildings for dummy builder:  
             if (mouseCurrent.LeftButton == ButtonState.Pressed
                 && mousePrev.LeftButton == ButtonState.Released
                 && dummy.IsSelectable(mouseCurrent))
@@ -204,6 +215,8 @@ namespace Retribution
                     }
                 }
             }
+            //  End builder logic
+
 
             for (int i = 0; i < towers.Count; i++)
             {
@@ -225,37 +238,7 @@ namespace Retribution
             }
             else attackDelay--;
 
-            //Vector2 testvec = new Vector2(50, 50);
 
-            if (mouseCurrent.LeftButton == ButtonState.Pressed &&
-                mousePrev.LeftButton == ButtonState.Released)
-            {
-                for (int i = 0; i < gameobj.Count; i++)
-                {
-                    if (gameobj[i].selected == true)
-                        gameobj[i].selected = false;
-                    if (gameobj[i].isSelectable(mousePrev))
-                    {
-                        gameobj[i].selected = true;
-                        Console.WriteLine("selected an archer");
-                    }
-                }
-            }
-            
-
-            if (mouseCurrent.RightButton == ButtonState.Pressed &&
-                    mousePrev.RightButton == ButtonState.Released)
-            {
-                for (int i = 0; i < gameobj.Count; i++)
-                {
-                    if (gameobj[i].selected == true)
-                    {
-                        Vector2 testvec = new Vector2(mouseCurrent.X, mouseCurrent.Y);
-                        MovementManager.changeDestination(gameobj, testvec);
-                        
-                    }
-                }
-            }
             MovementManager.moveObjects(gameobj);
             mousePrev = mouseCurrent;
             base.Update(gameTime);
