@@ -78,27 +78,27 @@ namespace Retribution
             toweroffset = 0;
             for (int i = 0; i < 5; i++)
             {
-                archers.Add(new Archer(new Vector2( 60 + toweroffset , 20)));
+                gameobj.Add(new Archer(new Vector2( 60 + toweroffset , 20)));
                 toweroffset += 50;
             }
 
             toweroffset = 0;
             for (int i = 0; i < 5; i++)
             {
-                archers.Add(new Archer(new Vector2( 60 + toweroffset , 20)));
+                gameobj.Add(new Archer(new Vector2( 60 + toweroffset , 20)));
                 toweroffset += 50;
             }
 
             toweroffset = 0;
             for (int i = 0; i < 5; i++)
             {
-                archers.Add(new Archer(new Vector2(60 + toweroffset, 100)));
+                gameobj.Add(new Archer(new Vector2(60 + toweroffset, 100)));
                 toweroffset += 50;
             }
             toweroffset = 0;
             for (int i = 0; i < 5; i++)
             {
-                archers.Add(new Archer(new Vector2(60 + toweroffset, 180)));
+                gameobj.Add(new Archer(new Vector2(60 + toweroffset, 180)));
                 toweroffset += 50;
             }
 
