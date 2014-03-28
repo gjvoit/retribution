@@ -28,6 +28,7 @@ namespace Retribution
         HealthSystem healthChecker;
         AttackSystem attackChecker;
         InputManager inputManager;
+        ModelManager modMan;
         MovementManager movementManager;
         int attackDelay;
 
@@ -55,21 +56,26 @@ namespace Retribution
             // TODO: Add your initialization logic here
             riverDefense = new Map("Content/RiverDefense.txt");
 
-            //int attackDelay = 60;
+            int attackDelay = 60;
 
             dummy = new Builder(new Sprite(32, 32, 32, 32), this.Content);
             int toweroffset = 50;
-            gameobj = new List<GameObject>();
+            //gameobj = new List<GameObject>();
+            modMan = ModelManager.getInstance();
+
+            //Create Player's units
             for (int i = 0; i < 1; i++)
             {
-                gameobj.Add(new Archer(new Vector2(20 + toweroffset, 400)));
+                modMan.addUnit("PLAYER", "TOWER", new Vector2(20+toweroffset,400));
+               //gameobj.Add(new Archer(new Vector2(20 + toweroffset, 400)));
                 toweroffset += 50;
             }
             toweroffset = 0;
-            towers = new List<Tower>();
+            //towers = new List<Tower>();
             for (int i = 0; i < 5; i++)
             {
-                towers.Add(new Tower(new Vector2(20 + toweroffset, 600)));
+                modMan.addUnit("PLAYER", "ARCHER", new Vector2(20 + toweroffset, 600));
+                //towers.Add(new Tower(new Vector2(20 + toweroffset, 600)));
                 toweroffset += 50;
             }
 
@@ -78,32 +84,35 @@ namespace Retribution
             toweroffset = 0;
             for (int i = 0; i < 5; i++)
             {
-                gameobj.Add(new Archer(new Vector2( 60 + toweroffset , 20)));
+               // gameobj.Add(new Archer(new Vector2( 60 + toweroffset , 20)));
                 toweroffset += 50;
             }
 
             toweroffset = 0;
             for (int i = 0; i < 5; i++)
             {
-                gameobj.Add(new Archer(new Vector2( 60 + toweroffset , 20)));
+                modMan.addUnit("ARTIFICIAL", "TOWER", new Vector2(20 + toweroffset, 20));
+                //gameobj.Add(new Archer(new Vector2( 60 + toweroffset , 20)));
                 toweroffset += 50;
             }
 
             toweroffset = 0;
             for (int i = 0; i < 5; i++)
             {
-                gameobj.Add(new Archer(new Vector2(60 + toweroffset, 100)));
+                modMan.addUnit("ARTIFICIAL", "ARCHER", new Vector2(60 + toweroffset, 100));
+                //gameobj.Add(new Archer(new Vector2(60 + toweroffset, 100)));
                 toweroffset += 50;
             }
             toweroffset = 0;
             for (int i = 0; i < 5; i++)
             {
-                gameobj.Add(new Archer(new Vector2(60 + toweroffset, 180)));
+                modMan.addUnit("PLAYER", "TOWER", new Vector2(60 + toweroffset, 180));
+                //gameobj.Add(new Archer(new Vector2(60 + toweroffset, 180)));
                 toweroffset += 50;
             }
 
-            healthChecker = new HealthSystem(towers, archers);
-            attackChecker = new AttackSystem(towers, archers);
+            healthChecker = new HealthSystem(modMan.player, modMan.artificial);
+            attackChecker = new AttackSystem(modMan.player, modMan.artificial);
 
             movementManager = new MovementManager();
             inputManager = new InputManager(movementManager);
@@ -223,17 +232,17 @@ namespace Retribution
                 if (towers[i].isAlive() == false) towers.Remove(towers[i]);
             }
 
-            healthChecker.Update(towers, archers);
+            healthChecker.Update(modMan.player, modMan.artificial);
             healthChecker.checkHealth();
-            towers = healthChecker.towers;
-            archers = healthChecker.archers;
+            modMan.player = healthChecker.player;
+            modMan.artificial = healthChecker.artificial;
 
             if (attackDelay == 0)
             {
-                attackChecker.Update(towers, archers);
+                attackChecker.Update(modMan.player,modMan.artificial );
                 attackChecker.autoAttacks();
-                towers = attackChecker.towers;
-                archers = attackChecker.archers;
+                //towers = attackChecker.towers;
+                //archers = attackChecker.archers;
                 attackDelay = 60;
             }
             else attackDelay--;
@@ -255,15 +264,15 @@ namespace Retribution
             // TODO: Add your drawing code here
             spriteBatch.Begin();
             riverDefense.DrawMap(spriteBatch);
-            for (int i = 0; i < towers.Count; i++)
+            for (int i = 0; i < modMan.player.Count; i++)
             {
-                towers[i].Draw(spriteBatch);
+                (modMan.player[i]).Draw(spriteBatch);
             }
             dummy.builderSprite.Draw(spriteBatch);
 
-            for (int i = 0; i < archers.Count; i++)
+            for (int i = 0; i < modMan.artificial.Count; i++)
             {
-                archers[i].Draw(spriteBatch);
+                modMan.artificial[i].Draw(spriteBatch);
             }
             for (int i = 0; i < gameobj.Count; i++)
             {

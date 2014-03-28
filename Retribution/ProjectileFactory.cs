@@ -1,9 +1,8 @@
 ﻿using System;
 
-
+namespace Retribution
 {
-	public static class ProjectileFactory()
-	{
+	public static class ProjectileFactory{
         public ProjectileFactory()
         {
           
@@ -12,7 +11,7 @@
         {
           if(s=="arrow")
           {
-            Arrow arr=new Arrow(obj, start);
+           // Arrow arr=new Arrow(obj, start);
               //need to add arrow to projectileManager
           }
         }

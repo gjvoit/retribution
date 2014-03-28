@@ -13,31 +13,34 @@ namespace Retribution
 {
     class AttackSystem
     {
-        public List<Tower> towers;
-        public List<Archer> archers;
+        public List<GameObject> player;
+        public List<GameObject> artificial;
 
-        public AttackSystem(List<Tower> newTowers, List<Archer> newArchers)
+        public AttackSystem(List<GameObject> player, List<GameObject> artificial)
         {
-            towers = new List<Tower>(newTowers);
-            archers = new List<Archer>(newArchers);
+            player = player;
+            artificial = artificial;
         }
 
-        public void Update(List<Tower> newTowers, List<Archer> newArchers)
+        public void Update(List<GameObject> newPlayer, List<GameObject> newArtificial)
         {
-            towers = newTowers;
-            archers = newArchers;
+            player = newPlayer;
+            artificial = newArtificial;
         }
 
         public void autoAttacks()
         {
-            for (int i = 0; i < towers.Count; i++)
+            for (int i = 0; i < artificial.Count; i++)
             {
-                for (int j = 0; j < archers.Count; j++)
+                for (int j = 0; j < player.Count; j++)
                 {
-                    if(towers[i].IsInRange(archers[j]))
+                    if(artificial[i].IsInRange(player[j]))
                     {
-                        towers[i].Attack(archers[j]);
-                        break;
+                        artificial[i].Attack(player[j]);
+                       }
+                    if(player[j].IsInRange(artificial[i])){
+                        player[j].Attack(artificial[i]);
+
                     }
                 }
 

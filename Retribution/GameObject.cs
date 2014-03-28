@@ -33,7 +33,10 @@ namespace Retribution
             this.alive = true;
             this.selected = false;
         }
-
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(texture, new Rectangle((int)this.position.X, (int)this.position.Y, 50, 50), Color.White);
+        }
         //  A rectangle to represent the object
         public Rectangle Bounds
         {
