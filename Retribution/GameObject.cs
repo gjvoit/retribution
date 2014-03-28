@@ -48,11 +48,15 @@ namespace Retribution
         {
             if (canMove)
             {
+                this.isMoving = true;
                 Vector2 end_point = Vector2.Add(this.destination, new Vector2(2, 2));
                 Vector2 prev_point = Vector2.Subtract(this.destination, new Vector2(2, 2));
                 if (this.position.X <= end_point.X && this.position.X >= prev_point.X
                     && this.position.Y <= end_point.Y && this.position.Y >= prev_point.Y)
+                {
+                    this.isMoving = false;
                     return;
+                }
                 // get the distance
                 position += direction*moveSpeed;
                 Console.WriteLine(string.Format("new {0}", this.position));
