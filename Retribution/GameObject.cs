@@ -21,6 +21,7 @@ namespace Retribution
         public bool canMove;
         public bool alive;
         public bool selected;
+        public bool isMoving;
 
         public GameObject(int health, Vector2 position, int damage, int attackRange)
         {
@@ -32,6 +33,7 @@ namespace Retribution
             this.canMove = false;
             this.alive = true;
             this.selected = false;
+            this.isMoving = false;
         }
 
         //  A rectangle to represent the object

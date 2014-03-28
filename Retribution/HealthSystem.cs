@@ -14,15 +14,15 @@ namespace Retribution
     class HealthSystem
     {
         public List<Tower> towers;
-        public List<Archer> archers;
+        public List<GameObject> archers;
 
-        public HealthSystem(List<Tower> newTowers, List<Archer> newArchers)
+        public HealthSystem(List<Tower> newTowers, List<GameObject> newArchers)
         {
             towers = new List<Tower>(newTowers);
-            archers = new List<Archer>(newArchers);
+            archers = new List<GameObject>(newArchers);
         }
 
-        public void Update(List<Tower> newTowers, List<Archer> newArchers)
+        public void Update(List<Tower> newTowers, List<GameObject> newArchers)
         {
             towers = newTowers;
             archers = newArchers;

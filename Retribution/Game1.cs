@@ -102,8 +102,8 @@ namespace Retribution
                 toweroffset += 50;
             }
 
-            healthChecker = new HealthSystem(towers, archers);
-            attackChecker = new AttackSystem(towers, archers);
+            healthChecker = new HealthSystem(towers, gameobj);
+            attackChecker = new AttackSystem(towers, gameobj);
 
             movementManager = new MovementManager();
             inputManager = new InputManager(movementManager);
@@ -199,17 +199,17 @@ namespace Retribution
                 if (towers[i].isAlive() == false) towers.Remove(towers[i]);
             }
 
-            healthChecker.Update(towers, archers);
+            healthChecker.Update(towers, gameobj);
             healthChecker.checkHealth();
             towers = healthChecker.towers;
-            archers = healthChecker.archers;
+            gameobj = healthChecker.archers;
 
             if (attackDelay == 0)
             {
-                attackChecker.Update(towers, archers);
+                attackChecker.Update(towers, gameobj);
                 attackChecker.autoAttacks();
                 towers = attackChecker.towers;
-                archers = attackChecker.archers;
+                gameobj = attackChecker.archers;
                 attackDelay = 60;
             }
             else attackDelay--;
