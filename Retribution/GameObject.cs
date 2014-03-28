@@ -59,7 +59,7 @@ namespace Retribution
                 }
                 // get the distance
                 position += direction*moveSpeed;
-                Console.WriteLine(string.Format("new {0}", this.position));
+                //Console.WriteLine(string.Format("new {0}", this.position));
                 // get the slope
             }
         }
