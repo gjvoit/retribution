@@ -17,7 +17,7 @@ namespace Retribution
         Rectangle mouseRec;
         Vector2 mouseRecOrigin;
         Texture2D myTexture;
-        int spacing = 7;
+        int spacing = 1;
 
         public InputManager( MovementManager newMovementManager)
         {
