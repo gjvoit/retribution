@@ -16,6 +16,8 @@ namespace Retribution
         MovementManager movementManager;
         Rectangle mouseRec;
         Vector2 mouseRecOrigin;
+        Texture2D myTexture;
+        int spacing = 7;
 
         public InputManager( MovementManager newMovementManager)
         {
@@ -73,7 +75,7 @@ namespace Retribution
 
             }
 
-            // Select units aftere releasing mouse:
+            // Select units after releasing mouse and clear rectangle:
             if (current.LeftButton == ButtonState.Released
                 && previous.LeftButton == ButtonState.Pressed
                 )
@@ -87,7 +89,11 @@ namespace Retribution
                         units[i].selected = true;
                     }
                 }
+
+                mouseRec = Rectangle.Empty;
             }
+
+
 
 
             // Move selected units or attack:
@@ -117,6 +123,65 @@ namespace Retribution
                 MovementManager.changeDestination(units, testvec);
 
             }
+
+        }
+        
+
+        public void DrawMouseRectangle(SpriteBatch spriteBatch, ContentManager content)
+        {
+            if (myTexture == null)
+            {
+                myTexture = content.Load<Texture2D>("FFFFFF-0.8.png");
+            }
+
+           // spriteBatch.Begin();
+
+            Rectangle dstRec = new Rectangle(mouseRec.X, (int)mouseRec.Y, 1, 1);
+            Color color = Color.WhiteSmoke;
+
+            if (mouseRec.Width > 0)
+            {
+                int x = mouseRec.Width / spacing;
+                for (int i = 0; i <= x; i++)
+                {
+                    //draw horizontal top
+                    spriteBatch.Draw(myTexture, dstRec, new Rectangle(0, 0, myTexture.Width, myTexture.Height), color);
+
+                    if (mouseRec.Height > 0)
+                    {
+                        //draw horizontal bottom
+                        dstRec.Y += mouseRec.Height;
+                        spriteBatch.Draw(myTexture, dstRec, new Rectangle(0, 0, myTexture.Width, myTexture.Height), color);
+                        dstRec.Y -= mouseRec.Height;
+                    }
+
+                    //advance
+                    dstRec.X += spacing;
+                }
+            }
+
+            if (mouseRec.Height > 0)
+            {
+                dstRec.X = mouseRec.X;
+                int Y = mouseRec.Height / spacing;
+                for (int i = 0; i <= Y; i++)
+                {
+                    //draw vertical right
+                    spriteBatch.Draw(myTexture, dstRec, new Rectangle(0, 0, myTexture.Width, myTexture.Height), color);
+
+                    if(mouseRec.Width > 0)
+                    {
+                        //draw vertical left
+                        dstRec.X += mouseRec.Width;
+                        spriteBatch.Draw(myTexture, dstRec, new Rectangle(0, 0, myTexture.Width, myTexture.Height), color);
+                        dstRec.X -= mouseRec.Width;
+                    }
+
+                    dstRec.Y += spacing;
+                }
+            }
+
+           // spriteBatch.End();
 
         }
     }

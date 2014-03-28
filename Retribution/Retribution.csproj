@@ -81,6 +81,9 @@
     <Content Include="Content\dead.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\FFFFFF-0.8.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\grass.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -271,6 +271,8 @@ namespace Retribution
                 temparch.Draw(spriteBatch);
             }
 
+            inputManager.DrawMouseRectangle(spriteBatch, Content);
+
             spriteBatch.End();
             base.Draw(gameTime);
         }
