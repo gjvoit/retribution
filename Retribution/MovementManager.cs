@@ -40,6 +40,7 @@ namespace Retribution
                 if (listOfSelectedObjects[i].selected == true)
                 {
                     listOfSelectedObjects[i].setDestination(getNormalizedVector(listOfSelectedObjects[i].getPosition(), destination), destination);
+                    listOfSelectedObjects[i].isMoving = true;
                 }
             }
         }

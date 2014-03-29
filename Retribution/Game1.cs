@@ -31,7 +31,6 @@ namespace Retribution
         MovementManager movementManager;
         int attackDelay;
 
-        //Mobiles[] mobiles;        
         public Game1()
             : base()
         {
@@ -54,8 +53,6 @@ namespace Retribution
         {
             // TODO: Add your initialization logic here
             riverDefense = new Map("Content/RiverDefense.txt");
-
-            //int attackDelay = 60;
 
             dummy = new Builder(new Sprite(32, 32, 32, 32), this.Content);
             int toweroffset = 50;

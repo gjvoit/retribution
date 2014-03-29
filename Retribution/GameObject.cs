@@ -17,16 +17,6 @@ namespace Retribution
         public int attackRange;
         public bool alive;
         public bool selected;
-        
-
-        // stuff that needs to moved from GameObject to Mobile
-        //public int moveSpeed;
-        //public Vector2 direction;
-        //public Vector2 destination;
-        //public bool isMoving;
-
-        // stuff that can be removed b/c of Mobile
-        //public bool canMove;
 
         public GameObject(int health, Vector2 position, int damage, int attackRange)
         {
@@ -36,13 +26,11 @@ namespace Retribution
             this.attackRange = attackRange;
             this.alive = true;
             this.selected = false;
+        }
 
-            // stuff that needs to be moved from GO to Mobile
-            //this.moveSpeed = 1;
-            //this.isMoving = false;
-
-            // stuff that can be removed b/c of Mobile
-            //this.canMove = false;
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(texture, new Rectangle((int)this.position.X, (int)this.position.Y, 50, 50), Color.White);
         }
 
         //  A rectangle to represent the object
@@ -50,24 +38,6 @@ namespace Retribution
         {
             get { return new Rectangle((int)position.X, (int)position.Y, this.texture.Width, this.texture.Height); }
         }
-
-        //  Move this method to mobile
-        //public void move()
-        //{
-        //    if (canMove)
-        //    {
-        //        this.isMoving = true;
-        //        Vector2 end_point = Vector2.Add(this.destination, new Vector2(2, 2));
-        //        Vector2 prev_point = Vector2.Subtract(this.destination, new Vector2(2, 2));
-        //        if (this.position.X <= end_point.X && this.position.X >= prev_point.X
-        //            && this.position.Y <= end_point.Y && this.position.Y >= prev_point.Y)
-        //        {
-        //            this.isMoving = false;
-        //            return;
-        //        }
-        //        position += direction*moveSpeed;
-        //    }
-        //}
 
         //  Issue attack. Alpha method that damages target. No other skills or actions are implemented in the Alpha Version
         public void Attack(GameObject target)
@@ -109,13 +79,6 @@ namespace Retribution
         {
             return this.position;
         }
-
-        // Move this to Mobile
-        //public void setDestination(Vector2 theVector, Vector2 destination)
-        //{
-        //    this.direction = theVector;
-        //    this.destination = destination;
-        //}
 
         public Boolean isSelectable(MouseState mouse)
         {

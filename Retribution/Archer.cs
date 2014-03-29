@@ -8,7 +8,6 @@ using Microsoft.Xna.Framework.Graphics;
 namespace Retribution
 {
 
-    //class Archer : GameObject
     class Archer : Mobile
     {
 
@@ -16,7 +15,6 @@ namespace Retribution
             : base(health, position, damage, attackRange)
         {
             this.moveSpeed = 1;
-            //this.canMove = true;
         }
         public void makeArrow(GameObject target)
         {
@@ -36,10 +34,10 @@ namespace Retribution
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(texture, new Rectangle((int)this.position.X, (int)this.position.Y, 50, 50), Color.White);
-        }
+        //public void Draw(SpriteBatch spriteBatch)
+        //{
+        //    spriteBatch.Draw(texture, new Rectangle((int)this.position.X, (int)this.position.Y, 50, 50), Color.White);
+        //}
 
     }
 }
