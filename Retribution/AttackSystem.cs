@@ -14,15 +14,15 @@ namespace Retribution
     class AttackSystem
     {
         public List<Tower> towers;
-        public List<Archer> archers;
+        public List<GameObject> archers;
 
-        public AttackSystem(List<Tower> newTowers, List<Archer> newArchers)
+        public AttackSystem(List<Tower> newTowers, List<GameObject> newArchers)
         {
             towers = new List<Tower>(newTowers);
-            archers = new List<Archer>(newArchers);
+            archers = new List<GameObject>(newArchers);
         }
 
-        public void Update(List<Tower> newTowers, List<Archer> newArchers)
+        public void Update(List<Tower> newTowers, List<GameObject> newArchers)
         {
             towers = newTowers;
             archers = newArchers;

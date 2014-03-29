@@ -21,6 +21,7 @@ namespace Retribution
         public bool canMove;
         public bool alive;
         public bool selected;
+        public bool isMoving;
 
         public GameObject(int health, Vector2 position, int damage, int attackRange)
         {
@@ -32,6 +33,7 @@ namespace Retribution
             this.canMove = false;
             this.alive = true;
             this.selected = false;
+            this.isMoving = false;
         }
 
         //  A rectangle to represent the object
@@ -46,14 +48,18 @@ namespace Retribution
         {
             if (canMove)
             {
+                this.isMoving = true;
                 Vector2 end_point = Vector2.Add(this.destination, new Vector2(2, 2));
                 Vector2 prev_point = Vector2.Subtract(this.destination, new Vector2(2, 2));
                 if (this.position.X <= end_point.X && this.position.X >= prev_point.X
                     && this.position.Y <= end_point.Y && this.position.Y >= prev_point.Y)
+                {
+                    this.isMoving = false;
                     return;
+                }
                 // get the distance
                 position += direction*moveSpeed;
-                Console.WriteLine(string.Format("new {0}", this.position));
+                //Console.WriteLine(string.Format("new {0}", this.position));
                 // get the slope
             }
         }
