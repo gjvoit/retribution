@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Retribution
 {
@@ -11,6 +13,11 @@ namespace Retribution
             : base(health, position, damage, attackRange)
         {
             this.moveSpeed = 2;
+        }
+
+        public override void LoadContent(ContentManager content)
+        {
+            this.texture = content.Load<Texture2D>("warrior.png");
         }
 
     }

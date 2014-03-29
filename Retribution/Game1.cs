@@ -95,7 +95,7 @@ namespace Retribution
             toweroffset = 0;
             for (int i = 0; i < 5; i++)
             {
-                gameobj.Add(new Archer(new Vector2(60 + toweroffset, 180)));
+                gameobj.Add(new Warrior(new Vector2(60 + toweroffset, 180)));
                 toweroffset += 50;
             }
 
@@ -128,7 +128,7 @@ namespace Retribution
             }
             for (int i = 0; i < gameobj.Count; i++)
             {
-                Archer temparch = (Archer)gameobj[i];
+                Mobile temparch = gameobj[i];
                 temparch.LoadContent(Content);
             }
 
@@ -240,7 +240,7 @@ namespace Retribution
             }
             for (int i = 0; i < gameobj.Count; i++)
             {
-                Archer temparch = (Archer)gameobj[i];
+                Mobile temparch = gameobj[i];
                 temparch.Draw(spriteBatch);
             }
 

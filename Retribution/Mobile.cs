@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 
 namespace Retribution
 {
@@ -35,6 +36,16 @@ namespace Retribution
 
             position += direction * moveSpeed;
         }
+
+        public void Update(GameTime gameTime)
+        {
+            if (this.isAlive())
+            {
+                // TODO: put code here for when archer is alive
+            }
+        }
+
+        public abstract void LoadContent(ContentManager content);
 
     }
 }
