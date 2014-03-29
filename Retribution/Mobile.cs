@@ -7,28 +7,15 @@ namespace Retribution
     abstract class Mobile : GameObject
     {
 
-        public Vector2 destination
-        {
-            get;
-            set;
-        }
+        public Vector2 direction;
+        public Vector2 destination;
+        public int moveSpeed;
+        public bool isMoving;
 
-        public int moveSpeed
+        public Mobile(int health, Vector2 position, int damage, int attackRange)
+            : base(health, position, damage, attackRange)
         {
-            get;
-            set;
-        }
-
-        public int attackRange
-        {
-            get;
-            set;
-        }
-
-        public bool isMoving
-        {
-            get;
-            set;
+            this.isMoving = false;
         }
 
         public void setDestination(Vector2 direction, Vector2 destination)
@@ -48,10 +35,6 @@ namespace Retribution
 
             position += direction * moveSpeed;
         }
-
-        public void mount();
-
-
 
     }
 }

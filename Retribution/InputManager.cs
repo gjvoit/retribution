@@ -26,7 +26,7 @@ namespace Retribution
             mouseRecOrigin = Vector2.Zero;
         }
 
-        public void Update(MouseState current, MouseState previous, KeyboardState keyPress, ref List<Tower> towers, ref List<GameObject> units)
+        public void Update(MouseState current, MouseState previous, KeyboardState keyPress, ref List<Tower> towers, ref List<Mobile> units)
         {
             // Select with a single mouse click:
             if (current.LeftButton == ButtonState.Pressed

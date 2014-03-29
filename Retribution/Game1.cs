@@ -24,7 +24,7 @@ namespace Retribution
         List<Tower> towers;
         Tower tower;
         List<Archer> archers;
-        List<GameObject> gameobj;
+        List<Mobile> gameobj;
         HealthSystem healthChecker;
         AttackSystem attackChecker;
         InputManager inputManager;
@@ -59,7 +59,7 @@ namespace Retribution
 
             dummy = new Builder(new Sprite(32, 32, 32, 32), this.Content);
             int toweroffset = 50;
-            gameobj = new List<GameObject>();
+            gameobj = new List<Mobile>();
             for (int i = 0; i < 1; i++)
             {
                 gameobj.Add(new Archer(new Vector2(20 + toweroffset, 400)));

@@ -8,27 +8,20 @@ using Microsoft.Xna.Framework.Graphics;
 namespace Retribution
 {
 
-    class Archer : GameObject
+    //class Archer : GameObject
+    class Archer : Mobile
     {
-        public string state;
 
         public Archer(Vector2 position, int health = 2, int damage = 3, int attackRange = 2)
             : base(health, position, damage, attackRange)
         {
-            this.position = position;
-            this.state = "Archer";
-            this.canMove = true;
+            this.moveSpeed = 1;
+            //this.canMove = true;
         }
         public void makeArrow(GameObject target)
         {
             //ProjectileFactory.create("arrow", target);
         }
-  
-
-        //public override void Die()
-        //{
-            //this.isAlive = false;
-        //}
 
         public void LoadContent(ContentManager content)
         {
