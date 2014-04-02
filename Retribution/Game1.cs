@@ -66,7 +66,7 @@ namespace Retribution
             //Create Player's units
             for (int i = 0; i < 5; i++)
             {
-                modMan.addUnit("PLAYER", "TOWER", new Vector2(20+toweroffset,500));
+                modMan.addUnit("PLAYER", "TOWER", new Vector2(20+toweroffset,600));
                //gameobj.Add(new Archer(new Vector2(20 + toweroffset, 400)));
                 toweroffset += 50;
             }
@@ -74,7 +74,7 @@ namespace Retribution
             //towers = new List<Tower>();
             for (int i = 0; i < 5; i++)
             {
-                modMan.addUnit("PLAYER", "ARCHER", new Vector2(20 + toweroffset, 600));
+                modMan.addUnit("PLAYER", "ARCHER", new Vector2(20 + toweroffset, 500));
                 //towers.Add(new Tower(new Vector2(20 + toweroffset, 600)));
                 toweroffset += 50;
             }
@@ -99,7 +99,7 @@ namespace Retribution
             toweroffset = 0;
             for (int i = 0; i < 5; i++)
             {
-                modMan.addUnit("ARTIFICIAL", "ARCHER", new Vector2(60 + toweroffset, 100));
+                modMan.addUnit("ARTIFICIAL", "ARCHER", new Vector2(60 + toweroffset, 200));
                 //gameobj.Add(new Archer(new Vector2(60 + toweroffset, 100)));
                 toweroffset += 50;
             }

@@ -11,7 +11,7 @@ namespace Retribution
     class Archer : Mobile
     {
 
-        public Archer(Vector2 position, int health = 2, int damage = 3, int attackRange = 2)
+        public Archer(Vector2 position, int health = 2, int damage = 3, int attackRange = 150)
             : base(health, position, damage, attackRange)
         {
             this.position = position;
