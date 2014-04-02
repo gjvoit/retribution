@@ -24,7 +24,7 @@ namespace Retribution
         List<Tower> towers;
         Tower tower;
         List<Archer> archers;
-        List<GameObject> gameobj;
+        List<Mobile> gameobj;
         HealthSystem healthChecker;
         AttackSystem attackChecker;
         InputManager inputManager;
@@ -33,7 +33,6 @@ namespace Retribution
         MovementManager movementManager;
         int attackDelay;
 
-        //Mobiles[] mobiles;        
         public Game1()
             : base()
         {
@@ -144,7 +143,7 @@ namespace Retribution
             }
             for (int i = 0; i < gameobj.Count; i++)
             {
-                Archer temparch = (Archer)gameobj[i];
+                Mobile temparch = gameobj[i];
                 temparch.LoadContent(Content);
             }*/
 
@@ -257,7 +256,7 @@ namespace Retribution
             }
             for (int i = 0; i < gameobj.Count; i++)
             {
-                Archer temparch = (Archer)gameobj[i];
+                Mobile temparch = gameobj[i];
                 temparch.Draw(spriteBatch);
             }
 

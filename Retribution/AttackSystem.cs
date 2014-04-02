@@ -13,6 +13,7 @@ namespace Retribution
 {
     class AttackSystem
     {
+<<<<<<< HEAD
         public List<GameObject> player;
         public List<GameObject> artificial;
 

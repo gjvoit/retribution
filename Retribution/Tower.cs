@@ -54,5 +54,6 @@ namespace Retribution
         {
             spriteBatch.Draw(texture, new Rectangle((int)this.position.X,(int)this.position.Y, 50, 50), Color.White);
         }*/
+
     }
 }

@@ -22,7 +22,7 @@ namespace Retribution
         }
 
         //  Call movement method of all selected objects
-        public static void moveObjects(List<GameObject> listOfSelectedObjects)
+        public static void moveObjects(List<Mobile> listOfSelectedObjects)
         {
             for (int i = 0; i < listOfSelectedObjects.Count; i++)
             {
@@ -33,13 +33,14 @@ namespace Retribution
             }
         }
 
-        public static void changeDestination(List<GameObject> listOfSelectedObjects, Vector2 destination)
+        public static void changeDestination(List<Mobile> listOfSelectedObjects, Vector2 destination)
         {
             for (int i = 0; i < listOfSelectedObjects.Count; i++)
             {
                 if (listOfSelectedObjects[i].selected == true)
                 {
                     listOfSelectedObjects[i].setDestination(getNormalizedVector(listOfSelectedObjects[i].getPosition(), destination), destination);
+                    listOfSelectedObjects[i].isMoving = true;
                 }
             }
         }

@@ -11,14 +11,10 @@ namespace Retribution
     abstract class GameObject
     {
         public Vector2 position;
-        public Vector2 destination;
-        public Vector2 direction;
         public Texture2D texture;
         public int health;
         public int damage;
         public int attackRange;
-        public int moveSpeed;
-        public bool canMove;
         public bool alive;
         public bool selected;
         public bool isMoving;
@@ -30,12 +26,10 @@ namespace Retribution
             this.position = position;
             this.damage = damage;
             this.attackRange = attackRange;
-            this.moveSpeed = 1;
-            this.canMove = false;
             this.alive = true;
             this.selected = false;
-            this.isMoving = false;
         }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, new Rectangle((int)this.position.X, (int)this.position.Y, 50, 50), Color.White);
@@ -44,28 +38,6 @@ namespace Retribution
         public Rectangle Bounds
         {
             get { return new Rectangle((int)position.X, (int)position.Y, this.texture.Width, this.texture.Height); }
-        }
-        
-
-        //  Get a vector and move towards the destination
-        public void move()
-        {
-            if (canMove)
-            {
-                this.isMoving = true;
-                Vector2 end_point = Vector2.Add(this.destination, new Vector2(2, 2));
-                Vector2 prev_point = Vector2.Subtract(this.destination, new Vector2(2, 2));
-                if (this.position.X <= end_point.X && this.position.X >= prev_point.X
-                    && this.position.Y <= end_point.Y && this.position.Y >= prev_point.Y)
-                {
-                    this.isMoving = false;
-                    return;
-                }
-                // get the distance
-                position += direction*moveSpeed;
-                //Console.WriteLine(string.Format("new {0}", this.position));
-                // get the slope
-            }
         }
 
         //  Issue attack. Alpha method that damages target. No other skills or actions are implemented in the Alpha Version
@@ -109,22 +81,13 @@ namespace Retribution
             return this.position;
         }
 
-        public void setDestination(Vector2 theVector, Vector2 destination)
-        {
-            this.direction = theVector;
-            this.destination = destination;
-            Console.WriteLine(string.Format("{0}", this.position));
-            Console.WriteLine(string.Format("{0}", this.destination));
-        }
-
         public Boolean isSelectable(MouseState mouse)
         {
-            Console.WriteLine("checking selection");
             if ((mouse.X >= this.Bounds.Left && mouse.X <= this.Bounds.Right)
                 && (mouse.Y >= this.Bounds.Top && mouse.Y <= this.Bounds.Bottom))
                 return true;
-            else {
-                Console.WriteLine("not selected");
+            else
+            {
                 return false;
             }
         }

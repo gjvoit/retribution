@@ -44,7 +44,11 @@
     <Compile Include="LoadManager.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="GameObject.cs" />
+<<<<<<< HEAD
     <Compile Include="ModelManager.cs" />
+=======
+    <Compile Include="Mobile.cs" />
+>>>>>>> 3b7f2ef208843aa7511fb2d94e280d46c988b1f5
     <Compile Include="MovementManager.cs" />
     <Compile Include="ObjectFactory.cs" />
     <Compile Include="Program.cs" />
@@ -52,6 +56,7 @@
     <Compile Include="Sprite.cs" />
     <Compile Include="Tower.cs" />
     <Compile Include="Tile.cs" />
+    <Compile Include="Warrior.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="OpenTK">
@@ -84,7 +89,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\FFFFFF-0.8.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\grass.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -96,6 +101,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\tower.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\warrior.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\water.jpg">

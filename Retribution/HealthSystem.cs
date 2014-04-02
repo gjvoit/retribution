@@ -23,6 +23,7 @@ namespace Retribution
         }
 
         public void Update(List<GameObject> newPlayer, List<GameObject> newArtificial)
+
         {
             player = newPlayer;
             artificial = newArtificial;
