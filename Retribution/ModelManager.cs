@@ -8,7 +8,7 @@ namespace Retribution
 {
     class ModelManager
     {
-        private static ModelManager instance;
+        public static ModelManager instance;
         public List<GameObject> player;
         public List<GameObject> artificial;
         public List<GameObject> inMotion;

@@ -26,7 +26,7 @@ namespace Retribution
         {
             for (int i = 0; i < listOfSelectedObjects.Count; i++)
             {
-                if (listOfSelectedObjects[i].selected == true)
+                if (listOfSelectedObjects[i].selected == true || listOfSelectedObjects[i].isMoving == true)
                 {
                     listOfSelectedObjects[i].move();
                 }

@@ -29,6 +29,7 @@ namespace Retribution
         AttackSystem attackChecker;
         InputManager inputManager;
         ModelManager modMan;
+        LoadManager loadMan;
         MovementManager movementManager;
         int attackDelay;
 
@@ -53,6 +54,8 @@ namespace Retribution
         /// </summary>
         protected override void Initialize()
         {
+            // Create a new SpriteBatch, which can be used to draw textures.
+            spriteBatch = new SpriteBatch(GraphicsDevice);
             // TODO: Add your initialization logic here
             riverDefense = new Map("Content/RiverDefense.txt");
 
@@ -62,7 +65,7 @@ namespace Retribution
             int toweroffset = 50;
             //gameobj = new List<GameObject>();
             modMan = ModelManager.getInstance();
-
+            loadMan = LoadManager.getInstance();
             //Create Player's units
             for (int i = 0; i < 1; i++)
             {
@@ -79,7 +82,7 @@ namespace Retribution
                 toweroffset += 50;
             }
 
-            archers = new List<Archer>();
+            //archers = new List<Archer>();
 
             toweroffset = 0;
             for (int i = 0; i < 5; i++)
@@ -114,6 +117,7 @@ namespace Retribution
             healthChecker = new HealthSystem(modMan.player, modMan.artificial);
             attackChecker = new AttackSystem(modMan.player, modMan.artificial);
 
+
             movementManager = new MovementManager();
             inputManager = new InputManager(movementManager);
             mousePrev = Mouse.GetState();
@@ -128,11 +132,11 @@ namespace Retribution
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-            for (int i = 0; i < towers.Count; i++)
+            loadMan.load(Content, modMan.player);
+            loadMan.load(Content, modMan.artificial);
+            /*for (int i = 0; i < modMan.player.Count; i++)
             {
-                towers[i].LoadContent(Content);
+                modMan.player[i].LoadContent(Content);
             }
             for (int i = 0; i < archers.Count; i++)
             {
@@ -142,7 +146,7 @@ namespace Retribution
             {
                 Archer temparch = (Archer)gameobj[i];
                 temparch.LoadContent(Content);
-            }
+            }*/
 
             // TODO: use this.Content to load your game content here
         }
@@ -200,30 +204,6 @@ namespace Retribution
             {
                 dummy.Move(mouseCurrent);
             }
-
-            if (mouseCurrent.LeftButton == ButtonState.Pressed)
-            {
-                Vector2 start_point = new Vector2(mouseCurrent.X, mouseCurrent.Y);
-
-                if (mouseCurrent.RightButton == ButtonState.Released)
-                {
-                    Vector2 end_point = new Vector2(mousePrev.X, mousePrev.Y);
-                    int width = (int)Math.Abs(end_point.X - start_point.X);
-                    int height = (int)Math.Abs(end_point.Y - start_point.Y);
-
-                    Rectangle r1 = new Rectangle((int)start_point.X, (int)start_point.Y, width, height);
-                    Vector2 result_vector = Vector2.Subtract(start_point, end_point);
-                    Console.WriteLine(string.Format("The start and end are {0}, {1}", start_point, end_point));
-                    // loop to see if objects' Rectangle intersects with our selected area's rectangle
-                    for (int i = 0; i < towers.Count; i++)
-                    {
-                        if (towers[i].Bounds.Intersects(r1))
-                        {
-                            towers[i].position = Vector2.Add(towers[i].position, result_vector);
-                        }
-                    }
-                }
-            }
             //  End builder logic
 
 
@@ -243,6 +223,7 @@ namespace Retribution
                 attackChecker.autoAttacks();
                 //towers = attackChecker.towers;
                 //archers = attackChecker.archers;
+
                 attackDelay = 60;
             }
             else attackDelay--;

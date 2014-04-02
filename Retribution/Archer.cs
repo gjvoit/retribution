@@ -18,6 +18,7 @@ namespace Retribution
             this.position = position;
             this.state = "Archer";
             this.canMove = true;
+            this.type = "ARCHER";
         }
         public void makeArrow(GameObject target)
         {
@@ -43,10 +44,10 @@ namespace Retribution
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        /*public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, new Rectangle((int)this.position.X, (int)this.position.Y, 50, 50), Color.White);
-        }
+        }*/
 
     }
 }

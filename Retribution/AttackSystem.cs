@@ -18,8 +18,8 @@ namespace Retribution
 
         public AttackSystem(List<GameObject> player, List<GameObject> artificial)
         {
-            player = player;
-            artificial = artificial;
+            this.player = player;
+            this.artificial = artificial;
         }
 
         public void Update(List<GameObject> newPlayer, List<GameObject> newArtificial)
