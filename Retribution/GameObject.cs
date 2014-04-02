@@ -17,7 +17,6 @@ namespace Retribution
         public int attackRange;
         public bool alive;
         public bool selected;
-        public bool isMoving;
         public string type;
 
         public GameObject(int health, Vector2 position, int damage, int attackRange)
@@ -72,7 +71,11 @@ namespace Retribution
         {
             if (health > 0)
                 return true;
-            return false;
+            else
+            {
+                this.alive = false;
+                return false;
+            }
         }
 
         //  Getters and Setters

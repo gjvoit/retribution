@@ -21,16 +21,16 @@ namespace Retribution
         Map riverDefense;
         Builder dummy;
         MouseState mouseCurrent, mousePrev;
-        List<Tower> towers;
-        Tower tower;
-        List<Archer> archers;
-        List<Mobile> gameobj;
+        //List<Tower> towers;
+        //Tower tower;
+        //List<Archer> archers;
+        //List<Mobile> gameobj;
         HealthSystem healthChecker;
         AttackSystem attackChecker;
         InputManager inputManager;
         ModelManager modMan;
         LoadManager loadMan;
-        MovementManager movementManager;
+        //MovementManager movementManager;
         int attackDelay;
 
         public Game1()
@@ -58,17 +58,15 @@ namespace Retribution
             // TODO: Add your initialization logic here
             riverDefense = new Map("Content/RiverDefense.txt");
 
-            int attackDelay = 60;
-
             dummy = new Builder(new Sprite(32, 32, 32, 32), this.Content);
             int toweroffset = 50;
             //gameobj = new List<GameObject>();
             modMan = ModelManager.getInstance();
             loadMan = LoadManager.getInstance();
             //Create Player's units
-            for (int i = 0; i < 1; i++)
+            for (int i = 0; i < 5; i++)
             {
-                modMan.addUnit("PLAYER", "TOWER", new Vector2(20+toweroffset,400));
+                modMan.addUnit("PLAYER", "TOWER", new Vector2(20+toweroffset,500));
                //gameobj.Add(new Archer(new Vector2(20 + toweroffset, 400)));
                 toweroffset += 50;
             }
@@ -105,20 +103,21 @@ namespace Retribution
                 //gameobj.Add(new Archer(new Vector2(60 + toweroffset, 100)));
                 toweroffset += 50;
             }
-            toweroffset = 0;
-            for (int i = 0; i < 5; i++)
-            {
-                modMan.addUnit("PLAYER", "TOWER", new Vector2(60 + toweroffset, 180));
-                //gameobj.Add(new Archer(new Vector2(60 + toweroffset, 180)));
-                toweroffset += 50;
-            }
+            //toweroffset = 0;
+            //for (int i = 0; i < 5; i++)
+            //{
+            //    modMan.addUnit("PLAYER", "TOWER", new Vector2(60 + toweroffset, 180));
+            //    //gameobj.Add(new Archer(new Vector2(60 + toweroffset, 180)));
+            //    toweroffset += 50;
+            //}
 
             healthChecker = new HealthSystem(modMan.player, modMan.artificial);
             attackChecker = new AttackSystem(modMan.player, modMan.artificial);
 
 
-            movementManager = new MovementManager();
-            inputManager = new InputManager(movementManager);
+            //movementManager = new MovementManager();
+            //inputManager = new InputManager(movementManager);
+            inputManager = new InputManager(modMan);
             mousePrev = Mouse.GetState();
 
             base.Initialize();
@@ -173,7 +172,8 @@ namespace Retribution
             KeyboardState keyboardState = Keyboard.GetState();
             // TODO: Add your update logic here
 
-            inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref towers, ref gameobj);
+            //inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref towers, ref gameobj);
+            inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref modMan.player);
 
             // Movement/ placing buildings for dummy builder:  
             if (mouseCurrent.LeftButton == ButtonState.Pressed
@@ -187,15 +187,15 @@ namespace Retribution
             {
                 dummy.selected = false;
             }
-            if (dummy.selected == true)
-            {
-                if (keyboardState.IsKeyDown(Keys.B))
-                {
-                    tower = dummy.Build(mouseCurrent);
-                    tower.LoadContent(Content);
-                    towers.Add(tower);
-                }
-            }
+            //if (dummy.selected == true)
+            //{
+            //    if (keyboardState.IsKeyDown(Keys.B))
+            //    {
+            //        tower = dummy.Build(mouseCurrent);
+            //        tower.LoadContent(Content);
+            //        towers.Add(tower);
+            //    }
+            //}
 
             if (mouseCurrent.RightButton == ButtonState.Pressed
                 && mousePrev.RightButton == ButtonState.Released
@@ -206,10 +206,10 @@ namespace Retribution
             //  End builder logic
 
 
-            for (int i = 0; i < towers.Count; i++)
-            {
-                if (towers[i].isAlive() == false) towers.Remove(towers[i]);
-            }
+            //for (int i = 0; i < towers.Count; i++)
+            //{
+            //    if (towers[i].isAlive() == false) towers.Remove(towers[i]);
+            //}
 
             healthChecker.Update(modMan.player, modMan.artificial);
             healthChecker.checkHealth();
@@ -228,7 +228,8 @@ namespace Retribution
             else attackDelay--;
 
 
-            MovementManager.moveObjects(gameobj);
+            //MovementManager.moveObjects(gameobj);
+            ModelManager.moveObjects(modMan.player);
             mousePrev = mouseCurrent;
             base.Update(gameTime);
         }
@@ -254,11 +255,11 @@ namespace Retribution
             {
                 modMan.artificial[i].Draw(spriteBatch);
             }
-            for (int i = 0; i < gameobj.Count; i++)
-            {
-                Mobile temparch = gameobj[i];
-                temparch.Draw(spriteBatch);
-            }
+            //for (int i = 0; i < gameobj.Count; i++)
+            //{
+            //    Mobile temparch = gameobj[i];
+            //    temparch.Draw(spriteBatch);
+            //}
 
             inputManager.DrawMouseRectangle(spriteBatch, Content);
 
@@ -266,23 +267,23 @@ namespace Retribution
             base.Draw(gameTime);
         }
 
-        public void checkHealth()
-        {
-            for (int i = 0; i < towers.Count; i++)
-            {
-                if (towers[i].isAlive() == false)
-                {
-                    towers.Remove(towers[i]);
-                }
-            }
+        //public void checkHealth()
+        //{
+        //    for (int i = 0; i < towers.Count; i++)
+        //    {
+        //        if (towers[i].isAlive() == false)
+        //        {
+        //            towers.Remove(towers[i]);
+        //        }
+        //    }
 
-            for (int i = 0; i < archers.Count; i++)
-            {
-                if (archers[i].isAlive() == false)
-                {
-                    archers.Remove(archers[i]);
-                }
-            }
-        }
+        //    for (int i = 0; i < archers.Count; i++)
+        //    {
+        //        if (archers[i].isAlive() == false)
+        //        {
+        //            archers.Remove(archers[i]);
+        //        }
+        //    }
+        //}
     }
 }

@@ -19,7 +19,6 @@ namespace Retribution
             artificial = new List<GameObject>();
             inMotion = new List<GameObject>();
             autoPlace = new Vector2(0, 0);
-            //  Do Nothing
         }
 
         public static ModelManager getInstance(){
@@ -51,16 +50,17 @@ namespace Retribution
             }
             else
             {
+                Console.WriteLine("creating artificial stuff");
                  switch(type){
                     case "ARCHER":
                         Archer temp = new Archer(autoPlace);
                         autoPlace.X+=32;
-                        player.Add(temp);
+                        artificial.Add(temp);
                         break;
                     case "TOWER":
                         Tower tower = new Tower(autoPlace);
                         autoPlace.X+=32;
-                        player.Add(tower);
+                        artificial.Add(tower);
                         break;
 
                 }
@@ -93,12 +93,12 @@ namespace Retribution
                     case "ARCHER":
                         Archer temp = new Archer(position);
                         autoPlace.X += 32;
-                        player.Add(temp);
+                        artificial.Add(temp);
                         break;
                     case "TOWER":
                         Tower tower = new Tower(position);
                         autoPlace.X += 32;
-                        player.Add(tower);
+                        artificial.Add(tower);
                         break;
 
                 }
@@ -119,9 +119,14 @@ namespace Retribution
         {
             for (int i = 0; i < listOfSelectedObjects.Count; i++)
             {
-                if (listOfSelectedObjects[i].selected == true)
+                if (listOfSelectedObjects[i].selected == true ||
+                    (listOfSelectedObjects[i].GetType().BaseType == typeof(Mobile) && ((Mobile)(listOfSelectedObjects[i])).isMoving == true))
                 {
-                    listOfSelectedObjects[i].move();
+                    if (listOfSelectedObjects[i].GetType().BaseType == typeof(Mobile)) 
+                    {
+                        ((Mobile)(listOfSelectedObjects[i])).move();
+                    }
+                    
                 }
             }
         }
@@ -132,7 +137,12 @@ namespace Retribution
             {
                 if (listOfSelectedObjects[i].selected == true)
                 {
-                    listOfSelectedObjects[i].setDestination(getNormalizedVector(listOfSelectedObjects[i].getPosition(), destination), destination);
+                    if (listOfSelectedObjects[i].GetType().BaseType == typeof(Mobile))
+                    {
+                        ((Mobile)(listOfSelectedObjects[i])).setDestination(
+                            getNormalizedVector(listOfSelectedObjects[i].getPosition(), destination), destination);
+                        ((Mobile)(listOfSelectedObjects[i])).isMoving = true;
+                    }
                 }
             }
         }

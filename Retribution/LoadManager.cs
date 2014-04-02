@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace Retribution
 {
 
-    public class LoadManager
+    class LoadManager
     {
         public static LoadManager instance;
         private LoadManager()

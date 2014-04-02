@@ -41,7 +41,7 @@ namespace Retribution
         {
             if (this.isAlive())
             {
-                // TODO: put code here for when archer is alive
+                // TODO: put code here for when mobile is alive
             }
         }
 

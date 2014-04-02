@@ -15,8 +15,6 @@ namespace Retribution
             : base(health, position, damage, attackRange)
         {
             this.position = position;
-            this.state = "Archer";
-            this.canMove = true;
             this.type = "ARCHER";
             this.moveSpeed = 1;
 
@@ -30,19 +28,6 @@ namespace Retribution
         {
             this.texture = content.Load<Texture2D>("archer.png");
         }
-
-        public void Update(GameTime gameTime)
-        {
-            if (this.isAlive())
-            {
-                // TODO: put code here for when archer is alive
-            }
-        }
-
-        /*public void Draw(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(texture, new Rectangle((int)this.position.X, (int)this.position.Y, 50, 50), Color.White);
-        }*/
 
     }
 }

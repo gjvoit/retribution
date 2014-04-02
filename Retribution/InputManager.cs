@@ -13,20 +13,23 @@ namespace Retribution
 {
     class InputManager
     {
-        MovementManager movementManager;
+        //MovementManager movementManager;
+        ModelManager modelManager;
         Rectangle mouseRec;
         Vector2 mouseRecOrigin;
         Texture2D myTexture;
         int spacing = 1;
 
-        public InputManager( MovementManager newMovementManager)
+        //public InputManager( MovementManager newMovementManager)
+        public InputManager(ModelManager newmodelManager)
         {
-            movementManager = newMovementManager;
+            //movementManager = newMovementManager;
+            modelManager = newmodelManager;
             mouseRec = Rectangle.Empty;
             mouseRecOrigin = Vector2.Zero;
         }
 
-        public void Update(MouseState current, MouseState previous, KeyboardState keyPress, ref List<Tower> towers, ref List<Mobile> units)
+        public void Update(MouseState current, MouseState previous, KeyboardState keyPress, ref List<GameObject> units)
         {
             // Select with a single mouse click:
             if (current.LeftButton == ButtonState.Pressed
@@ -105,22 +108,23 @@ namespace Retribution
                 Vector2 testvec = new Vector2(current.X, current.Y);
 
                 //  How to handle attacking.....?
-                for (int i = 0; i < towers.Count; i++)
-                {
-                    if(towers[i].Bounds.Contains((int)testvec.X, (int)testvec.Y) ){
-                        for (int j = 0; j < units.Count; j++)
-                        {
-                            if(units[j].selected == true && units[j].IsInRange(towers[i]))
-                            {
-                                //units[j].
-                                units[j].Attack(towers[i]);
-                            }
+                //for (int i = 0; i < towers.Count; i++)
+                //{
+                //    if(towers[i].Bounds.Contains((int)testvec.X, (int)testvec.Y) ){
+                //        for (int j = 0; j < units.Count; j++)
+                //        {
+                //            if(units[j].selected == true && units[j].IsInRange(towers[i]))
+                //            {
+                //                //units[j].
+                //                units[j].Attack(towers[i]);
+                //            }
 
-                        }
-                    }
-                }
+                //        }
+                //    }
+                //}
 
-                MovementManager.changeDestination(units, testvec);
+                //MovementManager.changeDestination(units, testvec);
+                ModelManager.changeDestination(units, testvec);
 
             }
 
