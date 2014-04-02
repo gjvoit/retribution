@@ -44,11 +44,8 @@
     <Compile Include="LoadManager.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="GameObject.cs" />
-<<<<<<< HEAD
     <Compile Include="ModelManager.cs" />
-=======
     <Compile Include="Mobile.cs" />
->>>>>>> 3b7f2ef208843aa7511fb2d94e280d46c988b1f5
     <Compile Include="MovementManager.cs" />
     <Compile Include="ObjectFactory.cs" />
     <Compile Include="Program.cs" />

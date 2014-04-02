@@ -131,8 +131,8 @@ namespace Retribution
         /// </summary>
         protected override void LoadContent()
         {
-            loadMan.load(Content, modMan.player);
-            loadMan.load(Content, modMan.artificial);
+            loadMan.load(this.Content, modMan.player);
+            loadMan.load(this.Content, modMan.artificial);
             /*for (int i = 0; i < modMan.player.Count; i++)
             {
                 modMan.player[i].LoadContent(Content);
