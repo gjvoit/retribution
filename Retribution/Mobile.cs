@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 
+
 namespace Retribution
 {
     abstract class Mobile : GameObject
@@ -12,11 +13,18 @@ namespace Retribution
         public Vector2 destination;
         public int moveSpeed;
         public bool isMoving;
+        public List<Tile> pathList;
+        public bool isPaused;
+        public bool collision;
+        public List<Tile> collisionList;
 
         public Mobile(int health, Vector2 position, int damage, int attackRange)
             : base(health, position, damage, attackRange)
         {
             this.isMoving = false;
+            this.isPaused = false;
+            pathList = new List<Tile>();
+            collisionList = new List<Tile>();
         }
 
         public void setDestination(Vector2 direction, Vector2 destination)
@@ -27,14 +35,46 @@ namespace Retribution
 
         public void move()
         {
-            Vector2 end_point = Vector2.Add(this.destination, new Vector2(2, 2));
-            Vector2 prev_point = Vector2.Subtract(this.destination, new Vector2(2, 2));
-
-            if (this.position.X <= end_point.X && this.position.X >= prev_point.X
-                && this.position.Y <= end_point.Y && this.position.Y >= prev_point.Y)
+            if (this.pathList == null || this.pathList.Count == 0)
+            {
+                this.isMoving = false;
                 return;
+            }
 
-            position += direction * moveSpeed;
+            else
+            {
+                //System.Console.WriteLine(pathList[0].xPosition + ", " + pathList[0].yPosition);
+
+                Vector2 end_point = Vector2.Add(new Vector2(this.pathList[0].Bounds.Center.X, this.pathList[0].Bounds.Center.Y), new Vector2(2, 2));
+                Vector2 prev_point = Vector2.Subtract(new Vector2(this.pathList[0].Bounds.Center.X, this.pathList[0].Bounds.Center.Y), new Vector2(2, 2));
+
+                float xPos = this.Bounds.Center.X;
+                float yPos = this.Bounds.Center.Y;
+
+                this.direction = getNormalizedVector(new Vector2(xPos, yPos), new Vector2(this.pathList[0].Bounds.Center.X, this.pathList[0].Bounds.Center.Y));
+                //this.direction = getNormalizedVector(this.position, this.destination);
+
+                if (xPos <= end_point.X && xPos >= prev_point.X
+                    && yPos <= end_point.Y && yPos>= prev_point.Y)
+                {
+                    this.pathList.RemoveAt(0);
+                    if (pathList.Count == 0)
+                    {
+                        this.isMoving = false;
+                    }
+                    return;
+                }
+
+                position += direction * moveSpeed;
+
+            }
+        }
+
+        public Vector2 getNormalizedVector(Vector2 startVector, Vector2 endVector)
+        {
+            Vector2 moveVector = Vector2.Subtract(endVector, startVector);
+            Vector2 normalizedVector = Vector2.Normalize(moveVector);
+            return normalizedVector;
         }
 
         public void Update(GameTime gameTime)

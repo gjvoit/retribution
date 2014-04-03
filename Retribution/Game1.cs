@@ -7,6 +7,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
+
+
 #endregion
 
 namespace Retribution
@@ -25,10 +27,12 @@ namespace Retribution
         Tower tower;
         List<Archer> archers;
         List<Mobile> gameobj;
+        List<GameObject> allObjects;
         HealthSystem healthChecker;
         AttackSystem attackChecker;
         InputManager inputManager;
         MovementManager movementManager;
+
         int attackDelay;
 
         public Game1()
@@ -53,10 +57,13 @@ namespace Retribution
         {
             // TODO: Add your initialization logic here
             riverDefense = new Map("Content/RiverDefense.txt");
+ 
 
             dummy = new Builder(new Sprite(32, 32, 32, 32), this.Content);
             int toweroffset = 50;
             gameobj = new List<Mobile>();
+            allObjects = new List<GameObject>();
+
             for (int i = 0; i < 1; i++)
             {
                 gameobj.Add(new Archer(new Vector2(20 + toweroffset, 400)));
@@ -72,12 +79,12 @@ namespace Retribution
 
             archers = new List<Archer>();
 
-            toweroffset = 0;
+            /*toweroffset = 0;
             for (int i = 0; i < 5; i++)
             {
                 gameobj.Add(new Archer(new Vector2( 60 + toweroffset , 20)));
                 toweroffset += 50;
-            }
+            }*/
 
             toweroffset = 0;
             for (int i = 0; i < 5; i++)
@@ -99,10 +106,17 @@ namespace Retribution
                 toweroffset += 50;
             }
 
+
+            allObjects.AddRange(towers);
+            
+
+            allObjects.AddRange(gameobj);
+            
+
             healthChecker = new HealthSystem(towers, gameobj);
             attackChecker = new AttackSystem(towers, gameobj);
 
-            movementManager = new MovementManager();
+            movementManager = new MovementManager(riverDefense);
             inputManager = new InputManager(movementManager);
             mousePrev = Mouse.GetState();
 
@@ -158,7 +172,7 @@ namespace Retribution
             KeyboardState keyboardState = Keyboard.GetState();
             // TODO: Add your update logic here
 
-            inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref towers, ref gameobj);
+            inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref towers, ref gameobj, ref movementManager);
 
             // Movement/ placing buildings for dummy builder:  
             if (mouseCurrent.LeftButton == ButtonState.Pressed
@@ -212,7 +226,8 @@ namespace Retribution
             else attackDelay--;
 
 
-            MovementManager.moveObjects(gameobj);
+            movementManager.moveObjects(gameobj, towers);
+            //movementManager.CheckPauses(gameobj);
             mousePrev = mouseCurrent;
             base.Update(gameTime);
         }

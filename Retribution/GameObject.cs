@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Input;
 namespace Retribution
 {
     //  The overarching "Grandpa" class of all objects in the game (projectiles, towers, walls, boulders, etc.)
-    abstract class GameObject
+    public abstract class GameObject
     {
         public Vector2 position;
         public Texture2D texture;
@@ -61,8 +61,18 @@ namespace Retribution
         //  Return true if this object collides with target object
         public bool collidesWith(GameObject target)
         {
+
             if (this.Bounds.Intersects(target.Bounds))
-                return true;
+            {
+                //Rectangle intersection = Rectangle.Intersect(this.Bounds, target.Bounds);
+                //if ((intersection.Height * intersection.Width) >= 20)
+                //{
+                    return true;
+                //}
+                //else
+                    //return false;
+            }
+
             return false;
         }
 

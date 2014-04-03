@@ -19,6 +19,19 @@ namespace Retribution
         public string type;
         public Texture2D texture;
         GraphicsDevice graphics;
+        public Vector2 origin;
+        public int height;
+        public int width;
+        public Boolean isWalkable;
+        public Tile parentTile;
+        public int xPosition;
+        public int yPosition;
+
+        //  A rectangle to represent the object
+        public Rectangle Bounds
+        {
+            get { return new Rectangle((int)origin.X, (int)origin.Y, this.width, this.height); }
+        }
 
         public Tile(char typeChar)
         {
@@ -28,25 +41,32 @@ namespace Retribution
             {
                 type = "grass";
                 texture = Texture2DFromFile(graphics, "Content/grass.jpg");
+                isWalkable = true;
             }
 
             else if (typeChar == '1')
             {
                 type = "water";
                 texture = Texture2DFromFile(graphics, "Content/water.jpg");
+                isWalkable = false;
             }
 
             else if (typeChar == '2')
             {
                 type = "bridge";
                 texture = Texture2DFromFile(graphics, "Content/bridge.png");
+                isWalkable = true;
             }
 
             else if (typeChar == '3')
             {
                 type = "rock";
                 texture = Texture2DFromFile(graphics, "Content/rock.jpg");
+                isWalkable = false;
             }
+
+            height = texture.Height;
+            width = texture.Width;
         }
 
         public Texture2D Texture2DFromFile(GraphicsDevice myGraphics, string fileName)
@@ -60,6 +80,12 @@ namespace Retribution
 	    stream.Close();
 	    return newTexture;
 	    }
+
+        public void SetOrigin(Vector2 newOrigin)
+        {
+            origin = newOrigin;
+        }
+
     }
 
 }

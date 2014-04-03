@@ -13,7 +13,7 @@ namespace Retribution
 {
     class InputManager
     {
-        MovementManager movementManager;
+        //MovementManager movementManager;
         Rectangle mouseRec;
         Vector2 mouseRecOrigin;
         Texture2D myTexture;
@@ -21,13 +21,25 @@ namespace Retribution
 
         public InputManager( MovementManager newMovementManager)
         {
-            movementManager = newMovementManager;
+            //movementManager = newMovementManager;
             mouseRec = Rectangle.Empty;
             mouseRecOrigin = Vector2.Zero;
         }
 
-        public void Update(MouseState current, MouseState previous, KeyboardState keyPress, ref List<Tower> towers, ref List<Mobile> units)
+        public void Update(MouseState current, MouseState previous, KeyboardState keyPress, ref List<Tower> towers, ref List<Mobile> units, ref MovementManager movementManager)
         {
+
+            if (keyPress.IsKeyDown(Keys.S))
+            {
+                foreach (Mobile unit in units)
+                {
+                    if (unit.selected == true)
+                    {
+                        unit.isMoving = false;
+                    }
+                }
+            }
+
             // Select with a single mouse click:
             if (current.LeftButton == ButtonState.Pressed
                 && previous.LeftButton == ButtonState.Released
@@ -39,8 +51,8 @@ namespace Retribution
 
                 for (int i = 0; i < units.Count; i++)
                 {
-                    if (units[i].selected == true)
-                        units[i].selected = false;
+
+                    units[i].selected = false;
                     if (units[i].isSelectable(current) == true)
                     {
                         units[i].selected = true;
@@ -82,8 +94,7 @@ namespace Retribution
             {
                 for (int i = 0; i < units.Count; i++)
                 {
-                    if (units[i].selected == true)
-                        units[i].selected = false;
+                    units[i].selected = false;
                     if (units[i].Bounds.Intersects(mouseRec))
                     {
                         units[i].selected = true;
@@ -98,14 +109,14 @@ namespace Retribution
 
             // Move selected units or attack:
             if (current.RightButton == ButtonState.Pressed
-                && previous.RightButton == ButtonState.Pressed
+                && previous.RightButton == ButtonState.Released
                 )
             {
 
                 Vector2 testvec = new Vector2(current.X, current.Y);
 
                 //  How to handle attacking.....?
-                for (int i = 0; i < towers.Count; i++)
+                /*for (int i = 0; i < towers.Count; i++)
                 {
                     if(towers[i].Bounds.Contains((int)testvec.X, (int)testvec.Y) ){
                         for (int j = 0; j < units.Count; j++)
@@ -118,9 +129,9 @@ namespace Retribution
 
                         }
                     }
-                }
+                }*/
 
-                MovementManager.changeDestination(units, testvec);
+                movementManager.changeDestination(units, testvec);
 
             }
 
