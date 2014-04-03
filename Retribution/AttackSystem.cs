@@ -13,31 +13,52 @@ namespace Retribution
 {
     class AttackSystem
     {
-        public List<Tower> towers;
-        public List<Mobile> archers;
+        public List<GameObject> player;
+        public List<GameObject> artificial;
 
-        public AttackSystem(List<Tower> newTowers, List<Mobile> newArchers)
+        public AttackSystem(ref List<GameObject> player, ref List<GameObject> artificial)
         {
-            towers = new List<Tower>(newTowers);
-            archers = new List<Mobile>(newArchers);
+            this.player = player;
+            this.artificial = artificial;
         }
 
-        public void Update(List<Tower> newTowers, List<Mobile> newArchers)
+        public void Update(ref List<GameObject> newPlayer, ref List<GameObject> newArtificial)
         {
-            towers = newTowers;
-            archers = newArchers;
+            player = newPlayer;
+            artificial = newArtificial;
         }
 
-        public void autoAttacks()
+        public void autoAttacks(ContentManager content)
         {
-            for (int i = 0; i < towers.Count; i++)
+            for (int i = 0; i < artificial.Count; i++)
             {
-                for (int j = 0; j < archers.Count; j++)
+                for (int j = 0; j < player.Count; j++)
                 {
-                    if(towers[i].IsInRange(archers[j]))
+                    if(artificial[i].IsInRange(player[j]))
                     {
-                        towers[i].Attack(archers[j]);
-                        break;
+                        if (artificial[i].GetType() == typeof(Archer))
+                        {
+                            Arrow new_arrow = ((Archer)(artificial[i])).makeArrow(player[j]);
+                            new_arrow.LoadContent(content);
+                            artificial.Add(new_arrow);
+                        }
+                        else if (artificial.GetType().BaseType != typeof(Projectile))
+                        {
+                            artificial[i].Attack(player[j]);
+                        }
+                       }
+                    if(player[j].IsInRange(artificial[i])){
+                        if (player[j].GetType() == typeof(Archer))
+                        {
+                            Arrow new_arrow = ((Archer)(player[j])).makeArrow(artificial[i]);
+                            new_arrow.LoadContent(content);
+                            player.Add(new_arrow);
+                        }
+                        else if (player.GetType().BaseType != typeof(Projectile))
+                        {
+                            player[j].Attack(artificial[i]);
+                        }
+
                     }
                 }
 

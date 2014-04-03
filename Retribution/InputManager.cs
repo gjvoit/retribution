@@ -14,19 +14,25 @@ namespace Retribution
     class InputManager
     {
         //MovementManager movementManager;
+
+        ModelManager modelManager;
+
         Rectangle mouseRec;
         Vector2 mouseRecOrigin;
         Texture2D myTexture;
         int spacing = 1;
 
-        public InputManager( MovementManager newMovementManager)
+        //public InputManager( MovementManager newMovementManager)
+        public InputManager(ModelManager newmodelManager)
         {
             //movementManager = newMovementManager;
+            modelManager = newmodelManager;
             mouseRec = Rectangle.Empty;
             mouseRecOrigin = Vector2.Zero;
         }
 
-        public void Update(MouseState current, MouseState previous, KeyboardState keyPress, ref List<Tower> towers, ref List<Mobile> units, ref MovementManager movementManager)
+        public void Update(MouseState current, MouseState previous, KeyboardState keyPress, ref List<GameObject> units)
+
         {
 
             if (keyPress.IsKeyDown(Keys.S))
@@ -105,8 +111,6 @@ namespace Retribution
             }
 
 
-
-
             // Move selected units or attack:
             if (current.RightButton == ButtonState.Pressed
                 && previous.RightButton == ButtonState.Released
@@ -116,6 +120,7 @@ namespace Retribution
                 Vector2 testvec = new Vector2(current.X, current.Y);
 
                 //  How to handle attacking.....?
+
                 /*for (int i = 0; i < towers.Count; i++)
                 {
                     if(towers[i].Bounds.Contains((int)testvec.X, (int)testvec.Y) ){
@@ -131,7 +136,24 @@ namespace Retribution
                     }
                 }*/
 
-                movementManager.changeDestination(units, testvec);
+                //movementManager.changeDestination(units, testvec);
+                //for (int i = 0; i < towers.Count; i++)
+                //{
+                //    if(towers[i].Bounds.Contains((int)testvec.X, (int)testvec.Y) ){
+                //        for (int j = 0; j < units.Count; j++)
+                //        {
+                //            if(units[j].selected == true && units[j].IsInRange(towers[i]))
+                //            {
+                //                //units[j].
+                //                units[j].Attack(towers[i]);
+                //            }
+
+                //        }
+                //    }
+                //}
+
+                //MovementManager.changeDestination(units, testvec);
+                modelManager.changeDestination(units, testvec);
 
             }
 

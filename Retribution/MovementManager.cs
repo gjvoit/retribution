@@ -8,11 +8,23 @@ namespace Retribution
 {
     class MovementManager
     {
+
         Map myMap;
 
-        public MovementManager(Map newMap)
+        static MovementManager instance;
+        private MovementManager(Map newMap)
         {
             myMap = newMap;
+        }
+        public MovementManager getInstance(Map newMap)
+        {
+            if (instance == null)
+            {
+                instance = new MovementManager(newMap);
+                return instance;
+            }
+            else
+                return instance;
         }
 
         //  Helper method to calculate normalized vector

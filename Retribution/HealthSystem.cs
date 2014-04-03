@@ -13,36 +13,37 @@ namespace Retribution
 {
     class HealthSystem
     {
-        public List<Tower> towers;
-        public List<Mobile> archers;
+        public List<GameObject> player;
+        public List<GameObject> artificial;
 
-        public HealthSystem(List<Tower> newTowers, List<Mobile> newArchers)
+        public HealthSystem(List<GameObject> newPlayer, List<GameObject> newArtificial)
         {
-            towers = new List<Tower>(newTowers);
-            archers = new List<Mobile>(newArchers);
+            player = new List<GameObject>(newPlayer);
+            artificial = new List<GameObject>(newArtificial);
         }
 
-        public void Update(List<Tower> newTowers, List<Mobile> newArchers)
+        public void Update(List<GameObject> newPlayer, List<GameObject> newArtificial)
+
         {
-            towers = newTowers;
-            archers = newArchers;
+            player = newPlayer;
+            artificial = newArtificial;
         }
 
         public void checkHealth()
         {
-            for (int i = 0; i < towers.Count; i++)
+            for (int i = 0; i < player.Count; i++)
             {
-                if (towers[i].isAlive() == false)
+                if (player[i].isAlive() == false)
                 {
-                    towers.Remove(towers[i]);
+                    player.Remove(player[i]);
                 }
             }
 
-            for (int i = 0; i < archers.Count; i++)
+            for (int i = 0; i < artificial.Count; i++)
             {
-                if (archers[i].isAlive() == false)
+                if (artificial[i].isAlive() == false)
                 {
-                    archers.Remove(archers[i]);
+                    artificial.Remove(artificial[i]);
                 }
             }
         }

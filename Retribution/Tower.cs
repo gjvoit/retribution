@@ -12,11 +12,12 @@ namespace Retribution
     {
         public string state;
 
-        public Tower(Vector2 position, int health = 2, int damage = 100, int attackRange = 200)
+        public Tower(Vector2 position, int health = 2, int damage = 100, int attackRange = 150)
             : base (health, position, damage, attackRange)
         {
             this.position = position;
             this.state = "Wall";
+            this.type = "TOWER";
         }
 
         // change the state of the Tower
@@ -31,7 +32,7 @@ namespace Retribution
         }
          */
 
-        public void LoadContent(ContentManager content)
+        public override void LoadContent(ContentManager content)
         {
             this.texture = content.Load<Texture2D>("tower.png");
         }
@@ -49,9 +50,10 @@ namespace Retribution
             }
         }
 
-        //public void Draw(SpriteBatch spriteBatch)
-        //{
-        //    spriteBatch.Draw(texture, new Rectangle((int)this.position.X,(int)this.position.Y, 50, 50), Color.White);
-        //}
+       /* public void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(texture, new Rectangle((int)this.position.X,(int)this.position.Y, 50, 50), Color.White);
+        }*/
+
     }
 }

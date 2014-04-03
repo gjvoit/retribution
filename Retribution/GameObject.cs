@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Content;
 
 namespace Retribution
 {
@@ -17,6 +18,7 @@ namespace Retribution
         public int attackRange;
         public bool alive;
         public bool selected;
+        public string type;
 
         public GameObject(int health, Vector2 position, int damage, int attackRange)
         {
@@ -32,7 +34,6 @@ namespace Retribution
         {
             spriteBatch.Draw(texture, new Rectangle((int)this.position.X, (int)this.position.Y, 50, 50), Color.White);
         }
-
         //  A rectangle to represent the object
         public Rectangle Bounds
         {
@@ -81,7 +82,11 @@ namespace Retribution
         {
             if (health > 0)
                 return true;
-            return false;
+            else
+            {
+                this.alive = false;
+                return false;
+            }
         }
 
         //  Getters and Setters
@@ -100,5 +105,7 @@ namespace Retribution
                 return false;
             }
         }
+
+        public abstract void LoadContent(ContentManager content);
     }
 }
