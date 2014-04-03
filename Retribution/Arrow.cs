@@ -1,19 +1,25 @@
 ﻿using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 
-public class Arrow : GameObject
+namespace Retribution
 {
-    GameObject target;
-	public Arrow(GameObject target, Vector2 start)
-         : base(health=9999999, position=start, damage=1000, attack_range=1)
-	{
-        this.target = target;
-	}
-    public void move()
+
+    class Arrow : Projectile
     {
-        Vector2 tpos = target.position;
-        Vector2 mov_vec = Vector2.Substract(this.position, tpos);
-        Vector2 norm_mov_vec = Vector2.Normalize(mov_vec);
-        Vector2 delta_vec = norm_mov_vec * this.moveSpeed;
-        position = Vector2.Add(pos, delta_vec);
+
+        public Arrow(Vector2 position, int damage = 3)
+            : base(position, damage)
+        {
+            this.position = position;
+            this.moveSpeed = 4;
+        }
+
+        public override void LoadContent(ContentManager content)
+        {
+            this.texture = content.Load<Texture2D>("arrow.png");
+        }
     }
 }
