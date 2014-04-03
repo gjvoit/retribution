@@ -8,9 +8,17 @@ namespace Retribution
 {
     class MovementManager
     {
-        public MovementManager()
+        static MovementManager instance;
+        private MovementManager()
         {
             //  Do Nothing
+        }
+        public MovementManager getInstance()
+        {
+            if (instance == null)
+                instance = new MovementManager();
+            else
+                return instance;
         }
 
         //  Helper method to calculate normalized vector
