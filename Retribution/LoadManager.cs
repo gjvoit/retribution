@@ -26,15 +26,16 @@ namespace Retribution
         {
             for (int x = 0; x < toLoad.Count; x++)
             {
-                switch (toLoad[x].type)
-                {
-                    case "ARCHER":
-                        ((Archer)toLoad[x]).LoadContent(content);
-                        break;
-                    case "TOWER":
-                        ((Tower)toLoad[x]).LoadContent(content);
-                        break;
-                }
+                toLoad[x].LoadContent(content);
+                //switch (toLoad[x].type)
+                //{
+                //    case "ARCHER":
+                //        ((Archer)toLoad[x]).LoadContent(content);
+                //        break;
+                //    case "TOWER":
+                //        ((Tower)toLoad[x]).LoadContent(content);
+                //        break;
+                //}
             }
 
 

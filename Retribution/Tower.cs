@@ -32,7 +32,7 @@ namespace Retribution
         }
          */
 
-        public void LoadContent(ContentManager content)
+        public override void LoadContent(ContentManager content)
         {
             this.texture = content.Load<Texture2D>("tower.png");
         }

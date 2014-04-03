@@ -5,18 +5,17 @@ using Microsoft.Xna.Framework.Content;
 
 namespace Retribution
 {
-    abstract class Mobile : GameObject
+    abstract class Projectile : GameObject
     {
-
         public Vector2 direction;
         public Vector2 destination;
         public int moveSpeed;
         public bool isMoving;
 
-        public Mobile(int health, Vector2 position, int damage, int attackRange)
+        public Projectile(Vector2 position, int damage, int health = 0, int attackRange = 0)
             : base(health, position, damage, attackRange)
         {
-            this.isMoving = false;
+            this.isMoving = true;
         }
 
         public void setDestination(Vector2 direction, Vector2 destination)
@@ -36,14 +35,5 @@ namespace Retribution
 
             position += direction * moveSpeed;
         }
-
-        public void Update(GameTime gameTime)
-        {
-            if (this.isAlive())
-            {
-                // TODO: put code here for when mobile is alive
-            }
-        }
-
     }
 }

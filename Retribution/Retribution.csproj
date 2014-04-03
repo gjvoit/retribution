@@ -35,7 +35,9 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AIManager.cs" />
     <Compile Include="Archer.cs" />
+    <Compile Include="Arrow.cs" />
     <Compile Include="AttackSystem.cs" />
     <Compile Include="Builder.cs" />
     <Compile Include="Game1.cs" />
@@ -49,6 +51,7 @@
     <Compile Include="MovementManager.cs" />
     <Compile Include="ObjectFactory.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Projectile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sprite.cs" />
     <Compile Include="Tower.cs" />
@@ -78,6 +81,9 @@
     </Content>
     <Content Include="Content\archer.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\arrow.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\bridge.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
