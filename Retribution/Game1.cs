@@ -112,7 +112,7 @@ namespace Retribution
             //}
 
             healthChecker = new HealthSystem(modMan.player, modMan.artificial);
-            attackChecker = new AttackSystem(modMan.player, modMan.artificial);
+            attackChecker = new AttackSystem(ref modMan.player, ref modMan.artificial);
 
 
             //movementManager = new MovementManager();
@@ -218,8 +218,8 @@ namespace Retribution
 
             if (attackDelay == 0)
             {
-                attackChecker.Update(modMan.player,modMan.artificial );
-                attackChecker.autoAttacks();
+                attackChecker.Update(ref modMan.player, ref modMan.artificial );
+                attackChecker.autoAttacks(this.Content);
                 //towers = attackChecker.towers;
                 //archers = attackChecker.archers;
 

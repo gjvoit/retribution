@@ -120,13 +120,17 @@ namespace Retribution
             for (int i = 0; i < listOfSelectedObjects.Count; i++)
             {
                 if (listOfSelectedObjects[i].selected == true ||
-                    (listOfSelectedObjects[i].GetType().BaseType == typeof(Mobile) && ((Mobile)(listOfSelectedObjects[i])).isMoving == true))
+                    (listOfSelectedObjects[i].GetType().BaseType == typeof(Mobile) && ((Mobile)(listOfSelectedObjects[i])).isMoving == true)
+                    || listOfSelectedObjects[i].GetType().BaseType == typeof(Projectile) && ((Projectile)(listOfSelectedObjects[i])).isMoving == true)
                 {
-                    if (listOfSelectedObjects[i].GetType().BaseType == typeof(Mobile)) 
+                    if (listOfSelectedObjects[i].GetType().BaseType == typeof(Mobile))
                     {
                         ((Mobile)(listOfSelectedObjects[i])).move();
                     }
-                    
+                    if (listOfSelectedObjects[i].GetType().BaseType == typeof(Projectile))
+                    {
+                        ((Projectile)(listOfSelectedObjects[i])).move();
+                    }
                 }
             }
         }
@@ -135,6 +139,13 @@ namespace Retribution
         {
             for (int i = 0; i < listOfSelectedObjects.Count; i++)
             {
+                if (listOfSelectedObjects[i].GetType().BaseType == typeof(Projectile))
+                {
+                    ((Projectile)(listOfSelectedObjects[i])).setDestination(
+                        getNormalizedVector(listOfSelectedObjects[i].getPosition(),
+                        ((Projectile)(listOfSelectedObjects[i])).target.getPosition()), 
+                        ((Projectile)(listOfSelectedObjects[i])).target.getPosition());
+                }
                 if (listOfSelectedObjects[i].selected == true)
                 {
                     if (listOfSelectedObjects[i].GetType().BaseType == typeof(Mobile))
