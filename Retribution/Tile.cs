@@ -64,7 +64,12 @@ namespace Retribution
                 texture = Texture2DFromFile(graphics, "Content/rock.jpg");
                 isWalkable = false;
             }
-
+            else if (typeChar == '4')
+            {
+                type = "select";
+                texture = Texture2DFromFile(graphics, "Content/grass2.png");
+                isWalkable = true;
+            }
             height = texture.Height;
             width = texture.Width;
         }

@@ -48,7 +48,10 @@ namespace Retribution
                         autoPlace.X+=50;
                         player.Add(tower);
                         break;
-
+                    case "WARRIOR":
+                        Warrior warrior = new Warrior(autoPlace);
+                        player.Add(warrior);
+                        break;
                 }
             }
             else
@@ -86,7 +89,10 @@ namespace Retribution
                         autoPlace.X += 50;
                         player.Add(tower);
                         break;
-
+                    case "WARRIOR":
+                        Warrior warrior = new Warrior(position);
+                        player.Add(warrior);
+                        break;
                 }
             }
             else

@@ -20,6 +20,14 @@ namespace Retribution
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        Map mainScreen;
+        Map levelSelect;
+        Boolean testBeta = true;
+        // Used for Selector deactivation
+        String currMap;
+        Selector mainScreenSelector;
+        Selector riverDefenseSelector;
+        Selector dummyUnlockSelector;
         Map riverDefense;
         MouseState mouseCurrent, mousePrev;
         List<Projectile> proj;
@@ -32,6 +40,7 @@ namespace Retribution
         LoadManager loadMan;
         AIManager aiManager;
 
+        Warrior theCommander;
         int aiStartDelay;
         int attackDelay;
 
@@ -59,8 +68,13 @@ namespace Retribution
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             // TODO: Add your initialization logic here
+            mainScreen = new Map("Content/MainScreen.txt");
+            levelSelect = new Map("Content/levelSelect.txt");
             riverDefense = new Map("Content/RiverDefense.txt");
-            modMan = ModelManager.getInstance(ref riverDefense);
+            mainScreenSelector = new Selector(new Rectangle(288, 0, 128, 64), mainScreen, levelSelect, true);
+            riverDefenseSelector = new Selector(new Rectangle(32, 320, 128, 64), levelSelect, riverDefense, true);
+            dummyUnlockSelector = new Selector(new Rectangle(288, 320, 128, 64), levelSelect, riverDefense, false);
+            modMan = ModelManager.getInstance(ref mainScreen);
             loadMan = LoadManager.getInstance();
             projMan = ProjectileManager.getInstance();
             healthChecker = new HealthSystem(modMan.player, modMan.artificial);
@@ -68,20 +82,28 @@ namespace Retribution
             attackChecker.linkSystem(projMan);
             attackChecker.linkContent(Content);
             movementManager = MovementManager.getInstance();
-            movementManager.setMap(riverDefense);
+            movementManager.setMap(mainScreen);
             inputManager = new InputManager(ref modMan);
             aiStartDelay = 0;
-            aiManager = AIManager.getInstance(ref riverDefense);
+            aiManager = AIManager.getInstance(ref mainScreen);
             mousePrev = Mouse.GetState();
            
            
           
             
             //Create Player's units
-            testInitialization();
+            //testInitialization();
+            testCommander();
             base.Initialize();
             this.IsMouseVisible = true;
            
+        }
+
+        public void updateMap(Map myMap)
+        {
+            modMan = ModelManager.getInstance(ref myMap);
+            movementManager.setMap(myMap);
+            aiManager = AIManager.getInstance(ref myMap);
         }
 
         /// <summary>
@@ -104,6 +126,13 @@ namespace Retribution
         {
             // TODO: Unload any non ContentManager content here
         }
+
+        public void testCommander()
+        {
+            //theCommander = new Warrior(new Vector2(600, 400));
+            modMan.addUnit("PLAYER", "WARRIOR", new Vector2(600, 400));
+        }
+
         public void testInitialization()
         {
             int toweroffset = 50;
@@ -167,6 +196,7 @@ namespace Retribution
             movementManager.moveObjects(modMan.player, modMan.artificial);
             aiManager.SetAIDestinations(modMan.artificial);
 
+
             mousePrev = mouseCurrent;
             base.Update(gameTime);
         }
@@ -180,8 +210,51 @@ namespace Retribution
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+            // Create a list of Selectors and simply remove/add them depending on the map loaded. Associate selectors with Map.cs
             spriteBatch.Begin();
-            riverDefense.DrawMap(spriteBatch);
+            if (modMan.player.Count != 0 && riverDefenseSelector.getOccupied() != true)
+            {
+                mainScreenSelector.isColliding(modMan.player[0]);
+            }
+                if ((mainScreenSelector.getOccupied() == true) && mainScreenSelector.getInteraction() == true)
+                {
+                    // GO back and look at this code later, because it's a bit screwy.
+                    // mainScreenSelector.setInteraction(false);
+                    if (modMan.player.Count != 0)
+                    {
+                        riverDefenseSelector.isColliding(modMan.player[0]);
+                    }
+                    if ((riverDefenseSelector.getOccupied() == true) && riverDefenseSelector.getInteraction() == true)
+                    {
+                        riverDefense.DrawMap(spriteBatch);
+                        currMap = "levelSelect";
+                        if (currMap.Equals("levelSelect"))
+                        {
+                            if (testBeta)
+                            {
+                                updateMap(riverDefense);
+                                modMan.player.Remove(modMan.player[0]);
+                                testInitialization();
+                                loadMan.load(this.Content, modMan.player);
+                                loadMan.load(this.Content, modMan.artificial);
+                                testBeta = false;
+                            }
+                        }
+                        //currMap = "riverDefense";
+                    }
+                    else if ((dummyUnlockSelector.getOccupied() == true) && dummyUnlockSelector.getInteraction() == true)
+                    {
+                        updateMap(riverDefense);
+                        riverDefense.DrawMap(spriteBatch);
+                    }
+                    else
+                    {
+                        updateMap(levelSelect);
+                        levelSelect.DrawMap(spriteBatch);
+                    }
+
+                }
+                else mainScreen.DrawMap(spriteBatch);
             foreach(Projectile item in projMan.proj)
             {
                 ((Arrow)item).Draw(spriteBatch);
