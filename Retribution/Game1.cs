@@ -74,8 +74,8 @@ namespace Retribution
  
             dummy = new Builder(new Sprite(32, 32, 32, 32), this.Content);
             int toweroffset = 50;
-            gameobj = new List<Mobile>();
-            allObjects = new List<GameObject>();
+            //gameobj = new List<Mobile>();
+            //allObjects = new List<GameObject>();
 
             for (int i = 0; i < 1; i++)
 
@@ -132,15 +132,15 @@ namespace Retribution
             //}
 
 
-            allObjects.AddRange(gameobj);
+            //allObjects.AddRange(gameobj);
 
             healthChecker = new HealthSystem(modMan.player, modMan.artificial);
             attackChecker = new AttackSystem(ref modMan.player, ref modMan.artificial);
 
-            //movementManager = new MovementManager();
+            movementManager = MovementManager.getInstance();
+            movementManager.setMap(riverDefense);
             //inputManager = new InputManager(movementManager);
             inputManager = new InputManager(modMan);
-
             mousePrev = Mouse.GetState();
 
             base.Initialize();
@@ -220,7 +220,7 @@ namespace Retribution
             }
             else attackDelay--;
 
-            //movementManager.moveObjects(gameobj, towers);
+            movementManager.moveObjects(modMan.player, modMan.artificial);
             //movementManager.CheckPauses(gameobj);
 
             //MovementManager.moveObjects(gameobj);
@@ -231,7 +231,7 @@ namespace Retribution
             for (int i = 0; i < proj.Count; i++)
                 if (proj[i].isAlive() == false)
                     proj.Remove(proj[i]);
-            modMan.moveObjects(modMan.player, modMan.artificial);
+            //modMan.moveObjects(modMan.player, modMan.artificial);
 
             mousePrev = mouseCurrent;
             base.Update(gameTime);

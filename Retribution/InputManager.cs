@@ -153,7 +153,7 @@ namespace Retribution
                 //}
 
                 //MovementManager.changeDestination(units, testvec);
-                modelManager.changeDestination(units, testvec);
+                MovementManager.changeDestination(units, testvec);
 
             }
 

@@ -41,7 +41,7 @@ namespace Retribution
         }
 
         //  Issue attack. Alpha method that damages target. No other skills or actions are implemented in the Alpha Version
-        public void Attack(GameObject target)
+        public virtual void Attack(GameObject target)
         {
             target.health -= this.damage;
         }

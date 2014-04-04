@@ -40,11 +40,9 @@ namespace Retribution
                         {
                             if (player[j].isAlive())
                             {
-                                Arrow new_arrow = ((Archer)(artificial[i])).makeArrow(player[j]);
-                                new_arrow.LoadContent(content);
-                                Vector2 direction = ModelManager.getNormalizedVector(new_arrow.position, player[j].position);
-                                new_arrow.setDestination(direction, player[j].position);
-                                proj.Add(new_arrow);
+                                artificial[i].Attack(player[j]);
+                                ((Archer)artificial[i]).myArrow.LoadContent(content);
+                                proj.Add(((Archer)artificial[i]).myArrow);
                             }
                         }
                         else if (artificial.GetType().BaseType != typeof(Projectile))
@@ -57,11 +55,9 @@ namespace Retribution
                         {
                             if (artificial[i].isAlive())
                             {
-                                Arrow new_arrow = ((Archer)(player[j])).makeArrow(artificial[i]);
-                                new_arrow.LoadContent(content);
-                                Vector2 direction = ModelManager.getNormalizedVector(new_arrow.position, artificial[i].position);
-                                new_arrow.setDestination(direction, artificial[i].position);
-                                proj.Add(new_arrow);
+                                player[j].Attack(artificial[i]);
+                                ((Archer)player[j]).myArrow.LoadContent(content);
+                                proj.Add(((Archer)player[j]).myArrow);
                             }
                         }
                         else if (player.GetType().BaseType != typeof(Projectile))

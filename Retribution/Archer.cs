@@ -7,9 +7,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Retribution
 {
-
+    
     class Archer : Mobile
     {
+        public Arrow myArrow;
 
         public Archer(Vector2 position, int health = 20, int damage = 3, int attackRange = 150)
             : base(health, position, damage, attackRange)
@@ -18,11 +19,18 @@ namespace Retribution
             this.moveSpeed = 1;
 
         }
+       
+        public override void Attack(GameObject target)
+        {
+            myArrow = makeArrow(target);
+            Vector2 direction = MovementManager.getNormalizedVector(myArrow.position, target.position);
+            myArrow.setDestination(direction, this.position);
+        }
         public Arrow makeArrow(GameObject target)
         {
             //ProjectileFactory.create("arrow", target);
-            Arrow arrow = new Arrow(this.position, ref target);
-            return arrow;
+            myArrow = new Arrow(this.position, ref target);
+            return myArrow;
         }
 
         public override void LoadContent(ContentManager content)
