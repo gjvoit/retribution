@@ -22,7 +22,6 @@ namespace Retribution
         SpriteBatch spriteBatch;
         Map riverDefense;
         MouseState mouseCurrent, mousePrev;
-        List<Projectile> proj;
         HealthSystem healthChecker;
         AttackSystem attackChecker;
         InputManager inputManager;
@@ -121,7 +120,7 @@ namespace Retribution
                 //towers.Add(new Tower(new Vector2(20 + toweroffset, 600)));
                 toweroffset += 50;
             }
-            modMan.player[9].attackRange = 600;
+            //modMan.player[9].attackRange = 600;
             toweroffset = 0;
             for (int i = 0; i < 5; i++)
             {
@@ -153,17 +152,14 @@ namespace Retribution
             KeyboardState keyboardState = Keyboard.GetState();
             // TODO: Add your update logic here
 
-            //inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref towers, ref gameobj);
             inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref modMan.player);
             healthChecker.Update(modMan.player, modMan.artificial);
             healthChecker.checkHealth();
             modMan.player = healthChecker.player;
             modMan.artificial = healthChecker.artificial;
             attackChecker.Update(ref modMan.player, ref modMan.artificial );
-            //attackChecker.autoAttacks(this.Content, ref proj);
             attackChecker.autoAttacks();
             projMan.fireProjectiles();
-           // projMan.refreshProjectiles();
             movementManager.moveObjects(modMan.player, modMan.artificial);
             aiManager.SetAIDestinations(modMan.artificial);
 
