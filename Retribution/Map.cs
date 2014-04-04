@@ -18,6 +18,7 @@ namespace Retribution
         public Tile[,] mapTiles;
         public int height;
         public int width;
+        public Boolean isDrawn;
         // public int xoffset = 0; For use with FullScreen
         // public int yoffset = 0; For use with FullScreen
 
@@ -30,6 +31,7 @@ namespace Retribution
 
         public Map(String fileName)
         {
+            isDrawn = false;
             string[] tiles = File.ReadAllLines(fileName);
             width = tiles[0].Length;
             height = tiles.Length;
@@ -51,6 +53,7 @@ namespace Retribution
 
         public void DrawMap(SpriteBatch spriteBatch)
         {
+            isDrawn = true;
             for (int y = 0; y < height; y++)
             {
                 for (int x = 0; x < width; x++)

@@ -40,9 +40,11 @@ namespace Retribution
         //List<Archer> archers;
         //List<Mobile> gameobj;
 
+        AIManager aiManager;
         ModelManager modMan;
         LoadManager loadMan;
         //MovementManager movementManager;
+        int aiStartDelay;
 
         int attackDelay;
 
@@ -71,7 +73,11 @@ namespace Retribution
             // TODO: Add your initialization logic here
             riverDefense = new Map("Content/RiverDefense.txt");
             proj = new List<Projectile>();
- 
+
+            aiStartDelay = 0;
+
+            aiManager = AIManager.getInstance(ref riverDefense);
+
             dummy = new Builder(new Sprite(32, 32, 32, 32), this.Content);
             int toweroffset = 50;
             gameobj = new List<Mobile>();
@@ -120,9 +126,9 @@ namespace Retribution
             toweroffset = 0;
             for (int i = 0; i < 5; i++)
             {
-                modMan.addUnit("ARTIFICIAL", "ARCHER", new Vector2(60 + toweroffset, 200));
+                modMan.addUnit("ARTIFICIAL", "ARCHER", new Vector2(64 + toweroffset, 32*6));
                 //gameobj.Add(new Archer(new Vector2(60 + toweroffset, 100)));
-                toweroffset += 50;
+                toweroffset += 64;
             }
             //toweroffset = 0;
             //for (int i = 0; i < 5; i++)
@@ -232,6 +238,9 @@ namespace Retribution
             for (int i = 0; i < proj.Count; i++)
                 if (proj[i].isAlive() == false)
                     proj.Remove(proj[i]);
+
+            aiManager.SetAIDestinations(modMan.artificial);
+
             modMan.moveObjects(modMan.player, modMan.artificial);
 
             mousePrev = mouseCurrent;
@@ -275,6 +284,9 @@ namespace Retribution
             inputManager.DrawMouseRectangle(spriteBatch, Content);
 
             spriteBatch.End();
+
+            
+
             base.Draw(gameTime);
         }
 
