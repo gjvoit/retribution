@@ -30,11 +30,11 @@ namespace Retribution
 
         public void autoAttacks(ContentManager content, ref List<Projectile> proj)
         {
-            for (int i = 0; i < artificial.Count; i++)
+            for (int j = 0; j < player.Count; j++) 
             {
-                for (int j = 0; j < player.Count; j++)
+                for (int i = 0; i < artificial.Count; i++)
                 {
-                    if(artificial[i].IsInRange(player[j]))
+                    if (artificial[i].IsInRange(player[j]))
                     {
                         if (artificial[i].GetType() == typeof(Archer))
                         {
@@ -45,13 +45,20 @@ namespace Retribution
                                 Vector2 direction = ModelManager.getNormalizedVector(new_arrow.position, player[j].position);
                                 new_arrow.setDestination(direction, player[j].position);
                                 proj.Add(new_arrow);
+                                break;
                             }
                         }
                         else if (artificial.GetType().BaseType != typeof(Projectile))
                         {
                             artificial[i].Attack(player[j]);
                         }
-                       }
+                    }
+                }
+            }
+            for (int j = 0; j < player.Count; j++) 
+            {
+                for (int i = 0; i < artificial.Count; i++)
+                {
                     if(player[j].IsInRange(artificial[i])){
                         if (player[j].GetType() == typeof(Archer))
                         {
@@ -62,13 +69,13 @@ namespace Retribution
                                 Vector2 direction = ModelManager.getNormalizedVector(new_arrow.position, artificial[i].position);
                                 new_arrow.setDestination(direction, artificial[i].position);
                                 proj.Add(new_arrow);
+                                break;
                             }
                         }
                         else if (player.GetType().BaseType != typeof(Projectile))
                         {
                             player[j].Attack(artificial[i]);
                         }
-
                     }
                 }
 
