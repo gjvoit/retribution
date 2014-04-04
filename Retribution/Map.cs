@@ -78,8 +78,8 @@ namespace Retribution
             List<Tile> pathList = new List<Tile>();
 
             // Get starting and ending nodes:
-            startTile = GetStartingNode(startPoint);
-            endTile = GetDestinationTile(endPoint);
+            startTile = GetTile(startPoint);
+            endTile = GetTile(endPoint);
 
             //System.Console.WriteLine("Start position: " + startTile.xPosition + ", " + startTile.yPosition);
            // System.Console.WriteLine("End position: " + endTile.xPosition + ", " + endTile.yPosition);
@@ -190,26 +190,7 @@ namespace Retribution
         }
 
 
-        public Tile GetStartingNode(Vector2 startPoint)
-        {
-            for (int y = 0; y < height; y++)
-            {
-                for (int x = 0; x < width; x++)
-                {
-                    if (startPoint.X >= mapTiles[y, x].origin.X && startPoint.X <= (mapTiles[y, x].origin.X + mapTiles[y, x].width)
-                        && startPoint.Y >= mapTiles[y, x].origin.Y && startPoint.Y <= (mapTiles[y, x].origin.Y + mapTiles[y, x].height)
-                        )
-                    {
-                        //System.Console.WriteLine(mapTiles[x, y].xPosition + ", " + mapTiles[x, y].yPosition);
-                        return mapTiles[y, x];
-                    }
-                }
-            }
-
-            return null;
-        }
-
-        public Tile GetDestinationTile(Vector2 endPoint)
+        public Tile GetTile(Vector2 endPoint)
         {
             for (int y = 0; y < height; y++)
             {

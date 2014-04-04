@@ -71,7 +71,7 @@ namespace Retribution
             // TODO: Add your initialization logic here
             riverDefense = new Map("Content/RiverDefense.txt");
             proj = new List<Projectile>();
-
+ 
             dummy = new Builder(new Sprite(32, 32, 32, 32), this.Content);
             int toweroffset = 50;
             gameobj = new List<Mobile>();
@@ -199,37 +199,6 @@ namespace Retribution
             inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref modMan.player);
 
 
-            // Movement/ placing buildings for dummy builder:  
-            if (mouseCurrent.LeftButton == ButtonState.Pressed
-                && mousePrev.LeftButton == ButtonState.Released
-                && dummy.IsSelectable(mouseCurrent))
-            {
-                dummy.selected = true;
-            }
-            else if (mouseCurrent.LeftButton == ButtonState.Pressed
-                && mousePrev.LeftButton == ButtonState.Released)
-            {
-                dummy.selected = false;
-            }
-            //if (dummy.selected == true)
-            //{
-            //    if (keyboardState.IsKeyDown(Keys.B))
-            //    {
-            //        tower = dummy.Build(mouseCurrent);
-            //        tower.LoadContent(Content);
-            //        towers.Add(tower);
-            //    }
-            //}
-
-            if (mouseCurrent.RightButton == ButtonState.Pressed
-                && mousePrev.RightButton == ButtonState.Released
-                && dummy.selected == true)
-            {
-                dummy.Move(mouseCurrent);
-            }
-            //  End builder logic
-
-
             //for (int i = 0; i < towers.Count; i++)
             //{
             //    if (towers[i].isAlive() == false) towers.Remove(towers[i]);
@@ -255,7 +224,6 @@ namespace Retribution
             //movementManager.CheckPauses(gameobj);
 
             //MovementManager.moveObjects(gameobj);
-            modMan.moveObjects(modMan.player);
             for (int i = 0; i < proj.Count; i++)
             {
                 proj[i].move();
@@ -263,6 +231,8 @@ namespace Retribution
             for (int i = 0; i < proj.Count; i++)
                 if (proj[i].isAlive() == false)
                     proj.Remove(proj[i]);
+            modMan.moveObjects(modMan.player, modMan.artificial);
+
             mousePrev = mouseCurrent;
             base.Update(gameTime);
         }

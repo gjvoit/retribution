@@ -12,7 +12,7 @@ namespace Retribution
     {
         public string state;
 
-        public Tower(Vector2 position, int health = 2, int damage = 100, int attackRange = 150)
+        public Tower(Vector2 position, int health = 2, int damage = 0, int attackRange = 150)
             : base (health, position, damage, attackRange)
         {
             this.position = position;

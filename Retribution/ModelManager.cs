@@ -131,8 +131,12 @@ namespace Retribution
         }
 
         //  Call movement method of all selected objects
-        public void moveObjects(List<GameObject> mobiles)
+        public void moveObjects(List<GameObject> playerUnits, List<GameObject> aiUnits)
         {
+            List<GameObject> mobiles = new List<GameObject>();
+            mobiles.AddRange(playerUnits);
+            mobiles.AddRange(aiUnits);
+
             /*
             for (int i = 0; i < listOfSelectedObjects.Count; i++)
             {
@@ -160,6 +164,11 @@ namespace Retribution
                     if (((Mobile)mobiles[i]).isMoving == true)
                     {
 
+                        if (((Mobile)mobiles[i]).collisionList.Contains(myMap.GetTile(((Mobile)mobiles[i]).destination)))
+                        {
+                            ((Mobile)mobiles[i]).isMoving = false;
+                        }
+
                         for (int j = 0; j < mobiles.Count; j++)
                         {
                             if (mobiles[i].collidesWith(mobiles[j]) && i != j)
@@ -168,29 +177,25 @@ namespace Retribution
                             }
                         }
 
-                        //System.Console.WriteLine(mobiles[i].collisionList.Count);
-                        //System.Console.WriteLine(newClosedList.Count);
-
                         if (CompareLists(newClosedList, ((Mobile)mobiles[i]).collisionList) == false)
                         {
-                            //System.Console.WriteLine("Test");
-                            //mobiles[i].collisionList = newClosedList;
+
                             ((Mobile)mobiles[i]).collisionList.Clear();
                             ((Mobile)mobiles[i]).collisionList.AddRange(newClosedList);
-                            //System.Console.WriteLine(mobiles[i].collisionList.Count);
-                            //System.Console.WriteLine(newClosedList.Count);
-                            if (((Mobile)mobiles[i]).collisionList.Contains(myMap.GetDestinationTile(((Mobile)mobiles[i]).destination)))
-                            {
-                                ((Mobile)mobiles[i]).isMoving = false;
-                            }
+
+                            //if (((Mobile)mobiles[i]).collisionList.Contains(myMap.GetDestinationTile(((Mobile)mobiles[i]).destination)))
+                           // {
+                             //   ((Mobile)mobiles[i]).isMoving = false;
+                            //}
 
                             ((Mobile)mobiles[i]).pathList.Clear();
                             ((Mobile)mobiles[i]).pathList.AddRange(myMap.GetPath(mobiles[i].position, ((Mobile)mobiles[i]).destination, newClosedList));
                         }
 
+                        ((Mobile)mobiles[i]).move();
                     }
 
-                    ((Mobile)mobiles[i]).move();
+                   
                     newClosedList.Clear();
                 }
             }
@@ -198,29 +203,17 @@ namespace Retribution
 
         public void changeDestination(List<GameObject> listOfSelectedObjects, Vector2 destination)
         {
-            /*
+  
+
             for (int i = 0; i < listOfSelectedObjects.Count; i++)
             {
                 if (listOfSelectedObjects[i].GetType().BaseType == typeof(Projectile))
                 {
                     ((Projectile)(listOfSelectedObjects[i])).setDestination(
                         getNormalizedVector(listOfSelectedObjects[i].getPosition(),
-                        ((Projectile)(listOfSelectedObjects[i])).target.getPosition()), 
+                        ((Projectile)(listOfSelectedObjects[i])).target.getPosition()),
                         ((Projectile)(listOfSelectedObjects[i])).target.getPosition());
                 }
-                if (listOfSelectedObjects[i].selected == true)
-                {
-                    if (listOfSelectedObjects[i].GetType().BaseType == typeof(Mobile))
-                    {
-                        ((Mobile)(listOfSelectedObjects[i])).setDestination(
-                            getNormalizedVector(listOfSelectedObjects[i].getPosition(), destination), destination);
-                        ((Mobile)(listOfSelectedObjects[i])).isMoving = true;
-                    }
-                }
-            }*/
-
-            for (int i = 0; i < listOfSelectedObjects.Count; i++)
-            {
                 if (listOfSelectedObjects[i].selected == true && listOfSelectedObjects[i].GetType().BaseType == typeof(Mobile))
                 {
                     ((Mobile)(listOfSelectedObjects[i])).isMoving = false;
@@ -237,24 +230,17 @@ namespace Retribution
 
         public Boolean CompareLists(List<Tile> newList, List<Tile> oldList)
         {
-
             if (newList.Count == oldList.Count)
             {
                 for (int i = 0; i < newList.Count; i++)
                 {
                     if (newList[i] != oldList[i])
-                    {
-
                         return false;
-                    }
                 }
-
                 return true;
             }
             else
-            {
                 return false;
-            }
         }
     }
 }

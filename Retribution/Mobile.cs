@@ -43,8 +43,6 @@ namespace Retribution
 
             else
             {
-                //System.Console.WriteLine(pathList[0].xPosition + ", " + pathList[0].yPosition);
-
                 Vector2 end_point = Vector2.Add(new Vector2(this.pathList[0].Bounds.Center.X, this.pathList[0].Bounds.Center.Y), new Vector2(2, 2));
                 Vector2 prev_point = Vector2.Subtract(new Vector2(this.pathList[0].Bounds.Center.X, this.pathList[0].Bounds.Center.Y), new Vector2(2, 2));
 
@@ -66,7 +64,6 @@ namespace Retribution
                 }
 
                 position += direction * moveSpeed;
-
             }
         }
 
