@@ -20,7 +20,7 @@ namespace Retribution
         public bool selected;
         public string type;
         public int attackWait;
-        public static int attackSpeed;
+        public int attackSpeed;
         public bool attacked=false;
 
         public GameObject(int health, Vector2 position, int damage, int attackRange)
@@ -31,10 +31,11 @@ namespace Retribution
             this.attackRange = attackRange;
             this.alive = true;
             this.selected = false;
-            attackSpeed = 60;
+            this.attackSpeed = 180;
+            this.attackWait = 0;
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, new Rectangle((int)this.position.X, (int)this.position.Y, 32, 32), Color.White);
         }
