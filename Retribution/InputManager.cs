@@ -46,6 +46,14 @@ namespace Retribution
                 }
             }
 
+            //  Purchase Archer
+            if (keyPress.IsKeyDown(Keys.Z))
+            {
+                Archer temp = new Archer(new Vector2(300, 300));
+                temp.LoadContent();
+                units.Add(temp);
+            }
+
             // Select with a single mouse click:
             if (current.LeftButton == ButtonState.Pressed
                 && previous.LeftButton == ButtonState.Released
