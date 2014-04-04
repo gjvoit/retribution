@@ -40,14 +40,14 @@ namespace Retribution
             if (typeChar == '0')
             {
                 type = "grass";
-                texture = Texture2DFromFile(graphics, "Content/grass.jpg");
+                texture = Texture2DFromFile(graphics, "Content/grass.png");
                 isWalkable = true;
             }
 
             else if (typeChar == '1')
             {
                 type = "water";
-                texture = Texture2DFromFile(graphics, "Content/water.jpg");
+                texture = Texture2DFromFile(graphics, "Content/water.png");
                 isWalkable = false;
             }
 
