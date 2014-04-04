@@ -13,6 +13,7 @@ namespace Retribution
     {
         public Vector2 position;
         public Texture2D texture;
+        public GameObject aiTarget;
         public int health;
         public int damage;
         public int attackRange;
@@ -56,6 +57,7 @@ namespace Retribution
         //  Issue attack. Alpha method that damages target. No other skills or actions are implemented in the Alpha Version
         public virtual void Attack(GameObject target)
         {
+
             target.health -= this.damage;
         }
 
@@ -65,6 +67,7 @@ namespace Retribution
            distance = (int) Math.Sqrt(Math.Pow((this.position.X - target.position.X), 2) + Math.Pow((this.position.Y - target.position.Y), 2));
            if (distance <= this.attackRange)
            {
+               aiTarget = target;
                return true;
            }
            else return false;
