@@ -15,7 +15,7 @@ namespace Retribution
         private Vector2 autoPlace;
         public Map myMap;
 
-        private ModelManager(Map newMap)
+        private ModelManager(ref Map newMap)
         {
             player = new List<GameObject>();
             artificial = new List<GameObject>();
@@ -24,10 +24,10 @@ namespace Retribution
             myMap = newMap;
         }
 
-        public static ModelManager getInstance(Map newMap){
+        public static ModelManager getInstance(ref Map newMap){
             if (instance == null)
             {
-                instance = new ModelManager(newMap);
+                instance = new ModelManager(ref newMap);
                 return instance;
             }
             else
@@ -126,7 +126,6 @@ namespace Retribution
         }
 
         //  Call movement method of all selected objects
-        
 
         public Boolean CompareLists(List<Tile> newList, List<Tile> oldList)
         {

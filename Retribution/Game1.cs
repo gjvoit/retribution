@@ -30,7 +30,12 @@ namespace Retribution
         ProjectileManager projMan;
         ModelManager modMan;
         LoadManager loadMan;
-  
+        AIManager aiManager;
+
+        int aiStartDelay;
+        int attackDelay;
+
+
         public Game1()
             : base()
         {
@@ -55,8 +60,7 @@ namespace Retribution
             spriteBatch = new SpriteBatch(GraphicsDevice);
             // TODO: Add your initialization logic here
             riverDefense = new Map("Content/RiverDefense.txt");
-            proj = new List<Projectile>();
-            modMan = ModelManager.getInstance(riverDefense);
+            modMan = ModelManager.getInstance(ref riverDefense);
             loadMan = LoadManager.getInstance();
             projMan = ProjectileManager.getInstance();
             healthChecker = new HealthSystem(modMan.player, modMan.artificial);
@@ -65,7 +69,9 @@ namespace Retribution
             attackChecker.linkContent(Content);
             movementManager = MovementManager.getInstance();
             movementManager.setMap(riverDefense);
-            inputManager = new InputManager(modMan);
+            inputManager = new InputManager(ref modMan);
+            aiStartDelay = 0;
+            aiManager = AIManager.getInstance(ref riverDefense);
             mousePrev = Mouse.GetState();
            
            
@@ -127,10 +133,11 @@ namespace Retribution
             toweroffset = 0;
             for (int i = 0; i < 5; i++)
             {
-                modMan.addUnit("ARTIFICIAL", "ARCHER", new Vector2(60 + toweroffset, 200));
+                modMan.addUnit("ARTIFICIAL", "ARCHER", new Vector2(64 + toweroffset, 32*6));
                 //gameobj.Add(new Archer(new Vector2(60 + toweroffset, 100)));
-                toweroffset += 50;
+                toweroffset += 64;
             }
+
         }
         /// <summary>
         /// Allows the game to run logic such as updating the world,
@@ -158,7 +165,8 @@ namespace Retribution
             projMan.fireProjectiles();
            // projMan.refreshProjectiles();
             movementManager.moveObjects(modMan.player, modMan.artificial);
-     
+            aiManager.SetAIDestinations(modMan.artificial);
+
             mousePrev = mouseCurrent;
             base.Update(gameTime);
         }
@@ -193,6 +201,9 @@ namespace Retribution
             inputManager.DrawMouseRectangle(spriteBatch, Content);
 
             spriteBatch.End();
+
+            
+
             base.Draw(gameTime);
         }
 
