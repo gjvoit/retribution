@@ -22,14 +22,14 @@ namespace Retribution
        
         public override void Attack(GameObject target)
         {
-            myArrow = makeArrow(target);
-            Vector2 direction = MovementManager.getNormalizedVector(myArrow.position, target.position);
-            myArrow.setDestination(direction, this.position);
+            this.myArrow = makeArrow(target);
+            Vector2 direction = MovementManager.getNormalizedVector(this.myArrow.position, target.position);
+            this.myArrow.setDestination(direction, this.position);
         }
         public Arrow makeArrow(GameObject target)
         {
             //ProjectileFactory.create("arrow", target);
-            myArrow = new Arrow(this.position, ref target);
+            this.myArrow = new Arrow(this.position, ref target);
             return myArrow;
         }
 

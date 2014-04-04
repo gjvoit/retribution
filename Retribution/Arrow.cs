@@ -14,7 +14,8 @@ namespace Retribution
             : base(position, damage, ref target)
         {
             this.position = position;
-            this.moveSpeed = 1;
+            this.moveSpeed = 5;
+            this.attackWait = 30;
         }
 
         public override void LoadContent(ContentManager content)
