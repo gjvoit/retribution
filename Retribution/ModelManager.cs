@@ -49,6 +49,7 @@ namespace Retribution
                         player.Add(tower);
                         break;
                     case "WARRIOR":
+
                         Warrior war = new Warrior(autoPlace);
                         autoPlace.X += 50;
                         player.Add(war);
