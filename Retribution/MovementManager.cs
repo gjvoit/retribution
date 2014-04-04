@@ -43,6 +43,12 @@ namespace Retribution
 
             for (int i = 0; i < mobiles.Count; i++)
             {
+                if (mobiles[i].collisionList.Contains(myMap.GetTile(mobiles[i].destination)))
+                {
+                    System.Console.WriteLine("test");
+                    mobiles[i].isMoving = false;
+                }
+
                 if (mobiles[i].isMoving == true)
                 {
                     
@@ -54,8 +60,6 @@ namespace Retribution
                         }
                     }
 
-                    //System.Console.WriteLine(mobiles[i].collisionList.Count);
-                    //System.Console.WriteLine(newClosedList.Count);
 
                     if (CompareLists(newClosedList, mobiles[i].collisionList) == false)
                     {
@@ -63,12 +67,6 @@ namespace Retribution
                         //mobiles[i].collisionList = newClosedList;
                         mobiles[i].collisionList.Clear();
                         mobiles[i].collisionList.AddRange(newClosedList);
-                        //System.Console.WriteLine(mobiles[i].collisionList.Count);
-                        //System.Console.WriteLine(newClosedList.Count);
-                        if (mobiles[i].collisionList.Contains(myMap.GetTile(mobiles[i].destination)))
-                        {
-                            mobiles[i].isMoving = false;
-                        }
 
                         mobiles[i].pathList.Clear();
                         mobiles[i].pathList.AddRange(myMap.GetPath(mobiles[i].position, mobiles[i].destination, newClosedList));

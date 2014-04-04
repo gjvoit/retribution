@@ -179,9 +179,10 @@ namespace Retribution
                             ((Mobile)mobiles[i]).pathList.AddRange(myMap.GetPath(mobiles[i].position, ((Mobile)mobiles[i]).destination, newClosedList));
                         }
 
+                        ((Mobile)mobiles[i]).move();
                     }
 
-                    ((Mobile)mobiles[i]).move();
+                   
                     newClosedList.Clear();
                 }
             }
