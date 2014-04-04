@@ -23,7 +23,7 @@ namespace Retribution
         int spacing = 1;
 
         //public InputManager( MovementManager newMovementManager)
-        public InputManager(ModelManager newmodelManager)
+        public InputManager(ref ModelManager newmodelManager)
         {
             //movementManager = newMovementManager;
             modelManager = newmodelManager;
