@@ -109,6 +109,10 @@ namespace Retribution
         }
         public void testInitialization()
         {
+            //  TySoundTest
+            System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"c:\Users\TyDang\cs4730retribution\cs4730retribution\Retribution\Content\bow.wav");
+            player.Play();
+
             int toweroffset = 50;
             for (int i = 0; i < 5; i++)
             {
