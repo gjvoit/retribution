@@ -18,7 +18,7 @@ namespace Retribution
             this.position = position;
             this.state = "Wall";
             this.type = "TOWER";
-            attackSpeed = 300;
+            this.attackSpeed = 300;
         }
 
         // change the state of the Tower

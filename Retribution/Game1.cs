@@ -41,10 +41,10 @@ namespace Retribution
         AIManager aiManager;
 
         SoundPlayer player;
-        Warrior theCommander;
+      //  Warrior theCommander;
         int aiStartDelay;
         int attackDelay;
-        int playerResources = 9;
+        int playerResources = 9000;
 
         //  TyDigit digit test to display amount of resources left
         Digits theResource;
@@ -98,7 +98,8 @@ namespace Retribution
             
             //Create Player's units
             //testInitialization();
-            betaInitialization();
+            
+            
             testCommander();
             base.Initialize();
             this.IsMouseVisible = true;
@@ -135,12 +136,13 @@ namespace Retribution
 
         public void betaInitialization()
         {
-            if (player != null)
-                player.Play();
+            //if (player != null)
+            //    player.Play();
             modMan.addUnit("ARTIFICIAL", "TOWER", new Vector2(150, 250));
             modMan.addUnit("ARTIFICIAL", "TOWER", new Vector2(280, 250));
             modMan.addUnit("ARTIFICIAL", "TOWER", new Vector2(672-280, 250));
             modMan.addUnit("ARTIFICIAL", "TOWER", new Vector2(672-150, 250));
+            modMan.artificial[0].health = 99999999;
             int toweroffset = 0;
             for (int i = 0; i < 10; i++)
             {
@@ -186,6 +188,7 @@ namespace Retribution
         {
             //theCommander = new Warrior(new Vector2(600, 400));
             modMan.addUnit("PLAYER", "WARRIOR", new Vector2(600, 400));
+            ((Mobile)modMan.player[0]).moveSpeed = 3;
         }
 
         public void testInitialization()
@@ -245,6 +248,8 @@ namespace Retribution
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            //if (riverDefenseSelector.getOccupied())
+            //    betaInitialization();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             mouseCurrent = Mouse.GetState();
@@ -310,7 +315,7 @@ namespace Retribution
                             {
                                 updateMap(riverDefense);
                                 modMan.player.Remove(modMan.player[0]);
-                                testInitialization();
+                                betaInitialization();
                                 loadMan.load(this.Content, modMan.player);
                                 loadMan.load(this.Content, modMan.artificial);
                                 testBeta = false;
