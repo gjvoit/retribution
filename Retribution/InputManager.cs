@@ -21,6 +21,7 @@ namespace Retribution
         Vector2 mouseRecOrigin;
         Texture2D myTexture;
         int spacing = 1;
+        KeyboardState previousKeyboard;
 
         //public InputManager( MovementManager newMovementManager)
         public InputManager(ref ModelManager newmodelManager)
@@ -31,7 +32,8 @@ namespace Retribution
             mouseRecOrigin = Vector2.Zero;
         }
 
-        public void Update(MouseState current, MouseState previous, KeyboardState keyPress, ref List<GameObject> units)
+        public void Update(MouseState current, MouseState previous, KeyboardState keyPress, ref List<GameObject> units, ref LoadManager loadManager, ContentManager theContent,
+                            ref int playerResources)
 
         {
 
@@ -47,10 +49,27 @@ namespace Retribution
             }
 
             //  Purchase Archer
-            if (keyPress.IsKeyDown(Keys.Z))
+            if (!previousKeyboard.IsKeyDown(Keys.Z) && keyPress.IsKeyDown(Keys.Z))
             {
-                Archer temp = new Archer(new Vector2(300, 300));
-                units.Add(temp);
+                if (playerResources >= 1)
+                {
+                    Archer temp = new Archer(new Vector2(current.X, 672));
+                    units.Add(temp);
+                    loadManager.load(theContent, units);
+                    playerResources--;
+                }
+            }
+
+            //  Purchase tower
+            if (!previousKeyboard.IsKeyDown(Keys.X) && keyPress.IsKeyDown(Keys.X))
+            {
+                if (playerResources >= 2)
+                {
+                    Tower temp = new Tower(new Vector2(current.X, 672));
+                    units.Add(temp);
+                    loadManager.load(theContent, units);
+                    playerResources -= 2;
+                }
             }
 
             // Select with a single mouse click:
@@ -163,6 +182,8 @@ namespace Retribution
                 MovementManager.changeDestination(units, testvec);
 
             }
+
+            previousKeyboard = keyPress;
 
         }
         

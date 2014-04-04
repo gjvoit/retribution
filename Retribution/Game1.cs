@@ -34,6 +34,7 @@ namespace Retribution
 
         int aiStartDelay;
         int attackDelay;
+        int playerResources = 10;
 
 
         public Game1()
@@ -154,7 +155,7 @@ namespace Retribution
             // TODO: Add your update logic here
 
             //inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref towers, ref gameobj);
-            inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref modMan.player);
+            inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref modMan.player, ref loadMan, Content, ref playerResources);
             healthChecker.Update(modMan.player, modMan.artificial);
             healthChecker.checkHealth();
             modMan.player = healthChecker.player;
