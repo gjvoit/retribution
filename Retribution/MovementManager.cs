@@ -65,7 +65,7 @@ namespace Retribution
                         mobiles[i].collisionList.AddRange(newClosedList);
                         //System.Console.WriteLine(mobiles[i].collisionList.Count);
                         //System.Console.WriteLine(newClosedList.Count);
-                        if (mobiles[i].collisionList.Contains(myMap.GetDestinationTile(mobiles[i].destination)))
+                        if (mobiles[i].collisionList.Contains(myMap.GetTile(mobiles[i].destination)))
                         {
                             mobiles[i].isMoving = false;
                         }

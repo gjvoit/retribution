@@ -151,6 +151,11 @@ namespace Retribution
                     if (((Mobile)mobiles[i]).isMoving == true)
                     {
 
+                        if (((Mobile)mobiles[i]).collisionList.Contains(myMap.GetTile(((Mobile)mobiles[i]).destination)))
+                        {
+                            ((Mobile)mobiles[i]).isMoving = false;
+                        }
+
                         for (int j = 0; j < mobiles.Count; j++)
                         {
                             if (mobiles[i].collidesWith(mobiles[j]) && i != j)
@@ -165,10 +170,10 @@ namespace Retribution
                             ((Mobile)mobiles[i]).collisionList.Clear();
                             ((Mobile)mobiles[i]).collisionList.AddRange(newClosedList);
 
-                            if (((Mobile)mobiles[i]).collisionList.Contains(myMap.GetDestinationTile(((Mobile)mobiles[i]).destination)))
-                            {
-                                ((Mobile)mobiles[i]).isMoving = false;
-                            }
+                            //if (((Mobile)mobiles[i]).collisionList.Contains(myMap.GetDestinationTile(((Mobile)mobiles[i]).destination)))
+                           // {
+                             //   ((Mobile)mobiles[i]).isMoving = false;
+                            //}
 
                             ((Mobile)mobiles[i]).pathList.Clear();
                             ((Mobile)mobiles[i]).pathList.AddRange(myMap.GetPath(mobiles[i].position, ((Mobile)mobiles[i]).destination, newClosedList));

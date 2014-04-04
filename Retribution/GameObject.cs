@@ -32,7 +32,7 @@ namespace Retribution
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, new Rectangle((int)this.position.X, (int)this.position.Y, 50, 50), Color.White);
+            spriteBatch.Draw(texture, new Rectangle((int)this.position.X, (int)this.position.Y, 32, 32), Color.White);
         }
         //  A rectangle to represent the object
         public Rectangle Bounds
@@ -62,19 +62,11 @@ namespace Retribution
         //  Return true if this object collides with target object
         public bool collidesWith(GameObject target)
         {
-
             if (this.Bounds.Intersects(target.Bounds))
-            {
-                //Rectangle intersection = Rectangle.Intersect(this.Bounds, target.Bounds);
-                //if ((intersection.Height * intersection.Width) >= 20)
-                //{
-                    return true;
-                //}
-                //else
-                    //return false;
-            }
+                return true;
 
-            return false;
+            else
+                return false;
         }
 
         //  Returns true if object is alive
