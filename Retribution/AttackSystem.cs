@@ -28,7 +28,7 @@ namespace Retribution
             artificial = newArtificial;
         }
 
-        public void autoAttacks(ContentManager content)
+        public void autoAttacks(ContentManager content, ref List<Projectile> proj)
         {
             for (int i = 0; i < artificial.Count; i++)
             {
@@ -38,9 +38,14 @@ namespace Retribution
                     {
                         if (artificial[i].GetType() == typeof(Archer))
                         {
-                            Arrow new_arrow = ((Archer)(artificial[i])).makeArrow(player[j]);
-                            new_arrow.LoadContent(content);
-                            artificial.Add(new_arrow);
+                            if (player[j].isAlive())
+                            {
+                                Arrow new_arrow = ((Archer)(artificial[i])).makeArrow(player[j]);
+                                new_arrow.LoadContent(content);
+                                Vector2 direction = ModelManager.getNormalizedVector(new_arrow.position, player[j].position);
+                                new_arrow.setDestination(direction, player[j].position);
+                                proj.Add(new_arrow);
+                            }
                         }
                         else if (artificial.GetType().BaseType != typeof(Projectile))
                         {
@@ -50,9 +55,14 @@ namespace Retribution
                     if(player[j].IsInRange(artificial[i])){
                         if (player[j].GetType() == typeof(Archer))
                         {
-                            Arrow new_arrow = ((Archer)(player[j])).makeArrow(artificial[i]);
-                            new_arrow.LoadContent(content);
-                            player.Add(new_arrow);
+                            if (artificial[i].isAlive())
+                            {
+                                Arrow new_arrow = ((Archer)(player[j])).makeArrow(artificial[i]);
+                                new_arrow.LoadContent(content);
+                                Vector2 direction = ModelManager.getNormalizedVector(new_arrow.position, artificial[i].position);
+                                new_arrow.setDestination(direction, artificial[i].position);
+                                proj.Add(new_arrow);
+                            }
                         }
                         else if (player.GetType().BaseType != typeof(Projectile))
                         {

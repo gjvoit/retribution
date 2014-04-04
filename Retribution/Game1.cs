@@ -26,6 +26,7 @@ namespace Retribution
 
         List<Tower> towers;
         Tower tower;
+        List<Projectile> proj;
         List<Archer> archers;
         List<Mobile> gameobj;
         List<GameObject> allObjects;
@@ -69,7 +70,7 @@ namespace Retribution
             spriteBatch = new SpriteBatch(GraphicsDevice);
             // TODO: Add your initialization logic here
             riverDefense = new Map("Content/RiverDefense.txt");
- 
+            proj = new List<Projectile>();
 
             dummy = new Builder(new Sprite(32, 32, 32, 32), this.Content);
             int toweroffset = 50;
@@ -242,7 +243,7 @@ namespace Retribution
             if (attackDelay == 0)
             {
                 attackChecker.Update(ref modMan.player, ref modMan.artificial );
-                attackChecker.autoAttacks(this.Content);
+                attackChecker.autoAttacks(this.Content, ref proj);
                 //towers = attackChecker.towers;
                 //archers = attackChecker.archers;
 
@@ -255,7 +256,13 @@ namespace Retribution
 
             //MovementManager.moveObjects(gameobj);
             modMan.moveObjects(modMan.player);
-
+            for (int i = 0; i < proj.Count; i++)
+            {
+                proj[i].move();
+            }
+            for (int i = 0; i < proj.Count; i++)
+                if (proj[i].isAlive() == false)
+                    proj.Remove(proj[i]);
             mousePrev = mouseCurrent;
             base.Update(gameTime);
         }
@@ -271,6 +278,13 @@ namespace Retribution
             // TODO: Add your drawing code here
             spriteBatch.Begin();
             riverDefense.DrawMap(spriteBatch);
+            for (int i = 0; i < proj.Count; i++)
+                if (proj[i].isAlive() == false)
+                    proj.Remove(proj[i]);
+            for (int i = 0; i < proj.Count; i++)
+            {
+                proj[i].Draw(spriteBatch);
+            }
             for (int i = 0; i < modMan.player.Count; i++)
             {
                 (modMan.player[i]).Draw(spriteBatch);

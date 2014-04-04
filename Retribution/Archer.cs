@@ -11,7 +11,7 @@ namespace Retribution
     class Archer : Mobile
     {
 
-        public Archer(Vector2 position, int health = 2, int damage = 3, int attackRange = 150)
+        public Archer(Vector2 position, int health = 20, int damage = 3, int attackRange = 150)
             : base(health, position, damage, attackRange)
         {
             this.type = "ARCHER";
@@ -21,7 +21,7 @@ namespace Retribution
         public Arrow makeArrow(GameObject target)
         {
             //ProjectileFactory.create("arrow", target);
-            Arrow arrow = new Arrow(this.position, target);
+            Arrow arrow = new Arrow(this.position, ref target);
             return arrow;
         }
 

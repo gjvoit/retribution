@@ -10,7 +10,7 @@ namespace Retribution
     class Arrow : Projectile
     {
 
-        public Arrow(Vector2 position, GameObject target, int damage = 3)
+        public Arrow(Vector2 position, ref GameObject target, int damage = 3)
             : base(position, damage, ref target)
         {
             this.position = position;

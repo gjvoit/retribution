@@ -117,6 +117,19 @@ namespace Retribution
             return normalizedVector;
         }
 
+        public void moveProj(ref List<Projectile> proj)
+        {
+            for (int i = 0; i < proj.Count; i++)
+            {
+                if (!proj[i].isAlive())
+                    proj.Remove(proj[i]);
+                else
+                {
+                    proj[i].move();
+                }
+            }
+        }
+
         //  Call movement method of all selected objects
         public void moveObjects(List<GameObject> mobiles)
         {
