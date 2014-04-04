@@ -98,6 +98,7 @@ namespace Retribution
                 //towers.Add(new Tower(new Vector2(20 + toweroffset, 600)));
                 toweroffset += 50;
             }
+            modMan.player[9].attackRange = 600;
 
             //archers = new List<Archer>();
 
@@ -136,7 +137,7 @@ namespace Retribution
 
             healthChecker = new HealthSystem(modMan.player, modMan.artificial);
             attackChecker = new AttackSystem(ref modMan.player, ref modMan.artificial);
-
+            attackDelay = 0;
             //movementManager = new MovementManager();
             //inputManager = new InputManager(movementManager);
             inputManager = new InputManager(modMan);
