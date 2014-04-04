@@ -30,7 +30,6 @@ namespace Retribution
         Selector dummyUnlockSelector;
         Map riverDefense;
         MouseState mouseCurrent, mousePrev;
-        List<Projectile> proj;
         HealthSystem healthChecker;
         AttackSystem attackChecker;
         InputManager inputManager;
@@ -43,6 +42,10 @@ namespace Retribution
         Warrior theCommander;
         int aiStartDelay;
         int attackDelay;
+        int playerResources = 9;
+
+        //  TyDigit digit test to display amount of resources left
+        Digits theResource;
 
 
         public Game1()
@@ -135,6 +138,10 @@ namespace Retribution
 
         public void testInitialization()
         {
+            //  TySoundTest (Must add own filepath here.)
+            //System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"c:\Users\TyDang\cs4730retribution\cs4730retribution\Retribution\Content\bow.wav");
+            //player.Play();
+
             int toweroffset = 50;
             for (int i = 0; i < 5; i++)
             {
@@ -150,7 +157,7 @@ namespace Retribution
                 //towers.Add(new Tower(new Vector2(20 + toweroffset, 600)));
                 toweroffset += 50;
             }
-            modMan.player[9].attackRange = 600;
+            //modMan.player[9].attackRange = 600;
             toweroffset = 0;
             for (int i = 0; i < 5; i++)
             {
@@ -167,6 +174,9 @@ namespace Retribution
                 toweroffset += 64;
             }
 
+            //  TyDigit added digits object to display resources
+            theResource = new Digits(new Vector2(0, 672));
+            theResource.LoadContent(this.Content);
         }
         /// <summary>
         /// Allows the game to run logic such as updating the world,
@@ -182,20 +192,20 @@ namespace Retribution
             KeyboardState keyboardState = Keyboard.GetState();
             // TODO: Add your update logic here
 
+
             //inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref towers, ref gameobj);
-            inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref modMan.player);
+            inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref modMan.player, ref loadMan, Content, ref playerResources);
             healthChecker.Update(modMan.player, modMan.artificial);
             healthChecker.checkHealth();
             modMan.player = healthChecker.player;
             modMan.artificial = healthChecker.artificial;
             attackChecker.Update(ref modMan.player, ref modMan.artificial );
-            //attackChecker.autoAttacks(this.Content, ref proj);
             attackChecker.autoAttacks();
             projMan.fireProjectiles();
-           // projMan.refreshProjectiles();
             movementManager.moveObjects(modMan.player, modMan.artificial);
             aiManager.SetAIDestinations(modMan.artificial);
-
+            //  TyDigit: Change the digit based on amount of resources left
+            // theResource.ssY = playerResources * 32;
 
             mousePrev = mouseCurrent;
             base.Update(gameTime);
@@ -230,6 +240,7 @@ namespace Retribution
                         currMap = "levelSelect";
                         if (currMap.Equals("levelSelect"))
                         {
+                            //  TyDigit adding call to draw method of digits
                             if (testBeta)
                             {
                                 updateMap(riverDefense);
@@ -239,6 +250,8 @@ namespace Retribution
                                 loadMan.load(this.Content, modMan.artificial);
                                 testBeta = false;
                             }
+                            theResource.ssY = playerResources * 32;
+                            theResource.Draw(spriteBatch);
                         }
                         //currMap = "riverDefense";
                     }
@@ -269,7 +282,6 @@ namespace Retribution
             {
                 modMan.artificial[i].Draw(spriteBatch);
             }
-          
 
             inputManager.DrawMouseRectangle(spriteBatch, Content);
 

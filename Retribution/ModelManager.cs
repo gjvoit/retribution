@@ -93,6 +93,10 @@ namespace Retribution
                         Warrior warrior = new Warrior(position);
                         player.Add(warrior);
                         break;
+                    case "DIGIT":
+                        Digits digit = new Digits(position);
+                        player.Add(digit);
+                        break;
                 }
             }
             else

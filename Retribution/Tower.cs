@@ -11,13 +11,14 @@ namespace Retribution
     class Tower : GameObject
     {
         public string state;
-
-        public Tower(Vector2 position, int health = 2, int damage = 0, int attackRange = 150)
+        public Arrow myArrow;
+        public Tower(Vector2 position, int health = 20, int damage = 1, int attackRange = 250)
             : base (health, position, damage, attackRange)
         {
             this.position = position;
             this.state = "Wall";
             this.type = "TOWER";
+            attackSpeed = 550;
         }
 
         // change the state of the Tower
@@ -48,6 +49,18 @@ namespace Retribution
                     //TODO: put code here to handle death
                 }
             }
+        }
+        public override void Attack(GameObject target)
+        {
+            myArrow = makeArrow(target);
+            Vector2 direction = MovementManager.getNormalizedVector(this.myArrow.position, target.position);
+            myArrow.setDestination(direction, this.position);
+        }
+        public Arrow makeArrow(GameObject target)
+        {
+
+            return new Arrow(this.position, ref target);
+
         }
 
        /* public void Draw(SpriteBatch spriteBatch)

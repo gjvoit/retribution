@@ -50,15 +50,22 @@ namespace Retribution
                                 pobj.Attack(aobj);
                                 pobj.resetAttack();
                             }
-                            if (String.Compare(pobj.type,"ARCHER",true)==0)
+                            if (String.Compare(pobj.type, "ARCHER", true) == 0)
                             {
                                 projMan.proj.Add(((Archer)pobj).myArrow);
                                 ((Archer)pobj).myArrow.LoadContent(content);
                             }
+                            if (String.Compare(pobj.type, "TOWER", true) == 0)
+                            {
+                                projMan.proj.Add(((Tower)pobj).myArrow);
+                                ((Tower)pobj).myArrow.LoadContent(content);
+                            }
                         }
+                        else
+                            pobj.attackWait--;
 
                     }
-                    else if (aobj.IsInRange(pobj))
+                    if (aobj.IsInRange(pobj))
                     {
                         if (aobj.attackWait <= 0)
                         {
@@ -67,13 +74,20 @@ namespace Retribution
                                 aobj.Attack(pobj);
                                 aobj.resetAttack();
                             }
-                            if (String.Compare(aobj.type,"ARCHER",true)==0)
+                            if (String.Compare(aobj.type, "ARCHER", true) == 0)
                             {
                                 projMan.proj.Add(((Archer)aobj).myArrow);
                                 ((Archer)aobj).myArrow.LoadContent(content);
-                                
+
+                            }
+                            if (String.Compare(aobj.type, "TOWER", true) == 0)
+                            {
+                                projMan.proj.Add(((Tower)aobj).myArrow);
+                                ((Tower)aobj).myArrow.LoadContent(content);
                             }
                         }
+                        else
+                            aobj.attackWait--;
                     }
                     
                 }

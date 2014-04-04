@@ -17,20 +17,22 @@ namespace Retribution
         {
             this.type = "ARCHER";
             this.moveSpeed = 1;
+            this.attackWait = 0;
+            attackSpeed = 280;
 
         }
        
         public override void Attack(GameObject target)
         {
-            this.myArrow = makeArrow(target);
+            myArrow = makeArrow(target);
             Vector2 direction = MovementManager.getNormalizedVector(this.myArrow.position, target.position);
-            this.myArrow.setDestination(direction, this.position);
+            myArrow.setDestination(direction, target.position);
         }
         public Arrow makeArrow(GameObject target)
         {
-            //ProjectileFactory.create("arrow", target);
-            this.myArrow = new Arrow(this.position, ref target);
-            return myArrow;
+            
+            return new Arrow(this.position, ref target);
+            
         }
 
         public override void LoadContent(ContentManager content)
