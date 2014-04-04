@@ -72,6 +72,18 @@ namespace Retribution
                 }
             }
 
+            //  Purchase warrior
+            if (!previousKeyboard.IsKeyDown(Keys.C) && keyPress.IsKeyDown(Keys.C))
+            {
+                if (playerResources >= 5)
+                {
+                    Warrior temp = new Warrior(new Vector2(current.X, 672));
+                    units.Add(temp);
+                    loadManager.load(theContent, units);
+                    playerResources -= 5;
+                }
+            }
+
             // Select with a single mouse click:
             if (current.LeftButton == ButtonState.Pressed
                 && previous.LeftButton == ButtonState.Released

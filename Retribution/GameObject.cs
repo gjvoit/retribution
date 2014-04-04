@@ -22,6 +22,8 @@ namespace Retribution
         public int attackWait;
         public int attackSpeed;
         public bool attacked=false;
+        public int ssX = 0;     //  Sprite Sheet x coordinate
+        public int ssY = 0;     //  Sprite Sheet y coordinate
 
         public GameObject(int health, Vector2 position, int damage, int attackRange)
         {
@@ -37,7 +39,7 @@ namespace Retribution
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, new Rectangle((int)this.position.X, (int)this.position.Y, 32, 32), Color.White);
+            spriteBatch.Draw(texture, new Rectangle((int)this.position.X, (int)this.position.Y, 32, 32), new Rectangle(ssX, ssY, 32, 32), Color.White);
         }
         public void resetAttack()
         {
