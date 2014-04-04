@@ -86,7 +86,10 @@ namespace Retribution
                         autoPlace.X += 50;
                         player.Add(tower);
                         break;
-
+                    case "DIGIT":
+                        Digits digit = new Digits(position);
+                        player.Add(digit);
+                        break;
                 }
             }
             else

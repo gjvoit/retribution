@@ -33,7 +33,10 @@ namespace Retribution
 
         int aiStartDelay;
         int attackDelay;
-        int playerResources = 10;
+        int playerResources = 9;
+
+        //  TyDigit digit test to display amount of resources left
+        Digits theResource;
 
 
         public Game1()
@@ -138,6 +141,9 @@ namespace Retribution
                 toweroffset += 64;
             }
 
+            //  TyDigit added digits object to display resources
+            theResource = new Digits(new Vector2(0, 672));
+            theResource.LoadContent(this.Content);
         }
         /// <summary>
         /// Allows the game to run logic such as updating the world,
@@ -165,6 +171,9 @@ namespace Retribution
             projMan.fireProjectiles();
             movementManager.moveObjects(modMan.player, modMan.artificial);
             aiManager.SetAIDestinations(modMan.artificial);
+
+            //  TyDigit: Change the digit based on amount of resources left
+            theResource.ssY = playerResources * 32;
 
             mousePrev = mouseCurrent;
             base.Update(gameTime);
@@ -196,6 +205,8 @@ namespace Retribution
                 modMan.artificial[i].Draw(spriteBatch);
             }
           
+            //  TyDigit adding call to draw method of digits
+            theResource.Draw(spriteBatch);
 
             inputManager.DrawMouseRectangle(spriteBatch, Content);
 
