@@ -80,7 +80,7 @@ namespace Retribution
             for (int i = 0; i < 1; i++)
 
             //gameobj = new List<GameObject>();
-            modMan = ModelManager.getInstance(riverDefense);
+            modMan = ModelManager.getInstance(ref riverDefense);
             loadMan = LoadManager.getInstance();
             //Create Player's units
             for (int i = 0; i < 5; i++)
@@ -140,7 +140,7 @@ namespace Retribution
             attackDelay = 0;
             //movementManager = new MovementManager();
             //inputManager = new InputManager(movementManager);
-            inputManager = new InputManager(modMan);
+            inputManager = new InputManager(ref modMan);
 
             mousePrev = Mouse.GetState();
 
