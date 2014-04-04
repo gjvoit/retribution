@@ -26,7 +26,7 @@ namespace Retribution
         {
             myArrow = makeArrow(target);
             Vector2 direction = MovementManager.getNormalizedVector(this.myArrow.position, target.position);
-            myArrow.setDestination(direction, this.position);
+            myArrow.setDestination(direction, target.position);
         }
         public Arrow makeArrow(GameObject target)
         {

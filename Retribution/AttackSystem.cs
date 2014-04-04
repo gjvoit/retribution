@@ -55,6 +55,11 @@ namespace Retribution
                                 projMan.proj.Add(((Archer)pobj).myArrow);
                                 ((Archer)pobj).myArrow.LoadContent(content);
                             }
+                            if (String.Compare(pobj.type, "TOWER", true) == 0)
+                            {
+                                projMan.proj.Add(((Tower)pobj).myArrow);
+                                ((Tower)pobj).myArrow.LoadContent(content);
+                            }
                         }
                         else
                             pobj.attackWait--;
@@ -74,6 +79,11 @@ namespace Retribution
                                 projMan.proj.Add(((Archer)aobj).myArrow);
                                 ((Archer)aobj).myArrow.LoadContent(content);
 
+                            }
+                            if (String.Compare(aobj.type, "TOWER", true) == 0)
+                            {
+                                projMan.proj.Add(((Tower)aobj).myArrow);
+                                ((Tower)aobj).myArrow.LoadContent(content);
                             }
                         }
                         else

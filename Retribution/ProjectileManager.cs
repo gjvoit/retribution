@@ -42,9 +42,12 @@ namespace Retribution
         {
             foreach (Projectile item in proj.ToArray())
             {
-                if (!item.isAlive()&&item.attackWait<=0)
+                if (!item.isAlive()||item.collided)
                     proj.Remove(item);
+                else
+                   item.attackWait--;
             }
+
         }
 
     }
