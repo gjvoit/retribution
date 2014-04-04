@@ -21,30 +21,20 @@ namespace Retribution
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Map riverDefense;
-        Builder dummy;
         MouseState mouseCurrent, mousePrev;
-
-        List<Tower> towers;
-        Tower tower;
         List<Projectile> proj;
-        List<Archer> archers;
-        List<Mobile> gameobj;
-        List<GameObject> allObjects;
         HealthSystem healthChecker;
         AttackSystem attackChecker;
         InputManager inputManager;
         MovementManager movementManager;
-
-        //List<Tower> towers;
-        //Tower tower;
-        //List<Archer> archers;
-        //List<Mobile> gameobj;
-
+        ProjectileManager projMan;
         ModelManager modMan;
         LoadManager loadMan;
-        //MovementManager movementManager;
+        AIManager aiManager;
 
+        int aiStartDelay;
         int attackDelay;
+
 
         public Game1()
             : base()
@@ -70,82 +60,28 @@ namespace Retribution
             spriteBatch = new SpriteBatch(GraphicsDevice);
             // TODO: Add your initialization logic here
             riverDefense = new Map("Content/RiverDefense.txt");
-            proj = new List<Projectile>();
- 
-            dummy = new Builder(new Sprite(32, 32, 32, 32), this.Content);
-            int toweroffset = 50;
-            gameobj = new List<Mobile>();
-            allObjects = new List<GameObject>();
-
-            for (int i = 0; i < 1; i++)
-
-            //gameobj = new List<GameObject>();
             modMan = ModelManager.getInstance(ref riverDefense);
             loadMan = LoadManager.getInstance();
-            //Create Player's units
-            for (int i = 0; i < 5; i++)
-
-            {
-                modMan.addUnit("PLAYER", "TOWER", new Vector2(20+toweroffset,600));
-               //gameobj.Add(new Archer(new Vector2(20 + toweroffset, 400)));
-                toweroffset += 50;
-            }
-            toweroffset = 0;
-            //towers = new List<Tower>();
-            for (int i = 0; i < 5; i++)
-            {
-                modMan.addUnit("PLAYER", "ARCHER", new Vector2(20 + toweroffset, 500));
-                //towers.Add(new Tower(new Vector2(20 + toweroffset, 600)));
-                toweroffset += 50;
-            }
-            modMan.player[9].attackRange = 600;
-
-            //archers = new List<Archer>();
-
-            /*toweroffset = 0;
-            for (int i = 0; i < 5; i++)
-            {
-               // gameobj.Add(new Archer(new Vector2( 60 + toweroffset , 20)));
-                toweroffset += 50;
-            }*/
-
-            toweroffset = 0;
-            for (int i = 0; i < 5; i++)
-            {
-                modMan.addUnit("ARTIFICIAL", "TOWER", new Vector2(20 + toweroffset, 20));
-                //gameobj.Add(new Archer(new Vector2( 60 + toweroffset , 20)));
-                toweroffset += 50;
-            }
-
-            toweroffset = 0;
-            for (int i = 0; i < 5; i++)
-            {
-                modMan.addUnit("ARTIFICIAL", "ARCHER", new Vector2(60 + toweroffset, 200));
-                //gameobj.Add(new Archer(new Vector2(60 + toweroffset, 100)));
-                toweroffset += 50;
-            }
-            //toweroffset = 0;
-            //for (int i = 0; i < 5; i++)
-            //{
-            //    modMan.addUnit("PLAYER", "TOWER", new Vector2(60 + toweroffset, 180));
-            //    //gameobj.Add(new Archer(new Vector2(60 + toweroffset, 180)));
-            //    toweroffset += 50;
-            //}
-
-
-            allObjects.AddRange(gameobj);
-
+            projMan = ProjectileManager.getInstance();
             healthChecker = new HealthSystem(modMan.player, modMan.artificial);
             attackChecker = new AttackSystem(ref modMan.player, ref modMan.artificial);
-            attackDelay = 0;
-            //movementManager = new MovementManager();
-            //inputManager = new InputManager(movementManager);
+            attackChecker.linkSystem(projMan);
+            attackChecker.linkContent(Content);
+            movementManager = MovementManager.getInstance();
+            movementManager.setMap(riverDefense);
             inputManager = new InputManager(ref modMan);
-
+            aiStartDelay = 0;
+            aiManager = AIManager.getInstance(ref riverDefense);
             mousePrev = Mouse.GetState();
-
+           
+           
+          
+            
+            //Create Player's units
+            testInitialization();
             base.Initialize();
             this.IsMouseVisible = true;
+           
         }
 
         /// <summary>
@@ -156,20 +92,7 @@ namespace Retribution
         {
             loadMan.load(this.Content, modMan.player);
             loadMan.load(this.Content, modMan.artificial);
-            /*for (int i = 0; i < modMan.player.Count; i++)
-            {
-                modMan.player[i].LoadContent(Content);
-            }
-            for (int i = 0; i < archers.Count; i++)
-            {
-                archers[i].LoadContent(Content);
-            }
-            for (int i = 0; i < gameobj.Count; i++)
-            {
-                Mobile temparch = gameobj[i];
-                temparch.LoadContent(Content);
-            }*/
-
+          
             // TODO: use this.Content to load your game content here
         }
 
@@ -181,7 +104,41 @@ namespace Retribution
         {
             // TODO: Unload any non ContentManager content here
         }
+        public void testInitialization()
+        {
+            int toweroffset = 50;
+            for (int i = 0; i < 5; i++)
+            {
+                modMan.addUnit("PLAYER", "TOWER", new Vector2(20 + toweroffset, 600));
+                //gameobj.Add(new Archer(new Vector2(20 + toweroffset, 400)));
+                toweroffset += 50;
+            }
+            toweroffset = 0;
+            //towers = new List<Tower>();
+            for (int i = 0; i < 5; i++)
+            {
+                modMan.addUnit("PLAYER", "ARCHER", new Vector2(20 + toweroffset, 500));
+                //towers.Add(new Tower(new Vector2(20 + toweroffset, 600)));
+                toweroffset += 50;
+            }
+            modMan.player[9].attackRange = 600;
+            toweroffset = 0;
+            for (int i = 0; i < 5; i++)
+            {
+                modMan.addUnit("ARTIFICIAL", "TOWER", new Vector2(20 + toweroffset, 20));
+                //gameobj.Add(new Archer(new Vector2( 60 + toweroffset , 20)));
+                toweroffset += 50;
+            }
 
+            toweroffset = 0;
+            for (int i = 0; i < 5; i++)
+            {
+                modMan.addUnit("ARTIFICIAL", "ARCHER", new Vector2(64 + toweroffset, 32*6));
+                //gameobj.Add(new Archer(new Vector2(60 + toweroffset, 100)));
+                toweroffset += 64;
+            }
+
+        }
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -198,41 +155,17 @@ namespace Retribution
 
             //inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref towers, ref gameobj);
             inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref modMan.player);
-
-
-            //for (int i = 0; i < towers.Count; i++)
-            //{
-            //    if (towers[i].isAlive() == false) towers.Remove(towers[i]);
-            //}
-
             healthChecker.Update(modMan.player, modMan.artificial);
             healthChecker.checkHealth();
             modMan.player = healthChecker.player;
             modMan.artificial = healthChecker.artificial;
-
-            if (attackDelay == 0)
-            {
-                attackChecker.Update(ref modMan.player, ref modMan.artificial );
-                attackChecker.autoAttacks(this.Content, ref proj);
-                //towers = attackChecker.towers;
-                //archers = attackChecker.archers;
-
-                attackDelay = 60;
-            }
-            else attackDelay--;
-
-            //movementManager.moveObjects(gameobj, towers);
-            //movementManager.CheckPauses(gameobj);
-
-            //MovementManager.moveObjects(gameobj);
-            for (int i = 0; i < proj.Count; i++)
-            {
-                proj[i].move();
-            }
-            for (int i = 0; i < proj.Count; i++)
-                if (proj[i].isAlive() == false)
-                    proj.Remove(proj[i]);
-            modMan.moveObjects(modMan.player, modMan.artificial);
+            attackChecker.Update(ref modMan.player, ref modMan.artificial );
+            //attackChecker.autoAttacks(this.Content, ref proj);
+            attackChecker.autoAttacks();
+            projMan.fireProjectiles();
+           // projMan.refreshProjectiles();
+            movementManager.moveObjects(modMan.player, modMan.artificial);
+            aiManager.SetAIDestinations(modMan.artificial);
 
             mousePrev = mouseCurrent;
             base.Update(gameTime);
@@ -249,52 +182,31 @@ namespace Retribution
             // TODO: Add your drawing code here
             spriteBatch.Begin();
             riverDefense.DrawMap(spriteBatch);
-            for (int i = 0; i < proj.Count; i++)
-                if (proj[i].isAlive() == false)
-                    proj.Remove(proj[i]);
-            for (int i = 0; i < proj.Count; i++)
+            foreach(Projectile item in projMan.proj)
             {
-                proj[i].Draw(spriteBatch);
+                ((Arrow)item).Draw(spriteBatch);
             }
             for (int i = 0; i < modMan.player.Count; i++)
             {
                 (modMan.player[i]).Draw(spriteBatch);
             }
-            dummy.builderSprite.Draw(spriteBatch);
+           
 
             for (int i = 0; i < modMan.artificial.Count; i++)
             {
                 modMan.artificial[i].Draw(spriteBatch);
             }
-            //for (int i = 0; i < gameobj.Count; i++)
-            //{
-            //    Mobile temparch = gameobj[i];
-            //    temparch.Draw(spriteBatch);
-            //}
+          
 
             inputManager.DrawMouseRectangle(spriteBatch, Content);
 
             spriteBatch.End();
+
+            
+
             base.Draw(gameTime);
         }
 
-        //public void checkHealth()
-        //{
-        //    for (int i = 0; i < towers.Count; i++)
-        //    {
-        //        if (towers[i].isAlive() == false)
-        //        {
-        //            towers.Remove(towers[i]);
-        //        }
-        //    }
-
-        //    for (int i = 0; i < archers.Count; i++)
-        //    {
-        //        if (archers[i].isAlive() == false)
-        //        {
-        //            archers.Remove(archers[i]);
-        //        }
-        //    }
-        //}
+      
     }
 }

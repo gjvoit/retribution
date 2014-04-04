@@ -30,11 +30,11 @@ namespace Retribution
         {
             Vector2 end_point = Vector2.Add(this.destination, new Vector2(2, 2));
             Vector2 prev_point = Vector2.Subtract(this.destination, new Vector2(2, 2));
-
+            this.attackWait--;
             if (this.isAlive())
             {
                 if (this.position.X <= end_point.X && this.destination.X >= prev_point.X
-                    && this.position.Y <= end_point.Y && this.destination.Y >= prev_point.Y)
+                    && this.position.Y <= end_point.Y && this.destination.Y >= prev_point.Y) //equivalent to IsInRange
                 {
                     this.health = -1;
                     if (this.target.isAlive())

@@ -26,8 +26,7 @@ namespace Retribution
             pathList = new List<Tile>();
             collisionList = new List<Tile>();
         }
-
-        public void setDestination(Vector2 direction, Vector2 destination)
+       public void setDestination(Vector2 direction, Vector2 destination)
         {
             this.direction = direction;
             this.destination = destination;
@@ -58,6 +57,7 @@ namespace Retribution
                     this.pathList.RemoveAt(0);
                     if (pathList.Count == 0)
                     {
+                        //System.Console.WriteLine("test");
                         this.isMoving = false;
                     }
                     return;
