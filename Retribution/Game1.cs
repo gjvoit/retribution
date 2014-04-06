@@ -1,5 +1,6 @@
 ﻿#region Using Statements
 using System;
+using System.Media;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -39,10 +40,11 @@ namespace Retribution
         LoadManager loadMan;
         AIManager aiManager;
 
-        Warrior theCommander;
+        SoundPlayer player;
+      //  Warrior theCommander;
         int aiStartDelay;
         int attackDelay;
-        int playerResources = 9;
+        int playerResources = 9000;
 
         //  TyDigit digit test to display amount of resources left
         Digits theResource;
@@ -96,6 +98,8 @@ namespace Retribution
             
             //Create Player's units
             //testInitialization();
+            
+            
             testCommander();
             base.Initialize();
             this.IsMouseVisible = true;
@@ -117,7 +121,7 @@ namespace Retribution
         {
             loadMan.load(this.Content, modMan.player);
             loadMan.load(this.Content, modMan.artificial);
-          
+            player = new System.Media.SoundPlayer("bow.wav");
             // TODO: use this.Content to load your game content here
         }
 
@@ -130,10 +134,61 @@ namespace Retribution
             // TODO: Unload any non ContentManager content here
         }
 
+        public void betaInitialization()
+        {
+            //if (player != null)
+            //    player.Play();
+            modMan.addUnit("ARTIFICIAL", "TOWER", new Vector2(150, 250));
+            modMan.addUnit("ARTIFICIAL", "TOWER", new Vector2(280, 250));
+            modMan.addUnit("ARTIFICIAL", "TOWER", new Vector2(672-280, 250));
+            modMan.addUnit("ARTIFICIAL", "TOWER", new Vector2(672-150, 250));
+            modMan.artificial[0].health = 99999999;
+            int toweroffset = 0;
+            for (int i = 0; i < 10; i++)
+            {
+                modMan.addUnit("ARTIFICIAL", "ARCHER", new Vector2(30 + toweroffset, 50));
+                modMan.addUnit("ARTIFICIAL", "ARCHER", new Vector2(30 + toweroffset, 190));
+               
+                //gameobj.Add(new Archer(new Vector2(60 + toweroffset, 100)));
+                toweroffset +=70;
+            }
+            modMan.addUnit("ARTIFICIAL", "WARRIOR", new Vector2(180, 250));
+            modMan.addUnit("ARTIFICIAL", "WARRIOR", new Vector2(248, 250));
+            modMan.addUnit("ARTIFICIAL", "WARRIOR", new Vector2(672-280+32, 250));
+            modMan.addUnit("ARTIFICIAL", "WARRIOR", new Vector2(672-150-32, 250));
+
+            toweroffset = 50;
+            for (int i = 0; i < 5; i++)
+            {
+                modMan.addUnit("PLAYER", "TOWER", new Vector2(20 + toweroffset, 600));
+                //gameobj.Add(new Archer(new Vector2(20 + toweroffset, 400)));
+                toweroffset += 50;
+            }
+            toweroffset = 0;
+            //towers = new List<Tower>();
+            for (int i = 0; i < 10; i++)
+            {
+                modMan.addUnit("PLAYER", "ARCHER", new Vector2(20 + toweroffset, 550));
+                //towers.Add(new Tower(new Vector2(20 + toweroffset, 600)));
+                toweroffset += 50;
+            }
+            modMan.addUnit("PLAYER", "WARRIOR", new Vector2(150, 500));
+            modMan.addUnit("PLAYER", "WARRIOR", new Vector2(190, 500));
+            modMan.addUnit("PLAYER", "WARRIOR", new Vector2(215, 500));
+            modMan.addUnit("PLAYER", "WARRIOR", new Vector2(250, 500));
+            modMan.addUnit("PLAYER", "WARRIOR", new Vector2(290, 500));
+
+            theResource = new Digits(new Vector2(0, 672));
+            theResource.LoadContent(this.Content);
+        }
+      
+
+
         public void testCommander()
         {
             //theCommander = new Warrior(new Vector2(600, 400));
             modMan.addUnit("PLAYER", "WARRIOR", new Vector2(600, 400));
+            ((Mobile)modMan.player[0]).moveSpeed = 3;
         }
 
         public void testInitialization()
@@ -141,6 +196,9 @@ namespace Retribution
             //  TySoundTest (Must add own filepath here.)
             //System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"c:\Users\TyDang\cs4730retribution\cs4730retribution\Retribution\Content\bow.wav");
             //player.Play();
+
+     if (player!=null)
+            player.Play();
 
             int toweroffset = 50;
             for (int i = 0; i < 5; i++)
@@ -173,6 +231,11 @@ namespace Retribution
                 //gameobj.Add(new Archer(new Vector2(60 + toweroffset, 100)));
                 toweroffset += 64;
             }
+            modMan.addUnit("PLAYER", "WARRIOR", new Vector2(400,150));
+            modMan.addUnit("PLAYER", "WARRIOR", new Vector2(400, 190));
+            modMan.addUnit("PLAYER", "WARRIOR", new Vector2(400, 215));
+            modMan.addUnit("PLAYER", "WARRIOR", new Vector2(400, 250));
+            modMan.addUnit("PLAYER", "WARRIOR", new Vector2(400, 290));
 
             //  TyDigit added digits object to display resources
             theResource = new Digits(new Vector2(0, 672));
@@ -185,6 +248,8 @@ namespace Retribution
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            //if (riverDefenseSelector.getOccupied())
+            //    betaInitialization();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             mouseCurrent = Mouse.GetState();
@@ -203,7 +268,12 @@ namespace Retribution
             attackChecker.autoAttacks();
             projMan.fireProjectiles();
             movementManager.moveObjects(modMan.player, modMan.artificial);
-            aiManager.SetAIDestinations(modMan.artificial);
+
+            aiManager.SetAIDestinations2(modMan.artificial);
+
+
+            //aiManager.SetAIDestinations(modMan.artificial);
+
             //  TyDigit: Change the digit based on amount of resources left
             // theResource.ssY = playerResources * 32;
 
@@ -245,7 +315,7 @@ namespace Retribution
                             {
                                 updateMap(riverDefense);
                                 modMan.player.Remove(modMan.player[0]);
-                                testInitialization();
+                                betaInitialization();
                                 loadMan.load(this.Content, modMan.player);
                                 loadMan.load(this.Content, modMan.artificial);
                                 testBeta = false;

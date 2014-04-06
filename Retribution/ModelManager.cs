@@ -49,8 +49,10 @@ namespace Retribution
                         player.Add(tower);
                         break;
                     case "WARRIOR":
-                        Warrior warrior = new Warrior(autoPlace);
-                        player.Add(warrior);
+
+                        Warrior war = new Warrior(autoPlace);
+                        autoPlace.X += 50;
+                        player.Add(war);
                         break;
                 }
             }
@@ -67,6 +69,11 @@ namespace Retribution
                         Tower tower = new Tower(autoPlace);
                         autoPlace.X+=32;
                         artificial.Add(tower);
+                        break;
+                    case "WARRIOR":
+                        Warrior war = new Warrior(autoPlace);
+                        autoPlace.X += 50;
+                        artificial.Add(war);
                         break;
 
                 }
@@ -90,8 +97,9 @@ namespace Retribution
                         player.Add(tower);
                         break;
                     case "WARRIOR":
-                        Warrior warrior = new Warrior(position);
-                        player.Add(warrior);
+                        Warrior war = new Warrior(position);
+                        autoPlace.X += 50;
+                        player.Add(war);
                         break;
                     case "DIGIT":
                         Digits digit = new Digits(position);
@@ -112,6 +120,11 @@ namespace Retribution
                         Tower tower = new Tower(position);
                         autoPlace.X += 32;
                         artificial.Add(tower);
+                        break;
+                    case "WARRIOR":
+                        Warrior war = new Warrior(position);
+                        autoPlace.X += 50;
+                        artificial.Add(war);
                         break;
 
                 }

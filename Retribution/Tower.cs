@@ -12,13 +12,13 @@ namespace Retribution
     {
         public string state;
         public Arrow myArrow;
-        public Tower(Vector2 position, int health = 20, int damage = 1, int attackRange = 250)
+        public Tower(Vector2 position, int health = 100, int damage = 1, int attackRange = 250)
             : base (health, position, damage, attackRange)
         {
             this.position = position;
             this.state = "Wall";
             this.type = "TOWER";
-            attackSpeed = 550;
+            this.attackSpeed = 300;
         }
 
         // change the state of the Tower
@@ -54,12 +54,12 @@ namespace Retribution
         {
             myArrow = makeArrow(target);
             Vector2 direction = MovementManager.getNormalizedVector(this.myArrow.position, target.position);
-            myArrow.setDestination(direction, this.position);
+            myArrow.setDestination(direction, target.position);
         }
         public Arrow makeArrow(GameObject target)
         {
-
-            return new Arrow(this.position, ref target);
+            Vector2 corrected = Vector2.Add(position, new Vector2(16, 16));
+            return new Arrow(corrected, ref target);
 
         }
 

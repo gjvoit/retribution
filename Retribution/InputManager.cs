@@ -37,13 +37,19 @@ namespace Retribution
 
         {
 
-            if (keyPress.IsKeyDown(Keys.S))
+            if (keyPress.IsKeyDown(Keys.S)&&current.LeftButton==ButtonState.Pressed&&previous.LeftButton==ButtonState.Released)
             {
-                foreach (Mobile unit in units)
+                 int x = Convert.ToInt32(current.X);
+                 int y = Convert.ToInt32(current.Y);
+                Vector2 mousePosition = new Vector2(x,y);
+                ClickBox temp = new ClickBox(mousePosition);
+                temp.LoadContent(theContent);
+                foreach (GameObject unit in units)
                 {
-                    if (unit.selected == true)
+                    if (unit.selected)
                     {
-                        unit.isMoving = false;
+                        unit.position = mousePosition;                       
+                        //unit.position = mousePosition;
                     }
                 }
             }
