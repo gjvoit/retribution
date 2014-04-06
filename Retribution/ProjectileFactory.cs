@@ -2,7 +2,7 @@
 
 namespace Retribution
 {
-	public static class ProjectileFactory{
+	class ProjectileFactory{
         public ProjectileFactory()
         {
           

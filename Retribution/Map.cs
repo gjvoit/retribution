@@ -28,6 +28,7 @@ namespace Retribution
         public Tile startTile;
         public Tile endTile;
         public Tile lowestScoreNode;
+        public Tile currentNode;
 
         public Map(String fileName)
         {
@@ -92,47 +93,12 @@ namespace Retribution
                 return pathList;
             }
 
-            Tile currentNode = startTile;
+            currentNode = startTile;
 
             //openList.Add(currentNode);
 
             while(currentNode.origin != endTile.origin)
             {
-                openList.Clear();
-
-                int x = currentNode.xPosition;
-                int y = currentNode.yPosition;
-
-                // Check all adjacent tiles to see if open:
-                CheckNode(x - 1, y, x, y);
-                CheckNode(x, y - 1, x, y);
-                CheckNode(x + 1, y, x, y);
-                CheckNode(x, y + 1, x, y);
-
-
-                if (openList.Count == 0)
-                {
-                    break;
-                }
-
-                closedList.Add(currentNode);
-
-                // Find lowest score from openList:
-                FindLowestScore();
-                //openList.Remove(lowestScoreNode);
-                //closedList.Add(lowestScoreNode);
-                pathList.Add(lowestScoreNode);
-
-                if (pathList.Count > 50)
-                {
-                    break;
-                }
-
-                //System.Console.WriteLine("Lowest node:" + lowestScoreNode.xPosition + ", " + lowestScoreNode.yPosition);
-
-
-                currentNode = lowestScoreNode;
-
                 if (currentNode == endTile)
                 {
                     openList.Clear();
@@ -140,6 +106,40 @@ namespace Retribution
 
                     break;
                 }
+
+                int x = currentNode.xPosition;
+                int y = currentNode.yPosition;
+
+                //openList.Add(currentNode);
+
+                // Check all adjacent tiles to see if open:
+                CheckNode(x - 1, y, x, y);
+                CheckNode(x, y - 1, x, y);
+                CheckNode(x + 1, y, x, y);
+                CheckNode(x, y + 1, x, y);
+                CheckNode(x + 1, y + 1, x, y);
+                CheckNode(x + 1, y - 1, x, y);
+                CheckNode(x - 1, y + 1, x, y);
+                CheckNode(x - 1, y - 1, x, y);
+
+                openList.Remove(currentNode);
+
+                if (openList.Count == 0)
+                {
+                    break;
+                }
+
+                // Find lowest score from openList:
+                FindLowestScore();
+
+                currentNode = lowestScoreNode;
+                pathList.Add(currentNode);
+
+                if (pathList.Count > 50)
+                {
+                    break;
+                }
+
 
             }
             //System.Console.WriteLine(pathList.Count);
@@ -150,7 +150,7 @@ namespace Retribution
 
         public void FindLowestScore()
         {
-            int movementCost = 10;  //  Magic number yayyy
+            int movementCost = 0;  //  Magic number yayyy
 
             float lowestScore = 999999999;
 
@@ -159,7 +159,17 @@ namespace Retribution
             // For each open Tile, calculate heuristic and store minimum:
             foreach(Tile myTile in openList)
             {
-                float heuristic = movementCost * (Math.Abs(myTile.xPosition - endTile.xPosition) + Math.Abs(myTile.yPosition - endTile.yPosition));
+                if (Math.Abs(myTile.xPosition - currentNode.xPosition) + Math.Abs(myTile.yPosition - currentNode.yPosition) >= 2)
+                    movementCost = 14;
+
+                else
+                    movementCost = 10;
+
+                Vector2 currentPos = new Vector2(myTile.Bounds.Center.X, myTile.Bounds.Center.Y);
+                Vector2 destination = new Vector2(endTile.Bounds.Center.X, endTile.Bounds.Center.Y);
+
+                float heuristic = movementCost + (Vector2.Distance(currentPos, destination));
+
                 if (heuristic < lowestScore)
                 {
                     lowestScore = heuristic;
@@ -180,7 +190,6 @@ namespace Retribution
             {
                 return;
             }
-
             //  Else, add Tile to openList if it is walkable and not closed:
             else
             {
@@ -213,44 +222,18 @@ namespace Retribution
         }
 
 
-        /*public List<Tile> UpdateTile(float xPosition, float yPosition)
-        {
-            List<Tile> newList = new List<Tile>();
-            //Tile newTile = GetContainingTile(xPosition, yPosition);
-            newList = GetContainingTiles(xPosition, yPosition);
-            //System.Console.WriteLine("Collision item tile: " + newTile.xPosition + ", " + newTile.yPosition);
-            return newList;
-        }*/
 
         public Tile GetContainingTile(GameObject myObject)
         {
             float xPosition = myObject.Bounds.Center.X;
             float yPosition = myObject.Bounds.Center.Y;
                
-
-            //List<Tile> intersectingTiles = new List<Tile>();
-            
+            //List<Tile> intersectingTiles = new List<Tile>();     
 
             for (int y = 0; y < height; y++)
             {
                 for (int x = 0; x < width; x++)
                 {
-                    /*
-                    if (xPosition >= mapTiles[y, x].origin.X && yPosition >= mapTiles[y, x].origin.Y
-                        && xPosition <= (mapTiles[y, x].origin.X + mapTiles[y, x].width) && yPosition <= (mapTiles[y, x].origin.Y + mapTiles[y, x].height)
-                        ||
-                        (xPosition + myObject.texture.Width) >= mapTiles[y, x].origin.X && yPosition >= mapTiles[y, x].origin.Y
-                        && (xPosition + myObject.texture.Width) <= (mapTiles[y, x].origin.X + mapTiles[y, x].width) && yPosition <= (mapTiles[y, x].origin.Y + mapTiles[y, x].height)
-                        ||
-                        (xPosition + myObject.texture.Width) >= mapTiles[y, x].origin.X && (yPosition + myObject.texture.Height) >= mapTiles[y, x].origin.Y
-                        && (xPosition + myObject.texture.Width) <= (mapTiles[y, x].origin.X + mapTiles[y, x].width) && (yPosition + myObject.texture.Height) <= (mapTiles[y, x].origin.Y + mapTiles[y, x].height)
-                        ||
-                        xPosition >= mapTiles[y, x].origin.X && (yPosition + myObject.texture.Height) >= mapTiles[y, x].origin.Y
-                        && xPosition <= (mapTiles[y, x].origin.X + mapTiles[y, x].width) && (yPosition + myObject.texture.Height) <= (mapTiles[y, x].origin.Y + mapTiles[y, x].height)
-                        )
-                    {
-                        intersectingTiles.Add(mapTiles[y,x]);
-                    }*/
 
                     if(xPosition >= mapTiles[y,x].origin.X && xPosition <= mapTiles[y,x].origin.X + mapTiles[y,x].width
                        && yPosition >= mapTiles[y,x].origin.Y && yPosition <= mapTiles[y,x].origin.Y + mapTiles[y,x].width
