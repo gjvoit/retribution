@@ -45,6 +45,9 @@ namespace Retribution
         int aiStartDelay;
         int attackDelay;
         int playerResources = 9000;
+        int buildResources = 50;
+        bool built = false;
+        bool initialized = false;
 
         //  TyDigit digit test to display amount of resources left
         Digits theResource;
@@ -92,14 +95,10 @@ namespace Retribution
             aiStartDelay = 0;
             aiManager = AIManager.getInstance(ref mainScreen);
             mousePrev = Mouse.GetState();
-           
-           
-          
-            
+
             //Create Player's units
             //testInitialization();
-            
-            
+
             testCommander();
             base.Initialize();
             this.IsMouseVisible = true;
@@ -134,6 +133,24 @@ namespace Retribution
             // TODO: Unload any non ContentManager content here
         }
 
+        public void buildPhase()
+            // let player click and place units before starting the game
+        {
+            Console.WriteLine("start buildPhase");
+            int builderres = 20;
+            while (builderres > 0)
+            {
+                mouseCurrent = Mouse.GetState();
+                KeyboardState keyboardState = Keyboard.GetState();
+                Console.WriteLine("here we are now");
+                mousePrev = mouseCurrent;
+                Console.WriteLine(builderres);
+            }
+
+            built = true;
+
+        }
+
         public void betaInitialization()
         {
             //if (player != null)
@@ -157,26 +174,26 @@ namespace Retribution
             modMan.addUnit("ARTIFICIAL", "WARRIOR", new Vector2(672-280+32, 250));
             modMan.addUnit("ARTIFICIAL", "WARRIOR", new Vector2(672-150-32, 250));
 
-            toweroffset = 50;
-            for (int i = 0; i < 5; i++)
-            {
-                modMan.addUnit("PLAYER", "TOWER", new Vector2(20 + toweroffset, 600));
-                //gameobj.Add(new Archer(new Vector2(20 + toweroffset, 400)));
-                toweroffset += 50;
-            }
-            toweroffset = 0;
-            //towers = new List<Tower>();
-            for (int i = 0; i < 10; i++)
-            {
-                modMan.addUnit("PLAYER", "ARCHER", new Vector2(20 + toweroffset, 550));
-                //towers.Add(new Tower(new Vector2(20 + toweroffset, 600)));
-                toweroffset += 50;
-            }
-            modMan.addUnit("PLAYER", "WARRIOR", new Vector2(150, 500));
-            modMan.addUnit("PLAYER", "WARRIOR", new Vector2(190, 500));
-            modMan.addUnit("PLAYER", "WARRIOR", new Vector2(215, 500));
-            modMan.addUnit("PLAYER", "WARRIOR", new Vector2(250, 500));
-            modMan.addUnit("PLAYER", "WARRIOR", new Vector2(290, 500));
+            //toweroffset = 50;
+            //for (int i = 0; i < 5; i++)
+            //{
+            //    modMan.addUnit("PLAYER", "TOWER", new Vector2(20 + toweroffset, 600));
+            //    //gameobj.Add(new Archer(new Vector2(20 + toweroffset, 400)));
+            //    toweroffset += 50;
+            //}
+            //toweroffset = 0;
+            ////towers = new List<Tower>();
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    modMan.addUnit("PLAYER", "ARCHER", new Vector2(20 + toweroffset, 550));
+            //    //towers.Add(new Tower(new Vector2(20 + toweroffset, 600)));
+            //    toweroffset += 50;
+            //}
+            //modMan.addUnit("PLAYER", "WARRIOR", new Vector2(150, 500));
+            //modMan.addUnit("PLAYER", "WARRIOR", new Vector2(190, 500));
+            //modMan.addUnit("PLAYER", "WARRIOR", new Vector2(215, 500));
+            //modMan.addUnit("PLAYER", "WARRIOR", new Vector2(250, 500));
+            //modMan.addUnit("PLAYER", "WARRIOR", new Vector2(290, 500));
 
             theResource = new Digits(new Vector2(0, 672));
             theResource.LoadContent(this.Content);
@@ -188,7 +205,7 @@ namespace Retribution
         {
             //theCommander = new Warrior(new Vector2(600, 400));
             modMan.addUnit("PLAYER", "WARRIOR", new Vector2(600, 400));
-            ((Mobile)modMan.player[0]).moveSpeed = 3;
+            ((Mobile)modMan.player[0]).moveSpeed = 7;
         }
 
         public void testInitialization()
@@ -259,7 +276,17 @@ namespace Retribution
 
 
             //inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref towers, ref gameobj);
-            inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref modMan.player, ref loadMan, Content, ref playerResources);
+            if (!built)
+            {
+                inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref modMan.player, ref loadMan, this.Content, ref buildResources, true);
+                if (buildResources <= 1)
+                    built = true;
+            }
+            else
+            {
+                inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref modMan.player, ref loadMan, Content, ref playerResources, false);
+            }
+            
             healthChecker.Update(modMan.player, modMan.artificial);
             healthChecker.checkHealth();
             modMan.player = healthChecker.player;
@@ -307,6 +334,9 @@ namespace Retribution
                     if ((riverDefenseSelector.getOccupied() == true) && riverDefenseSelector.getInteraction() == true)
                     {
                         riverDefense.DrawMap(spriteBatch);
+                        Console.WriteLine("here we go");
+                        loadMan.load(this.Content, modMan.player);
+                        loadMan.load(this.Content, modMan.artificial);
                         currMap = "levelSelect";
                         if (currMap.Equals("levelSelect"))
                         {
@@ -315,19 +345,31 @@ namespace Retribution
                             {
                                 updateMap(riverDefense);
                                 modMan.player.Remove(modMan.player[0]);
-                                betaInitialization();
+                                //buildPhase();
+                                if (built)
+                                {
+                                    betaInitialization();
+                                    initialized = true;
+                                }
+                                //betaInitialization();
+                                Console.WriteLine("first here");
                                 loadMan.load(this.Content, modMan.player);
                                 loadMan.load(this.Content, modMan.artificial);
                                 testBeta = false;
                             }
-                            theResource.ssY = playerResources * 32;
-                            theResource.Draw(spriteBatch);
+                            if (built && initialized)
+                            {
+                                theResource.ssY = playerResources * 32;
+                                theResource.Draw(spriteBatch);
+                            }
                         }
                         //currMap = "riverDefense";
                     }
                     else if ((dummyUnlockSelector.getOccupied() == true) && dummyUnlockSelector.getInteraction() == true)
                     {
                         updateMap(riverDefense);
+                        loadMan.load(this.Content, modMan.player);
+                        loadMan.load(this.Content, modMan.artificial);
                         riverDefense.DrawMap(spriteBatch);
                     }
                     else
