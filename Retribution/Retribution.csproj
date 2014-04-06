@@ -198,8 +198,32 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AIManager.cs" />
+    <Compile Include="Archer.cs" />
+    <Compile Include="Arrow.cs" />
+    <Compile Include="AttackSystem.cs" />
+    <Compile Include="Builder.cs" />
     <Compile Include="ClickBox.cs" />
     <Compile Include="Digits.cs" />
+    <Compile Include="Game1.cs" />
+    <Compile Include="GameObject.cs" />
+    <Compile Include="HealthSystem.cs" />
+    <Compile Include="InputManager.cs" />
+    <Compile Include="LoadManager.cs" />
+    <Compile Include="Map.cs" />
+    <Compile Include="Mobile.cs" />
+    <Compile Include="ModelManager.cs" />
+    <Compile Include="MovementManager.cs" />
+    <Compile Include="ObjectFactory.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Projectile.cs" />
+    <Compile Include="ProjectileFactory.cs" />
+    <Compile Include="ProjectileManager.cs" />
+    <Compile Include="Selector.cs" />
+    <Compile Include="Sprite.cs" />
+    <Compile Include="Tile.cs" />
+    <Compile Include="Tower.cs" />
+    <Compile Include="Warrior.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">

@@ -38,6 +38,7 @@ namespace Retribution
         }
 
         //  Call movement method of all selected objects
+        /*
         public void moveObjects(List<Mobile> mobiles, List<Tower> towers)
         {
             Boolean collision = false;
@@ -79,7 +80,7 @@ namespace Retribution
                 mobiles[i].move();
                 newClosedList.Clear();
             }
-        }
+        }*/
        
         public void moveObjects(List<GameObject> playerUnits, List<GameObject> aiUnits)
         {
@@ -138,11 +139,16 @@ namespace Retribution
                             //   ((Mobile)mobiles[i]).isMoving = false;
                             //}
 
+                            //System.Console.WriteLine("test");
+
                             ((Mobile)mobiles[i]).pathList.Clear();
                             ((Mobile)mobiles[i]).pathList.AddRange(myMap.GetPath(mobiles[i].position, ((Mobile)mobiles[i]).destination, newClosedList));
                         }
 
-                        ((Mobile)mobiles[i]).move();
+                        //else
+                        //{
+                            ((Mobile)mobiles[i]).move();
+                        //}
                     }
 
 

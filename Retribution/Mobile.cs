@@ -34,6 +34,7 @@ namespace Retribution
 
         public void move()
         {
+
             if (this.pathList == null || this.pathList.Count == 0)
             {
                 this.isMoving = false;
@@ -42,6 +43,13 @@ namespace Retribution
 
             else
             {
+                //if (this.collisionList.Contains(this.pathList[0]))
+                //{
+                //    this.isMoving = false;
+                //    return;
+                //}
+
+
                 Vector2 end_point = Vector2.Add(new Vector2(this.pathList[0].Bounds.Center.X, this.pathList[0].Bounds.Center.Y), new Vector2(2, 2));
                 Vector2 prev_point = Vector2.Subtract(new Vector2(this.pathList[0].Bounds.Center.X, this.pathList[0].Bounds.Center.Y), new Vector2(2, 2));
 
@@ -58,7 +66,9 @@ namespace Retribution
                     if (pathList.Count == 0)
                     {
                         //System.Console.WriteLine("test");
+
                         this.isMoving = false;
+                        this.collisionList.Clear();
                     }
                     return;
                 }
