@@ -40,6 +40,7 @@
     <Compile Include="Arrow.cs" />
     <Compile Include="AttackSystem.cs" />
     <Compile Include="Builder.cs" />
+    <Compile Include="Digits.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="HealthSystem.cs" />
     <Compile Include="InputManager.cs" />
@@ -127,6 +128,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\MainScreen.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\numbers_spritesheet.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\pawn.png">
