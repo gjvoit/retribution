@@ -69,7 +69,6 @@ namespace Retribution
                         temp = new Archer(new Vector2(current.X, 672));
                     }
                     units.Add(temp);
-                    Console.WriteLine("made archer");
                     loadManager.load(theContent, units);
                     playerResources--;
                 }

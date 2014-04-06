@@ -284,7 +284,13 @@ namespace Retribution
             }
             else
             {
-                inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref modMan.player, ref loadMan, Content, ref playerResources, false);
+                int noResources = 0;
+                inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref modMan.player, ref loadMan, Content, ref noResources, false);
+            }
+            if (built && !initialized)
+            {
+                betaInitialization();
+                initialized = true;
             }
             
             healthChecker.Update(modMan.player, modMan.artificial);
@@ -334,7 +340,6 @@ namespace Retribution
                     if ((riverDefenseSelector.getOccupied() == true) && riverDefenseSelector.getInteraction() == true)
                     {
                         riverDefense.DrawMap(spriteBatch);
-                        Console.WriteLine("here we go");
                         loadMan.load(this.Content, modMan.player);
                         loadMan.load(this.Content, modMan.artificial);
                         currMap = "levelSelect";
@@ -345,14 +350,6 @@ namespace Retribution
                             {
                                 updateMap(riverDefense);
                                 modMan.player.Remove(modMan.player[0]);
-                                //buildPhase();
-                                if (built)
-                                {
-                                    betaInitialization();
-                                    initialized = true;
-                                }
-                                //betaInitialization();
-                                Console.WriteLine("first here");
                                 loadMan.load(this.Content, modMan.player);
                                 loadMan.load(this.Content, modMan.artificial);
                                 testBeta = false;
