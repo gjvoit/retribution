@@ -28,8 +28,11 @@ namespace Retribution
         String currMap;
         Selector mainScreenSelector;
         Selector riverDefenseSelector;
-        Selector dummyUnlockSelector;
+        Selector castleDefenseSelector;
+        Selector castleSiegeSelector;
         Map riverDefense;
+        Map castleDefense;
+        Map castleSiege;
         MouseState mouseCurrent, mousePrev;
         HealthSystem healthChecker;
         AttackSystem attackChecker;
@@ -39,6 +42,7 @@ namespace Retribution
         ModelManager modMan;
         LoadManager loadMan;
         AIManager aiManager;
+        ScreenManager screenManager;
 
         SoundPlayer player;
       //  Warrior theCommander;
@@ -77,8 +81,9 @@ namespace Retribution
             levelSelect = new Map("Content/levelSelect.txt");
             riverDefense = new Map("Content/RiverDefense.txt");
             mainScreenSelector = new Selector(new Rectangle(288, 0, 128, 64), mainScreen, levelSelect, true);
-            riverDefenseSelector = new Selector(new Rectangle(32, 320, 128, 64), levelSelect, riverDefense, true);
-            dummyUnlockSelector = new Selector(new Rectangle(288, 320, 128, 64), levelSelect, riverDefense, false);
+            riverDefenseSelector = new Selector(new Rectangle(288, 320, 128, 64), levelSelect, riverDefense, true);
+            castleDefenseSelector = new Selector(new Rectangle(32, 320, 128, 64), levelSelect, castleDefense, false);
+            castleSiegeSelector = new Selector(new Rectangle(544, 320, 128, 64), levelSelect, castleSiege, false);
             modMan = ModelManager.getInstance(ref mainScreen);
             loadMan = LoadManager.getInstance();
             projMan = ProjectileManager.getInstance();
@@ -92,8 +97,6 @@ namespace Retribution
             aiStartDelay = 0;
             aiManager = AIManager.getInstance(ref mainScreen);
             mousePrev = Mouse.GetState();
-           
-           
           
             
             //Create Player's units
@@ -104,13 +107,6 @@ namespace Retribution
             base.Initialize();
             this.IsMouseVisible = true;
            
-        }
-
-        public void updateMap(Map myMap)
-        {
-            modMan = ModelManager.getInstance(ref myMap);
-            movementManager.setMap(myMap);
-            aiManager = AIManager.getInstance(ref myMap);
         }
 
         /// <summary>
@@ -142,12 +138,14 @@ namespace Retribution
             modMan.addUnit("ARTIFICIAL", "TOWER", new Vector2(280, 250));
             modMan.addUnit("ARTIFICIAL", "TOWER", new Vector2(672-280, 250));
             modMan.addUnit("ARTIFICIAL", "TOWER", new Vector2(672-150, 250));
-            modMan.artificial[0].health = 99999999;
+            modMan.artificial[0].health = 5;
             int toweroffset = 0;
             for (int i = 0; i < 10; i++)
             {
                 modMan.addUnit("ARTIFICIAL", "ARCHER", new Vector2(30 + toweroffset, 50));
                 modMan.addUnit("ARTIFICIAL", "ARCHER", new Vector2(30 + toweroffset, 190));
+                modMan.artificial[5].health = 10000;
+                modMan.artificial[5].damage = 1000;
                
                 //gameobj.Add(new Archer(new Vector2(60 + toweroffset, 100)));
                 toweroffset +=70;
@@ -160,9 +158,10 @@ namespace Retribution
             toweroffset = 50;
             for (int i = 0; i < 5; i++)
             {
-                modMan.addUnit("PLAYER", "TOWER", new Vector2(20 + toweroffset, 600));
+                /*modMan.addUnit("PLAYER", "TOWER", new Vector2(20 + toweroffset, 600));
                 //gameobj.Add(new Archer(new Vector2(20 + toweroffset, 400)));
                 toweroffset += 50;
+                 */
             }
             toweroffset = 0;
             //towers = new List<Tower>();
@@ -172,11 +171,11 @@ namespace Retribution
                 //towers.Add(new Tower(new Vector2(20 + toweroffset, 600)));
                 toweroffset += 50;
             }
-            modMan.addUnit("PLAYER", "WARRIOR", new Vector2(150, 500));
-            modMan.addUnit("PLAYER", "WARRIOR", new Vector2(190, 500));
-            modMan.addUnit("PLAYER", "WARRIOR", new Vector2(215, 500));
-            modMan.addUnit("PLAYER", "WARRIOR", new Vector2(250, 500));
-            modMan.addUnit("PLAYER", "WARRIOR", new Vector2(290, 500));
+            //modMan.addUnit("PLAYER", "WARRIOR", new Vector2(150, 500));
+            //modMan.addUnit("PLAYER", "WARRIOR", new Vector2(190, 500));
+            //modMan.addUnit("PLAYER", "WARRIOR", new Vector2(215, 500));
+            //modMan.addUnit("PLAYER", "WARRIOR", new Vector2(250, 500));
+            //modMan.addUnit("PLAYER", "WARRIOR", new Vector2(290, 500));
 
             theResource = new Digits(new Vector2(0, 672));
             theResource.LoadContent(this.Content);
@@ -188,7 +187,7 @@ namespace Retribution
         {
             //theCommander = new Warrior(new Vector2(600, 400));
             modMan.addUnit("PLAYER", "WARRIOR", new Vector2(600, 400));
-            ((Mobile)modMan.player[0]).moveSpeed = 3;
+            ((Mobile)modMan.player[0]).moveSpeed = 7;
         }
 
         public void testInitialization()
@@ -241,6 +240,15 @@ namespace Retribution
             theResource = new Digits(new Vector2(0, 672));
             theResource.LoadContent(this.Content);
         }
+
+        // Change map and set managers to be equal to the current map
+        public void updateMap(Map myMap)
+        {
+            modMan = ModelManager.getInstance(ref myMap);
+            movementManager.setMap(myMap);
+            aiManager = AIManager.getInstance(ref myMap);
+        }
+
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -306,7 +314,9 @@ namespace Retribution
                     }
                     if ((riverDefenseSelector.getOccupied() == true) && riverDefenseSelector.getInteraction() == true)
                     {
-                        riverDefense.DrawMap(spriteBatch);
+                        // Draw riverDefense until an end condition has been met:
+                        // Either player has won or lost
+                        // Case that player loses, return to level select and 
                         currMap = "levelSelect";
                         if (currMap.Equals("levelSelect"))
                         {
@@ -319,17 +329,31 @@ namespace Retribution
                                 loadMan.load(this.Content, modMan.player);
                                 loadMan.load(this.Content, modMan.artificial);
                                 testBeta = false;
+                                riverDefenseSelector.setInteraction(true);
                             }
                             theResource.ssY = playerResources * 32;
                             theResource.Draw(spriteBatch);
                         }
+                        if (modMan.player.Count == 0)
+                        {
+                            Console.WriteLine("Player count is 0! You lost!");
+                            modMan.artificial.Clear();
+                            testCommander();
+                            modMan.player[0].LoadContent(Content);
+                            updateMap(levelSelect);
+                            riverDefenseSelector.setOccupied(false);
+                            testBeta = true;
+                            //riverDefenseSelector.setInteraction(false);
+                        }
+                        riverDefense.DrawMap(spriteBatch);
                         //currMap = "riverDefense";
                     }
-                    else if ((dummyUnlockSelector.getOccupied() == true) && dummyUnlockSelector.getInteraction() == true)
+                    /*else if ((.getOccupied() == true) && dummyUnlockSelector.getInteraction() == true)
                     {
-                        updateMap(riverDefense);
+                       updateMap(riverDefense);
                         riverDefense.DrawMap(spriteBatch);
                     }
+                     */
                     else
                     {
                         updateMap(levelSelect);

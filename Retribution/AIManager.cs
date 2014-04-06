@@ -67,7 +67,7 @@ namespace Retribution
                 foreach (GameObject cunit in searchParty)
                 {
                     Vector2 explore = new Vector2(random.Next(180,248),random.Next(400,672));
-                    ((Mobile)cunit).setDestination(MovementManager.getNormalizedVector(cunit.position,explore), explore);
+                    //((Mobile)cunit).setDestination(MovementManager.getNormalizedVector(cunit.position,explore), explore);
                     List<Tile> newList = new List<Tile>();
 
                     ((Mobile)cunit).pathList.Clear();
