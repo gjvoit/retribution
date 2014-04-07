@@ -33,7 +33,7 @@ namespace Retribution
         }
 
         public void Update(MouseState current, MouseState previous, KeyboardState keyPress, ref List<GameObject> units, ref LoadManager loadManager, ContentManager theContent,
-                            ref int playerResources)
+                            ref int playerResources, bool buildPhase)
 
         {
 
@@ -59,7 +59,15 @@ namespace Retribution
             {
                 if (playerResources >= 1)
                 {
-                    Archer temp = new Archer(new Vector2(current.X, 672));
+                    Archer temp;
+                    if (buildPhase)
+                    {
+                        temp = new Archer(new Vector2(current.X, current.Y));
+                    }
+                    else
+                    {
+                        temp = new Archer(new Vector2(current.X, 672));
+                    }
                     units.Add(temp);
                     loadManager.load(theContent, units);
                     playerResources--;
@@ -71,7 +79,15 @@ namespace Retribution
             {
                 if (playerResources >= 2)
                 {
-                    Tower temp = new Tower(new Vector2(current.X, 672));
+                    Tower temp;
+                    if (buildPhase)
+                    {
+                        temp = new Tower(new Vector2(current.X, current.Y));
+                    }
+                    else
+                    {
+                        temp = new Tower(new Vector2(current.X, 672));
+                    }
                     units.Add(temp);
                     loadManager.load(theContent, units);
                     playerResources -= 2;
@@ -83,7 +99,15 @@ namespace Retribution
             {
                 if (playerResources >= 5)
                 {
-                    Warrior temp = new Warrior(new Vector2(current.X, 672));
+                    Warrior temp;
+                    if (buildPhase)
+                    {
+                        temp = new Warrior(new Vector2(current.X, current.Y));
+                    }
+                    else
+                    {
+                        temp = new Warrior(new Vector2(current.X, 672));
+                    }
                     units.Add(temp);
                     loadManager.load(theContent, units);
                     playerResources -= 5;
