@@ -22,6 +22,7 @@ namespace Retribution
         Texture2D myTexture;
         int spacing = 1;
         KeyboardState previousKeyboard;
+        int default_player_y = 672;
 
         //public InputManager( MovementManager newMovementManager)
         public InputManager(ref ModelManager newmodelManager)
@@ -48,26 +49,22 @@ namespace Retribution
                 {
                     if (unit.selected)
                     {
-                        unit.position = mousePosition;                       
-                        //unit.position = mousePosition;
+                        unit.position = mousePosition;
                     }
                 }
             }
+
+            Vector2 mousepos;
+            if (buildPhase)
+                mousepos = new Vector2(current.X, current.Y);
+            else mousepos = new Vector2(current.X, default_player_y);
 
             //  Purchase Archer
             if (!previousKeyboard.IsKeyDown(Keys.Z) && keyPress.IsKeyDown(Keys.Z))
             {
                 if (playerResources >= 1)
                 {
-                    Archer temp;
-                    if (buildPhase)
-                    {
-                        temp = new Archer(new Vector2(current.X, current.Y));
-                    }
-                    else
-                    {
-                        temp = new Archer(new Vector2(current.X, 672));
-                    }
+                    Archer temp = new Archer(mousepos);
                     units.Add(temp);
                     loadManager.load(theContent, units);
                     playerResources--;
@@ -79,15 +76,7 @@ namespace Retribution
             {
                 if (playerResources >= 2)
                 {
-                    Tower temp;
-                    if (buildPhase)
-                    {
-                        temp = new Tower(new Vector2(current.X, current.Y));
-                    }
-                    else
-                    {
-                        temp = new Tower(new Vector2(current.X, 672));
-                    }
+                    Tower temp = new Tower(mousepos);
                     units.Add(temp);
                     loadManager.load(theContent, units);
                     playerResources -= 2;
@@ -99,15 +88,7 @@ namespace Retribution
             {
                 if (playerResources >= 5)
                 {
-                    Warrior temp;
-                    if (buildPhase)
-                    {
-                        temp = new Warrior(new Vector2(current.X, current.Y));
-                    }
-                    else
-                    {
-                        temp = new Warrior(new Vector2(current.X, 672));
-                    }
+                    Warrior temp = new Warrior(mousepos);
                     units.Add(temp);
                     loadManager.load(theContent, units);
                     playerResources -= 5;
