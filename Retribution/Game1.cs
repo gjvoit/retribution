@@ -398,7 +398,6 @@ namespace Retribution
             }
             for (int i = 0; i < modMan.player.Count; i++)
             {
-                Console.WriteLine("Count for modman.player: " + modMan.player.Count);
                 (modMan.player[i]).Draw(spriteBatch);
             }
            
