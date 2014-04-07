@@ -50,7 +50,9 @@ namespace Retribution
         int attackDelay;
         int playerResources = 9000;
         int buildResources = 10;
+        // if built is false, player enters build phase; if built is true, that means player finished build phase and level starts
         bool built = false;
+        // if initialized is false, that means AI units have not been initialized
         bool initialized = false;
 
         //  TyDigit digit test to display amount of resources left
@@ -130,24 +132,6 @@ namespace Retribution
             // TODO: Unload any non ContentManager content here
         }
 
-        public void buildPhase()
-            // let player click and place units before starting the game
-        {
-            Console.WriteLine("start buildPhase");
-            int builderres = 20;
-            while (builderres > 0)
-            {
-                mouseCurrent = Mouse.GetState();
-                KeyboardState keyboardState = Keyboard.GetState();
-                Console.WriteLine("here we are now");
-                mousePrev = mouseCurrent;
-                Console.WriteLine(builderres);
-            }
-
-            built = true;
-
-        }
-
         public void betaInitialization()
         {
             //if (player != null)
@@ -174,21 +158,7 @@ namespace Retribution
             modMan.addUnit("ARTIFICIAL", "WARRIOR", new Vector2(672-150-32, 250));
 
             toweroffset = 50;
-            for (int i = 0; i < 5; i++)
-            {
-                /*modMan.addUnit("PLAYER", "TOWER", new Vector2(20 + toweroffset, 600));
-                //gameobj.Add(new Archer(new Vector2(20 + toweroffset, 400)));
-                toweroffset += 50;
-                 */
-            }
-            toweroffset = 0;
-            //towers = new List<Tower>();
-            /*for (int i = 0; i < 10; i++)
-            {
-                modMan.addUnit("PLAYER", "ARCHER", new Vector2(20 + toweroffset, 550));
-                //towers.Add(new Tower(new Vector2(20 + toweroffset, 600)));
-                toweroffset += 50;
-            }*/
+            /* This part is commented out because we want the player to spawn own units, not auto-generated anymore */
             //toweroffset = 50;
             //for (int i = 0; i < 5; i++)
             //{
@@ -209,7 +179,7 @@ namespace Retribution
             //modMan.addUnit("PLAYER", "WARRIOR", new Vector2(215, 500));
             //modMan.addUnit("PLAYER", "WARRIOR", new Vector2(250, 500));
             //modMan.addUnit("PLAYER", "WARRIOR", new Vector2(290, 500));
-
+            /* ---------------------------------------------------------------------------------------------------- */
             theResource = new Digits(new Vector2(0, 672));
             theResource.LoadContent(this.Content);
         }
@@ -298,25 +268,23 @@ namespace Retribution
             mouseCurrent = Mouse.GetState();
 
             KeyboardState keyboardState = Keyboard.GetState();
-            // TODO: Add your update logic here
-
 
             //inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref towers, ref gameobj);
-            if (!built)
+
+            if (!built) // Enter build phase if built is False, notice true flag at the end indicating we're in build phase
             {
                 inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref modMan.player, ref loadMan, this.Content, ref buildResources, true);
-                if (buildResources <= 1)
+                if (buildResources <= 1) // once we deplete our build resources, set built to true (doing so will initialize enemy AI units and starts the level)
                     built = true;
             }
-            else
+            else // player is not building in build phase but rather building reinforcements - notice the false flag at the end indicating not build phase
             {
-                int noResources = 0;
-                inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref modMan.player, ref loadMan, Content, ref noResources, false);
+                inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref modMan.player, ref loadMan, Content, ref playerResources, false);
             }
             if (built && !initialized && riverDefenseSelector.getOccupied() == true)
             {
                 betaInitialization();
-                initialized = true;
+                initialized = true; // set initialized to true to prevent looped enemy unit spawning
             }
             
             healthChecker.Update(modMan.player, modMan.artificial);
@@ -385,7 +353,7 @@ namespace Retribution
                                 testBeta = false;
                                 riverDefenseSelector.setInteraction(true);
                             }
-                            if (built && initialized)
+                            if (built && initialized)  // hopefully get digits working and draw it to the screen (only when game starts)
                             {
                                 theResource.ssY = playerResources * 32;
                                 theResource.Draw(spriteBatch);
@@ -394,11 +362,9 @@ namespace Retribution
                         // You lost! This happens, and takes you back to levelSelect to replay!
                         if ((modMan.player.Count == 0) && built)
                         {
-                            Console.WriteLine("Player count is 0! You lost!");
                             modMan.artificial.Clear();
                             testCommander();
                             modMan.player[0].LoadContent(Content);
-                            Console.WriteLine("Player count is: " + modMan.player.Count);
                             updateMap(levelSelect);
                             riverDefenseSelector.setOccupied(false);
                             testBeta = true;

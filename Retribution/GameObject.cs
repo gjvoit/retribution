@@ -25,6 +25,7 @@ namespace Retribution
         public bool attacked=false;
         public int ssX = 0;     //  Sprite Sheet x coordinate
         public int ssY = 0;     //  Sprite Sheet y coordinate
+        public int imageSize = 32;  //  Sprite image size
 
         public GameObject(int health, Vector2 position, int damage, int attackRange)
         {
@@ -40,7 +41,7 @@ namespace Retribution
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, new Rectangle((int)this.position.X, (int)this.position.Y, 32, 32), new Rectangle(ssX, ssY, 32, 32), Color.White);
+            spriteBatch.Draw(texture, new Rectangle((int)this.position.X, (int)this.position.Y, imageSize, imageSize), new Rectangle(ssX, ssY, imageSize, imageSize), Color.White);
         }
         public void resetAttack()
         {

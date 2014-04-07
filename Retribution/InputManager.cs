@@ -22,6 +22,7 @@ namespace Retribution
         Texture2D myTexture;
         int spacing = 1;
         KeyboardState previousKeyboard;
+        int default_player_y = 672;
 
         //public InputManager( MovementManager newMovementManager)
         public InputManager(ref ModelManager newmodelManager)
@@ -48,26 +49,22 @@ namespace Retribution
                 {
                     if (unit.selected)
                     {
-                        unit.position = mousePosition;                       
-                        //unit.position = mousePosition;
+                        unit.position = mousePosition;
                     }
                 }
             }
+
+            Vector2 mousepos;
+            if (buildPhase)
+                mousepos = new Vector2(current.X, current.Y);
+            else mousepos = new Vector2(current.X, default_player_y);
 
             //  Purchase Archer
             if (!previousKeyboard.IsKeyDown(Keys.Z) && keyPress.IsKeyDown(Keys.Z))
             {
                 if (playerResources >= 1)
                 {
-                    Archer temp;
-                    if (buildPhase)
-                    {
-                        temp = new Archer(new Vector2(current.X, current.Y));
-                    }
-                    else
-                    {
-                        temp = new Archer(new Vector2(current.X, 672));
-                    }
+                    Archer temp = new Archer(mousepos);
                     units.Add(temp);
                     loadManager.load(theContent, units);
                     playerResources--;
@@ -79,15 +76,7 @@ namespace Retribution
             {
                 if (playerResources >= 2)
                 {
-                    Tower temp;
-                    if (buildPhase)
-                    {
-                        temp = new Tower(new Vector2(current.X, current.Y));
-                    }
-                    else
-                    {
-                        temp = new Tower(new Vector2(current.X, 672));
-                    }
+                    Tower temp = new Tower(mousepos);
                     units.Add(temp);
                     loadManager.load(theContent, units);
                     playerResources -= 2;
@@ -99,18 +88,110 @@ namespace Retribution
             {
                 if (playerResources >= 5)
                 {
-                    Warrior temp;
-                    if (buildPhase)
-                    {
-                        temp = new Warrior(new Vector2(current.X, current.Y));
-                    }
-                    else
-                    {
-                        temp = new Warrior(new Vector2(current.X, 672));
-                    }
+                    Warrior temp = new Warrior(mousepos);
                     units.Add(temp);
                     loadManager.load(theContent, units);
                     playerResources -= 5;
+                }
+            }
+
+            //  Spawn Pawn For Free!!!! Yay
+            if (!previousKeyboard.IsKeyDown(Keys.V) && keyPress.IsKeyDown(Keys.V))
+            {
+                if (playerResources >= 0)
+                {
+                    Pawn temp;
+                    if (buildPhase)
+                    {
+                        temp = new Pawn(new Vector2(current.X, current.Y));
+                    }
+                    else
+                    {
+                        temp = new Pawn(new Vector2(current.X, 672));
+                    }
+                    units.Add(temp);
+                    loadManager.load(theContent, units);
+                    playerResources -= 0;
+                }
+            }
+
+            //  Spawn Apprentice For Free!!!! Yay
+            if (!previousKeyboard.IsKeyDown(Keys.B) && keyPress.IsKeyDown(Keys.B))
+            {
+                if (playerResources >= 0)
+                {
+                    Apprentice temp;
+                    if (buildPhase)
+                    {
+                        temp = new Apprentice(new Vector2(current.X, current.Y));
+                    }
+                    else
+                    {
+                        temp = new Apprentice(new Vector2(current.X, 672));
+                    }
+                    units.Add(temp);
+                    loadManager.load(theContent, units);
+                    playerResources -= 0;
+                }
+            }
+
+            //  Spawn Commander For Free!!!! Yay
+            if (!previousKeyboard.IsKeyDown(Keys.N) && keyPress.IsKeyDown(Keys.N))
+            {
+                if (playerResources >= 0)
+                {
+                    Commander temp;
+                    if (buildPhase)
+                    {
+                        temp = new Commander(new Vector2(current.X, current.Y));
+                    }
+                    else
+                    {
+                        temp = new Commander(new Vector2(current.X, 672));
+                    }
+                    units.Add(temp);
+                    loadManager.load(theContent, units);
+                    playerResources -= 0;
+                }
+            }
+
+            //  Spawn Catapult For Free!!!! Yay
+            if (!previousKeyboard.IsKeyDown(Keys.M) && keyPress.IsKeyDown(Keys.M))
+            {
+                if (playerResources >= 0)
+                {
+                    Catapult temp;
+                    if (buildPhase)
+                    {
+                        temp = new Catapult(new Vector2(current.X, current.Y));
+                    }
+                    else
+                    {
+                        temp = new Catapult(new Vector2(current.X, 672));
+                    }
+                    units.Add(temp);
+                    loadManager.load(theContent, units);
+                    playerResources -= 0;
+                }
+            }
+
+            //  Spawn Catapult For Free!!!! Yay
+            if (!previousKeyboard.IsKeyDown(Keys.J) && keyPress.IsKeyDown(Keys.J))
+            {
+                if (playerResources >= 0)
+                {
+                    Rogue temp;
+                    if (buildPhase)
+                    {
+                        temp = new Rogue(new Vector2(current.X, current.Y));
+                    }
+                    else
+                    {
+                        temp = new Rogue(new Vector2(current.X, 672));
+                    }
+                    units.Add(temp);
+                    loadManager.load(theContent, units);
+                    playerResources -= 0;
                 }
             }
 

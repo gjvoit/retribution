@@ -38,73 +38,13 @@ namespace Retribution
         }
 
         //  Call movement method of all selected objects
-        /*
-        public void moveObjects(List<Mobile> mobiles, List<Tower> towers)
-        {
-            Boolean collision = false;
-            List<Tile> newClosedList = new List<Tile>();
-
-            for (int i = 0; i < mobiles.Count; i++)
-            {
-                if (mobiles[i].collisionList.Contains(myMap.GetTile(mobiles[i].destination)))
-                {
-                    System.Console.WriteLine("test");
-                    mobiles[i].isMoving = false;
-                }
-
-                if (mobiles[i].isMoving == true)
-                {
-                    
-                    for (int j = 0; j < mobiles.Count; j++)
-                    {
-                        if (mobiles[i].collidesWith(mobiles[j]) && i != j)
-                        {
-                            newClosedList.Add(myMap.GetContainingTile(mobiles[j]));
-                        }
-                    }
-
-
-                    if (CompareLists(newClosedList, mobiles[i].collisionList) == false)
-                    {
-                        //System.Console.WriteLine("Test");
-                        //mobiles[i].collisionList = newClosedList;
-                        mobiles[i].collisionList.Clear();
-                        mobiles[i].collisionList.AddRange(newClosedList);
-
-                        mobiles[i].pathList.Clear();
-                        mobiles[i].pathList.AddRange(myMap.GetPath(mobiles[i].position, mobiles[i].destination, newClosedList));
-                    }
-
-                }
-
-                mobiles[i].move();
-                newClosedList.Clear();
-            }
-        }*/
+ 
        
         public void moveObjects(List<GameObject> playerUnits, List<GameObject> aiUnits)
         {
             List<GameObject> mobiles = new List<GameObject>();
             mobiles.AddRange(playerUnits);
             mobiles.AddRange(aiUnits);
-
-            /*
-            for (int i = 0; i < listOfSelectedObjects.Count; i++)
-            {
-                if (listOfSelectedObjects[i].selected == true ||
-                    (listOfSelectedObjects[i].GetType().BaseType == typeof(Mobile) && ((Mobile)(listOfSelectedObjects[i])).isMoving == true)
-                    || listOfSelectedObjects[i].GetType().BaseType == typeof(Projectile) && ((Projectile)(listOfSelectedObjects[i])).isMoving == true)
-                {
-                    if (listOfSelectedObjects[i].GetType().BaseType == typeof(Mobile))
-                    {
-                        ((Mobile)(listOfSelectedObjects[i])).move();
-                    }
-                    if (listOfSelectedObjects[i].GetType().BaseType == typeof(Projectile))
-                    {
-                        ((Projectile)(listOfSelectedObjects[i])).move();
-                    }
-                }
-            }*/
 
             List<Tile> newClosedList = new List<Tile>();
 
@@ -114,7 +54,7 @@ namespace Retribution
                 {
                     if (((Mobile)mobiles[i]).isMoving == true)
                     {
-
+ 
                         if (((Mobile)mobiles[i]).collisionList.Contains(myMap.GetTile(((Mobile)mobiles[i]).destination)))
                         {
                             ((Mobile)mobiles[i]).isMoving = false;
@@ -124,7 +64,11 @@ namespace Retribution
                         {
                             if (mobiles[i].collidesWith(mobiles[j]) && i != j)
                             {
-                                newClosedList.Add(myMap.GetContainingTile(mobiles[j]));
+                                //if (mobiles[i].GetType().BaseType == typeof(Mobile) && ((Mobile)mobiles[i]).isMoving == true)
+                                //{
+                                //}
+                                //else
+                                    newClosedList.Add(myMap.GetContainingTile(mobiles[j]));
                             }
                         }
 
@@ -134,21 +78,14 @@ namespace Retribution
                             ((Mobile)mobiles[i]).collisionList.Clear();
                             ((Mobile)mobiles[i]).collisionList.AddRange(newClosedList);
 
-                            //if (((Mobile)mobiles[i]).collisionList.Contains(myMap.GetDestinationTile(((Mobile)mobiles[i]).destination)))
-                            // {
-                            //   ((Mobile)mobiles[i]).isMoving = false;
-                            //}
-
                             //System.Console.WriteLine("test");
 
                             ((Mobile)mobiles[i]).pathList.Clear();
-                            ((Mobile)mobiles[i]).pathList.AddRange(myMap.GetPath(mobiles[i].position, ((Mobile)mobiles[i]).destination, newClosedList));
+                            Vector2 startPoint = new Vector2(mobiles[i].Bounds.Center.X, mobiles[i].Bounds.Center.Y);
+                            ((Mobile)mobiles[i]).pathList.AddRange(myMap.GetPath(startPoint, ((Mobile)mobiles[i]).destination, newClosedList));
                         }
 
-                        //else
-                        //{
                             ((Mobile)mobiles[i]).move();
-                        //}
                     }
 
 
@@ -173,7 +110,7 @@ namespace Retribution
                 if (listOfSelectedObjects[i].selected == true && listOfSelectedObjects[i].GetType().BaseType == typeof(Mobile))
                 {
                     ((Mobile)(listOfSelectedObjects[i])).isMoving = false;
-                    ((Mobile)(listOfSelectedObjects[i])).setDestination(getNormalizedVector(listOfSelectedObjects[i].getPosition(), destination), destination);
+                    ((Mobile)(listOfSelectedObjects[i])).setDestination(destination);
                     List<Tile> newClosedList = new List<Tile>();
                     //System.Console.WriteLine(listOfSelectedObjects[i].destination.X + ", " + listOfSelectedObjects[i].destination.Y);
                     Vector2 startPoint = new Vector2(listOfSelectedObjects[i].Bounds.Center.X, listOfSelectedObjects[i].Bounds.Center.Y);
@@ -205,50 +142,6 @@ namespace Retribution
             }
         }
 
-        /* Might not need this method...
-        public void CheckPauses(List<Mobile> mobiles)
-        {
-            Boolean check = false;
-            for (int i = 0; i < mobiles.Count; i++)
-            {
-                if (mobiles[i].isPaused == true)
-                {
-                    for (int j = 0; j < mobiles.Count; j++)
-                    {
-                        if (i != j)
-                        {
-                            if (mobiles[i].collidesWith(mobiles[j]) && mobiles[j].isMoving == true && mobiles[j].isPaused == false)
-                            {
-                                check = true;
-                            }
-                        }
-                    }
 
-                    if (check == false)
-                    {
-                        mobiles[i].isPaused = false;
-                    }
-                }
-            }
-        }*/
-
-        public void changeDestination(List<Mobile> listOfSelectedObjects, Vector2 destination)
-        {
-            
-            for (int i = 0; i < listOfSelectedObjects.Count; i++)
-            {
-                if (listOfSelectedObjects[i].selected == true)
-                {
-                    listOfSelectedObjects[i].isMoving = false;
-                    listOfSelectedObjects[i].setDestination(getNormalizedVector(listOfSelectedObjects[i].getPosition(), destination), destination);
-                    List<Tile> newClosedList = new List<Tile>();
-                    //System.Console.WriteLine(listOfSelectedObjects[i].destination.X + ", " + listOfSelectedObjects[i].destination.Y);
-                    Vector2 startPoint = new Vector2(listOfSelectedObjects[i].Bounds.Center.X, listOfSelectedObjects[i].Bounds.Center.Y);
-
-                    listOfSelectedObjects[i].pathList = myMap.GetPath(startPoint, listOfSelectedObjects[i].destination, newClosedList);
-                    listOfSelectedObjects[i].isMoving = true;
-                }
-            }
-        }
     }
 }

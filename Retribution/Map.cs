@@ -25,10 +25,11 @@ namespace Retribution
         //public List<Tile> pathList;
         public List<Tile> openList;
         public List<Tile> closedList;
+        public List<Tile> collisionList;
         public Tile startTile;
         public Tile endTile;
-        public Tile lowestScoreNode;
-        public Tile currentNode;
+        public Tile lowestScoreTile;
+        public Tile currentTile;
 
         public Map(String fileName)
         {
@@ -71,46 +72,40 @@ namespace Retribution
         // PATHFINDING://////////////////////////////////
         /////////////////////////////////////////////////
 
-        public List<Tile> GetPath(Vector2 startPoint, Vector2 endPoint, List<Tile> newClosedList)
+        public List<Tile> GetPath(Vector2 startPoint, Vector2 endPoint, List<Tile> newCollisionList)
         {
+            // Set lists:
             openList.Clear();
-            //pathList.Clear();
-            closedList = newClosedList;
-
-            //System.Console.WriteLine(closedList.Count);
-
+            closedList.Clear();
+            collisionList = newCollisionList;
             List<Tile> pathList = new List<Tile>();
 
             // Get starting and ending nodes:
             startTile = GetTile(startPoint);
             endTile = GetTile(endPoint);
 
-            //System.Console.WriteLine("Start position: " + startTile.xPosition + ", " + startTile.yPosition);
-           // System.Console.WriteLine("End position: " + endTile.xPosition + ", " + endTile.yPosition);
-
-            if (endTile.isWalkable == false || closedList.Contains(endTile) == true)
+            if (endTile == null|| endTile.isWalkable == false || closedList.Contains(endTile) == true)
             {
                 return pathList;
             }
 
-            currentNode = startTile;
-
-            //openList.Add(currentNode);
-
-            while(currentNode.origin != endTile.origin)
+            openList.Add(startTile);
+            int i = 0;
+            while(closedList.Contains(endTile)==false && openList.Count != 0)
             {
-                if (currentNode == endTile)
-                {
-                    openList.Clear();
-                    closedList.Clear();
+                //System.Console.WriteLine(i++);
 
+                currentTile = FindLowestScore();
+                if (currentTile == endTile)
+                {
                     break;
                 }
 
-                int x = currentNode.xPosition;
-                int y = currentNode.yPosition;
+                openList.Remove(currentTile);
+                closedList.Add(currentTile);
 
-                //openList.Add(currentNode);
+                int x = currentTile.xPosition;
+                int y = currentTile.yPosition;
 
                 // Check all adjacent tiles to see if open:
                 CheckNode(x - 1, y, x, y);
@@ -122,64 +117,43 @@ namespace Retribution
                 CheckNode(x - 1, y + 1, x, y);
                 CheckNode(x - 1, y - 1, x, y);
 
-                openList.Remove(currentNode);
-
-                if (openList.Count == 0)
-                {
-                    break;
-                }
-
-                // Find lowest score from openList:
-                FindLowestScore();
-
-                currentNode = lowestScoreNode;
-                pathList.Add(currentNode);
-
-                if (pathList.Count > 50)
-                {
-                    break;
-                }
-
-
             }
-            //System.Console.WriteLine(pathList.Count);
-            //System.Console.WriteLine("Lowest node:" + pathList[0].xPosition + ", " + pathList[0].yPosition);
+
+            while (currentTile.parentTile != null)
+            {
+                //System.Console.WriteLine(currentTile.xPosition + ", " + currentTile.yPosition);
+                pathList.Add(currentTile);
+                Tile temp = currentTile.parentTile;
+                currentTile.parentTile = null;
+                currentTile = temp;
+
+                if(pathList.Count > 50)
+                {
+                    System.Console.WriteLine("break");
+                    break;
+                }
+            }
+
+            pathList.Reverse();
             return pathList;
         }
 
 
-        public void FindLowestScore()
+        public Tile FindLowestScore()
         {
-            int movementCost = 0;  //  Magic number yayyy
+            int lowestScore = 9999999; //  Magic number yayyy
+            int index = 0;
 
-            float lowestScore = 999999999;
-
-           // System.Console.WriteLine(openList.Count);
-
-            // For each open Tile, calculate heuristic and store minimum:
-            foreach(Tile myTile in openList)
+            // Get tile in open list with the lowest fscore:
+            foreach (Tile myTile in openList)
             {
-                if (Math.Abs(myTile.xPosition - currentNode.xPosition) + Math.Abs(myTile.yPosition - currentNode.yPosition) >= 2)
-                    movementCost = 14;
-
-                else
-                    movementCost = 10;
-
-                Vector2 currentPos = new Vector2(myTile.Bounds.Center.X, myTile.Bounds.Center.Y);
-                Vector2 destination = new Vector2(endTile.Bounds.Center.X, endTile.Bounds.Center.Y);
-
-                float heuristic = movementCost + (Vector2.Distance(currentPos, destination));
-
-                if (heuristic < lowestScore)
+                if (myTile.fScore < lowestScore)
                 {
-                    lowestScore = heuristic;
-                    lowestScoreNode = myTile;
+                    lowestScore = myTile.fScore;
+                    index = openList.IndexOf(myTile);
                 }
-
             }
-
-            //System.Console.WriteLine(lowestScoreNode.xPosition + ", " + lowestScoreNode.yPosition + ", " + lowestScore);
-
+            return openList[index];
         }
 
 
@@ -190,13 +164,37 @@ namespace Retribution
             {
                 return;
             }
-            //  Else, add Tile to openList if it is walkable and not closed:
+            
             else
             {
-                if (mapTiles[newY, newX].isWalkable == true && closedList.Contains(mapTiles[newY,newX]) == false)
+                // Else if tile is walkable and not on closed or collision list:
+                if (mapTiles[newY, newX].isWalkable == true 
+                    && closedList.Contains(mapTiles[newY,newX]) == false
+                    && collisionList.Contains(mapTiles[newY, newX]) == false
+                    )
                 {
-                    mapTiles[newY, newX].parentTile = mapTiles[parentY, parentX];
-                    openList.Add(mapTiles[newY, newX]);
+                    int movementCost = 10;
+                    if(Math.Abs(newX - parentX) + Math.Abs(newY - parentY) >= 2)
+                    {
+                        movementCost += 4;
+                    }
+
+                    if (openList.Contains(mapTiles[newY, newX]) == false)
+                    {
+                        openList.Add(mapTiles[newY, newX]);
+                        mapTiles[newY, newX].parentTile = currentTile;
+                        mapTiles[newY, newX].gScore = currentTile.gScore + movementCost;
+                        int heuristic = (int)Vector2.Distance(new Vector2(mapTiles[newY, newX].Bounds.Center.X, mapTiles[newY, newX].Bounds.Center.Y), new Vector2(endTile.Bounds.Center.X, endTile.Bounds.Center.Y));
+                        mapTiles[newY, newX].hScore = heuristic;
+                        mapTiles[newY, newX].fScore = mapTiles[newY, newX].gScore + mapTiles[newY, newX].hScore;
+                    }
+                    else if((currentTile.gScore + movementCost) < mapTiles[newY, newX].gScore)
+                    {
+                        mapTiles[newY, newX].parentTile = currentTile;
+                        mapTiles[newY, newX].gScore = currentTile.gScore + movementCost;
+                        mapTiles[newY, newX].fScore = mapTiles[newY, newX].gScore + mapTiles[newY, newX].hScore;
+                    }
+
                 }
             }
         }

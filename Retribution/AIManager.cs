@@ -40,7 +40,7 @@ namespace Retribution
             {
                 if (cunit.GetType().BaseType == typeof(Mobile) && unit.aiTarget != null)
                 {
-                    ((Mobile)cunit).setDestination(MovementManager.getNormalizedVector(cunit.position, unit.aiTarget.position), unit.aiTarget.position);
+                    ((Mobile)cunit).setDestination( unit.aiTarget.position);
                     List<Tile> newList = new List<Tile>();
 
                     ((Mobile)cunit).pathList.Clear();
@@ -49,10 +49,10 @@ namespace Retribution
                 }
             }
         }
+
         public void explore(List<GameObject> aiUnits, GameObject unit)
         {
-            
-
+ 
             if (random.NextDouble()*100==24)
             {
                 List<GameObject> searchParty = new List<GameObject>();
@@ -68,6 +68,7 @@ namespace Retribution
                 {
                     Vector2 explore = new Vector2(random.Next(180,248),random.Next(400,672));
                     //((Mobile)cunit).setDestination(MovementManager.getNormalizedVector(cunit.position,explore), explore);
+                    ((Mobile)cunit).setDestination(explore);
                     List<Tile> newList = new List<Tile>();
 
                     ((Mobile)cunit).pathList.Clear();
@@ -84,6 +85,7 @@ namespace Retribution
             {
                 foreach (GameObject unit in aiUnits)
                 {
+      
                     if(String.Compare(unit.type, "ARCHER", true) == 0)
                     {
                         if (unit.aiTarget != null)
@@ -104,12 +106,8 @@ namespace Retribution
                                 }
                         else
                             explore(aiUnits, unit);
-                    }
-                    
-                                       
-                    
+                    }                
                 }
-
 
             }
             else
@@ -129,14 +127,13 @@ namespace Retribution
                             int randomX = random.Next(10, 700);
                             int randomY = random.Next(10, 350);
           
-                            ((Mobile)unit).setDestination(new Vector2(0, 0), new Vector2(randomX, randomY));
+                            ((Mobile)unit).setDestination(new Vector2(randomX, randomY));
                             ((Mobile)unit).pathList.Clear();
                             ((Mobile)unit).pathList.AddRange(myMap.GetPath(unit.position, ((Mobile)unit).destination, newList));
                             ((Mobile)unit).isMoving = true;
                         }
                     }
    
-
             }
             else
                 return;
