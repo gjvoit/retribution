@@ -26,6 +26,9 @@ namespace Retribution
         public Tile parentTile;
         public int xPosition;
         public int yPosition;
+        public int gScore;
+        public int hScore;
+        public int fScore;
 
         //  A rectangle to represent the object
         public Rectangle Bounds
@@ -35,7 +38,10 @@ namespace Retribution
 
         public Tile(char typeChar)
         {
-
+            gScore = 0;
+            hScore = 0;
+            fScore = 0;
+            parentTile = null;
             graphics = new GraphicsDevice();
             if (typeChar == '0')
             {

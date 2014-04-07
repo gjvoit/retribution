@@ -26,9 +26,9 @@ namespace Retribution
             pathList = new List<Tile>();
             collisionList = new List<Tile>();
         }
-       public void setDestination(Vector2 direction, Vector2 destination)
+       public void setDestination(Vector2 destination)
         {
-            this.direction = direction;
+            //this.direction = direction;
             this.destination = destination;
         }
 
