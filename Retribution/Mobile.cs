@@ -61,7 +61,7 @@ namespace Retribution
                 if (xPos <= end_point.X && xPos >= prev_point.X
                     && yPos <= end_point.Y && yPos>= prev_point.Y)
                 {
-                    System.Console.WriteLine("test");
+
                     this.pathList.RemoveAt(0);
                     if (pathList.Count == 0)
                     {
