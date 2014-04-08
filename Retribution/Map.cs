@@ -147,7 +147,7 @@ namespace Retribution
             // Get tile in open list with the lowest fscore:
             foreach (Tile myTile in openList)
             {
-                if (myTile.fScore < lowestScore)
+                if (myTile.fScore < lowestScore && myTile.fScore > 0)
                 {
                     lowestScore = myTile.fScore;
                     index = openList.IndexOf(myTile);
