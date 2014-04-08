@@ -50,23 +50,21 @@ namespace Retribution
                 //    return;
                 //}
 
-
-                Vector2 end_point = Vector2.Add(new Vector2(this.pathList[0].Bounds.Center.X, this.pathList[0].Bounds.Center.Y), new Vector2(2, 2));
-                Vector2 prev_point = Vector2.Subtract(new Vector2(this.pathList[0].Bounds.Center.X, this.pathList[0].Bounds.Center.Y), new Vector2(2, 2));
+                Vector2 end_point = Vector2.Add(new Vector2(this.pathList[0].Bounds.Center.X, this.pathList[0].Bounds.Center.Y), new Vector2(5, 5));
+                Vector2 prev_point = Vector2.Subtract(new Vector2(this.pathList[0].Bounds.Center.X, this.pathList[0].Bounds.Center.Y), new Vector2(5, 5));
 
                 float xPos = this.Bounds.Center.X;
                 float yPos = this.Bounds.Center.Y;
 
                 this.direction = getNormalizedVector(new Vector2(xPos, yPos), new Vector2(this.pathList[0].Bounds.Center.X, this.pathList[0].Bounds.Center.Y));
-                //this.direction = getNormalizedVector(this.position, this.destination);
 
                 if (xPos <= end_point.X && xPos >= prev_point.X
                     && yPos <= end_point.Y && yPos>= prev_point.Y)
                 {
+                    System.Console.WriteLine("test");
                     this.pathList.RemoveAt(0);
                     if (pathList.Count == 0)
                     {
-                        //System.Console.WriteLine("test");
 
                         this.isMoving = false;
                         this.collisionList.Clear();
