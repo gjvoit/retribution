@@ -19,6 +19,7 @@ namespace Retribution
     /// </summary>
     public class Game1 : Game
     {
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Map mainScreen;
@@ -57,7 +58,7 @@ namespace Retribution
 
         //  TyDigit digit test to display amount of resources left
         Digits theResource;
-
+        titleShell theTitle;
 
         public Game1()
             : base()
@@ -181,7 +182,9 @@ namespace Retribution
             //modMan.addUnit("PLAYER", "WARRIOR", new Vector2(290, 500));
             /* ---------------------------------------------------------------------------------------------------- */
             theResource = new Digits(new Vector2(0, 672));
+            theTitle = new titleShell(new Vector2(375, 375));
             theResource.LoadContent(this.Content);
+            theTitle.LoadContent(this.Content);
         }
       
 
@@ -243,7 +246,9 @@ namespace Retribution
 
             //  TyDigit added digits object to display resources
             theResource = new Digits(new Vector2(0, 672));
+            theTitle = new titleShell(new Vector2(375, 375));
             theResource.LoadContent(this.Content);
+            theTitle.LoadContent(this.Content);
         }
 
         // Change map and set managers to be equal to the current map
@@ -319,79 +324,85 @@ namespace Retribution
             // TODO: Add your drawing code here
             // Create a list of Selectors and simply remove/add them depending on the map loaded. Associate selectors with Map.cs
             spriteBatch.Begin();
+            
             if (modMan.player.Count != 0 && riverDefenseSelector.getOccupied() != true)
             {
+                
                 mainScreenSelector.isColliding(modMan.player[0]);
             }
-                if ((mainScreenSelector.getOccupied() == true) && mainScreenSelector.getInteraction() == true)
+            if ((mainScreenSelector.getOccupied() == true) && mainScreenSelector.getInteraction() == true)
+            {
+                // GO back and look at this code later, because it's a bit screwy.
+                // mainScreenSelector.setInteraction(false);
+                if (modMan.player.Count != 0)
                 {
-                    // GO back and look at this code later, because it's a bit screwy.
-                    // mainScreenSelector.setInteraction(false);
-                    if (modMan.player.Count != 0)
-                    {
-                        riverDefenseSelector.isColliding(modMan.player[0]);
-                    }
-                    if ((riverDefenseSelector.getOccupied() == true) && riverDefenseSelector.getInteraction() == true)
-                    {
-                        // Draw riverDefense until an end condition has been met:
-                        // Either player has won or lost
-                        // Case that player loses, return to level select and 
-                        riverDefense.DrawMap(spriteBatch);
-                        loadMan.load(this.Content, modMan.player);
-                        loadMan.load(this.Content, modMan.artificial);
-                        currMap = "levelSelect";
-                        if (currMap.Equals("levelSelect"))
-                        {
-                            //  TyDigit adding call to draw method of digits
-                            if (testBeta)
-                            {
-                                updateMap(riverDefense);
-                                modMan.player.Remove(modMan.player[0]);
-                                loadMan.load(this.Content, modMan.player);
-                                loadMan.load(this.Content, modMan.artificial);
-                                //riverDefenseSelector.setOccupied(false);
-                                testBeta = false;
-                                riverDefenseSelector.setInteraction(true);
-                            }
-                            if (built && initialized)  // hopefully get digits working and draw it to the screen (only when game starts)
-                            {
-                                theResource.ssY = playerResources * 32;
-                                theResource.Draw(spriteBatch);
-                            }
-                        }
-                        // You lost! This happens, and takes you back to levelSelect to replay!
-                        if ((modMan.player.Count == 0) && built)
-                        {
-                            modMan.artificial.Clear();
-                            testCommander();
-                            modMan.player[0].LoadContent(Content);
-                            updateMap(levelSelect);
-                            riverDefenseSelector.setOccupied(false);
-                            testBeta = true;
-                            initialized = false;
-                            built = false;
-                            riverDefenseSelector.setInteraction(true);
-                            buildResources = 10;
-                        }
-                        riverDefense.DrawMap(spriteBatch);
-                        //currMap = "riverDefense";
-                    }
-                    /*else if ((.getOccupied() == true) && dummyUnlockSelector.getInteraction() == true)
-                    {
-                        updateMap(riverDefense);
-                        loadMan.load(this.Content, modMan.player);
-                        loadMan.load(this.Content, modMan.artificial);
-                        riverDefense.DrawMap(spriteBatch);
-                    }
-                     */
-                    else
-                    {
-                        updateMap(levelSelect);
-                        levelSelect.DrawMap(spriteBatch);
-                    }
-
+                    riverDefenseSelector.isColliding(modMan.player[0]);
                 }
-                else mainScreen.DrawMap(spriteBatch);
+                if ((riverDefenseSelector.getOccupied() == true) && riverDefenseSelector.getInteraction() == true)
+                {
+                    // Draw riverDefense until an end condition has been met:
+                    // Either player has won or lost
+                    // Case that player loses, return to level select and 
+                    riverDefense.DrawMap(spriteBatch);
+                    loadMan.load(this.Content, modMan.player);
+                    loadMan.load(this.Content, modMan.artificial);
+                    currMap = "levelSelect";
+                    if (currMap.Equals("levelSelect"))
+                    {
+                        //  TyDigit adding call to draw method of digits
+                        if (testBeta)
+                        {
+                            updateMap(riverDefense);
+                            modMan.player.Remove(modMan.player[0]);
+                            loadMan.load(this.Content, modMan.player);
+                            loadMan.load(this.Content, modMan.artificial);
+                            //riverDefenseSelector.setOccupied(false);
+                            testBeta = false;
+                            riverDefenseSelector.setInteraction(true);
+                        }
+                        if (built && initialized)  // hopefully get digits working and draw it to the screen (only when game starts)
+                        {
+                            theResource.ssY = playerResources * 32;
+                            theResource.Draw(spriteBatch);
+                        }
+                    }
+                    // You lost! This happens, and takes you back to levelSelect to replay!
+                    if ((modMan.player.Count == 0) && built)
+                    {
+                        modMan.artificial.Clear();
+                        testCommander();
+                        modMan.player[0].LoadContent(Content);
+                        updateMap(levelSelect);
+                        riverDefenseSelector.setOccupied(false);
+                        testBeta = true;
+                        initialized = false;
+                        built = false;
+                        riverDefenseSelector.setInteraction(true);
+                        buildResources = 10;
+                    }
+                    riverDefense.DrawMap(spriteBatch);
+                    //currMap = "riverDefense";
+                }
+                /*else if ((.getOccupied() == true) && dummyUnlockSelector.getInteraction() == true)
+                {
+                    updateMap(riverDefense);
+                    loadMan.load(this.Content, modMan.player);
+                    loadMan.load(this.Content, modMan.artificial);
+                    riverDefense.DrawMap(spriteBatch);
+                }
+                 */
+                else
+                {
+                    updateMap(levelSelect);
+                    levelSelect.DrawMap(spriteBatch);
+                }
+                
+            }
+            else
+            {
+                mainScreen.DrawMap(spriteBatch);
+                spriteBatch.Draw(Content.Load<Texture2D>("C:/Users/Lenovo/Documents/GitHub/cs4730retribution/Retribution/Content/ret.png"), new Rectangle(102, 37, 500, 200), Color.White);
+            }
             foreach(Projectile item in projMan.proj)
             {
                 ((Arrow)item).Draw(spriteBatch);
