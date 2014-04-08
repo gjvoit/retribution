@@ -55,6 +55,8 @@ namespace Retribution
         bool built = false;
         // if initialized is false, that means AI units have not been initialized
         bool initialized = false;
+        bool playable = false;
+        int noresource = 0;
 
         //  TyDigit digit test to display amount of resources left
         Digits theResource;
@@ -276,15 +278,19 @@ namespace Retribution
 
             //inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref towers, ref gameobj);
 
-            if (!built) // Enter build phase if built is False, notice true flag at the end indicating we're in build phase
+            if (!built && playable) // Enter build phase if built is False, notice true flag at the end indicating we're in build phase
             {
                 inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref modMan.player, ref loadMan, this.Content, ref buildResources, true);
                 if (buildResources <= 1) // once we deplete our build resources, set built to true (doing so will initialize enemy AI units and starts the level)
                     built = true;
             }
-            else // player is not building in build phase but rather building reinforcements - notice the false flag at the end indicating not build phase
+            else if (built && initialized)// player is not building in build phase but rather building reinforcements - notice the false flag at the end indicating not build phase
             {
                 inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref modMan.player, ref loadMan, Content, ref playerResources, false);
+            }
+            else
+            {
+                inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref modMan.player, ref loadMan, Content, ref noresource, false);
             }
             if (built && !initialized && riverDefenseSelector.getOccupied() == true)
             {
@@ -344,6 +350,7 @@ namespace Retribution
                     // Either player has won or lost
                     // Case that player loses, return to level select and 
                     riverDefense.DrawMap(spriteBatch);
+                    playable = true;
                     loadMan.load(this.Content, modMan.player);
                     loadMan.load(this.Content, modMan.artificial);
                     currMap = "levelSelect";
@@ -401,7 +408,7 @@ namespace Retribution
             else
             {
                 mainScreen.DrawMap(spriteBatch);
-                spriteBatch.Draw(Content.Load<Texture2D>("C:/Users/Lenovo/Documents/GitHub/cs4730retribution/Retribution/Content/ret.png"), new Rectangle(102, 37, 500, 200), Color.White);
+                spriteBatch.Draw(Content.Load<Texture2D>("ret.png"), new Rectangle(102, 37, 500, 200), Color.White);
             }
             foreach(Projectile item in projMan.proj)
             {
