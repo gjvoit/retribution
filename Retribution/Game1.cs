@@ -85,7 +85,7 @@ namespace Retribution
             // TODO: Add your initialization logic here
             mainScreen = new Map("Content/MainScreen.txt");
             levelSelect = new Map("Content/levelSelect.txt");
-            riverDefense = new Map("Content/RiverDefense.txt");
+            riverDefense = new Map("Content/castleDefense.txt");
             mainScreenSelector = new Selector(new Rectangle(288, 0, 128, 64), mainScreen, levelSelect, true);
             riverDefenseSelector = new Selector(new Rectangle(288, 320, 128, 64), levelSelect, riverDefense, true);
             castleDefenseSelector = new Selector(new Rectangle(32, 320, 128, 64), levelSelect, castleDefense, false);
@@ -325,6 +325,8 @@ namespace Retribution
             // Create a list of Selectors and simply remove/add them depending on the map loaded. Associate selectors with Map.cs
             spriteBatch.Begin();
             
+            // We want to start on the level castleDefense, then unlock riverDefense if victory, else exit to defeat screen
+            // Need defeat and victory screen
             if (modMan.player.Count != 0 && riverDefenseSelector.getOccupied() != true)
             {
                 
@@ -401,7 +403,7 @@ namespace Retribution
             else
             {
                 mainScreen.DrawMap(spriteBatch);
-                spriteBatch.Draw(Content.Load<Texture2D>("C:/Users/Lenovo/Documents/GitHub/cs4730retribution/Retribution/Content/ret.png"), new Rectangle(102, 37, 500, 200), Color.White);
+                spriteBatch.Draw(Content.Load<Texture2D>("ret.png"), new Rectangle(102, 37, 500, 200), Color.White);
             }
             foreach(Projectile item in projMan.proj)
             {
