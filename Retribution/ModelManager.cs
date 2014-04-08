@@ -58,7 +58,7 @@ namespace Retribution
             }
             else
             {
-                Console.WriteLine("creating artificial stuff");
+                //Console.WriteLine("creating artificial stuff");
                  switch(type){
                     case "ARCHER":
                         Archer temp = new Archer(autoPlace);

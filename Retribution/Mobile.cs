@@ -35,7 +35,7 @@ namespace Retribution
 
         public void move()
         {
-            Animate();
+            //Animate();
             if (this.pathList == null || this.pathList.Count == 0)
             {
                 this.isMoving = false;
