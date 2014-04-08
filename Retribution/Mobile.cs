@@ -25,6 +25,7 @@ namespace Retribution
             this.isPaused = false;
             pathList = new List<Tile>();
             collisionList = new List<Tile>();
+            this.animateState = "move";
         }
        public void setDestination(Vector2 destination)
         {
@@ -34,7 +35,7 @@ namespace Retribution
 
         public void move()
         {
-
+            Animate();
             if (this.pathList == null || this.pathList.Count == 0)
             {
                 this.isMoving = false;
@@ -92,5 +93,79 @@ namespace Retribution
             }
         }
 
+        public void Animate()
+        {
+            switch (this.animateState)
+            {
+                case "move":
+                    Vector2 getDirection = getNormalizedVector(this.position, this.destination);
+                    if (getDirection.Y >= 0)
+                    {
+                        isUp = true;
+                    }
+                    else
+                    {
+                        getDirection.Y *= -1;
+                        isUp = false;
+                    }
+                    if (getDirection.X >= 0)
+                    {
+                        isRight = true;
+                    }
+                    else
+                    {
+                        getDirection.X *= -1;
+                        isRight = false;
+                    }
+                    //  Then, set the appropriate direction of the sprite
+                    if (getDirection.Y >= getDirection.X)
+                    {
+                        if (isUp)
+                        {
+                            this.ssX = 1;       //  TyNote: Not sure why up and down values are reversed, but it works
+                        }
+                        else
+                        {
+                            this.ssX = 0;
+                        }
+                    }
+                    else
+                    {
+                        if (isRight)
+                        {
+                            this.ssX = 3;
+                        }
+                        else
+                        {
+                            this.ssX = 2;
+                        }
+                    }
+
+                    //  Animate
+                    if (animateTime >= 10)
+                    {
+                        this.ssY = 1;
+                    }
+                    if (animateTime >= 20)
+                    {
+                        this.ssY = 0;
+                    }
+                    if (animateTime >= 30)
+                    {
+                        this.ssY = 2;
+                    }
+                    if (animateTime >= 40)
+                    {
+                        this.ssY = 0;
+                        this.animateTime = 0;
+                    }
+                    break;
+                case "attack":
+                    break;
+                default:
+                    break;
+            }
+            this.animateTime++;
+        }
     }
 }

@@ -19,7 +19,6 @@ namespace Retribution
             this.moveSpeed = 2;
             this.attackWait = 0;
             attackSpeed = 240;
-
         }
        
         public override void Attack(GameObject target)
@@ -38,7 +37,7 @@ namespace Retribution
 
         public override void LoadContent(ContentManager content)
         {
-            this.texture = content.Load<Texture2D>("archer.png");
+            this.texture = content.Load<Texture2D>("archer_spritesheet.png");
         }
 
     }

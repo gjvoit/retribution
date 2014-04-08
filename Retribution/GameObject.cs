@@ -26,6 +26,10 @@ namespace Retribution
         public int ssX = 0;     //  Sprite Sheet x coordinate
         public int ssY = 0;     //  Sprite Sheet y coordinate
         public int imageSize = 32;  //  Sprite image size
+        public String animateState = "";   //  Sprite animation state
+        public int animateTime = 0;
+        public bool isUp = true;   //  Direction variable used to help with animation
+        public bool isRight = true;
 
         public GameObject(int health, Vector2 position, int damage, int attackRange)
         {
@@ -41,7 +45,7 @@ namespace Retribution
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, new Rectangle((int)this.position.X, (int)this.position.Y, imageSize, imageSize), new Rectangle(ssX, ssY, imageSize, imageSize), Color.White);
+            spriteBatch.Draw(texture, new Rectangle((int)this.position.X, (int)this.position.Y, imageSize, imageSize), new Rectangle(ssX*32, ssY*32, imageSize, imageSize), Color.White);
         }
         public void resetAttack()
         {
@@ -116,5 +120,8 @@ namespace Retribution
         }
 
         public abstract void LoadContent(ContentManager content);
+        public void Animate()
+        {
+        }
     }
 }
