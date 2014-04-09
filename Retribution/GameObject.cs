@@ -32,6 +32,7 @@ namespace Retribution
         public int animateTime = 0;
         public bool isUp = true;   //  Direction variable used to help with animation
         public bool isRight = true;
+        SoundEffect soundEffect;
 
         public GameObject(int health, Vector2 position, int damage, int attackRange)
         {
@@ -75,11 +76,16 @@ namespace Retribution
         {
             get { return new Rectangle((int)position.X, (int)position.Y, this.texture.Width, this.texture.Height); }
         }
+        public virtual void attackSound(ContentManager content)
+        {
+            soundEffect = content.Load<SoundEffect>("blade.wav");
+            soundEffect.Play();
+        }
 
         //  Issue attack. Alpha method that damages target. No other skills or actions are implemented in the Alpha Version
         public virtual void Attack(GameObject target, ContentManager content, ProjectileManager projMan)
         {
-
+            attackSound(content);
             target.health -= this.damage;
         }
 
