@@ -65,8 +65,15 @@ namespace Retribution
                 {
                     this.health = -1;
                     collided = true;
-                    if (this.target.isAlive())
-                        this.target.health -= this.damage;
+                    if (String.Compare(this.type, "ICEBALL", true) == 0 && this.target.isAlive())
+                    {
+                        if(this.target.attackRange>5)
+                        this.target.attackRange -= 5;
+                        this.target.attackSpeed += 100;
+                    }
+                    else
+                        if (this.target.isAlive())
+                            this.target.health -= this.damage;
                     return;
                 }
                 

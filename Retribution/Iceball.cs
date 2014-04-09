@@ -9,18 +9,17 @@ namespace Retribution
 {
     //  A fireball. The first unit this fireball collides with will damage it and other colliding units
     //  TyNote: Refer to Pawn.cs for more general notes on GameObject classes
-    class Fireball : Projectile
+    class Iceball : Projectile
     {
         public string state;
         public Texture2D image;
 
-        public Fireball(Vector2 position, int damage, GameObject target, int health = 1, int attackRange = 0)
+        public Iceball(Vector2 position, int damage, GameObject target, int health = 1, int attackRange = 0)
             : base(position, damage, target, health, attackRange)
         {
             this.position = position;
             this.moveSpeed = 6;
-            //attackWait = 300;
-            
+            this.type = "ICEBALL";
             //this.health = 1000;
             //this.damage = 6;
             //this.attackSpeed = 0;
@@ -37,7 +36,7 @@ namespace Retribution
         //  Load the image?
         public override void LoadContent(ContentManager content)
         {
-            this.texture = content.Load<Texture2D>("fireball.png");
+            this.texture = content.Load<Texture2D>("iceball.png");
         }
     }
 }

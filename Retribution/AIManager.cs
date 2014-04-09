@@ -30,7 +30,7 @@ namespace Retribution
         {
             List<GameObject> attackParty = new List<GameObject>();
             attackParty.Add(unit);
-            for (int x = 0; x < random.Next(1, aiUnits.Count); x++)
+            for (int x = 0; x < random.Next(1, aiUnits.Count/3); x++)
             {
                 GameObject gunit = aiUnits[x];
                 if (gunit.aiTarget == null && gunit.GetType().BaseType == typeof(Mobile))
