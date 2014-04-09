@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System.Diagnostics;
 
 namespace Retribution
 {
@@ -50,17 +51,14 @@ namespace Retribution
                 }
             }
         }
-        public override void Attack(GameObject target)
-        {
-            myArrow = makeArrow(target);
-            Vector2 direction = MovementManager.getNormalizedVector(this.myArrow.position, target.position);
-            myArrow.setDestination(direction, target.position);
-        }
-        public Arrow makeArrow(GameObject target)
+        public override void Attack(GameObject target, ContentManager content, ProjectileManager projMan)
         {
             Vector2 corrected = Vector2.Add(position, new Vector2(16, 16));
-            return new Arrow(corrected, ref target);
-
+            Projectile projectile = new Arrow(corrected, 100, target, 100, 0);
+            Vector2 direction = MovementManager.getNormalizedVector(projectile.position, target.position);
+            projectile.setDestination(direction, target.position);
+            projectile.LoadContent(content);
+            projMan.proj.Add(projectile);
         }
 
        /* public void Draw(SpriteBatch spriteBatch)

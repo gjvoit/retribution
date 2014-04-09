@@ -46,7 +46,7 @@ namespace Retribution
             if (!fireballTimer.Enabled)
             {
                 fireballTimer.Start();
-                fireballTest = new Fireball(this.position, ref target);
+                fireballTest = new Fireball(this.position, 100, target, 100, 0);
                 Vector2 direction = MovementManager.getNormalizedVector(this.position, destination);
                 fireballTest.setDestination(direction, destination);
                 fireballTest.LoadContent(content);
@@ -66,18 +66,15 @@ namespace Retribution
 
         //  TyDo: Create a new projectile that deals less damage than an arrow, but for now just make it the fireball
         //  Attack the target (not homing). Create a new object projectile sent in the direction of target
-        public override void Attack(GameObject target)
-        {
-            aiTarget = target;
-            myArrow = makeArrow(target);
-            Vector2 direction = MovementManager.getNormalizedVector(this.myArrow.position, target.position);
-            myArrow.setDestination(direction, target.position);
-        }
-        public Fireball makeArrow(GameObject target)
+        //  The new attack code
+        public override void Attack(GameObject target, ContentManager content, ProjectileManager projMan)
         {
             Vector2 corrected = Vector2.Add(position, new Vector2(16, 16));
-            return new Fireball(corrected, ref target);
-
+            Projectile projectile = new Arrow(corrected, 100, target, 100, 0);
+            Vector2 direction = MovementManager.getNormalizedVector(projectile.position, target.position);
+            projectile.setDestination(direction, target.position);
+            projectile.LoadContent(content);
+            projMan.proj.Add(projectile);
         }
 
         //  Load the image?

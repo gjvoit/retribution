@@ -77,6 +77,14 @@ namespace Retribution
                         pobj.aiTarget=aobj;
                         if (pobj.attackWait <= 0)
                         {
+                            //  If the player object is alive and is not currently being attacked
+                            if (pobj.isAlive() && !pobj.attacked)
+                            {
+                                //  Call player object attack
+                                pobj.Attack(aobj, content, projMan);
+                                pobj.resetAttack();
+                            }
+                            /*
                             if (String.Compare(pobj.type, "APPRENTICE", true) == 0)
                             if (pobj.isAlive() && !pobj.attacked)
                             {
@@ -98,6 +106,7 @@ namespace Retribution
                                 projMan.proj.Add(((Tower)pobj).myArrow);
                                 ((Tower)pobj).myArrow.LoadContent(content);
                             }
+                             * */
                         }
                         else
                             pobj.attackWait--;
@@ -107,6 +116,13 @@ namespace Retribution
                     {
                         if (aobj.attackWait <= 0)
                         {
+                            if (aobj.isAlive() && !aobj.attacked)
+                            {
+                                //  Call player object attack
+                                aobj.Attack(pobj, content, projMan);
+                                aobj.resetAttack();
+                            }
+                            /*
                             if (aobj.isAlive() && !aobj.attacked)
                             {
                                 aobj.Attack(pobj);
@@ -123,6 +139,7 @@ namespace Retribution
                                 projMan.proj.Add(((Tower)aobj).myArrow);
                                 ((Tower)aobj).myArrow.LoadContent(content);
                             }
+                             * */
                         }
                         else
                             aobj.attackWait--;
@@ -131,6 +148,7 @@ namespace Retribution
                 }
             }
         }
+        /*
         public void autoAttacks(ContentManager content, ref List<Projectile> proj)
         {
             for (int j = 0; j < player.Count; j++) 
@@ -185,5 +203,6 @@ namespace Retribution
 
 
         }
+         * */
     }
 }

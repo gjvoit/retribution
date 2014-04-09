@@ -8,14 +8,14 @@ namespace Retribution
 {
     class MovementManager
     {
-
         public static Map myMap;
-
         static MovementManager instance;
+
         private MovementManager()
         {
             myMap = null;
         }
+
         public static MovementManager getInstance()
         {
             if (instance == null)
@@ -26,9 +26,11 @@ namespace Retribution
             else
                 return instance;
         }
+
         public void setMap(Map newMap){
             myMap = newMap;
         }
+
         //  Helper method to calculate normalized vector
         public static Vector2 getNormalizedVector(Vector2 startVector, Vector2 endVector)
         {
@@ -38,8 +40,6 @@ namespace Retribution
         }
 
         //  Call movement method of all selected objects
- 
-       
         public void moveObjects(List<GameObject> playerUnits, List<GameObject> aiUnits)
         {
             List<GameObject> mobiles = new List<GameObject>();
@@ -96,8 +96,6 @@ namespace Retribution
 
         public static void changeDestination(List<GameObject> listOfSelectedObjects, Vector2 destination)
         {
-
-
             for (int i = 0; i < listOfSelectedObjects.Count; i++)
             {
                 if (listOfSelectedObjects[i].GetType().BaseType == typeof(Projectile))
@@ -120,6 +118,7 @@ namespace Retribution
                 }
             }
         }
+
         public Boolean CompareLists(List<Tile> newList, List<Tile> oldList)
         {
            
@@ -141,7 +140,5 @@ namespace Retribution
                 return false;
             }
         }
-
-
     }
 }

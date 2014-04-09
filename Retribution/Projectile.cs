@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Retribution
 {
-    abstract class Projectile : GameObject
+    public abstract class Projectile : GameObject
     {
         public Vector2 direction;
         public Vector2 destination;
@@ -15,7 +15,7 @@ namespace Retribution
         public GameObject target;
         public bool collided;
 
-        public Projectile(Vector2 position, int damage, ref GameObject target, int health = 1, int attackRange = 0)
+        public Projectile(Vector2 position, int damage, GameObject target, int health = 1, int attackRange = 0)
             : base(health, position, damage, attackRange)
         {
             this.target = target;

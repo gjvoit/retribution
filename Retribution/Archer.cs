@@ -20,7 +20,18 @@ namespace Retribution
             this.attackWait = 0;
             attackSpeed = 240;
         }
-       
+
+        //  The new attack code
+        public override void Attack(GameObject target, ContentManager content, ProjectileManager projMan)
+        {
+            Vector2 corrected = Vector2.Add(position, new Vector2(16, 16));
+            Projectile projectile = new Arrow(corrected, 100, target, 100, 0);
+            Vector2 direction = MovementManager.getNormalizedVector(projectile.position, target.position);
+            projectile.setDestination(direction, target.position);
+            projectile.LoadContent(content);
+            projMan.proj.Add(projectile);
+        }
+        /*
         public override void Attack(GameObject target)
         {
             aiTarget = target;
@@ -34,6 +45,7 @@ namespace Retribution
             return new Arrow(corrected, ref target);
             
         }
+         * */
 
         public override void LoadContent(ContentManager content)
         {

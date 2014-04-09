@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
+using System.Diagnostics;
 
 namespace Retribution
 {
@@ -69,7 +70,7 @@ namespace Retribution
         }
 
         //  Issue attack. Alpha method that damages target. No other skills or actions are implemented in the Alpha Version
-        public virtual void Attack(GameObject target)
+        public virtual void Attack(GameObject target, ContentManager content, ProjectileManager projMan)
         {
 
             target.health -= this.damage;
