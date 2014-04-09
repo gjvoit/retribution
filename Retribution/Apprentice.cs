@@ -19,6 +19,7 @@ namespace Retribution
         public string state;
         public Texture2D image;
         SoundEffect soundEffect;
+        
 
         public Apprentice(Vector2 position, int health = 12, int damage = 12, int attackRange = 150)
             : base(health, position, damage, attackRange)
@@ -68,7 +69,7 @@ namespace Retribution
         //  The new attack code
         public override void Attack(GameObject target, ContentManager content, ProjectileManager projMan)
         {
-            soundEffect = content.Load<SoundEffect>("fireball.wav");
+            this.soundEffect = content.Load<SoundEffect>("fireball.wav");
             soundEffect.Play();
             Vector2 corrected = Vector2.Add(position, new Vector2(16, 16));
             Projectile projectile = new Iceball(corrected, 100, target, 100, 0);
