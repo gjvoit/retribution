@@ -13,6 +13,7 @@ namespace Retribution
         public Arrow(Vector2 position, int damage, GameObject target, int health = 1, int attackRange = 0)
             : base(position, damage, target, health, attackRange)
         {
+            this.damage = 1;
             this.position = position;
             this.moveSpeed = 3;
             attackWait = 300;

@@ -16,15 +16,11 @@ namespace Retribution
         public string state;
         public Texture2D image;
 
-        public Commander(Vector2 position, int health = 2, int damage = 3, int attack_range = 2)
-            : base(health, position, damage, attack_range)
+        public Commander(Vector2 position, int health = 30, int damage = 6, int attackRange = 100)
+            : base(health, position, damage, attackRange)
         {
-            this.health = 30;
-            this.damage = 6;
-            this.attackSpeed = 2;
-            this.attackRange = 1;
-            this.moveSpeed = 8;
-            this.position = position;
+            this.attackSpeed = 180;
+            this.moveSpeed = 6;
             //this.animationState        //  The actual animation the object is performing (moving left, moving right, attacking, etc.)
             //this.animationFrame   //  Keeps track of the animation frame the object is on
             //this.animationTime    //  Calculates how much time has passed since animation began

@@ -12,12 +12,11 @@ namespace Retribution
     {
         public Arrow myArrow;
         public GameObject aiTarget;
-        public Archer(Vector2 position, int health = 20, int damage = 3, int attackRange = 150)
+        public Archer(Vector2 position, int health = 25, int damage = 3, int attackRange = 150)
             : base(health, position, damage, attackRange)
         {
             this.type = "ARCHER";
             this.moveSpeed = 2;
-            this.attackWait = 0;
             attackSpeed = 240;
         }
 

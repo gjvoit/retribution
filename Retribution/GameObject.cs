@@ -18,6 +18,7 @@ namespace Retribution
         public int health;
         public int damage;
         public int attackRange;
+        public int basehealth;
         public bool alive;
         public bool selected;
         public string type;
@@ -35,6 +36,7 @@ namespace Retribution
         public GameObject(int health, Vector2 position, int damage, int attackRange)
         {
             this.health = health;
+            this.basehealth = health;
             this.position = position;
             this.damage = damage;
             this.attackRange = attackRange;
@@ -49,9 +51,11 @@ namespace Retribution
             if (selected)
             {
                 Vector2 temp = Vector2.Subtract(position, new Vector2(attackRange-16, attackRange-16));
-                spriteBatch.Draw(CreateCircle(attackRange, spriteBatch.GraphicsDevice), temp, Color.Cyan);
-            }
+                spriteBatch.Draw(createCircle(attackRange, spriteBatch.GraphicsDevice), temp, Color.Cyan);
+                                        }
             spriteBatch.Draw(texture, new Rectangle((int)this.position.X, (int)this.position.Y, imageSize, imageSize), new Rectangle(ssX*32, ssY*32, imageSize, imageSize), Color.White);
+            if(selected)
+                spriteBatch.Draw(createHPBar(this.health, spriteBatch.GraphicsDevice), position, Color.White);
         }
         public virtual void Draw(SpriteBatch spriteBatch, Color color)
         {
@@ -133,7 +137,22 @@ namespace Retribution
         public void Animate()
         {
         }
-        public Texture2D CreateCircle(int radius, GraphicsDevice arg)
+        public Texture2D createHPBar(int health, GraphicsDevice arg)
+        {
+            Texture2D texture = new Texture2D(arg, 32, 2);
+            Color[] data = new Color[32 * 2];
+            for (int i = 0; i < data.Length; i++)
+                data[i] = Color.Red;
+            int scaled = health *64 / basehealth;
+            for (int j = 0; j < scaled/2; j++)
+                data[j] = Color.LawnGreen;
+            for (int p = 32; p < 32+scaled/2; p++)
+                data[p] = Color.LawnGreen;
+            texture.SetData(data);
+            return texture;
+
+        }
+        public Texture2D createCircle(int radius, GraphicsDevice arg)
         {
             int outerRadius = radius * 2 + 2; // So circle doesn't go out of bounds
             Texture2D texture = new Texture2D(arg, outerRadius, outerRadius);

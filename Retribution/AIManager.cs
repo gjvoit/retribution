@@ -89,23 +89,23 @@ namespace Retribution
       
                     if(String.Compare(unit.type, "ARCHER", true) == 0)
                     {
-                        //if (unit.aiTarget != null)
-                        //    pursue(aiUnits, unit);
-                        //else
+                        if (unit.aiTarget != null)
+                            pursue(aiUnits, unit);
+                        else
                             explore(aiUnits, unit);
                     }
 
                     if (String.Compare(unit.type, "WARRIOR", true) == 0&& unit.aiTarget!=null)
                     {
-                        //if (unit.aiTarget != null)
-                        //{
-                        //    if (String.Compare(unit.aiTarget.type, "ARCHER", true) == 0)
-                        //        pursue(aiUnits, unit);
-                        //    else
-                        //        if (random.Next(0, 15) == 7)
-                        //            pursue(aiUnits, unit);
-                        //        }
-                        //else
+                        if (unit.aiTarget != null)
+                        {
+                            if (String.Compare(unit.aiTarget.type, "ARCHER", true) == 0)
+                                pursue(aiUnits, unit);
+                            else
+                                if (random.Next(0, 15) == 7)
+                                    pursue(aiUnits, unit);
+                        }
+                        else
                             explore(aiUnits, unit);
                     }                
                 }
