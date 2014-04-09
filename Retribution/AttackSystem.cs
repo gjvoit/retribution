@@ -42,9 +42,39 @@ namespace Retribution
             foreach(GameObject pobj in player){
                 foreach (GameObject aobj in artificial)
                 {
+                    //if (pobj.aiTarget != null&&pobj.aiTarget.alive)
+                    //{
+                    //    if (pobj.attackWait <= 0)
+                    //    {
+                    //        if (pobj.isAlive() && !pobj.attacked)
+                    //        {
+                    //            pobj.Attack(pobj.aiTarget);
+                    //            pobj.resetAttack();
+                    //        }
+                    //        if (String.Compare(pobj.type, "ARCHER", true) == 0)
+                    //        {
+                    //            projMan.proj.Add(((Archer)pobj).myArrow);
+                    //            ((Archer)pobj).myArrow.LoadContent(content);
+                    //        }
+                    //        if (String.Compare(pobj.type, "APPRENTICE", true) == 0)
+                    //        {
+                    //            projMan.proj.Add(((Apprentice)pobj).myArrow);
+                    //            ((Apprentice)pobj).myArrow.LoadContent(content);
+                    //        }
+                    //        if (String.Compare(pobj.type, "TOWER", true) == 0)
+                    //        {
+                    //            projMan.proj.Add(((Tower)pobj).myArrow);
+                    //            ((Tower)pobj).myArrow.LoadContent(content);
+                    //        }
+                    //    }
+                    //    else
+                    //        pobj.attackWait--;
+                    //    break;
+                    //}
+                    //else  
                     if (pobj.IsInRange(aobj)) //if ai is attackable by player
                     {
-                        if (String.Compare(pobj.type, "APPRENTICE", true) == 0)
+                        pobj.aiTarget=aobj;
                         if (pobj.attackWait <= 0)
                         {
                             if (String.Compare(pobj.type, "APPRENTICE", true) == 0)
