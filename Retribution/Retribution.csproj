@@ -57,11 +57,13 @@
     <Compile Include="Builder.cs" />
     <Compile Include="Catapult.cs" />
     <Compile Include="Circle.cs" />
+    <Compile Include="Cleric.cs" />
     <Compile Include="Commander.cs" />
     <Compile Include="Digits.cs" />
     <Compile Include="Fireball.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="HealthSystem.cs" />
+    <Compile Include="Iceball.cs" />
     <Compile Include="InputManager.cs" />
     <Compile Include="LoadManager.cs" />
     <Compile Include="Map.cs" />
@@ -100,7 +102,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\..\..\..\..\Program Files %28x86%29\MonoGame\v3.0\Assemblies\WindowsGL\SDL.dll">
+    <Content Include="..\..\..\..\..\..\..\Program Files %28x86%29\MonoGame\v3.0\Assemblies\WindowsGL\SDL.dll">
       <Link>SDL.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -108,7 +110,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\archer.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\archer_spritesheet.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -125,8 +127,14 @@
     <Content Include="Content\bridge.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\castle.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\catapult.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\cleric.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\clickbox.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -140,9 +148,7 @@
     <Content Include="Content\FFFFFF-0.8.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\fireball.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Content\fireball.png" />
     <Content Include="Content\grass.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -153,6 +159,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\human2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\iceball.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\numbers_spritesheet.png">
@@ -188,9 +197,7 @@
     <Content Include="Content\tower.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\warrior.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Content\warrior.png" />
     <Content Include="Content\water.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

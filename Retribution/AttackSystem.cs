@@ -38,171 +38,101 @@ namespace Retribution
             player = newPlayer;
             artificial = newArtificial;
         }
-        public void autoAttacks() { 
-            foreach(GameObject pobj in player){
-                foreach (GameObject aobj in artificial)
-                {
-                    //if (pobj.aiTarget != null&&pobj.aiTarget.alive)
-                    //{
-                    //    if (pobj.attackWait <= 0)
-                    //    {
-                    //        if (pobj.isAlive() && !pobj.attacked)
-                    //        {
-                    //            pobj.Attack(pobj.aiTarget);
-                    //            pobj.resetAttack();
-                    //        }
-                    //        if (String.Compare(pobj.type, "ARCHER", true) == 0)
-                    //        {
-                    //            projMan.proj.Add(((Archer)pobj).myArrow);
-                    //            ((Archer)pobj).myArrow.LoadContent(content);
-                    //        }
-                    //        if (String.Compare(pobj.type, "APPRENTICE", true) == 0)
-                    //        {
-                    //            projMan.proj.Add(((Apprentice)pobj).myArrow);
-                    //            ((Apprentice)pobj).myArrow.LoadContent(content);
-                    //        }
-                    //        if (String.Compare(pobj.type, "TOWER", true) == 0)
-                    //        {
-                    //            projMan.proj.Add(((Tower)pobj).myArrow);
-                    //            ((Tower)pobj).myArrow.LoadContent(content);
-                    //        }
-                    //    }
-                    //    else
-                    //        pobj.attackWait--;
-                    //    break;
-                    //}
-                    //else  
-                    if (pobj.IsInRange(aobj)) //if ai is attackable by player
-                    {
-                        pobj.aiTarget=aobj;
-                        if (pobj.attackWait <= 0)
-                        {
-                            //  If the player object is alive and is not currently being attacked
-                            if (pobj.isAlive() && !pobj.attacked)
-                            {
-                                //  Call player object attack
-                                pobj.Attack(aobj, content, projMan);
-                                pobj.resetAttack();
-                            }
-                            /*
-                            if (String.Compare(pobj.type, "APPRENTICE", true) == 0)
-                            if (pobj.isAlive() && !pobj.attacked)
-                            {
-                                pobj.Attack(aobj);
-                                pobj.resetAttack();
-                            }
-                            if (String.Compare(pobj.type, "ARCHER", true) == 0)
-                            {
-                                projMan.proj.Add(((Archer)pobj).myArrow);
-                                ((Archer)pobj).myArrow.LoadContent(content);
-                            }
-                            if (String.Compare(pobj.type, "APPRENTICE", true) == 0)
-                            {
-                                projMan.proj.Add(((Apprentice)pobj).myArrow);
-                                ((Apprentice)pobj).myArrow.LoadContent(content);
-                            }
-                            if (String.Compare(pobj.type, "TOWER", true) == 0)
-                            {
-                                projMan.proj.Add(((Tower)pobj).myArrow);
-                                ((Tower)pobj).myArrow.LoadContent(content);
-                            }
-                             * */
-                        }
-                        else
-                            pobj.attackWait--;
-
-                    }
-                    if (aobj.IsInRange(pobj))
-                    {
-                        if (aobj.attackWait <= 0)
-                        {
-                            if (aobj.isAlive() && !aobj.attacked)
-                            {
-                                //  Call player object attack
-                                aobj.Attack(pobj, content, projMan);
-                                aobj.resetAttack();
-                            }
-                            /*
-                            if (aobj.isAlive() && !aobj.attacked)
-                            {
-                                aobj.Attack(pobj);
-                                aobj.resetAttack();
-                            }
-                            if (String.Compare(aobj.type, "ARCHER", true) == 0)
-                            {
-                                projMan.proj.Add(((Archer)aobj).myArrow);
-                                ((Archer)aobj).myArrow.LoadContent(content);
-
-                            }
-                            if (String.Compare(aobj.type, "TOWER", true) == 0)
-                            {
-                                projMan.proj.Add(((Tower)aobj).myArrow);
-                                ((Tower)aobj).myArrow.LoadContent(content);
-                            }
-                             * */
-                        }
-                        else
-                            aobj.attackWait--;
-                    }
-                    
-                }
-            }
-        }
-        /*
-        public void autoAttacks(ContentManager content, ref List<Projectile> proj)
+        public void autoAttacks()
         {
-            for (int j = 0; j < player.Count; j++) 
+            foreach (GameObject pobj in player)
             {
-                for (int i = 0; i < artificial.Count; i++)
+
+                if (pobj.aiTarget != null && pobj.aiTarget.alive && pobj.attackWait <= 0 && pobj.IsInRange(pobj.aiTarget))//Have target?
                 {
-                    if (artificial[i].IsInRange(player[j]))
+                    pobj.Attack(pobj.aiTarget, content, projMan);
+                    pobj.resetAttack();
+                    break;
+                }
+                else
+                {
+                    if (pobj.attackWait <= 0)//ready to attack
                     {
-                        if (artificial[i].GetType() == typeof(Archer))
+                        foreach (GameObject aobj in artificial)
                         {
-                            if (player[j].isAlive())
+                            if (pobj.IsInRange(aobj)) //if ai is attackable by player
                             {
-                                artificial[i].Attack(player[j]);
-                                ((Archer)artificial[i]).myArrow.LoadContent(content);
-                                proj.Add(((Archer)artificial[i]).myArrow);
-                                break;
+                                pobj.aiTarget = aobj;
 
-                            }
-                        }
-                        else if (artificial.GetType().BaseType != typeof(Projectile))
-                        {
-                            artificial[i].Attack(player[j]);
-                        }
-                    }
-                }
+                                //  If the player object is alive and is not currently being attacked
+                                if (pobj.isAlive() && !pobj.attacked)
+                                {
+                                    //  Call player object attack
+
+                                    pobj.Attack(aobj, content, projMan);
+                                    pobj.resetAttack();
+                                    break;
+                                }
+                            }//rangecheck
+                        }//uses loop
+                        
+                    }//waitcheck
+                }//has or search for target
+                //if (String.Compare(pobj.type, "CLERIC", true) == 0&&pobj.attackWait<=0)
+                //{
+                //    foreach (GameObject hobj in player)
+                //    {
+                //        if (pobj.IsInRange(hobj))
+                //        {
+                //            if (hobj.health <= hobj.basehealth - 1)
+                //                hobj.health += 1;
+                //        }
+                //    }
+                //    pobj.resetAttack();
+                //}
+                pobj.attackWait--;
             }
-            for (int j = 0; j < player.Count; j++) 
+            foreach (GameObject aobj in artificial)
             {
-                for (int i = 0; i < artificial.Count; i++)
+                ///AI ATTACKING
+                if (aobj.aiTarget != null && aobj.aiTarget.alive && aobj.attackWait <= 0 && aobj.IsInRange(aobj.aiTarget))//Have target?
                 {
-                    if(player[j].IsInRange(artificial[i])){
-                        if (player[j].GetType() == typeof(Archer))
+                    aobj.Attack(aobj.aiTarget, content, projMan);
+                    aobj.resetAttack();
+                }
+                else//find target
+                {
+                    if (aobj.attackWait <= 0)
+                    {
+                        foreach (GameObject pobj in player)
                         {
-                            if (artificial[i].isAlive())
+                            if (aobj.IsInRange(pobj))
                             {
 
-                                player[j].Attack(artificial[i]);
-                                ((Archer)player[j]).myArrow.LoadContent(content);
-                                proj.Add(((Archer)player[j]).myArrow);
-                                break;
 
+                                if (aobj.isAlive() && !aobj.attacked)
+                                {
+
+                                    aobj.aiTarget = pobj;
+                                    aobj.Attack(pobj, content, projMan);
+                                    aobj.resetAttack();
+                                }
                             }
-                        }
-                        else if (player.GetType().BaseType != typeof(Projectile))
+                        }//uses loop
+                        
+                    }//waitcheck
+
+                }//has target/search for target check
+                if (String.Compare(aobj.type, "CLERIC", true) == 0&&aobj.attackWait<=0)
+                {
+                    foreach (GameObject hobj in artificial)
+                    {
+                        if (aobj.IsInRange(hobj))
                         {
-                            player[j].Attack(artificial[i]);
+                            if (hobj.health < hobj.basehealth - 1)
+                                hobj.health += 1;
                         }
                     }
+                    aobj.resetAttack();
                 }
-
+                aobj.attackWait--;
             }
-
-
         }
-         * */
     }
 }
+    

@@ -65,15 +65,22 @@ namespace Retribution
         public Game1()
             : base()
         {
-            graphics = new GraphicsDeviceManager(this);
-            graphics.IsFullScreen = false;
-            graphics.PreferredBackBufferHeight = 704;
-            graphics.PreferredBackBufferWidth = 704;
-            graphics.ApplyChanges();
-            Content.RootDirectory = "Content";
-
+            try
+            {
+                graphics = new GraphicsDeviceManager(this);
+                //graphics.IsFullScreen = false;
+                //Window.ClientSizeChanged += new EventHandler<EventArgs>(Window_ClientSizeChanged);
+                
+            }
+            catch
+            {
+            }
         }
-
+        //void Window_ClientSizeChanged(object sender, EventArgs e)
+        //{
+        //    OpenTKGameWindow window = sender as OpenTKGameWindow;
+        //    Console.WriteLine(window.ClientBounds.ToString());
+        //}
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
         /// This is where it can query for any required services and load any non-graphic
@@ -82,6 +89,19 @@ namespace Retribution
         /// </summary>
         protected override void Initialize()
         {
+            try
+            {
+                Window.AllowUserResizing = true;
+                //graphics.CreateDevice();
+                graphics.PreferredBackBufferHeight = 704;
+                graphics.PreferredBackBufferWidth = 1024;
+                graphics.IsFullScreen = false;
+             //   graphics.ToggleFullScreen();
+                graphics.ApplyChanges();
+            }
+            catch
+            {
+            }
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             // TODO: Add your initialization logic here
@@ -120,6 +140,7 @@ namespace Retribution
         /// </summary>
         protected override void LoadContent()
         {
+            Content.RootDirectory = "Content";
             loadMan.load(this.Content, modMan.player);
             loadMan.load(this.Content, modMan.artificial);
             player = new System.Media.SoundPlayer("bow.wav");
@@ -143,14 +164,14 @@ namespace Retribution
             modMan.addUnit("ARTIFICIAL", "TOWER", new Vector2(280, 250));
             modMan.addUnit("ARTIFICIAL", "TOWER", new Vector2(672-280, 250));
             modMan.addUnit("ARTIFICIAL", "TOWER", new Vector2(672-150, 250));
-            modMan.artificial[0].health = 5;
+          //  modMan.artificial[0].health = 5;
             int toweroffset = 0;
             for (int i = 0; i < 10; i++)
             {
                 modMan.addUnit("ARTIFICIAL", "ARCHER", new Vector2(30 + toweroffset, 50));
                 modMan.addUnit("ARTIFICIAL", "ARCHER", new Vector2(30 + toweroffset, 190));
-                modMan.artificial[5].health = 10000;
-                modMan.artificial[5].damage = 1000;
+               // modMan.artificial[5].health = 10000;
+                //modMan.artificial[5].damage = 1000;
                
                 //gameobj.Add(new Archer(new Vector2(60 + toweroffset, 100)));
                 toweroffset +=70;
@@ -159,7 +180,7 @@ namespace Retribution
             modMan.addUnit("ARTIFICIAL", "WARRIOR", new Vector2(248, 250));
             modMan.addUnit("ARTIFICIAL", "WARRIOR", new Vector2(672-280+32, 250));
             modMan.addUnit("ARTIFICIAL", "WARRIOR", new Vector2(672-150-32, 250));
-
+            modMan.addUnit("PLAYER", "CLERIC", new Vector2(250,550));
             toweroffset = 50;
             /* This part is commented out because we want the player to spawn own units, not auto-generated anymore */
             //toweroffset = 50;

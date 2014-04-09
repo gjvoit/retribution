@@ -55,6 +55,11 @@ namespace Retribution
                         autoPlace.X += 50;
                         player.Add(war);
                         break;
+                    case "CLERIC":
+                        Cleric cler = new Cleric(autoPlace);
+                        autoPlace.X += 50;
+                        player.Add(cler);
+                        break;
                 }
             }
             else
@@ -76,7 +81,11 @@ namespace Retribution
                         autoPlace.X += 50;
                         artificial.Add(war);
                         break;
-
+                    case "CLERIC":
+                        Cleric cler = new Cleric(autoPlace);
+                        autoPlace.X += 50;
+                        artificial.Add(cler);
+                        break;
                 }
             }
 
@@ -106,6 +115,10 @@ namespace Retribution
                         Digits digit = new Digits(position);
                         player.Add(digit);
                         break;
+                    case "CLERIC":
+                        Cleric cler = new Cleric(position);
+                        player.Add(cler);
+                        break;
                 }
             }
             else
@@ -126,6 +139,10 @@ namespace Retribution
                         Warrior war = new Warrior(position);
                         autoPlace.X += 50;
                         artificial.Add(war);
+                        break;
+                    case "CLERIC":
+                        Cleric cler = new Cleric(position);
+                        artificial.Add(cler);
                         break;
 
                 }

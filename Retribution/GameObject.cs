@@ -59,7 +59,10 @@ namespace Retribution
         }
         public virtual void Draw(SpriteBatch spriteBatch, Color color)
         {
+            //Vector2 temp = Vector2.Subtract(position, new Vector2(attackRange - 16, attackRange - 16));
+            //spriteBatch.Draw(createCircle(attackRange, spriteBatch.GraphicsDevice), temp, Color.Crimson);
             spriteBatch.Draw(texture, new Rectangle((int)this.position.X, (int)this.position.Y, imageSize, imageSize), new Rectangle(ssX * 32, ssY * 32, imageSize, imageSize), color);
+            spriteBatch.Draw(createHPBar(this.health, spriteBatch.GraphicsDevice), position, color);
         }
         public void resetAttack()
         {
@@ -86,7 +89,7 @@ namespace Retribution
            distance = (int) Math.Sqrt(Math.Pow((this.position.X - target.position.X), 2) + Math.Pow((this.position.Y - target.position.Y), 2));
            if (distance <= this.attackRange)
            {
-               aiTarget = target;
+               //aiTarget = target;
                return true;
            }
            else return false;

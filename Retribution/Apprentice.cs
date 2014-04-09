@@ -21,7 +21,7 @@ namespace Retribution
         SoundEffect soundEffect;
         
 
-        public Apprentice(Vector2 position, int health = 12, int damage = 12, int attackRange = 80)
+        public Apprentice(Vector2 position, int health = 12, int damage = 12, int attackRange = 150)
             : base(health, position, damage, attackRange)
         {
             this.type = "APPRENTICE";
@@ -72,7 +72,7 @@ namespace Retribution
             this.soundEffect = content.Load<SoundEffect>("fireball.wav");
             soundEffect.Play();
             Vector2 corrected = Vector2.Add(position, new Vector2(16, 16));
-            Projectile projectile = new Arrow(corrected, 100, target, 100, 0);
+            Projectile projectile = new Iceball(corrected, 100, target, 100, 0);
             Vector2 direction = MovementManager.getNormalizedVector(projectile.position, target.position);
             projectile.setDestination(direction, target.position);
             projectile.LoadContent(content);

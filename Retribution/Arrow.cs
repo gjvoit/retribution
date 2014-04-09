@@ -16,7 +16,7 @@ namespace Retribution
             this.damage = 1;
             this.position = position;
             this.moveSpeed = 3;
-            attackWait = 300;
+            //attackWait = 300;
         }
 
         public override void LoadContent(ContentManager content)
