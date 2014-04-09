@@ -19,15 +19,16 @@ namespace Retribution
         public string state;
         public Texture2D image;
 
-        public Apprentice(Vector2 position, int health = 2, int damage = 3, int attack_range = 2)
+        public Apprentice(Vector2 position, int health = 12, int damage = 12, int attack_range = 150)
             : base(health, position, damage, attack_range)
         {
             this.health = 12;
-            this.damage = 1;
-            this.attackSpeed = 2;
-            this.attackRange = 6;
-            this.moveSpeed = 6;
+            this.damage = 12;
+            this.attackSpeed = 180;
+            this.attackRange = 150;
+            this.moveSpeed = 1;
             this.position = position;
+            type = "APPRENTICE";
             //this.animationState        //  The actual animation the object is performing (moving left, moving right, attacking, etc.)
             //this.animationFrame   //  Keeps track of the animation frame the object is on
             //this.animationTime    //  Calculates how much time has passed since animation began

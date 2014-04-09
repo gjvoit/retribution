@@ -14,11 +14,11 @@ namespace Retribution
         public string state;
         public Texture2D image;
 
-        public Catapult(Vector2 position, int health = 2, int damage = 3, int attack_range = 2)
+        public Catapult(Vector2 position, int health = 20, int damage = 3, int attack_range = 2)
             : base(health, position, damage, attack_range)
         {
             this.health = 20;
-            this.damage = 8;
+            this.damage = 80;
             this.attackSpeed = 8;
             this.attackRange = 8;
             this.moveSpeed = 4;

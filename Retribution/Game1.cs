@@ -412,7 +412,7 @@ namespace Retribution
             }
             foreach(Projectile item in projMan.proj)
             {
-                ((Arrow)item).Draw(spriteBatch);
+                ((Projectile)item).Draw(spriteBatch);
             }
             for (int i = 0; i < modMan.player.Count; i++)
             {
