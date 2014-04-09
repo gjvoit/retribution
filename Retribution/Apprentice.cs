@@ -13,8 +13,7 @@ namespace Retribution
     {
         public Fireball myArrow;
         public GameObject aiTarget;
-        public double fireballCD = 4.0;
-        private static Timer fireballTimer = new Timer(4000);
+        private static Timer fireballTimer = new Timer(1);  //  1 for testing purposes, should be 4000 possibly depending on balance issues
         private static Timer animateTimer = new Timer(250);
         public string state;
         public Texture2D image;
@@ -22,12 +21,19 @@ namespace Retribution
         public Apprentice(Vector2 position, int health = 2, int damage = 3, int attack_range = 2)
             : base(health, position, damage, attack_range)
         {
+            this.type = "APPRENTICE";
             this.health = 12;
             this.damage = 1;
             this.attackSpeed = 2;
             this.attackRange = 6;
             this.moveSpeed = 6;
             this.position = position;
+
+            //  Testing, these are values that work. The above values are for balancing for later
+            this.moveSpeed = 2;
+            this.attackWait = 0;
+            this.attackSpeed = 240;
+            this.attackRange = 150;
             //this.animationState        //  The actual animation the object is performing (moving left, moving right, attacking, etc.)
             //this.animationFrame   //  Keeps track of the animation frame the object is on
             //this.animationTime    //  Calculates how much time has passed since animation began
@@ -40,12 +46,17 @@ namespace Retribution
         //  TyNote: Create a fireball unit and set destination to target location (not homing). Dies on first collision or at end of path.
         //  TyDo: Fireball has a life timer
         //  TyDo: Make this a spell. For now, it's implemented as the autoattack
-        public void fireball()
+        public void fireball(ProjectileManager projMan, ContentManager content, GameObject target, Vector2 destination)
         {
+            Fireball fireballTest = null;
             if (!fireballTimer.Enabled)
             {
                 fireballTimer.Start();
-                //  TyDo: Create a new fireball projectile
+                fireballTest = new Fireball(this.position, ref target);
+                Vector2 direction = MovementManager.getNormalizedVector(this.position, destination);
+                fireballTest.setDestination(direction, destination);
+                fireballTest.LoadContent(content);
+                projMan.proj.Add(fireballTest);
             }
         }
 

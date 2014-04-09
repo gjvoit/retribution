@@ -33,8 +33,8 @@ namespace Retribution
             mouseRecOrigin = Vector2.Zero;
         }
 
-        public void Update(MouseState current, MouseState previous, KeyboardState keyPress, ref List<GameObject> units, ref LoadManager loadManager, ContentManager theContent,
-                            ref int playerResources, bool buildPhase)
+        public void Update(MouseState current, MouseState previous, KeyboardState keyPress, ref List<GameObject> units, ref LoadManager loadManager, ref ProjectileManager projMan, 
+                            ContentManager theContent, ref int playerResources, bool buildPhase)
 
         {
 
@@ -193,6 +193,21 @@ namespace Retribution
                     loadManager.load(theContent, units);
                     playerResources -= 0;
                 }
+            }
+
+            //  Skill - When F is pressed, units selected will perform skill
+            foreach (GameObject unit in units)
+            {
+                //  Skill - Apprentice Fireball
+                if (unit.selected && unit.GetType() == typeof(Apprentice) &&
+                    !previousKeyboard.IsKeyDown(Keys.F) && keyPress.IsKeyDown(Keys.F))
+                {
+                    ((Apprentice)unit).fireball(projMan, theContent, unit, new Vector2(current.X, current.Y));
+                }
+
+                //  Skill - Rogue stealth
+
+                //  SKill - etc.
             }
 
             // Select with a single mouse click:

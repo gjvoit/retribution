@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
+using System.Diagnostics;
 #endregion
 
 namespace Retribution
@@ -43,8 +44,10 @@ namespace Retribution
                 {
                     if (pobj.IsInRange(aobj)) //if ai is attackable by player
                     {
+                        if (String.Compare(pobj.type, "APPRENTICE", true) == 0)
                         if (pobj.attackWait <= 0)
                         {
+                            if (String.Compare(pobj.type, "APPRENTICE", true) == 0)
                             if (pobj.isAlive() && !pobj.attacked)
                             {
                                 pobj.Attack(aobj);
@@ -54,6 +57,11 @@ namespace Retribution
                             {
                                 projMan.proj.Add(((Archer)pobj).myArrow);
                                 ((Archer)pobj).myArrow.LoadContent(content);
+                            }
+                            if (String.Compare(pobj.type, "APPRENTICE", true) == 0)
+                            {
+                                projMan.proj.Add(((Apprentice)pobj).myArrow);
+                                ((Apprentice)pobj).myArrow.LoadContent(content);
                             }
                             if (String.Compare(pobj.type, "TOWER", true) == 0)
                             {

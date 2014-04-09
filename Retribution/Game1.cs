@@ -280,17 +280,17 @@ namespace Retribution
 
             if (!built && playable) // Enter build phase if built is False, notice true flag at the end indicating we're in build phase
             {
-                inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref modMan.player, ref loadMan, this.Content, ref buildResources, true);
+                inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref modMan.player, ref loadMan, ref projMan, this.Content, ref buildResources, true);
                 if (buildResources <= 1) // once we deplete our build resources, set built to true (doing so will initialize enemy AI units and starts the level)
                     built = true;
             }
             else if (built && initialized)// player is not building in build phase but rather building reinforcements - notice the false flag at the end indicating not build phase
             {
-                inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref modMan.player, ref loadMan, Content, ref playerResources, false);
+                inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref modMan.player, ref loadMan, ref projMan, Content, ref playerResources, false);
             }
             else
             {
-                inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref modMan.player, ref loadMan, Content, ref noresource, false);
+                inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref modMan.player, ref loadMan, ref projMan, Content, ref noresource, false);
             }
             if (built && !initialized && riverDefenseSelector.getOccupied() == true)
             {
@@ -412,7 +412,7 @@ namespace Retribution
             }
             foreach(Projectile item in projMan.proj)
             {
-                ((Arrow)item).Draw(spriteBatch);
+                item.Draw(spriteBatch);
             }
             for (int i = 0; i < modMan.player.Count; i++)
             {
