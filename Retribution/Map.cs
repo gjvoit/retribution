@@ -76,6 +76,13 @@ namespace Retribution
 
         public List<Tile> GetPath(Vector2 startPoint, Vector2 endPoint, List<Tile> newCollisionList)
         {
+            // Clear tile scores
+            foreach (Tile myTile in mapTiles)
+            {
+                myTile.fScore = 0;
+                myTile.gScore = 0;
+                myTile.hScore = 0;
+            }
             // Set lists:
             openList.Clear();
             closedList.Clear();

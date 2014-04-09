@@ -63,11 +63,11 @@ namespace Retribution
                         for (int j = 0; j < mobiles.Count; j++)
                         {
                             if (mobiles[i].collidesWith(mobiles[j]) && i != j)
-                            {
+                           {
                                 //if (mobiles[i].GetType().BaseType == typeof(Mobile) && ((Mobile)mobiles[i]).isMoving == true)
                                 //{
                                 //}
-                                //else
+                                //
                                     newClosedList.Add(myMap.GetContainingTile(mobiles[j]));
                             }
                         }
