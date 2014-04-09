@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Retribution
 {
@@ -12,6 +13,7 @@ namespace Retribution
     {
         public Arrow myArrow;
         public GameObject aiTarget;
+        SoundEffect soundEffect;
         public Archer(Vector2 position, int health = 25, int damage = 3, int attackRange = 150)
             : base(health, position, damage, attackRange)
         {
@@ -23,6 +25,8 @@ namespace Retribution
         //  The new attack code
         public override void Attack(GameObject target, ContentManager content, ProjectileManager projMan)
         {
+            soundEffect = content.Load<SoundEffect>("bow.wav");
+            soundEffect.Play();
             Vector2 corrected = Vector2.Add(position, new Vector2(16, 16));
             Projectile projectile = new Arrow(corrected, 100, target, 100, 0);
             Vector2 direction = MovementManager.getNormalizedVector(projectile.position, target.position);
