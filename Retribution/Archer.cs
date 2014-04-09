@@ -37,7 +37,8 @@ namespace Retribution
 
         public override void LoadContent(ContentManager content)
         {
-            this.texture = content.Load<Texture2D>("archer_spritesheet.png");
+           
+            this.texture = content.Load<Texture2D>("archer.png");
         }
 
     }

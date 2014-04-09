@@ -33,6 +33,8 @@ namespace Retribution
 
         public Map(String fileName)
         {
+            openList = new List<Tile>();
+            closedList = new List<Tile>();
             isDrawn = false;
             string[] tiles = File.ReadAllLines(fileName);
             width = tiles[0].Length;
@@ -45,12 +47,12 @@ namespace Retribution
                     mapTiles[y, x] = new Tile(tiles[y][x]);
                     mapTiles[y, x].xPosition = x;
                     mapTiles[y, x].yPosition = y;
+                    mapTiles[y, x].fScore = 0;
                 }
             }
 
             //pathList = new List<Tile>();
-            openList = new List<Tile>();
-            closedList = new List<Tile>();
+            
         }
 
         public void DrawMap(SpriteBatch spriteBatch)
@@ -143,7 +145,8 @@ namespace Retribution
         {
             int lowestScore = 9999999; //  Magic number yayyy
             int index = 0;
-
+            if(openList !=null)
+           // lowestScore = openList[0].fScore;
             // Get tile in open list with the lowest fscore:
             foreach (Tile myTile in openList)
             {
@@ -174,7 +177,7 @@ namespace Retribution
                     )
                 {
                     int movementCost = 10;
-                    if(Math.Abs(newX - parentX) + Math.Abs(newY - parentY) >= 2)
+                    if((Math.Abs(newX - parentX) + Math.Abs(newY - parentY)) >= 2)
                     {
                         movementCost += 4;
                     }
@@ -202,12 +205,14 @@ namespace Retribution
 
         public Tile GetTile(Vector2 endPoint)
         {
-            for (int y = 0; y < height; y++)
+            for (int y = 0; y < height; y++)//for each y tile
             {
-                for (int x = 0; x < width; x++)
+                for (int x = 0; x < width; x++)//for each x tile
                 {
-                    if (endPoint.X >= mapTiles[y, x].origin.X && endPoint.X <= (mapTiles[y, x].origin.X + mapTiles[y, x].width)
-                        && endPoint.Y >= mapTiles[y, x].origin.Y && endPoint.Y <= (mapTiles[y, x].origin.Y + mapTiles[y, x].height)
+                    if (endPoint.X >= mapTiles[y, x].origin.X //left side check
+                        && endPoint.X <= (mapTiles[y, x].origin.X + mapTiles[y, x].width)//right side check
+                        && endPoint.Y >= mapTiles[y, x].origin.Y && //inside top check
+                        endPoint.Y <= (mapTiles[y, x].origin.Y + mapTiles[y, x].height)//inside bottom
                         )
                     {
                         //System.Console.WriteLine(mapTiles[x, y].xPosition + ", " + mapTiles[x, y].yPosition);

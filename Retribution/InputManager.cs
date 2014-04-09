@@ -247,6 +247,7 @@ namespace Retribution
                 && previous.LeftButton == ButtonState.Pressed
                 )
             {
+                
                 for (int i = 0; i < units.Count; i++)
                 {
                     units[i].selected = false;

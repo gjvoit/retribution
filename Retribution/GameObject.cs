@@ -45,7 +45,16 @@ namespace Retribution
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
+            if (selected)
+            {
+                Vector2 temp = Vector2.Subtract(position, new Vector2(attackRange-16, attackRange-16));
+                spriteBatch.Draw(CreateCircle(attackRange, spriteBatch.GraphicsDevice), temp, Color.Cyan);
+            }
             spriteBatch.Draw(texture, new Rectangle((int)this.position.X, (int)this.position.Y, imageSize, imageSize), new Rectangle(ssX*32, ssY*32, imageSize, imageSize), Color.White);
+        }
+        public virtual void Draw(SpriteBatch spriteBatch, Color color)
+        {
+            spriteBatch.Draw(texture, new Rectangle((int)this.position.X, (int)this.position.Y, imageSize, imageSize), new Rectangle(ssX * 32, ssY * 32, imageSize, imageSize), color);
         }
         public void resetAttack()
         {
@@ -122,6 +131,32 @@ namespace Retribution
         public abstract void LoadContent(ContentManager content);
         public void Animate()
         {
+        }
+        public Texture2D CreateCircle(int radius, GraphicsDevice arg)
+        {
+            int outerRadius = radius * 2 + 2; // So circle doesn't go out of bounds
+            Texture2D texture = new Texture2D(arg, outerRadius, outerRadius);
+
+            Color[] data = new Color[outerRadius * outerRadius];
+
+            // Colour the entire texture transparent first.
+            for (int i = 0; i < data.Length; i++)
+                data[i] = Color.Transparent;
+
+            // Work out the minimum step necessary using trigonometry + sine approximation.
+            double angleStep = 1f / radius;
+
+            for (double angle = 0; angle < Math.PI * 2; angle += angleStep)
+            {
+                // Use the parametric definition of a circle: http://en.wikipedia.org/wiki/Circle#Cartesian_coordinates
+                int x = (int)Math.Round(radius + radius * Math.Cos(angle));
+                int y = (int)Math.Round(radius + radius * Math.Sin(angle));
+
+                data[y * outerRadius + x + 1] = Color.White;
+            }
+
+            texture.SetData(data);
+            return texture;
         }
     }
 }

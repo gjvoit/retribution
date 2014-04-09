@@ -57,7 +57,8 @@ namespace Retribution
             {
                 List<GameObject> searchParty = new List<GameObject>();
                 searchParty.Add(unit);
-                for (int x = random.Next(0, aiUnits.Count); x < x+2; x++)
+                int randpull = random.Next(0, aiUnits.Count - 2);
+                for (int x = randpull; x < randpull+2; x++)
                 {
                 GameObject gunit = aiUnits[x];
                 if (gunit.aiTarget == null && gunit.GetType().BaseType == typeof(Mobile))
@@ -88,23 +89,23 @@ namespace Retribution
       
                     if(String.Compare(unit.type, "ARCHER", true) == 0)
                     {
-                        if (unit.aiTarget != null)
-                            pursue(aiUnits, unit);
-                        else
+                        //if (unit.aiTarget != null)
+                        //    pursue(aiUnits, unit);
+                        //else
                             explore(aiUnits, unit);
                     }
 
                     if (String.Compare(unit.type, "WARRIOR", true) == 0&& unit.aiTarget!=null)
                     {
-                        if (unit.aiTarget != null)
-                        {
-                            if (String.Compare(unit.aiTarget.type, "ARCHER", true) == 0)
-                                pursue(aiUnits, unit);
-                            else
-                                if (random.Next(0, 15) == 7)
-                                    pursue(aiUnits, unit);
-                                }
-                        else
+                        //if (unit.aiTarget != null)
+                        //{
+                        //    if (String.Compare(unit.aiTarget.type, "ARCHER", true) == 0)
+                        //        pursue(aiUnits, unit);
+                        //    else
+                        //        if (random.Next(0, 15) == 7)
+                        //            pursue(aiUnits, unit);
+                        //        }
+                        //else
                             explore(aiUnits, unit);
                     }                
                 }

@@ -422,7 +422,7 @@ namespace Retribution
 
             for (int i = 0; i < modMan.artificial.Count; i++)
             {
-                modMan.artificial[i].Draw(spriteBatch);
+                modMan.artificial[i].Draw(spriteBatch,Color.Coral);
             }
 
             inputManager.DrawMouseRectangle(spriteBatch, Content);
