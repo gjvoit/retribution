@@ -121,6 +121,9 @@
     <Content Include="Content\barricade.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\blade.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\bow.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
