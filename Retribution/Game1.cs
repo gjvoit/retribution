@@ -331,14 +331,14 @@ namespace Retribution
 
             if (!built && playable) // Enter build phase if built is False, notice true flag at the end indicating we're in build phase
             {
-                Console.WriteLine("a");
+                //Console.WriteLine("a");
                 inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref modMan.player, ref loadMan, ref projMan, this.Content, ref buildResources, true);
                 if (buildResources <= 1) // once we deplete our build resources, set built to true (doing so will initialize enemy AI units and starts the level)
                     built = true;
             }
             else if (built && initialized)// player is not building in build phase but rather building reinforcements - notice the false flag at the end indicating not build phase
             {
-                Console.WriteLine("b");
+                //Console.WriteLine("b");
                 inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref modMan.player, ref loadMan, ref projMan, Content, ref playerResources, false);
             }
             else
@@ -347,14 +347,14 @@ namespace Retribution
             }
             if (built && !initialized)// && castleDefenseSelector.getOccupied() == true)
             {
-                Console.WriteLine("c");
+                //Console.WriteLine("c");
                 betaInitialization();
                 initialized = true; // set initialized to true to prevent looped enemy unit spawning
             }
 
             if (initialized)
             {
-                Console.WriteLine("d");
+                //Console.WriteLine("d");
                 theResource.ssY = playerResources * 32;
             }
 
@@ -420,14 +420,14 @@ namespace Retribution
                 || screenManager.currentMap.name.Equals("Content/riverDefense.txt")
                 || screenManager.currentMap.name.Equals("Content/castleSiege.txt"))
             {
-                Console.WriteLine("e");
+                //Console.WriteLine("e");
                 playable = true;
                 //loadMan.load(this.Content, modMan.player);
                 //loadMan.load(this.Content, modMan.artificial);
             }
             else
             {
-                Console.WriteLine("f");
+                //Console.WriteLine("f");
                 playable = false;
                 initialized = false;
                 built = false;
@@ -449,13 +449,13 @@ namespace Retribution
             //    }
             if (playable && testBeta)
             {
-                Console.WriteLine("g");
+                //Console.WriteLine("g");
                 modMan.player.Remove(modMan.player[0]);
                 testBeta = false;
             }
             if (built && initialized)  // hopefully get digits working and draw it to the screen (only when game starts)
             {
-                Console.WriteLine("h");
+                //Console.WriteLine("h");
                 theResource.ssY = playerResources * 32;
                 theResource.Draw(spriteBatch);
             }
