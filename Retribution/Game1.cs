@@ -438,7 +438,9 @@ namespace Retribution
             }
             if (screenManager.currentMap.name.Equals("Content/levelSelect.txt"))//ghetto right now, but it'll do.
             {
-                spriteBatch.Draw(Content.Load<Texture2D>("Castle.png"), new Rectangle(32, 384, 128, 64), Color.White);
+                spriteBatch.Draw(Content.Load<Texture2D>("Castle.png"), new Rectangle(32, 320, 128, 64), Color.White);
+                spriteBatch.Draw(Content.Load<Texture2D>("Castle.png"), new Rectangle(32+256, 320, 128, 64), Color.White);
+                spriteBatch.Draw(Content.Load<Texture2D>("Castle.png"), new Rectangle(32+512, 320, 128, 64), Color.White);
             }
             //if (playable)//screenManager.currentMap.name.Equals("Content/castleDefense.txt"))
             //{
