@@ -57,10 +57,18 @@ namespace Retribution
                     }
                     break;
                 case "Content/defeatScreen.txt":
-                    allSelectors[0].isColliding(levelChooser);
+                    if (allSelectors[0].getInteraction() == true)
+                    {
+                        Console.WriteLine("We're checking for collision with defeatScreen!");
+                        Console.WriteLine("Who are we checking for collision with?!?!?  " + levelChooser);
+                        allSelectors[0].isColliding(levelChooser);
+                    }
                     break;
                 case "Content/victoryScreen.txt":
-                    allSelectors[5].isColliding(levelChooser);
+                    if (allSelectors[5].getInteraction() == true)
+                    {
+                        allSelectors[5].isColliding(levelChooser);
+                    }
                     break;
             }
         }
@@ -93,10 +101,13 @@ namespace Retribution
         {
             if (victoryCondition.Equals("victory"))
             {
+                // The only time you can achieve "victory" is on playable maps
                 switch (currentMap.name)
                 {
                     case "Content/castleDefense.txt":
+                        Console.WriteLine("We won castleDefense!");
                         currentMap = allMaps[2];
+                        Console.WriteLine("allMaps[2] is: " + allMaps[2].name);
                         allSelectors[3].setInteraction(true);
                         allSelectors[3].setUnlocked(true);
                         allSelectors[2].setUnlocked(true);
@@ -125,6 +136,7 @@ namespace Retribution
                         nextMap = allMaps[1];
                         allSelectors[0].setUnlocked(true);
                         allSelectors[0].setInteraction(true);
+                        Console.WriteLine("interaction for defeatScreen is: " + allSelectors[0].getInteraction());
                         //allSelectors
                         break;
                     case "Content/riverDefense.txt":

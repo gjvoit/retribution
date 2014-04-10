@@ -30,7 +30,7 @@ namespace Retribution
         {
             List<GameObject> attackParty = new List<GameObject>();
             attackParty.Add(unit);
-            for (int x = 0; x < random.Next(1, aiUnits.Count/3); x++)
+            for (int x = 0; x < random.Next(1, aiUnits.Count); x++) // "Count/3" was breaking the game once a user got the enemy units to less than 3
             {
                 GameObject gunit = aiUnits[x];
                 if (gunit.aiTarget == null && gunit.GetType().BaseType == typeof(Mobile))
