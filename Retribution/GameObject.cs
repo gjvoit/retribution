@@ -71,6 +71,11 @@ namespace Retribution
             attacked = false;
 
         }
+        public virtual void kill(ContentManager content)
+        {
+            
+        
+        }
         //  A rectangle to represent the object
         public Rectangle Bounds
         {
@@ -113,13 +118,12 @@ namespace Retribution
         }
 
         //  Returns true if object is alive
-        public bool isAlive()
+        public virtual bool isAlive()
         {
             if (health > 0)
                 return true;
             else
             {
-                this.alive = false;
                 return false;
             }
         }

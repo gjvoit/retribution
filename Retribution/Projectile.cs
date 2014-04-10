@@ -47,8 +47,8 @@ namespace Retribution
             {
 
 
-                if (this.position.X <= end_point.X && this.destination.X >= prev_point.X
-                    && this.position.Y <= end_point.Y && this.destination.Y >= prev_point.Y) //equivalent to IsInRange
+                if (this.position.X <= end_point.X && this.position.X >= prev_point.X
+                    && this.position.Y <= end_point.Y && this.position.Y >= prev_point.Y) //equivalent to IsInRange
                 {
                     this.health = -1;
                     collided = true;

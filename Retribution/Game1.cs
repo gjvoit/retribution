@@ -108,11 +108,11 @@ namespace Retribution
             castleSiege = new Map("Content/castleSiege.txt");
             victoryScreen = new Map("Content/victoryScreen.txt");
             mainScreenSelector = new Selector(new Rectangle(288, 0, 128, 64), mainScreen, levelSelect, true);
-            castleDefenseSelector = new Selector(new Rectangle(32, 320, 128, 64), levelSelect, castleDefense, false);
-            riverDefenseSelector = new Selector(new Rectangle(288, 320, 128, 64), levelSelect, riverDefense, false);
-            castleSiegeSelector = new Selector(new Rectangle(544, 320, 128, 64), levelSelect, castleSiege, false);
-            defeatScreenSelector = new Selector(new Rectangle(188, 0, 128, 64), defeatScreen, mainScreen, false);
-            victoryScreenSelector = new Selector(new Rectangle(388, 0, 128, 64), victoryScreen, mainScreen, false);
+            castleDefenseSelector = new Selector(new Rectangle(32, 320, 192, 96), levelSelect, castleDefense, false);
+            riverDefenseSelector = new Selector(new Rectangle(288, 320, 192, 96), levelSelect, riverDefense, false);
+            castleSiegeSelector = new Selector(new Rectangle(544, 320, 192, 96), levelSelect, castleSiege, false);
+            defeatScreenSelector = new Selector(new Rectangle(0, 352, 128, 64), defeatScreen, mainScreen, false);
+            victoryScreenSelector = new Selector(new Rectangle(0, 640, 128, 64), victoryScreen, mainScreen, false);
             modMan = ModelManager.getInstance(ref mainScreen);
             loadMan = LoadManager.getInstance();
             projMan = ProjectileManager.getInstance();
@@ -196,25 +196,29 @@ namespace Retribution
         {
             //if (player != null)
             //    player.Play();
-            modMan.addUnit("ARTIFICIAL", "TOWER", new Vector2(150, 250));
+            /*modMan.addUnit("ARTIFICIAL", "TOWER", new Vector2(150, 250));
             modMan.addUnit("ARTIFICIAL", "TOWER", new Vector2(280, 250));
             modMan.addUnit("ARTIFICIAL", "TOWER", new Vector2(672 - 280, 250));
             modMan.addUnit("ARTIFICIAL", "TOWER", new Vector2(672 - 150, 250));
           //  modMan.artificial[0].health = 5;
+             */
             int toweroffset = 0;
-            for (int i = 0; i < 10; i++)
+             
+            for (int i = 0; i < 3; i++)
             {
                 modMan.addUnit("ARTIFICIAL", "ARCHER", new Vector2(30 + toweroffset, 50));
-                modMan.addUnit("ARTIFICIAL", "ARCHER", new Vector2(30 + toweroffset, 190));
+                //modMan.addUnit("ARTIFICIAL", "ARCHER", new Vector2(30 + toweroffset, 190));
                 // modMan.artificial[5].health = 10000;
                 //modMan.artificial[5].damage = 1000;
 
                 //gameobj.Add(new Archer(new Vector2(60 + toweroffset, 100)));
                 toweroffset += 70;
             }
+            /*
             modMan.addUnit("ARTIFICIAL", "WARRIOR", new Vector2(180, 250));
             modMan.addUnit("ARTIFICIAL", "WARRIOR", new Vector2(248, 250));
             modMan.addUnit("ARTIFICIAL", "WARRIOR", new Vector2(672 - 280 + 32, 250));
+             * */
             modMan.addUnit("ARTIFICIAL", "WARRIOR", new Vector2(672 - 150 - 32, 250));
             //modMan.addUnit("PLAYER", "CLERIC", new Vector2(250,550));
             //toweroffset = 50;
@@ -359,7 +363,7 @@ namespace Retribution
             }
 
             healthChecker.Update(modMan.player, modMan.artificial);
-            healthChecker.checkHealth();
+            healthChecker.checkHealth(this.Content);
             modMan.player = healthChecker.player;
             modMan.artificial = healthChecker.artificial;
             attackChecker.Update(ref modMan.player, ref modMan.artificial );
@@ -372,14 +376,23 @@ namespace Retribution
             if ((modMan.player.Count == 0) && built)
             {
                 screenManager.victory = "defeat";
+                modMan.artificial.Clear();
+                testCommander();
+                loadMan.load(Content, modMan.player);
+                //Console.WriteLine("interaction for defeatscreenselector: " + screenManager.allSelectors[0].getInteraction());
             }
             else if ((modMan.artificial.Count == 0) && built)
             {
                 screenManager.victory = "victory";
+                modMan.player.Clear();
+                testCommander();
+                loadMan.load(Content, modMan.player);
+                built = false;
+                playable = false;
+                initialized = false;
             }
 
             screenManager.updateSelectors(screenManager.victory);
-
             /*if (screenManager.victory.Equals("victory") && screenManager.currentMap.name.Equals("castleSiege"))
             {
                 screenManager.victory = "undef";
@@ -415,7 +428,6 @@ namespace Retribution
             {
                 screenManager.chooseSelector((Mobile)modMan.player[0]);
             }
-            screenManager.currentMap.DrawMap(spriteBatch);
             if (screenManager.currentMap.name.Equals("Content/castleDefense.txt")
                 || screenManager.currentMap.name.Equals("Content/riverDefense.txt")
                 || screenManager.currentMap.name.Equals("Content/castleSiege.txt"))
@@ -429,12 +441,18 @@ namespace Retribution
             {
                 //Console.WriteLine("f");
                 playable = false;
-                initialized = false;
-                built = false;
+
             }
+            screenManager.currentMap.DrawMap(spriteBatch);
             if (screenManager.currentMap.name.Equals("Content/MainScreen.txt")) 
             {
                 spriteBatch.Draw(Content.Load<Texture2D>("ret.png"), new Rectangle(102, 37, 500, 200), Color.White);
+            }
+            if (screenManager.currentMap.name.Equals("Content/levelSelect.txt"))//ghetto right now, but it'll do.
+            {
+                spriteBatch.Draw(Content.Load<Texture2D>("CastleSiege.png"), new Rectangle(32, 320, 128, 64), Color.White);
+                spriteBatch.Draw(Content.Load<Texture2D>("TheRiver.png"), new Rectangle(32+320, 320, 128, 64), Color.White);
+                spriteBatch.Draw(Content.Load<Texture2D>("CastleDefence.png"), new Rectangle(32+640, 320, 128, 64), Color.White);
             }
             //if (playable)//screenManager.currentMap.name.Equals("Content/castleDefense.txt"))
             //{

@@ -33,6 +33,11 @@ namespace Retribution
             SoundEffect soundEffect = content.Load<SoundEffect>("catapult.wav");
             soundEffect.Play();
         }
+        public override void kill(ContentManager content)
+        {
+            SoundEffect soundEffect = content.Load<SoundEffect>("death.wav");
+            soundEffect.Play();
+        }
         public void Attack()
         {
             //  TyDo: Create new projectile at catapults's position of type arced, set destination to target location

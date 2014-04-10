@@ -63,6 +63,11 @@ namespace Retribution
             //  TyDo: If frame is last, stop timer. Else, increment frame counter
             //  TyDo: May not need animate method perhaps?
         }
+        public override void kill(ContentManager content)
+        {
+            SoundEffect soundEffect = content.Load<SoundEffect>("death.wav");
+            soundEffect.Play();
+        }
 
         //  TyDo: Create a new projectile that deals less damage than an arrow, but for now just make it the fireball
         //  Attack the target (not homing). Create a new object projectile sent in the direction of target

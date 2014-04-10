@@ -16,6 +16,11 @@ namespace Retribution
             SoundEffect soundEffect = content.Load<SoundEffect>("blade.wav");
             soundEffect.Play();
         }
+        public override void kill(ContentManager content)
+        {
+            SoundEffect soundEffect = content.Load<SoundEffect>("death.wav");
+            soundEffect.Play();
+        }
         public Cleric(Vector2 position, int health = 85, int damage = 0, int attackRange = 65)
             : base(health, position, damage, attackRange)
         {
