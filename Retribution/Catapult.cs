@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-
+using Microsoft.Xna.Framework.Audio;
 namespace Retribution
 {
     //  Arillery unit capable of taking down structures effectively. Its attack is also an arced AOE projectile
@@ -28,7 +28,11 @@ namespace Retribution
 
         //  Issue a command to launch a projectile at target location
         //  TyDo: Arced projectile. Collision only matters at the very end of its impact. Damages all enemy units that collide
-
+        public override void attackSound(ContentManager content)
+        {
+            SoundEffect soundEffect = content.Load<SoundEffect>("catapult.wav");
+            soundEffect.Play();
+        }
         public void Attack()
         {
             //  TyDo: Create new projectile at catapults's position of type arced, set destination to target location

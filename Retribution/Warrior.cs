@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Retribution
 {
@@ -31,7 +32,11 @@ namespace Retribution
         {
             this.texture = content.Load<Texture2D>("warrior.png");
         }
-
+        public override void attackSound(ContentManager content)
+        {
+            SoundEffect soundEffect = content.Load<SoundEffect>("blade.wav");
+            soundEffect.Play();
+        }
 
     }
 }

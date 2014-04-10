@@ -78,8 +78,7 @@ namespace Retribution
         }
         public virtual void attackSound(ContentManager content)
         {
-            soundEffect = content.Load<SoundEffect>("blade.wav");
-            soundEffect.Play();
+           
         }
 
         //  Issue attack. Alpha method that damages target. No other skills or actions are implemented in the Alpha Version
