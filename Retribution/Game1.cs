@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
+using Microsoft.Xna.Framework.Audio;
 
 
 #endregion
@@ -45,7 +46,7 @@ namespace Retribution
         AIManager aiManager;
         ScreenManager screenManager;
 
-        SoundPlayer player;
+        SoundEffect player;
       //  Warrior theCommander;
         int aiStartDelay;
         int attackDelay;
@@ -131,6 +132,9 @@ namespace Retribution
             testCommander();
             base.Initialize();
             this.IsMouseVisible = true;
+            SoundEffectInstance instance = player.CreateInstance();
+            instance.IsLooped = true;
+            player.Play();
            
         }
 
@@ -143,7 +147,7 @@ namespace Retribution
             Content.RootDirectory = "Content";
             loadMan.load(this.Content, modMan.player);
             loadMan.load(this.Content, modMan.artificial);
-            player = new System.Media.SoundPlayer("bow.wav");
+            player = Content.Load<SoundEffect>("back.wav");
             // TODO: use this.Content to load your game content here
         }
 
