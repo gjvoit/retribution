@@ -111,8 +111,8 @@ namespace Retribution
             castleDefenseSelector = new Selector(new Rectangle(32, 320, 128, 64), levelSelect, castleDefense, false);
             riverDefenseSelector = new Selector(new Rectangle(288, 320, 128, 64), levelSelect, riverDefense, false);
             castleSiegeSelector = new Selector(new Rectangle(544, 320, 128, 64), levelSelect, castleSiege, false);
-            defeatScreenSelector = new Selector(new Rectangle(188, 0, 128, 64), defeatScreen, mainScreen, false);
-            victoryScreenSelector = new Selector(new Rectangle(388, 0, 128, 64), victoryScreen, mainScreen, false);
+            defeatScreenSelector = new Selector(new Rectangle(0, 352, 128, 64), defeatScreen, mainScreen, false);
+            victoryScreenSelector = new Selector(new Rectangle(0, 640, 128, 64), victoryScreen, mainScreen, false);
             modMan = ModelManager.getInstance(ref mainScreen);
             loadMan = LoadManager.getInstance();
             projMan = ProjectileManager.getInstance();
@@ -372,10 +372,14 @@ namespace Retribution
             if ((modMan.player.Count == 0) && built)
             {
                 screenManager.victory = "defeat";
+                modMan.artificial.Clear();
+                testCommander();
             }
             else if ((modMan.artificial.Count == 0) && built)
             {
                 screenManager.victory = "victory";
+                modMan.player.Clear();
+                testCommander();
             }
 
             screenManager.updateSelectors(screenManager.victory);
