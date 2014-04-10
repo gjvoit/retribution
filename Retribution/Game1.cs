@@ -108,9 +108,9 @@ namespace Retribution
             castleSiege = new Map("Content/castleSiege.txt");
             victoryScreen = new Map("Content/victoryScreen.txt");
             mainScreenSelector = new Selector(new Rectangle(288, 0, 128, 64), mainScreen, levelSelect, true);
-            castleDefenseSelector = new Selector(new Rectangle(32, 320, 128, 64), levelSelect, castleDefense, false);
-            riverDefenseSelector = new Selector(new Rectangle(288, 320, 128, 64), levelSelect, riverDefense, false);
-            castleSiegeSelector = new Selector(new Rectangle(544, 320, 128, 64), levelSelect, castleSiege, false);
+            castleDefenseSelector = new Selector(new Rectangle(32, 320, 192, 96), levelSelect, castleDefense, false);
+            riverDefenseSelector = new Selector(new Rectangle(288, 320, 192, 96), levelSelect, riverDefense, false);
+            castleSiegeSelector = new Selector(new Rectangle(544, 320, 192, 96), levelSelect, castleSiege, false);
             defeatScreenSelector = new Selector(new Rectangle(0, 352, 128, 64), defeatScreen, mainScreen, false);
             victoryScreenSelector = new Selector(new Rectangle(0, 640, 128, 64), victoryScreen, mainScreen, false);
             modMan = ModelManager.getInstance(ref mainScreen);
@@ -442,9 +442,9 @@ namespace Retribution
             }
             if (screenManager.currentMap.name.Equals("Content/levelSelect.txt"))//ghetto right now, but it'll do.
             {
-                spriteBatch.Draw(Content.Load<Texture2D>("Castle.png"), new Rectangle(32, 320, 128, 64), Color.White);
-                spriteBatch.Draw(Content.Load<Texture2D>("Castle.png"), new Rectangle(32+256, 320, 128, 64), Color.White);
-                spriteBatch.Draw(Content.Load<Texture2D>("Castle.png"), new Rectangle(32+512, 320, 128, 64), Color.White);
+                spriteBatch.Draw(Content.Load<Texture2D>("CastleSiege.png"), new Rectangle(32, 320, 128, 64), Color.White);
+                spriteBatch.Draw(Content.Load<Texture2D>("TheRiver.png"), new Rectangle(32+320, 320, 128, 64), Color.White);
+                spriteBatch.Draw(Content.Load<Texture2D>("CastleDefence.png"), new Rectangle(32+640, 320, 128, 64), Color.White);
             }
             //if (playable)//screenManager.currentMap.name.Equals("Content/castleDefense.txt"))
             //{
