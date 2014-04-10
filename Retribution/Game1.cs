@@ -436,6 +436,10 @@ namespace Retribution
             {
                 spriteBatch.Draw(Content.Load<Texture2D>("ret.png"), new Rectangle(102, 37, 500, 200), Color.White);
             }
+            if (screenManager.currentMap.name.Equals("Content/levelSelect.txt"))
+            {
+                spriteBatch.Draw(Content.Load<Texture2D>("Guide.png"), new Rectangle(0, 400, 700, 200), Color.White);
+            }
             //if (playable)//screenManager.currentMap.name.Equals("Content/castleDefense.txt"))
             //{
             //    if (testBeta)
