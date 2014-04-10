@@ -14,6 +14,7 @@ namespace Retribution
         Boolean isOccupied;
         Map nextLevel;
         Boolean isInteractable; // This is for the level selection nodes
+        Boolean unlocked;
         // Once you beat a map, you return to the level selection screen and the next level is now interactable.
 
         public Selector(Rectangle space, Map current, Map next, Boolean interact)
@@ -25,12 +26,23 @@ namespace Retribution
             this.isInteractable = interact;
         }
 
+        public Boolean getUnlocked()
+        {
+            return this.unlocked;
+        }
+
+        public void setUnlocked(Boolean unlock)
+        {
+            this.unlocked = unlock;
+        }
+
         public void isColliding(GameObject unit)
         {
             if (this.selectionSpace.Intersects(unit.Bounds) && this.isInteractable == true)
             {
                 this.setOccupied(true);
             }
+            else this.setOccupied(false);
         }
 
         public Boolean getOccupied()

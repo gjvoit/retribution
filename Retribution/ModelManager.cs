@@ -88,17 +88,14 @@ namespace Retribution
                 {
                     case "ARCHER":
                         Archer temp = new Archer(position);
-                        autoPlace.X += 50;
                         player.Add(temp);
                         break;
                     case "TOWER":
                         Tower tower = new Tower(position);
-                        autoPlace.X += 50;
                         player.Add(tower);
                         break;
                     case "WARRIOR":
                         Warrior war = new Warrior(position);
-                        autoPlace.X += 50;
                         player.Add(war);
                         break;
                     case "DIGIT":

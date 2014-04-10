@@ -22,18 +22,13 @@ namespace Retribution
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Map mainScreen;
-        Map levelSelect;
         Boolean testBeta = true;
         // Used for Selector deactivation
         String currMap;
-        Selector mainScreenSelector;
-        Selector riverDefenseSelector;
-        Selector castleDefenseSelector;
-        Selector castleSiegeSelector;
-        Map riverDefense;
-        Map castleDefense;
-        Map castleSiege;
+        Selector defeatScreenSelector, mainScreenSelector, riverDefenseSelector, castleDefenseSelector,
+            castleSiegeSelector, victoryScreenSelector;
+        Map defeatScreen, mainScreen, levelSelect, castleDefense, riverDefense, castleSiege, victoryScreen;
+        List<Map> theMaps;
         MouseState mouseCurrent, mousePrev;
         HealthSystem healthChecker;
         AttackSystem attackChecker;
@@ -45,8 +40,7 @@ namespace Retribution
         AIManager aiManager;
         ScreenManager screenManager;
 
-        SoundPlayer player;
-      //  Warrior theCommander;
+        SoundPlayer soundPlayer;
         int aiStartDelay;
         int attackDelay;
         int playerResources = 9000;
@@ -85,16 +79,43 @@ namespace Retribution
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             // TODO: Add your initialization logic here
+            defeatScreen = new Map("Content/defeatScreen.txt");
             mainScreen = new Map("Content/MainScreen.txt");
             levelSelect = new Map("Content/levelSelect.txt");
-            riverDefense = new Map("Content/castleDefense.txt");
+            castleDefense = new Map("Content/castleDefense.txt");
+            riverDefense = new Map("Content/riverDefense.txt");
+            castleSiege = new Map("Content/castleSiege.txt");
+            victoryScreen = new Map("Content/victoryScreen.txt");
             mainScreenSelector = new Selector(new Rectangle(288, 0, 128, 64), mainScreen, levelSelect, true);
-            riverDefenseSelector = new Selector(new Rectangle(288, 320, 128, 64), levelSelect, riverDefense, true);
             castleDefenseSelector = new Selector(new Rectangle(32, 320, 128, 64), levelSelect, castleDefense, false);
+            riverDefenseSelector = new Selector(new Rectangle(288, 320, 128, 64), levelSelect, riverDefense, false);
             castleSiegeSelector = new Selector(new Rectangle(544, 320, 128, 64), levelSelect, castleSiege, false);
+            defeatScreenSelector = new Selector(new Rectangle(188, 0, 128, 64), defeatScreen, mainScreen, false);
+            victoryScreenSelector = new Selector(new Rectangle(388, 0, 128, 64), victoryScreen, mainScreen, false);
             modMan = ModelManager.getInstance(ref mainScreen);
             loadMan = LoadManager.getInstance();
             projMan = ProjectileManager.getInstance();
+            screenManager = ScreenManager.getInstance();
+            // Add all maps to screenManager.allMaps
+            screenManager.allMaps.Add(defeatScreen);
+            screenManager.allMaps.Add(mainScreen);
+            screenManager.allMaps.Add(levelSelect);
+            screenManager.allMaps.Add(castleDefense);
+            screenManager.allMaps.Add(riverDefense);
+            screenManager.allMaps.Add(castleSiege);
+            screenManager.allMaps.Add(victoryScreen);
+            // Add all selectors to screenManager.allSelectors
+            screenManager.allSelectors.Add(defeatScreenSelector);
+            screenManager.allSelectors.Add(mainScreenSelector);
+            screenManager.allSelectors.Add(castleDefenseSelector);
+            screenManager.allSelectors.Add(riverDefenseSelector);
+            screenManager.allSelectors.Add(castleSiegeSelector);
+            screenManager.allSelectors.Add(victoryScreenSelector);
+            // Set initial maps; These will always be defeatScreen, mainScreen and levelSelect,
+            // since the user spawns on mainScreen
+            screenManager.prevMap = defeatScreen;
+            screenManager.currentMap = mainScreen;
+            screenManager.nextMap = levelSelect;
             healthChecker = new HealthSystem(modMan.player, modMan.artificial);
             attackChecker = new AttackSystem(ref modMan.player, ref modMan.artificial);
             attackChecker.linkSystem(projMan);
@@ -108,10 +129,19 @@ namespace Retribution
             //Create Player's units
             //testInitialization();
 
+
             testCommander();
             base.Initialize();
             this.IsMouseVisible = true;
            
+        }
+
+        // Ensures that the managers all know which map to work on.
+        public void updateManagerMap(Map myMap)
+        {
+            modMan = ModelManager.getInstance(ref myMap);
+            movementManager.setMap(myMap);
+            aiManager = AIManager.getInstance(ref myMap);
         }
 
         /// <summary>
@@ -122,7 +152,7 @@ namespace Retribution
         {
             loadMan.load(this.Content, modMan.player);
             loadMan.load(this.Content, modMan.artificial);
-            player = new System.Media.SoundPlayer("bow.wav");
+            soundPlayer = new System.Media.SoundPlayer("bow.wav");
             // TODO: use this.Content to load your game content here
         }
 
@@ -140,7 +170,7 @@ namespace Retribution
             //if (player != null)
             //    player.Play();
             modMan.addUnit("ARTIFICIAL", "TOWER", new Vector2(150, 250));
-            modMan.addUnit("ARTIFICIAL", "TOWER", new Vector2(280, 250));
+            /*modMan.addUnit("ARTIFICIAL", "TOWER", new Vector2(280, 250));
             modMan.addUnit("ARTIFICIAL", "TOWER", new Vector2(672-280, 250));
             modMan.addUnit("ARTIFICIAL", "TOWER", new Vector2(672-150, 250));
             modMan.artificial[0].health = 5;
@@ -159,8 +189,9 @@ namespace Retribution
             modMan.addUnit("ARTIFICIAL", "WARRIOR", new Vector2(248, 250));
             modMan.addUnit("ARTIFICIAL", "WARRIOR", new Vector2(672-280+32, 250));
             modMan.addUnit("ARTIFICIAL", "WARRIOR", new Vector2(672-150-32, 250));
-
+            
             toweroffset = 50;
+             */
             /* This part is commented out because we want the player to spawn own units, not auto-generated anymore */
             //toweroffset = 50;
             //for (int i = 0; i < 5; i++)
@@ -204,8 +235,8 @@ namespace Retribution
             //System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"c:\Users\TyDang\cs4730retribution\cs4730retribution\Retribution\Content\bow.wav");
             //player.Play();
 
-     if (player!=null)
-            player.Play();
+     if (soundPlayer!=null)
+            soundPlayer.Play();
 
             int toweroffset = 50;
             for (int i = 0; i < 5; i++)
@@ -254,12 +285,6 @@ namespace Retribution
         }
 
         // Change map and set managers to be equal to the current map
-        public void updateMap(Map myMap)
-        {
-            modMan = ModelManager.getInstance(ref myMap);
-            movementManager.setMap(myMap);
-            aiManager = AIManager.getInstance(ref myMap);
-        }
 
         /// <summary>
         /// Allows the game to run logic such as updating the world,
@@ -292,12 +317,17 @@ namespace Retribution
             {
                 inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref modMan.player, ref loadMan, Content, ref noresource, false);
             }
-            if (built && !initialized && riverDefenseSelector.getOccupied() == true)
+            if (built && !initialized && castleDefenseSelector.getOccupied() == true)
             {
                 betaInitialization();
                 initialized = true; // set initialized to true to prevent looped enemy unit spawning
             }
-            
+
+            if (initialized)
+            {
+                theResource.ssY = playerResources * 32;
+            }
+
             healthChecker.Update(modMan.player, modMan.artificial);
             healthChecker.checkHealth();
             modMan.player = healthChecker.player;
@@ -309,11 +339,30 @@ namespace Retribution
 
             aiManager.SetAIDestinations2(modMan.artificial);
 
+            if ((modMan.player.Count == 0) && built)
+            {
+                screenManager.victory = "defeat";
+            }
+            else if ((modMan.artificial.Count == 0) && built)
+            {
+                screenManager.victory = "victory";
+            }
+
+            screenManager.updateSelectors(screenManager.victory);
+
+            /*if (screenManager.victory.Equals("victory") && screenManager.currentMap.name.Equals("castleSiege"))
+            {
+                screenManager.victory = "undef";
+                screenManager.prevMap = screenManager.allMaps[screenManager.progressIndex];
+                screenManager.progressIndex++;
+                screenManager.currentMap = screenManager.allMaps[screenManager.progressIndex];
+                screenManager.nextMap = screenManager.allMaps[screenManager.progressIndex + 1];
+
+            }*/
 
             //aiManager.SetAIDestinations(modMan.artificial);
 
             //  TyDigit: Change the digit based on amount of resources left
-            // theResource.ssY = playerResources * 32;
 
             mousePrev = mouseCurrent;
             base.Update(gameTime);
@@ -330,88 +379,48 @@ namespace Retribution
             // TODO: Add your drawing code here
             // Create a list of Selectors and simply remove/add them depending on the map loaded. Associate selectors with Map.cs
             spriteBatch.Begin();
-            
-            // We want to start on the level castleDefense, then unlock riverDefense if victory, else exit to defeat screen
-            // Need defeat and victory screen
-            if (modMan.player.Count != 0 && riverDefenseSelector.getOccupied() != true)
+            updateManagerMap(screenManager.currentMap);
+            if (modMan.player.Count != 0 && !built)
             {
-                
-                mainScreenSelector.isColliding(modMan.player[0]);
+                screenManager.chooseSelector((Mobile)modMan.player[0]);
             }
-            if ((mainScreenSelector.getOccupied() == true) && mainScreenSelector.getInteraction() == true)
+            screenManager.currentMap.DrawMap(spriteBatch);
+            if (screenManager.currentMap.name.Equals("Content/castleDefense.txt")
+                || screenManager.currentMap.name.Equals("Content/riverDefense.txt")
+                || screenManager.currentMap.name.Equals("Content/castleSiege.txt"))
             {
-                // GO back and look at this code later, because it's a bit screwy.
-                // mainScreenSelector.setInteraction(false);
-                if (modMan.player.Count != 0)
-                {
-                    riverDefenseSelector.isColliding(modMan.player[0]);
-                }
-                if ((riverDefenseSelector.getOccupied() == true) && riverDefenseSelector.getInteraction() == true)
-                {
-                    // Draw riverDefense until an end condition has been met:
-                    // Either player has won or lost
-                    // Case that player loses, return to level select and 
-                    riverDefense.DrawMap(spriteBatch);
-                    playable = true;
-                    loadMan.load(this.Content, modMan.player);
-                    loadMan.load(this.Content, modMan.artificial);
-                    currMap = "levelSelect";
-                    if (currMap.Equals("levelSelect"))
-                    {
-                        //  TyDigit adding call to draw method of digits
-                        if (testBeta)
-                        {
-                            updateMap(riverDefense);
-                            modMan.player.Remove(modMan.player[0]);
-                            loadMan.load(this.Content, modMan.player);
-                            loadMan.load(this.Content, modMan.artificial);
-                            //riverDefenseSelector.setOccupied(false);
-                            testBeta = false;
-                            riverDefenseSelector.setInteraction(true);
-                        }
-                        if (built && initialized)  // hopefully get digits working and draw it to the screen (only when game starts)
-                        {
-                            theResource.ssY = playerResources * 32;
-                            theResource.Draw(spriteBatch);
-                        }
-                    }
-                    // You lost! This happens, and takes you back to levelSelect to replay!
-                    if ((modMan.player.Count == 0) && built)
-                    {
-                        modMan.artificial.Clear();
-                        testCommander();
-                        modMan.player[0].LoadContent(Content);
-                        updateMap(levelSelect);
-                        riverDefenseSelector.setOccupied(false);
-                        testBeta = true;
-                        initialized = false;
-                        built = false;
-                        riverDefenseSelector.setInteraction(true);
-                        buildResources = 10;
-                    }
-                    riverDefense.DrawMap(spriteBatch);
-                    //currMap = "riverDefense";
-                }
-                /*else if ((.getOccupied() == true) && dummyUnlockSelector.getInteraction() == true)
-                {
-                    updateMap(riverDefense);
-                    loadMan.load(this.Content, modMan.player);
-                    loadMan.load(this.Content, modMan.artificial);
-                    riverDefense.DrawMap(spriteBatch);
-                }
-                 */
-                else
-                {
-                    updateMap(levelSelect);
-                    levelSelect.DrawMap(spriteBatch);
-                }
-                
+                playable = true;
             }
             else
             {
-                mainScreen.DrawMap(spriteBatch);
+                playable = false;
+                initialized = false;
+            }
+            if (screenManager.currentMap.name.Equals("Content/MainScreen.txt")) 
+            {
                 spriteBatch.Draw(Content.Load<Texture2D>("ret.png"), new Rectangle(102, 37, 500, 200), Color.White);
             }
+            if (screenManager.currentMap.name.Equals("Content/castleDefense.txt"))
+            {
+                if (testBeta)
+                {
+                    modMan.player.Remove(modMan.player[0]);
+                    loadMan.load(this.Content, modMan.player);
+                    loadMan.load(this.Content, modMan.artificial);
+                    //riverDefenseSelector.setOccupied(false);
+                    testBeta = false;
+                    riverDefenseSelector.setInteraction(true);
+                }
+                if (built && initialized)  // hopefully get digits working and draw it to the screen (only when game starts)
+                {
+                    theResource.ssY = playerResources * 32;
+                    theResource.Draw(spriteBatch);
+                }
+            }
+            
+            // We want to start on the level castleDefense, then unlock riverDefense if victory, else exit to defeat screen
+            // Need defeat and victory screen
+
             foreach(Projectile item in projMan.proj)
             {
                 ((Arrow)item).Draw(spriteBatch);

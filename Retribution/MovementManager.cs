@@ -68,7 +68,10 @@ namespace Retribution
                                 //{
                                 //}
                                 //else
+                                if (myMap.GetContainingTile(mobiles[j]) != null) 
+                                {
                                     newClosedList.Add(myMap.GetContainingTile(mobiles[j]));
+                                }
                             }
                         }
 

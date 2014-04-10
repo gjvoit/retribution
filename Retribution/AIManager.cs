@@ -34,7 +34,9 @@ namespace Retribution
             {
                 GameObject gunit = aiUnits[x];
                 if (gunit.aiTarget == null && gunit.GetType().BaseType == typeof(Mobile))
-                attackParty.Add(gunit);
+                {
+                    attackParty.Add(gunit);
+                }
             }
             foreach (GameObject cunit in attackParty)
             {

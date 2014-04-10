@@ -15,6 +15,7 @@ namespace Retribution
 
     public class Map
     {
+        public string name;
         public Tile[,] mapTiles;
         public int height;
         public int width;
@@ -33,6 +34,7 @@ namespace Retribution
 
         public Map(String fileName)
         {
+            name = fileName;
             isDrawn = false;
             string[] tiles = File.ReadAllLines(fileName);
             width = tiles[0].Length;
@@ -147,6 +149,7 @@ namespace Retribution
             // Get tile in open list with the lowest fscore:
             foreach (Tile myTile in openList)
             {
+                // Handle null exception on myTile and openList (list of size 0)
                 if (myTile.fScore < lowestScore && myTile.fScore > 0)
                 {
                     lowestScore = myTile.fScore;
