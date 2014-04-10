@@ -35,7 +35,11 @@ namespace Retribution
             //this.animationTime    //  Calculates how much time has passed since animation began
             //this.attackReady = false;
         }
-
+        public override void kill(ContentManager content)
+        {
+            SoundEffect soundEffect = content.Load<SoundEffect>("death.wav");
+            soundEffect.Play();
+        }
         //  On skill key press, hides the image of the unit
         //  TyNote: For now, we simply hide the rogue unit by changing its image. No indication of its location or transparency yet
         //  This means the target is also still targetable, if the user randomly clicks and knows where the unit is at

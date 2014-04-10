@@ -16,6 +16,11 @@ namespace Retribution
         public double dashCD = 2.0;
         public string state;
         public Texture2D image;
+        public override void kill(ContentManager content)
+        {
+            SoundEffect soundEffect = content.Load<SoundEffect>("death.wav");
+            soundEffect.Play();
+        }
         public override void attackSound(ContentManager content)
         {
             SoundEffect soundEffect = content.Load<SoundEffect>("blade.wav");

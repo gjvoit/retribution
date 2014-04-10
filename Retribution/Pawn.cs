@@ -44,6 +44,11 @@ namespace Retribution
             SoundEffect soundEffect = content.Load<SoundEffect>("blade.wav");
             soundEffect.Play();
         }
+        public override void kill(ContentManager content)
+        {
+            SoundEffect soundEffect = content.Load<SoundEffect>("death.wav");
+            soundEffect.Play();
+        }
         public Pawn(Vector2 position, int health = 18, int damage = 3, int attackRange = 90)
             : base(health, position, damage, attackRange)
         {
