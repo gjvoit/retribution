@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-
+using Microsoft.Xna.Framework.Audio;
 namespace Retribution
 {
+
     //  uber unit that can dash
     //  TyNote: Refer to Pawn.cs for more general notes on GameObject classes
     class Commander : Mobile
@@ -15,7 +16,11 @@ namespace Retribution
         public double dashCD = 2.0;
         public string state;
         public Texture2D image;
-
+        public override void attackSound(ContentManager content)
+        {
+            SoundEffect soundEffect = content.Load<SoundEffect>("blade.wav");
+            soundEffect.Play();
+        }
         public Commander(Vector2 position, int health = 30, int damage = 6, int attackRange = 100)
             : base(health, position, damage, attackRange)
         {

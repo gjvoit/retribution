@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 
 //  TyDo: Add the following to GameObject.cs
 //  TyNote: To anyone reading this entire file, these are old comments that are no longer needed. I just want to keep them here as a reference for myself.
@@ -38,6 +39,11 @@ namespace Retribution
     //  The most basic melee unit. It is a pawn, think of these units as disposable, a filler for extra resources.
     class Pawn : Mobile
     {
+        public override void attackSound(ContentManager content)
+        {
+            SoundEffect soundEffect = content.Load<SoundEffect>("blade.wav");
+            soundEffect.Play();
+        }
         public Pawn(Vector2 position, int health = 18, int damage = 3, int attackRange = 90)
             : base(health, position, damage, attackRange)
         {

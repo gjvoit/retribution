@@ -4,13 +4,18 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Retribution
 {
     //  A tanky, high healthed, unit. Has armor that takes extra damage from magic
     class Cleric : Mobile
     {
-
+        public override void attackSound(ContentManager content)
+        {
+            SoundEffect soundEffect = content.Load<SoundEffect>("blade.wav");
+            soundEffect.Play();
+        }
         public Cleric(Vector2 position, int health = 85, int damage = 0, int attackRange = 65)
             : base(health, position, damage, attackRange)
         {

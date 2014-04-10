@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Retribution
 {
@@ -14,6 +15,11 @@ namespace Retribution
         public double stealthCD = 15.0;      //  Time till next stealth can be executed
         public string state;
         public Texture2D image;
+        public override void attackSound(ContentManager content)
+        {
+            SoundEffect soundEffect = content.Load<SoundEffect>("blade.wav");
+            soundEffect.Play();
+        }
 
         public Rogue(Vector2 position, int health = 2, int damage = 3, int attack_range = 2)
             : base(health, position, damage, attack_range)
