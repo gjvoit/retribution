@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Retribution
 {
@@ -18,8 +19,7 @@ namespace Retribution
             //this.damage = 6;
             //this.attackSpeed = 2;
             this.moveSpeed = 1;
-            attackWait = 60;
-            attackSpeed = 480;
+            attackSpeed = 420;
             type = "WARRIOR";
             //this.animationState        //  The actual animation the object is performing (moving left, moving right, attacking, etc.)
             //this.animationFrame   //  Keeps track of the animation frame the object is on
@@ -32,7 +32,11 @@ namespace Retribution
         {
             this.texture = content.Load<Texture2D>("warrior.png");
         }
-
+        public override void attackSound(ContentManager content)
+        {
+            SoundEffect soundEffect = content.Load<SoundEffect>("blade.wav");
+            soundEffect.Play();
+        }
 
     }
 }

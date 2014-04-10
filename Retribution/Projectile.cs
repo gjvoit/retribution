@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Retribution
 {
-    abstract class Projectile : GameObject
+    public abstract class Projectile : GameObject
     {
         public Vector2 direction;
         public Vector2 destination;
@@ -15,7 +15,7 @@ namespace Retribution
         public GameObject target;
         public bool collided;
 
-        public Projectile(Vector2 position, int damage, ref GameObject target, int health = 1, int attackRange = 0)
+        public Projectile(Vector2 position, int damage, GameObject target, int health = 1, int attackRange = 0)
             : base(health, position, damage, attackRange)
         {
             this.target = target;
@@ -31,22 +31,9 @@ namespace Retribution
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            Vector2 pixelposWorld = Vector2.Normalize(destination - position);
-            float dot = Vector2.Dot(Vector2.UnitY, pixelposWorld);
-            float theta = (float)Math.Atan2(Vector2.UnitY.Y - destination.Y, Vector2.UnitY.X - destination.X);
-            float rotation = (pixelposWorld.X <= 0)
-                 ? (1f - dot) / 4f
-                 : (dot + 3f) / 4f;
-            if (pixelposWorld.Y <= 0)
-                theta += 3.14159F;
-            //if (pixelposWorld.X < 0)
-            //    theta += (1f - dot) / 4f;
-            //else
-            //    theta -= (dot + 3f) / 4f;
-            //if (position.X < destination.X)
-            //    rotation -= 1.7F;
-            //float rotate =(float)Math.Atan2(position.Y - destination.Y, position.X - destination.X);
-            spriteBatch.Draw(texture, position, null, Color.White, theta, new Vector2(0, 0), 1, SpriteEffects.None, 0);
+            float rotation = (float)Math.Acos(Vector2.Dot(new Vector2(0f, -1f), this.direction));
+            rotation *= (Vector2.Dot(new Vector2(0f, -1f), new Vector2(this.direction.Y, -this.direction.X)) > 0f) ? 1f : -1f;
+            spriteBatch.Draw(texture, position, null, Color.White, rotation, new Vector2(0, 0), 1, SpriteEffects.None, 0);
            // spriteBatch.Draw(texture, new Rectangle((int)this.position.X, (int)this.position.Y, 32, 32), Color.White);
         }
         public void move()
@@ -65,8 +52,15 @@ namespace Retribution
                 {
                     this.health = -1;
                     collided = true;
-                    if (this.target.isAlive())
-                        this.target.health -= this.damage;
+                    if (String.Compare(this.type, "ICEBALL", true) == 0 && this.target.isAlive())
+                    {
+                        if(this.target.attackRange>5)
+                        this.target.attackRange -= 5;
+                        this.target.attackSpeed += 100;
+                    }
+                    else
+                        if (this.target.isAlive())
+                            this.target.health -= this.damage;
                     return;
                 }
                 

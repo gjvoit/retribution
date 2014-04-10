@@ -14,12 +14,12 @@ namespace Retribution
         public string state;
         public Texture2D image;
 
-        public Fireball(Vector2 position, ref GameObject target, int damage = 3)
-            : base(position, damage, ref target)
+        public Fireball(Vector2 position, int damage, GameObject target, int health = 1, int attackRange = 0)
+            : base(position, damage, target, health, attackRange)
         {
             this.position = position;
             this.moveSpeed = 6;
-            attackWait = 300;
+            //attackWait = 300;
             
             //this.health = 1000;
             //this.damage = 6;

@@ -10,12 +10,13 @@ namespace Retribution
     class Arrow : Projectile
     {
 
-        public Arrow(Vector2 position, ref GameObject target, int damage = 3)
-            : base(position, damage, ref target)
+        public Arrow(Vector2 position, int damage, GameObject target, int health = 1, int attackRange = 0)
+            : base(position, damage, target, health, attackRange)
         {
+            this.damage = 1;
             this.position = position;
             this.moveSpeed = 3;
-            attackWait = 300;
+            //attackWait = 300;
         }
 
         public override void LoadContent(ContentManager content)

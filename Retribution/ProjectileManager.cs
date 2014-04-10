@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace Retribution
 {
 
-    class ProjectileManager
+    public class ProjectileManager
     {
         public List<Projectile> proj;
         public static ProjectileManager instance;

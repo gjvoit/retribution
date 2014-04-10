@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace Retribution
 {
+    //  The ModelManager manages the player units and ai units. It can add units to the list
     class ModelManager
     {
         public static ModelManager instance;
@@ -54,6 +55,11 @@ namespace Retribution
                         autoPlace.X += 50;
                         player.Add(war);
                         break;
+                    case "CLERIC":
+                        Cleric cler = new Cleric(autoPlace);
+                        autoPlace.X += 50;
+                        player.Add(cler);
+                        break;
                 }
             }
             else
@@ -75,7 +81,11 @@ namespace Retribution
                         autoPlace.X += 50;
                         artificial.Add(war);
                         break;
-
+                    case "CLERIC":
+                        Cleric cler = new Cleric(autoPlace);
+                        autoPlace.X += 50;
+                        artificial.Add(cler);
+                        break;
                 }
             }
 
@@ -102,6 +112,10 @@ namespace Retribution
                         Digits digit = new Digits(position);
                         player.Add(digit);
                         break;
+                    case "CLERIC":
+                        Cleric cler = new Cleric(position);
+                        player.Add(cler);
+                        break;
                 }
             }
             else
@@ -123,6 +137,10 @@ namespace Retribution
                         autoPlace.X += 50;
                         artificial.Add(war);
                         break;
+                    case "CLERIC":
+                        Cleric cler = new Cleric(position);
+                        artificial.Add(cler);
+                        break;
 
                 }
             }
@@ -131,7 +149,7 @@ namespace Retribution
         
         //  Helper method to calculate normalized vector
         
-
+        /*
         public void moveProj(ref List<Projectile> proj)
         {
             for (int i = 0; i < proj.Count; i++)
@@ -144,9 +162,10 @@ namespace Retribution
                 }
             }
         }
+         * */
 
-        //  Call movement method of all selected objects
-
+        //  Return true if the list of tiles are the same
+        /*
         public Boolean CompareLists(List<Tile> newList, List<Tile> oldList)
         {
             if (newList.Count == oldList.Count)
@@ -161,5 +180,6 @@ namespace Retribution
             else
                 return false;
         }
+         * */
     }
 }

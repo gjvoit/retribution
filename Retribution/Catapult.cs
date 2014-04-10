@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-
+using Microsoft.Xna.Framework.Audio;
 namespace Retribution
 {
     //  Arillery unit capable of taking down structures effectively. Its attack is also an arced AOE projectile
@@ -14,15 +14,11 @@ namespace Retribution
         public string state;
         public Texture2D image;
 
-        public Catapult(Vector2 position, int health = 2, int damage = 3, int attack_range = 2)
-            : base(health, position, damage, attack_range)
+        public Catapult(Vector2 position, int health = 20, int damage = 8, int attackRange = 375)
+            : base(health, position, damage, attackRange)
         {
-            this.health = 20;
-            this.damage = 8;
-            this.attackSpeed = 8;
-            this.attackRange = 8;
-            this.moveSpeed = 4;
-            this.position = position;
+            this.attackSpeed = 800;
+            this.moveSpeed = 1;
             this.imageSize = 64;
             //this.animationState        //  The actual animation the object is performing (moving left, moving right, attacking, etc.)
             //this.animationFrame   //  Keeps track of the animation frame the object is on
@@ -32,7 +28,11 @@ namespace Retribution
 
         //  Issue a command to launch a projectile at target location
         //  TyDo: Arced projectile. Collision only matters at the very end of its impact. Damages all enemy units that collide
-
+        public override void attackSound(ContentManager content)
+        {
+            SoundEffect soundEffect = content.Load<SoundEffect>("catapult.wav");
+            soundEffect.Play();
+        }
         public void Attack()
         {
             //  TyDo: Create new projectile at catapults's position of type arced, set destination to target location

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 
 //  TyDo: Add the following to GameObject.cs
 //  TyNote: To anyone reading this entire file, these are old comments that are no longer needed. I just want to keep them here as a reference for myself.
@@ -38,18 +39,19 @@ namespace Retribution
     //  The most basic melee unit. It is a pawn, think of these units as disposable, a filler for extra resources.
     class Pawn : Mobile
     {
-        public Pawn(Vector2 position, int health = 2, int damage = 3, int attackRange = 2)
+        public override void attackSound(ContentManager content)
+        {
+            SoundEffect soundEffect = content.Load<SoundEffect>("blade.wav");
+            soundEffect.Play();
+        }
+        public Pawn(Vector2 position, int health = 18, int damage = 3, int attackRange = 90)
             : base(health, position, damage, attackRange)
         {
             //  Set stats
             //  TyNote: I did not want to mess with the git hub/version conflictions, so I did not modify parameters in GameObject.
             //  Instead, I just defined the stats down below
-            this.health = 6;
-            this.damage = 4;
-            this.attackSpeed = 2;
-            this.attackRange = 1;
-            this.moveSpeed = 6;
-            this.position = position;
+            this.attackSpeed = 200;
+            this.moveSpeed = 3;
             //this.animationState        //  The actual animation the object is performing (moving left, moving right, attacking, etc.)
             //this.animationFrame   //  Keeps track of the animation frame the object is on
             //this.animationTime    //  Calculates how much time has passed since animation began

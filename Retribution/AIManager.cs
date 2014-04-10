@@ -30,7 +30,7 @@ namespace Retribution
         {
             List<GameObject> attackParty = new List<GameObject>();
             attackParty.Add(unit);
-            for (int x = 0; x < random.Next(1, aiUnits.Count); x++)
+            for (int x = 0; x < random.Next(1, aiUnits.Count/3); x++)
             {
                 GameObject gunit = aiUnits[x];
                 if (gunit.aiTarget == null && gunit.GetType().BaseType == typeof(Mobile))
@@ -59,7 +59,8 @@ namespace Retribution
             {
                 List<GameObject> searchParty = new List<GameObject>();
                 searchParty.Add(unit);
-                for (int x = random.Next(0, aiUnits.Count); x < x+2; x++)
+                int randpull = random.Next(0, aiUnits.Count - 2);
+                for (int x = randpull; x < randpull+2; x++)
                 {
                 GameObject gunit = aiUnits[x];
                 if (gunit.aiTarget == null && gunit.GetType().BaseType == typeof(Mobile))
@@ -105,7 +106,7 @@ namespace Retribution
                             else
                                 if (random.Next(0, 15) == 7)
                                     pursue(aiUnits, unit);
-                                }
+                        }
                         else
                             explore(aiUnits, unit);
                     }                

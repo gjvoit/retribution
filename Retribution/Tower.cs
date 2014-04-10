@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
+using System.Diagnostics;
 
 namespace Retribution
 {
@@ -12,6 +14,7 @@ namespace Retribution
     {
         public string state;
         public Arrow myArrow;
+        SoundEffect soundEffect;
         public Tower(Vector2 position, int health = 5, int damage = 1, int attackRange = 250)
             : base (health, position, damage, attackRange)
         {
@@ -50,17 +53,20 @@ namespace Retribution
                 }
             }
         }
-        public override void Attack(GameObject target)
+        public override void attackSound(ContentManager content)
         {
-            myArrow = makeArrow(target);
-            Vector2 direction = MovementManager.getNormalizedVector(this.myArrow.position, target.position);
-            myArrow.setDestination(direction, target.position);
+            SoundEffect soundEffect = content.Load<SoundEffect>("bow.wav");
+            soundEffect.Play();
         }
-        public Arrow makeArrow(GameObject target)
+        public override void Attack(GameObject target, ContentManager content, ProjectileManager projMan)
         {
+            attackSound(content);
             Vector2 corrected = Vector2.Add(position, new Vector2(16, 16));
-            return new Arrow(corrected, ref target);
-
+            Projectile projectile = new Arrow(corrected, 100, target, 100, 0);
+            Vector2 direction = MovementManager.getNormalizedVector(projectile.position, target.position);
+            projectile.setDestination(direction, target.position);
+            projectile.LoadContent(content);
+            projMan.proj.Add(projectile);
         }
 
        /* public void Draw(SpriteBatch spriteBatch)

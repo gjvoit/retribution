@@ -8,14 +8,14 @@ namespace Retribution
 {
     class MovementManager
     {
-
         public static Map myMap;
-
         static MovementManager instance;
+
         private MovementManager()
         {
             myMap = null;
         }
+
         public static MovementManager getInstance()
         {
             if (instance == null)
@@ -26,9 +26,11 @@ namespace Retribution
             else
                 return instance;
         }
+
         public void setMap(Map newMap){
             myMap = newMap;
         }
+
         //  Helper method to calculate normalized vector
         public static Vector2 getNormalizedVector(Vector2 startVector, Vector2 endVector)
         {
@@ -38,13 +40,13 @@ namespace Retribution
         }
 
         //  Call movement method of all selected objects
- 
-       
         public void moveObjects(List<GameObject> playerUnits, List<GameObject> aiUnits)
         {
             List<GameObject> mobiles = new List<GameObject>();
             mobiles.AddRange(playerUnits);
             mobiles.AddRange(aiUnits);
+
+            //checkPauses(mobiles);
 
             List<Tile> newClosedList = new List<Tile>();
 
@@ -58,49 +60,59 @@ namespace Retribution
                         if (((Mobile)mobiles[i]).collisionList.Contains(myMap.GetTile(((Mobile)mobiles[i]).destination)))
                         {
                             ((Mobile)mobiles[i]).isMoving = false;
+                            ((Mobile)mobiles[i]).isPaused = false;
                         }
 
                         for (int j = 0; j < mobiles.Count; j++)
                         {
                             if (mobiles[i].collidesWith(mobiles[j]) && i != j)
-                            {
-                                //if (mobiles[i].GetType().BaseType == typeof(Mobile) && ((Mobile)mobiles[i]).isMoving == true)
-                                //{
-                                //}
-                                //else
-                                if (myMap.GetContainingTile(mobiles[j]) != null) 
-                                {
-                                    newClosedList.Add(myMap.GetContainingTile(mobiles[j]));
-                                }
+                           {
+                               if ((mobiles[j].GetType().BaseType == typeof(Mobile) && (((Mobile)mobiles[j]).isMoving == false || ((Mobile)mobiles[j]).isPaused == true ))
+                                   || (mobiles[j].GetType().BaseType == typeof(Tower))
+                                   )
+                               {
+                                   newClosedList.Add(myMap.GetContainingTile(mobiles[j]));
+                                   ((Mobile)mobiles[i]).isPaused = false;
+                               }
+                               else
+                               {
+                                   newClosedList.Add(myMap.GetContainingTile(mobiles[j]));
+                                   ((Mobile)mobiles[i]).isPaused = true;
+                               }
                             }
                         }
 
-                        if (CompareLists(newClosedList, ((Mobile)mobiles[i]).collisionList) == false)
+                        if (newClosedList.Count == 0)
+                        {
+                            ((Mobile)mobiles[i]).isPaused = false;
+                            ((Mobile)mobiles[i]).collisionList.Clear();
+                        }
+
+                        else if (CompareLists(newClosedList, ((Mobile)mobiles[i]).collisionList) == false)
                         {
 
                             ((Mobile)mobiles[i]).collisionList.Clear();
                             ((Mobile)mobiles[i]).collisionList.AddRange(newClosedList);
-
-                            //System.Console.WriteLine("test");
 
                             ((Mobile)mobiles[i]).pathList.Clear();
                             Vector2 startPoint = new Vector2(mobiles[i].Bounds.Center.X, mobiles[i].Bounds.Center.Y);
                             ((Mobile)mobiles[i]).pathList.AddRange(myMap.GetPath(startPoint, ((Mobile)mobiles[i]).destination, newClosedList));
                         }
 
+                        if (((Mobile)mobiles[i]).isPaused == false && ((Mobile)mobiles[i]).isMoving == true)
+                        {
                             ((Mobile)mobiles[i]).move();
+                        }
                     }
-
 
                     newClosedList.Clear();
                 }
             }
         }
 
+
         public static void changeDestination(List<GameObject> listOfSelectedObjects, Vector2 destination)
         {
-
-
             for (int i = 0; i < listOfSelectedObjects.Count; i++)
             {
                 if (listOfSelectedObjects[i].GetType().BaseType == typeof(Projectile))
@@ -123,6 +135,7 @@ namespace Retribution
                 }
             }
         }
+
         public Boolean CompareLists(List<Tile> newList, List<Tile> oldList)
         {
            
@@ -144,7 +157,5 @@ namespace Retribution
                 return false;
             }
         }
-
-
     }
 }

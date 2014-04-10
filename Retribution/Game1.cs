@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
+using Microsoft.Xna.Framework.Audio;
 
 
 #endregion
@@ -39,8 +40,8 @@ namespace Retribution
         LoadManager loadMan;
         AIManager aiManager;
         ScreenManager screenManager;
-
-        SoundPlayer soundPlayer;
+        SoundEffect player;
+      //  Warrior theCommander;
         int aiStartDelay;
         int attackDelay;
         int playerResources = 9000;
@@ -59,15 +60,22 @@ namespace Retribution
         public Game1()
             : base()
         {
-            graphics = new GraphicsDeviceManager(this);
-            graphics.IsFullScreen = false;
-            graphics.PreferredBackBufferHeight = 704;
-            graphics.PreferredBackBufferWidth = 704;
-            graphics.ApplyChanges();
-            Content.RootDirectory = "Content";
-
+            try
+            {
+                graphics = new GraphicsDeviceManager(this);
+                //graphics.IsFullScreen = false;
+                //Window.ClientSizeChanged += new EventHandler<EventArgs>(Window_ClientSizeChanged);
+                
+            }
+            catch
+            {
+            }
         }
-
+        //void Window_ClientSizeChanged(object sender, EventArgs e)
+        //{
+        //    OpenTKGameWindow window = sender as OpenTKGameWindow;
+        //    Console.WriteLine(window.ClientBounds.ToString());
+        //}
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
         /// This is where it can query for any required services and load any non-graphic
@@ -76,6 +84,19 @@ namespace Retribution
         /// </summary>
         protected override void Initialize()
         {
+            try
+            {
+                Window.AllowUserResizing = true;
+                //graphics.CreateDevice();
+                graphics.PreferredBackBufferHeight = 704;
+                graphics.PreferredBackBufferWidth = 1024;
+                graphics.IsFullScreen = false;
+             //   graphics.ToggleFullScreen();
+                graphics.ApplyChanges();
+            }
+            catch
+            {
+            }
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             // TODO: Add your initialization logic here
@@ -128,11 +149,13 @@ namespace Retribution
             mousePrev = Mouse.GetState();
             //Create Player's units
             //testInitialization();
+           
 
 
             testCommander();
             base.Initialize();
             this.IsMouseVisible = true;
+           
            
         }
 
@@ -150,9 +173,13 @@ namespace Retribution
         /// </summary>
         protected override void LoadContent()
         {
+            Content.RootDirectory = "Content";
             loadMan.load(this.Content, modMan.player);
             loadMan.load(this.Content, modMan.artificial);
-            soundPlayer = new System.Media.SoundPlayer("bow.wav");
+            player = Content.Load<SoundEffect>("back.wav");
+            SoundEffectInstance instance = player.CreateInstance();
+            instance.IsLooped = true;
+            instance.Play();
             // TODO: use this.Content to load your game content here
         }
 
@@ -170,17 +197,17 @@ namespace Retribution
             //if (player != null)
             //    player.Play();
             modMan.addUnit("ARTIFICIAL", "TOWER", new Vector2(150, 250));
-            /*modMan.addUnit("ARTIFICIAL", "TOWER", new Vector2(280, 250));
+            modMan.addUnit("ARTIFICIAL", "TOWER", new Vector2(280, 250));
             modMan.addUnit("ARTIFICIAL", "TOWER", new Vector2(672-280, 250));
             modMan.addUnit("ARTIFICIAL", "TOWER", new Vector2(672-150, 250));
-            modMan.artificial[0].health = 5;
+          //  modMan.artificial[0].health = 5;
             int toweroffset = 0;
             for (int i = 0; i < 10; i++)
             {
                 modMan.addUnit("ARTIFICIAL", "ARCHER", new Vector2(30 + toweroffset, 50));
                 modMan.addUnit("ARTIFICIAL", "ARCHER", new Vector2(30 + toweroffset, 190));
-                modMan.artificial[5].health = 10000;
-                modMan.artificial[5].damage = 1000;
+               // modMan.artificial[5].health = 10000;
+                //modMan.artificial[5].damage = 1000;
                
                 //gameobj.Add(new Archer(new Vector2(60 + toweroffset, 100)));
                 toweroffset +=70;
@@ -189,9 +216,8 @@ namespace Retribution
             modMan.addUnit("ARTIFICIAL", "WARRIOR", new Vector2(248, 250));
             modMan.addUnit("ARTIFICIAL", "WARRIOR", new Vector2(672-280+32, 250));
             modMan.addUnit("ARTIFICIAL", "WARRIOR", new Vector2(672-150-32, 250));
-            
+            modMan.addUnit("PLAYER", "CLERIC", new Vector2(250,550));
             toweroffset = 50;
-             */
             /* This part is commented out because we want the player to spawn own units, not auto-generated anymore */
             //toweroffset = 50;
             //for (int i = 0; i < 5; i++)
@@ -233,10 +259,7 @@ namespace Retribution
         {
             //  TySoundTest (Must add own filepath here.)
             //System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"c:\Users\TyDang\cs4730retribution\cs4730retribution\Retribution\Content\bow.wav");
-            //player.Play();
-
-     if (soundPlayer!=null)
-            soundPlayer.Play();
+            player.Play();
 
             int toweroffset = 50;
             for (int i = 0; i < 5; i++)
@@ -305,17 +328,17 @@ namespace Retribution
 
             if (!built && playable) // Enter build phase if built is False, notice true flag at the end indicating we're in build phase
             {
-                inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref modMan.player, ref loadMan, this.Content, ref buildResources, true);
+                inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref modMan.player, ref loadMan, ref projMan, this.Content, ref buildResources, true);
                 if (buildResources <= 1) // once we deplete our build resources, set built to true (doing so will initialize enemy AI units and starts the level)
                     built = true;
             }
             else if (built && initialized)// player is not building in build phase but rather building reinforcements - notice the false flag at the end indicating not build phase
             {
-                inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref modMan.player, ref loadMan, Content, ref playerResources, false);
+                inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref modMan.player, ref loadMan, ref projMan, Content, ref playerResources, false);
             }
             else
             {
-                inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref modMan.player, ref loadMan, Content, ref noresource, false);
+                inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref modMan.player, ref loadMan, ref projMan, Content, ref noresource, false);
             }
             if (built && !initialized && castleDefenseSelector.getOccupied() == true)
             {
@@ -423,7 +446,7 @@ namespace Retribution
 
             foreach(Projectile item in projMan.proj)
             {
-                ((Arrow)item).Draw(spriteBatch);
+                item.Draw(spriteBatch);
             }
             for (int i = 0; i < modMan.player.Count; i++)
             {
@@ -433,7 +456,7 @@ namespace Retribution
 
             for (int i = 0; i < modMan.artificial.Count; i++)
             {
-                modMan.artificial[i].Draw(spriteBatch);
+                modMan.artificial[i].Draw(spriteBatch,Color.Coral);
             }
 
             inputManager.DrawMouseRectangle(spriteBatch, Content);
