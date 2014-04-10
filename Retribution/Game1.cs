@@ -128,13 +128,12 @@ namespace Retribution
             mousePrev = Mouse.GetState();
             //Create Player's units
             //testInitialization();
+           
 
             testCommander();
             base.Initialize();
             this.IsMouseVisible = true;
-            SoundEffectInstance instance = player.CreateInstance();
-            instance.IsLooped = true;
-            player.Play();
+           
            
         }
 
@@ -148,6 +147,9 @@ namespace Retribution
             loadMan.load(this.Content, modMan.player);
             loadMan.load(this.Content, modMan.artificial);
             player = Content.Load<SoundEffect>("back.wav");
+            SoundEffectInstance instance = player.CreateInstance();
+            instance.IsLooped = true;
+            instance.Play();
             // TODO: use this.Content to load your game content here
         }
 
@@ -228,9 +230,9 @@ namespace Retribution
             //  TySoundTest (Must add own filepath here.)
             //System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"c:\Users\TyDang\cs4730retribution\cs4730retribution\Retribution\Content\bow.wav");
             //player.Play();
+           
+        
 
-     if (player!=null)
-            player.Play();
 
             int toweroffset = 50;
             for (int i = 0; i < 5; i++)

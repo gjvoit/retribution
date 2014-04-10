@@ -118,7 +118,9 @@
     <Content Include="Content\arrow.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\back.wav" />
+    <Content Include="Content\back.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\barricade.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
