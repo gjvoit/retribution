@@ -359,7 +359,7 @@ namespace Retribution
             }
 
             healthChecker.Update(modMan.player, modMan.artificial);
-            healthChecker.checkHealth();
+            healthChecker.checkHealth(this.Content);
             modMan.player = healthChecker.player;
             modMan.artificial = healthChecker.artificial;
             attackChecker.Update(ref modMan.player, ref modMan.artificial );

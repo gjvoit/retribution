@@ -163,6 +163,7 @@
     <Content Include="Content\dead.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\death.wav" />
     <Content Include="Content\defeatScreen.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

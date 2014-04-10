@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
 
 namespace Retribution
 {
@@ -19,8 +21,10 @@ namespace Retribution
         // progressIndex is used to help confirm selector booleans
         public int progressIndex;
         static ScreenManager instance;
+        
         // Need constructor, should it emulate the other managers?
         // startPrev will be defeatScreen; startCurr will be mainScreen; startNext will be levelSelect;
+       
         private ScreenManager()
         {
             prevMap = null;
