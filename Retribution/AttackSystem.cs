@@ -79,18 +79,18 @@ namespace Retribution
                         
                     }//waitcheck
                 }//has or search for target
-                //if (String.Compare(pobj.type, "CLERIC", true) == 0&&pobj.attackWait<=0)
-                //{
-                //    foreach (GameObject hobj in player)
-                //    {
-                //        if (pobj.IsInRange(hobj))
-                //        {
-                //            if (hobj.health <= hobj.basehealth - 1)
-                //                hobj.health += 1;
-                //        }
-                //    }
-                //    pobj.resetAttack();
-                //}
+                if (String.Compare(pobj.type, "CLERIC", true) == 0 && pobj.attackWait <= 0)
+                {
+                    foreach (GameObject hobj in player)
+                    {
+                        if (pobj.IsInRange(hobj))
+                        {
+                            if (hobj.health <= hobj.basehealth - 1)
+                                hobj.health += 1;
+                        }
+                    }
+                    pobj.resetAttack();
+                }
                 pobj.attackWait--;
             }
             foreach (GameObject aobj in artificial)

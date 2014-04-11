@@ -34,6 +34,7 @@ namespace Retribution
             else
                 return instance;
         }
+
         public void addUnit(String team, String type)
         {
             if (team == "PLAYER")

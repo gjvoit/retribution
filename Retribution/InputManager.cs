@@ -21,7 +21,7 @@ namespace Retribution
         Vector2 mouseRecOrigin;
         Texture2D myTexture;
         Vector2 mousepos;
-        bool buildPhase=true;
+        public bool buildPhase=true;
         MouseState current;
         MouseState previous;
         int spacing = 1;
@@ -38,12 +38,12 @@ namespace Retribution
         }
 
         public void Update(MouseState newcurrent, MouseState newprevious, KeyboardState keyPress, ref List<GameObject> units, ref LoadManager loadManager, ref ProjectileManager projMan, 
-                            ContentManager theContent, ref int playerResources, bool buildPhase)
+                            ContentManager theContent, ref int playerResources, bool dbuildPhase)
 
         {
             current = newcurrent;
             previous = newprevious;
-
+            buildPhase = dbuildPhase;
             if (keyPress.IsKeyDown(Keys.S)&&current.LeftButton==ButtonState.Pressed&&previous.LeftButton==ButtonState.Released)
             {
                  int x = Convert.ToInt32(current.X);

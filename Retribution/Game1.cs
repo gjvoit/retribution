@@ -41,6 +41,7 @@ namespace Retribution
         AIManager aiManager;
         ScreenManager screenManager;
         SoundEffect player;
+        MoraleBar mBar;
       //  Warrior theCommander;
         int aiStartDelay;
         int attackDelay;
@@ -138,6 +139,7 @@ namespace Retribution
             movementManager.setMap(mainScreen);
             inputManager = new InputManager(ref modMan);
             aiManager = AIManager.getInstance(ref mainScreen);
+            mBar = new MoraleBar(ref modMan);
             mousePrev = Mouse.GetState();
             //Create Player's units
             //testInitialization();
@@ -337,7 +339,7 @@ namespace Retribution
             attackChecker.Update(ref modMan.player, ref modMan.artificial);
             attackChecker.autoAttacks();
             projMan.fireProjectiles();
-
+            mBar.calculateScore();
             movementManager.moveObjects(modMan.player, modMan.artificial);
             aiManager.SetAIDestinations2(modMan.artificial);
             
@@ -483,6 +485,7 @@ namespace Retribution
             {
                 //Console.WriteLine("e");
                 playable = true;
+                inputManager.buildPhase = false;
                 loadMan.load(this.Content, modMan.player);
                 loadMan.load(this.Content, modMan.artificial);
             }
@@ -536,7 +539,7 @@ namespace Retribution
             }
 
             inputManager.DrawMouseRectangle(spriteBatch, Content);//draw select square?
-
+            mBar.Draw(spriteBatch);
             spriteBatch.End();
 
             

@@ -70,6 +70,7 @@
     <Compile Include="GameObject.cs" />
     <Compile Include="ModelManager.cs" />
     <Compile Include="Mobile.cs" />
+    <Compile Include="MoraleBar.cs" />
     <Compile Include="MovementManager.cs" />
     <Compile Include="ObjectFactory.cs" />
     <Compile Include="Pawn.cs" />
