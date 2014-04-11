@@ -11,7 +11,7 @@ namespace Retribution
     //  A tanky, high healthed, unit. Has armor that takes extra damage from magic
     class Warrior : Mobile
     {
-        public Warrior(Vector2 position, int health = 85, int damage = 15, int attackRange = 50)
+        public Warrior(Vector2 position, int health = 30, int damage = 15, int attackRange = 50)
             : base(health, position, damage, attackRange)
         {
             //this.health = 40;
