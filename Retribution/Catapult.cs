@@ -38,9 +38,15 @@ namespace Retribution
             SoundEffect soundEffect = content.Load<SoundEffect>("death.wav");
             soundEffect.Play();
         }
-        public void Attack()
+        public override void Attack(GameObject target, ContentManager content, ProjectileManager projMan)
         {
-            //  TyDo: Create new projectile at catapults's position of type arced, set destination to target location
+            //attackSound(content);
+            Vector2 corrected = Vector2.Add(position, new Vector2(16, 16));
+            Projectile projectile = new Rocktile(corrected, 100, target, 100, 0);
+            Vector2 direction = MovementManager.getNormalizedVector(projectile.position, target.position);
+            projectile.setDestination(direction, target.position);
+            projectile.LoadContent(content);
+            projMan.proj.Add(projectile);
         }
 
         //  Load the image?

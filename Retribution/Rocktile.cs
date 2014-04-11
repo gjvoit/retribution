@@ -14,12 +14,14 @@ namespace Retribution
         public string state;
         public Texture2D image;
 
-        public Rocktile(Vector2 position, ref GameObject target, int damage = 3)
-            : base(position, damage, ref target)
+        public Rocktile(Vector2 position, int damage, GameObject target, int health = 1, int attackRange = 0)
+            : base(position, damage, target, health, attackRange)
         {
             this.position = position;
             this.moveSpeed = 6;
-            attackWait = 300;
+            this.damage = 100;
+            this.attackRange = 50;
+            this.collisionType = "arc";
             
             //this.health = 1000;
             //this.damage = 8;
@@ -38,7 +40,7 @@ namespace Retribution
         //  Load the image?
         public override void LoadContent(ContentManager content)
         {
-            this.texture = content.Load<Texture2D>("Rocktile.png");
+            this.texture = content.Load<Texture2D>("rocktile.png");
         }
     }
 }
