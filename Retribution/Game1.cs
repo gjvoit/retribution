@@ -107,12 +107,12 @@ namespace Retribution
             riverDefense = new Map("Content/riverDefense.txt");
             castleSiege = new Map("Content/castleSiege.txt");
             victoryScreen = new Map("Content/victoryScreen.txt");
-            mainScreenSelector = new Selector(new Rectangle(288, 0, 128, 64), mainScreen, levelSelect, true);
-            castleDefenseSelector = new Selector(new Rectangle(32, 320, 192, 96), levelSelect, castleDefense, false);
-            riverDefenseSelector = new Selector(new Rectangle(288, 320, 192, 96), levelSelect, riverDefense, false);
-            castleSiegeSelector = new Selector(new Rectangle(544, 320, 192, 96), levelSelect, castleSiege, false);
-            defeatScreenSelector = new Selector(new Rectangle(0, 352, 128, 64), defeatScreen, mainScreen, false);
-            victoryScreenSelector = new Selector(new Rectangle(0, 640, 128, 64), victoryScreen, mainScreen, false);
+            mainScreenSelector = new Selector(new Rectangle(448, 0, 128, 64), mainScreen, levelSelect, true);
+            castleDefenseSelector = new Selector(new Rectangle(96, 320, 192, 96), levelSelect, castleDefense, false);
+            riverDefenseSelector = new Selector(new Rectangle(416, 320, 192, 96), levelSelect, riverDefense, false);
+            castleSiegeSelector = new Selector(new Rectangle(736, 320, 192, 96), levelSelect, castleSiege, false);
+            defeatScreenSelector = new Selector(new Rectangle(448, 256, 128, 64), defeatScreen, mainScreen, false);
+            victoryScreenSelector = new Selector(new Rectangle(448, 288, 128, 64), victoryScreen, mainScreen, false);
             modMan = ModelManager.getInstance(ref mainScreen);
             loadMan = LoadManager.getInstance();
             projMan = ProjectileManager.getInstance();
@@ -379,6 +379,11 @@ namespace Retribution
                 modMan.artificial.Clear();
                 testCommander();
                 loadMan.load(Content, modMan.player);
+                built = false;
+                playable = false;
+                initialized = false;
+                buildResources = 10;
+                testBeta = true;
                 //Console.WriteLine("interaction for defeatscreenselector: " + screenManager.allSelectors[0].getInteraction());
             }
             else if ((modMan.artificial.Count == 0) && built)
@@ -390,6 +395,8 @@ namespace Retribution
                 built = false;
                 playable = false;
                 initialized = false;
+                buildResources = 10;
+                testBeta = true;
             }
 
             screenManager.updateSelectors(screenManager.victory);
@@ -446,13 +453,13 @@ namespace Retribution
             screenManager.currentMap.DrawMap(spriteBatch);
             if (screenManager.currentMap.name.Equals("Content/MainScreen.txt")) 
             {
-                spriteBatch.Draw(Content.Load<Texture2D>("ret.png"), new Rectangle(102, 37, 500, 200), Color.White);
+                spriteBatch.Draw(Content.Load<Texture2D>("ret.png"), new Rectangle(262, 37, 500, 200), Color.White);
             }
             if (screenManager.currentMap.name.Equals("Content/levelSelect.txt"))//ghetto right now, but it'll do.
             {
-                spriteBatch.Draw(Content.Load<Texture2D>("CastleSiege.png"), new Rectangle(32, 320, 128, 64), Color.White);
-                spriteBatch.Draw(Content.Load<Texture2D>("TheRiver.png"), new Rectangle(32+320, 320, 128, 64), Color.White);
-                spriteBatch.Draw(Content.Load<Texture2D>("CastleDefence.png"), new Rectangle(32+640, 320, 128, 64), Color.White);
+                spriteBatch.Draw(Content.Load<Texture2D>("CastleSiege.png"), new Rectangle(96+32+640, 356, 128, 64), Color.White);
+                spriteBatch.Draw(Content.Load<Texture2D>("TheRiver.png"), new Rectangle(96+346, 346, 128, 64), Color.White);
+                spriteBatch.Draw(Content.Load<Texture2D>("CastleDefence.png"), new Rectangle(96 + 32, 335, 128, 64), Color.White);
             }
             //if (playable)//screenManager.currentMap.name.Equals("Content/castleDefense.txt"))
             //{

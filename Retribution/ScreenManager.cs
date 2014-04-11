@@ -47,11 +47,11 @@ namespace Retribution
                     {
                         allSelectors[2].isColliding(levelChooser);
                     }
-                    else if (allSelectors[3].getInteraction() == true)
+                    if (allSelectors[3].getInteraction() == true)
                     {
                         allSelectors[3].isColliding(levelChooser);
                     }
-                    else if (allSelectors[4].getInteraction() == true)
+                    if (allSelectors[4].getInteraction() == true)
                     {
                         allSelectors[4].isColliding(levelChooser);
                     }
@@ -67,7 +67,9 @@ namespace Retribution
                 case "Content/victoryScreen.txt":
                     if (allSelectors[5].getInteraction() == true)
                     {
+                        //Console.WriteLine("You're checking for collision with " + allSelectors[5].getInteraction());
                         allSelectors[5].isColliding(levelChooser);
+                        Console.WriteLine("Current map is: " + currentMap.name);
                     }
                     break;
             }
@@ -215,8 +217,21 @@ namespace Retribution
                         }
                         break;
                     case "Content/victoryScreen.txt":
-                        allSelectors[5].setInteraction(true);
-                        allSelectors[5].setUnlocked(true);
+                        Console.WriteLine("You made it!");
+                        //allSelectors[5].setInteraction(true);
+                        //allSelectors[5].setUnlocked(true);
+                        if ((allSelectors[5].getOccupied() == true)  && (allSelectors[5].getInteraction() == true)
+                            && (allSelectors[5].getUnlocked() == true))
+                        {
+                            currentMap = allMaps[1];
+                            foreach (Selector select in allSelectors)
+                            {
+                                select.setUnlocked(false);
+                                select.setInteraction(false);
+                            }
+                            allSelectors[1].setInteraction(true);
+                            allSelectors[1].setUnlocked(true);
+                        }
                         break;
                 }
             }
