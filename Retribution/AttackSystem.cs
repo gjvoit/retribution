@@ -142,6 +142,117 @@ namespace Retribution
                 }
                 aobj.attackWait--;
             }
+            //  Test collision for projectiles
+            foreach (Projectile projectile in projMan.proj)       //  pobj stands for projectile object
+            {
+                foreach (GameObject aobj in artificial)
+                {
+                    if (projectile.isAlive())
+                    {
+                        if (projectile.collisionType == "homing")
+                        {
+                            if (projectile.position.X <= projectile.end_point.X && projectile.position.X >= projectile.prev_point.X
+                                && projectile.position.Y <= projectile.end_point.Y && projectile.position.Y >= projectile.prev_point.Y) //equivalent to IsInRange
+                            {
+                                projectile.health = -1;
+                                projectile.collided = true;
+                                if (projectile.target.isAlive())
+                                {
+                                    projectile.target.health -= projectile.damage;
+                                }
+                                /*
+                                if (String.Compare(this.type, "ICEBALL", true) == 0 && this.target.isAlive())
+                                {
+                                    if (this.target.attackRange > 5)
+                                        this.target.attackRange -= 5;
+                                    this.target.attackSpeed += 10;
+                                }
+                                 * */
+                            }
+                        }
+                        else if (projectile.collisionType == "straight")
+                        {
+                            if (projectile.IsInRange(aobj))
+                            {
+                                projectile.health = -1;
+                                projectile.collided = true;
+                                if (aobj.isAlive())
+                                {
+                                    aobj.health -= projectile.damage;
+                                }
+                            }
+                        }
+                        else if (projectile.collisionType == "arc")
+                        {
+                            if (projectile.position.X <= projectile.end_point.X && projectile.position.X >= projectile.prev_point.X
+                                && projectile.position.Y <= projectile.end_point.Y && projectile.position.Y >= projectile.prev_point.Y)
+                            {
+                                projectile.collided = true;
+                                if (aobj.isAlive() && projectile.IsInRange(aobj))
+                                {
+                                    aobj.health -= projectile.damage;
+                                }
+                            }
+                        }
+                    }
+                }
+                if (projectile.collisionType == "arc")  //  Kills the arc projectile at the end, after checking collision with all objects
+                    if (projectile.position.X <= projectile.end_point.X && projectile.position.X >= projectile.prev_point.X
+                        && projectile.position.Y <= projectile.end_point.Y && projectile.position.Y >= projectile.prev_point.Y)
+                        projectile.health = -1;
+
+
+                /*
+                if (pobj.aiTarget != null && pobj.aiTarget.alive && pobj.attackWait <= 0 && pobj.IsInRange(pobj.aiTarget))//Have target?
+                {
+                    if (random.NextDouble() <= .5 && pobj.aiTarget.aiTarget == null)//80% chance to respond
+                        (pobj.aiTarget).aiTarget = pobj;
+                    pobj.Attack(pobj.aiTarget, content, projMan);
+                    pobj.resetAttack();
+                    // break;
+                }
+                else
+                {
+                    if (pobj.attackWait <= 0)//ready to attack
+                    {
+                        foreach (GameObject aobj in artificial)
+                        {
+                            if (pobj.IsInRange(aobj)) //if ai is attackable by player
+                            {
+                                pobj.aiTarget = aobj;
+
+                                //  If the player object is alive and is not currently being attacked
+                                if (pobj.isAlive() && !pobj.attacked)
+                                {
+                                    //  Call player object attack
+                                    if (random.NextDouble() <= .8 && aobj.aiTarget == null)//50% chance to respond
+                                        aobj.aiTarget = pobj;
+                                    pobj.Attack(aobj, content, projMan);
+                                    pobj.resetAttack();
+                                    if (!pobj.aiTarget.alive)
+                                        pobj.aiTarget = null;
+                                    //break;
+                                }
+                            }//rangecheck
+                        }//uses loop
+
+                    }//waitcheck
+                }//has or search for target
+                //if (String.Compare(pobj.type, "CLERIC", true) == 0&&pobj.attackWait<=0)
+                //{
+                //    foreach (GameObject hobj in player)
+                //    {
+                //        if (pobj.IsInRange(hobj))
+                //        {
+                //            if (hobj.health <= hobj.basehealth - 1)
+                //                hobj.health += 1;
+                //        }
+                //    }
+                //    pobj.resetAttack();
+                //}
+                pobj.attackWait--;
+                 * */
+            }
         }
     }
 }

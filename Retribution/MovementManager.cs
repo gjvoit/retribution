@@ -46,12 +46,11 @@ namespace Retribution
             mobiles.AddRange(playerUnits);
             mobiles.AddRange(aiUnits);
 
-            //checkPauses(mobiles);
-
             List<Tile> newClosedList = new List<Tile>();
 
             for (int i = 0; i < mobiles.Count; i++)
             {
+
                 if (mobiles[i].GetType().BaseType == typeof(Mobile))
                 {
                     if (((Mobile)mobiles[i]).isMoving == true)
@@ -67,15 +66,18 @@ namespace Retribution
                         {
                             if (mobiles[i].collidesWith(mobiles[j]) && i != j)
                            {
-                               if ((mobiles[j].GetType().BaseType == typeof(Mobile) && (((Mobile)mobiles[j]).isMoving == false || ((Mobile)mobiles[j]).isPaused == true ))
-                                   || (mobiles[j].GetType().BaseType == typeof(Tower))
+                               if (((mobiles[j].GetType().BaseType == typeof(Mobile) && (((Mobile)mobiles[j]).isMoving == false || ((Mobile)mobiles[j]).isPaused == true )))
+                                   || (mobiles[j].GetType() == typeof(Tower))
                                    )
                                {
+                                   //System.Console.WriteLine("ran into stopped unit");
                                    newClosedList.Add(myMap.GetContainingTile(mobiles[j]));
                                    ((Mobile)mobiles[i]).isPaused = false;
                                }
+
                                else
                                {
+                                   //System.Console.WriteLine("ran into moving unit");
                                    newClosedList.Add(myMap.GetContainingTile(mobiles[j]));
                                    ((Mobile)mobiles[i]).isPaused = true;
                                }

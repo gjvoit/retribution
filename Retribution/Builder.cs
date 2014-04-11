@@ -14,7 +14,7 @@ namespace Retribution
 
     class Builder
     {
-        new public static Texture2D texture;
+        //new public static Texture2D texture;
         public int offset = 20;
         public Sprite builderSprite;
         public Boolean selected;
