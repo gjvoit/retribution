@@ -284,40 +284,6 @@ namespace Retribution
 
                 Vector2 testvec = new Vector2(current.X, current.Y);
 
-                //  How to handle attacking.....?
-
-                /*for (int i = 0; i < towers.Count; i++)
-                {
-                    if(towers[i].Bounds.Contains((int)testvec.X, (int)testvec.Y) ){
-                        for (int j = 0; j < units.Count; j++)
-                        {
-                            if(units[j].selected == true && units[j].IsInRange(towers[i]))
-                            {
-                                //units[j].
-                                units[j].Attack(towers[i]);
-                            }
-
-                        }
-                    }
-                }*/
-
-                //movementManager.changeDestination(units, testvec);
-                //for (int i = 0; i < towers.Count; i++)
-                //{
-                //    if(towers[i].Bounds.Contains((int)testvec.X, (int)testvec.Y) ){
-                //        for (int j = 0; j < units.Count; j++)
-                //        {
-                //            if(units[j].selected == true && units[j].IsInRange(towers[i]))
-                //            {
-                //                //units[j].
-                //                units[j].Attack(towers[i]);
-                //            }
-
-                //        }
-                //    }
-                //}
-
-                //MovementManager.changeDestination(units, testvec);
                 MovementManager.changeDestination(units, testvec);
 
             }

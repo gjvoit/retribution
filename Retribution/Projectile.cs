@@ -20,7 +20,7 @@ namespace Retribution
         {
             this.target = target;
             this.isMoving = true;
-            this.attackWait = 60;
+            //this.attackWait = 60;
             collided = false;
         }
 
@@ -38,26 +38,22 @@ namespace Retribution
         }
         public void move()
         {
-            
-
             Vector2 end_point = Vector2.Add(this.destination, new Vector2(2, 2));
             Vector2 prev_point = Vector2.Subtract(this.destination, new Vector2(2, 2));
             this.attackWait--;
             if (this.isAlive())
             {
-
-
                 if (this.position.X <= end_point.X && this.position.X >= prev_point.X
                     && this.position.Y <= end_point.Y && this.position.Y >= prev_point.Y) //equivalent to IsInRange
                 {
                     this.health = -1;
-                    collided = true;
+                    this.collided = true;
                     if (String.Compare(this.type, "ICEBALL", true) == 0 && this.target.isAlive())
                     {
                         if(this.target.attackRange>5)
                         this.target.attackRange -= 5;
-                        this.target.attackSpeed += 100;
-                    }
+                        this.target.attackSpeed += 10;
+                           }
                     else
                         if (this.target.isAlive())
                             this.target.health -= this.damage;
