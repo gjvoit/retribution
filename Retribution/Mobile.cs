@@ -45,8 +45,8 @@ namespace Retribution
             {
                 if (this.collisionList.Contains(this.pathList[0]))
                 {
-                    this.isPaused = true;
-                    return;
+                    //this.isPaused = true;
+                    //return;
                 }
 
                 Vector2 end_point = Vector2.Add(new Vector2(this.pathList[0].Bounds.Center.X, this.pathList[0].Bounds.Center.Y), new Vector2(5, 5));
