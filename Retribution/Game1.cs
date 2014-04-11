@@ -44,8 +44,8 @@ namespace Retribution
       //  Warrior theCommander;
         int aiStartDelay;
         int attackDelay;
-        int playerResources = 9000;
-        int buildResources = 10;
+        int playerResources = 10;
+        int buildResources = 15;
         // if built is false, player enters build phase; if built is true, that means player finished build phase and level starts
         bool built = false;
         // if initialized is false, that means AI units have not been initialized
@@ -192,57 +192,62 @@ namespace Retribution
             // TODO: Unload any non ContentManager content here
         }
 
-        public void betaInitialization()
+        public void castleDefenseSpawn()
         {
-            //if (player != null)
-            //    player.Play();
-            /*modMan.addUnit("ARTIFICIAL", "TOWER", new Vector2(150, 250));
-            modMan.addUnit("ARTIFICIAL", "TOWER", new Vector2(280, 250));
-            modMan.addUnit("ARTIFICIAL", "TOWER", new Vector2(672 - 280, 250));
-            modMan.addUnit("ARTIFICIAL", "TOWER", new Vector2(672 - 150, 250));
-          //  modMan.artificial[0].health = 5;
-             */
             int toweroffset = 0;
-             
-            for (int i = 0; i < 3; i++)
+            
+            for (int i = 0; i < 5; i++)
             {
-                modMan.addUnit("ARTIFICIAL", "ARCHER", new Vector2(30 + toweroffset, 50));
-                //modMan.addUnit("ARTIFICIAL", "ARCHER", new Vector2(30 + toweroffset, 190));
-                // modMan.artificial[5].health = 10000;
-                //modMan.artificial[5].damage = 1000;
-
-                //gameobj.Add(new Archer(new Vector2(60 + toweroffset, 100)));
-                toweroffset += 70;
+                modMan.addUnit("ARTIFICIAL", "ARCHER", new Vector2(375 + toweroffset, 75));
+                toweroffset += 50;
             }
-            /*
-            modMan.addUnit("ARTIFICIAL", "WARRIOR", new Vector2(180, 250));
-            modMan.addUnit("ARTIFICIAL", "WARRIOR", new Vector2(248, 250));
-            modMan.addUnit("ARTIFICIAL", "WARRIOR", new Vector2(672 - 280 + 32, 250));
-             * */
-            modMan.addUnit("ARTIFICIAL", "WARRIOR", new Vector2(672 - 150 - 32, 250));
+            // Draw 2 towers for Player
+            modMan.addUnit("ARTIFICIAL", "WARRIOR", new Vector2(475, 150));
             //modMan.addUnit("PLAYER", "CLERIC", new Vector2(250,550));
-            //toweroffset = 50;
-            /* This part is commented out because we want the player to spawn own units, not auto-generated anymore */
-            //toweroffset = 50;
-            //for (int i = 0; i < 5; i++)
-            //{
-            //    modMan.addUnit("PLAYER", "TOWER", new Vector2(20 + toweroffset, 600));
-            //    //gameobj.Add(new Archer(new Vector2(20 + toweroffset, 400)));
-            //    toweroffset += 50;
-            //}
-            //toweroffset = 0;
-            ////towers = new List<Tower>();
-            //for (int i = 0; i < 10; i++)
-            //{
-            //    modMan.addUnit("PLAYER", "ARCHER", new Vector2(20 + toweroffset, 550));
-            //    //towers.Add(new Tower(new Vector2(20 + toweroffset, 600)));
-            //    toweroffset += 50;
-            //}
-            //modMan.addUnit("PLAYER", "WARRIOR", new Vector2(150, 500));
-            //modMan.addUnit("PLAYER", "WARRIOR", new Vector2(190, 500));
-            //modMan.addUnit("PLAYER", "WARRIOR", new Vector2(215, 500));
-            //modMan.addUnit("PLAYER", "WARRIOR", new Vector2(250, 500));
-            //modMan.addUnit("PLAYER", "WARRIOR", new Vector2(290, 500));
+            modMan.addUnit("PLAYER", "TOWER", new Vector2(384, 416));
+            modMan.addUnit("PLAYER", "TOWER", new Vector2(608, 416));
+            /* ---------------------------------------------------------------------------------------------------- */
+            theResource = new Digits(new Vector2(0, 672));
+            theTitle = new titleShell(new Vector2(375, 375));
+            theResource.LoadContent(this.Content);
+            theTitle.LoadContent(this.Content);
+            loadMan.load(this.Content, modMan.player);
+            loadMan.load(this.Content, modMan.artificial);
+        }
+
+        public void castleSiegeSpawn()
+        {
+            int toweroffset = 0;
+
+            for (int i = 0; i < 5; i++)
+            {
+                modMan.addUnit("ARTIFICIAL", "ARCHER", new Vector2(375 + toweroffset, 75));
+                toweroffset += 50;
+            }
+            modMan.addUnit("ARTIFICIAL", "TOWER", new Vector2(384, 224));
+            modMan.addUnit("ARTIFICIAL", "TOWER", new Vector2(576, 224));
+            modMan.addUnit("ARTIFICIAL", "WARRIOR", new Vector2(475, 150));
+            //modMan.addUnit("PLAYER", "CLERIC", new Vector2(250,550));
+            /* ---------------------------------------------------------------------------------------------------- */
+            theResource = new Digits(new Vector2(0, 672));
+            theTitle = new titleShell(new Vector2(375, 375));
+            theResource.LoadContent(this.Content);
+            theTitle.LoadContent(this.Content);
+            loadMan.load(this.Content, modMan.player);
+            loadMan.load(this.Content, modMan.artificial);
+        }
+
+        public void riverDefenseSpawn() 
+        {
+            int toweroffset = 0;
+
+            for (int i = 0; i < 5; i++)
+            {
+                modMan.addUnit("ARTIFICIAL", "ARCHER", new Vector2(375 + toweroffset, 75));
+                toweroffset += 50;
+            }
+            modMan.addUnit("ARTIFICIAL", "WARRIOR", new Vector2(475, 150));
+            //modMan.addUnit("PLAYER", "CLERIC", new Vector2(250,550));
             /* ---------------------------------------------------------------------------------------------------- */
             theResource = new Digits(new Vector2(0, 672));
             theTitle = new titleShell(new Vector2(375, 375));
@@ -336,6 +341,7 @@ namespace Retribution
             if (!built && playable) // Enter build phase if built is False, notice true flag at the end indicating we're in build phase
             {
                 //Console.WriteLine("a");
+                // Why is the "buildPhase" Boolean always true? Should it be equal to "built"?
                 inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref modMan.player, ref loadMan, ref projMan, this.Content, ref buildResources, true);
                 if (buildResources <= 1) // once we deplete our build resources, set built to true (doing so will initialize enemy AI units and starts the level)
                     built = true;
@@ -352,7 +358,18 @@ namespace Retribution
             if (built && !initialized)// && castleDefenseSelector.getOccupied() == true)
             {
                 //Console.WriteLine("c");
-                betaInitialization();
+                if (screenManager.currentMap.name.Equals("Content/castleDefense.txt"))
+                {
+                    castleDefenseSpawn();
+                }
+                else if (screenManager.currentMap.name.Equals("Content/castleSiege.txt"))
+                {
+                    castleSiegeSpawn();
+                }
+                else if (screenManager.currentMap.name.Equals("Content/riverDefense.txt"))
+                {
+                    riverDefenseSpawn();
+                }
                 initialized = true; // set initialized to true to prevent looped enemy unit spawning
             }
 
@@ -382,6 +399,19 @@ namespace Retribution
                 built = false;
                 playable = false;
                 initialized = false;
+                /*if (screenManager.currentMap.Equals("Content/castleDefense.txt"))
+                {
+                    buildResources = 10;
+                }
+
+                else if (screenManager.currentMap.Equals("Content/riverDefense.txt"))
+                {
+                    buildResources = 10;
+                }
+                else if (screenManager.currentMap.Equals("Content/castleSiege.txt"))
+                {
+                    buildResources = 15;
+                }*/
                 buildResources = 10;
                 testBeta = true;
                 //Console.WriteLine("interaction for defeatscreenselector: " + screenManager.allSelectors[0].getInteraction());
@@ -395,6 +425,19 @@ namespace Retribution
                 built = false;
                 playable = false;
                 initialized = false;
+                /*if (screenManager.currentMap.Equals("Content/castleDefense.txt"))
+                {
+                    buildResources = 15;
+                }
+
+                else if (screenManager.currentMap.Equals("Content/riverDefense.txt")) 
+                {
+                    buildResources = 20;
+                }
+                else if (screenManager.currentMap.Equals("Content/castleSiege.txt"))
+                {
+                    buildResources = 10;
+                }*/
                 buildResources = 10;
                 testBeta = true;
             }
@@ -461,17 +504,7 @@ namespace Retribution
                 spriteBatch.Draw(Content.Load<Texture2D>("TheRiver.png"), new Rectangle(96+346, 346, 128, 64), Color.White);
                 spriteBatch.Draw(Content.Load<Texture2D>("CastleDefence.png"), new Rectangle(96 + 32, 335, 128, 64), Color.White);
             }
-            //if (playable)//screenManager.currentMap.name.Equals("Content/castleDefense.txt"))
-            //{
-            //    if (testBeta)
-            //    {
-            //        modMan.player.Remove(modMan.player[0]);
-            //        loadMan.load(this.Content, modMan.player);
-            //        loadMan.load(this.Content, modMan.artificial);
-            //        //riverDefenseSelector.setOccupied(false);
-            //        testBeta = false;
-            //        riverDefenseSelector.setInteraction(true);
-            //    }
+
             if (playable && testBeta)
             {
                 //Console.WriteLine("g");
