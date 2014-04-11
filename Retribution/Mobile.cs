@@ -90,7 +90,7 @@ namespace Retribution
             }
         }
 
-        public void Animate()
+        new public void Animate()
         {
             switch (this.animateState)
             {

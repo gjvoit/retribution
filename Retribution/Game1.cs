@@ -25,11 +25,9 @@ namespace Retribution
         SpriteBatch spriteBatch;
         Boolean testBeta = true;
         // Used for Selector deactivation
-        String currMap;
         Selector defeatScreenSelector, mainScreenSelector, riverDefenseSelector, castleDefenseSelector,
             castleSiegeSelector, victoryScreenSelector;
         Map defeatScreen, mainScreen, levelSelect, castleDefense, riverDefense, castleSiege, victoryScreen;
-        List<Map> theMaps;
         MouseState mouseCurrent, mousePrev;
         HealthSystem healthChecker;
         AttackSystem attackChecker;
@@ -42,8 +40,6 @@ namespace Retribution
         ScreenManager screenManager;
         SoundEffect player;
       //  Warrior theCommander;
-        int aiStartDelay;
-        int attackDelay;
         int playerResources = 10;
         int buildResources = 15;
         // if built is false, player enters build phase; if built is true, that means player finished build phase and level starts

@@ -101,7 +101,6 @@ namespace Retribution
             }
 
             openList.Add(startTile);
-            int i = 0;
             while(closedList.Contains(endTile)==false && openList.Count != 0)
             {
                 //System.Console.WriteLine(i++);

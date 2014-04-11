@@ -13,8 +13,8 @@ namespace Retribution
     class Rogue : Mobile
     {
         public double stealthCD = 15.0;      //  Time till next stealth can be executed
-        public string state;
-        public Texture2D image;
+        //public string state;
+        //public Texture2D image;
      
         public override void attackSound(ContentManager content)
         {

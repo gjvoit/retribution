@@ -32,7 +32,6 @@ namespace Retribution
         public int animateTime = 0;
         public bool isUp = true;   //  Direction variable used to help with animation
         public bool isRight = true;
-        SoundEffect soundEffect;
 
         public GameObject(int health, Vector2 position, int damage, int attackRange)
         {

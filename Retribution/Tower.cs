@@ -13,8 +13,8 @@ namespace Retribution
     class Tower : GameObject
     {
         public string state;
-        public Arrow myArrow;
-        SoundEffect soundEffect;
+        //public Arrow myArrow;
+        //SoundEffect soundEffect;
        
         public Tower(Vector2 position, int health = 5, int damage = 1, int attackRange = 250)
             : base (health, position, damage, attackRange)
