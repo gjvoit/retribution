@@ -11,8 +11,8 @@ namespace Retribution
     //  TyNote: Refer to Pawn.cs for more general notes on GameObject classes
     class Fireball : Projectile
     {
-        public string state;
-        public Texture2D image;
+        //public string state;
+        //public Texture2D image;
         public Fireball(Vector2 position, int damage, GameObject target, int health = 1, int attackRange = 0)
             : base(position, damage, target, health, attackRange)
         {

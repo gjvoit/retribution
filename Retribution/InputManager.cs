@@ -20,7 +20,6 @@ namespace Retribution
         Rectangle mouseRec;
         Vector2 mouseRecOrigin;
         Texture2D myTexture;
-        Vector2 mousepos;
         bool buildPhase=true;
         MouseState current;
         MouseState previous;

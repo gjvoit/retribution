@@ -16,7 +16,7 @@ namespace Retribution
     {
         public List<GameObject> player;
         public List<GameObject> artificial;
-        public SoundEffect soundEffect;
+        //public SoundEffect soundEffect;
 
         public HealthSystem(List<GameObject> newPlayer, List<GameObject> newArtificial)
         {

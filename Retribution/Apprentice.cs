@@ -12,12 +12,12 @@ namespace Retribution
     //  mage unit that can conjur a fireball
     class Apprentice : Mobile
     {
-        public Fireball myArrow;
-        public GameObject aiTarget;
+        //public Fireball myArrow;
+        //public GameObject aiTarget;
         private static Timer fireballTimer = new Timer(1);  //  1 for testing purposes, should be 4000 possibly depending on balance issues
         private static Timer animateTimer = new Timer(250);
-        public string state;
-        public Texture2D image;
+        //public string state;
+        //public Texture2D image;
         SoundEffect soundEffect;
         
 

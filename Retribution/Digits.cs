@@ -9,7 +9,7 @@ namespace Retribution
 {
     class Digits : GameObject
     {
-        public string state;
+        //public string state;
         public int theDigit = 0;
 
         public Digits(Vector2 position, int health = 2, int damage = 0, int attackRange = 150)
