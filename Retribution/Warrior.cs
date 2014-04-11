@@ -11,7 +11,6 @@ namespace Retribution
     //  A tanky, high healthed, unit. Has armor that takes extra damage from magic
     class Warrior : Mobile
     {
-
         public Warrior(Vector2 position, int health = 85, int damage = 15, int attackRange = 50)
             : base(health, position, damage, attackRange)
         {
@@ -30,7 +29,7 @@ namespace Retribution
 
         public override void LoadContent(ContentManager content)
         {
-            this.texture = content.Load<Texture2D>("warrior.png");
+            texture = content.Load<Texture2D>("warrior.png");
         }
         public override void attackSound(ContentManager content)
         {

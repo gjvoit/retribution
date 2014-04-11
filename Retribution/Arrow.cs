@@ -9,7 +9,7 @@ namespace Retribution
 
     class Arrow : Projectile
     {
-
+       
         public Arrow(Vector2 position, int damage, GameObject target, int health = 1, int attackRange = 0)
             : base(position, damage, target, health, attackRange)
         {
@@ -21,7 +21,7 @@ namespace Retribution
 
         public override void LoadContent(ContentManager content)
         {
-            this.texture = content.Load<Texture2D>("arrow.png");
+            texture = content.Load<Texture2D>("arrow.png");
         }
     }
 }

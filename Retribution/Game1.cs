@@ -41,9 +41,6 @@ namespace Retribution
         AIManager aiManager;
         ScreenManager screenManager;
         SoundEffect player;
-      //  Warrior theCommander;
-        int aiStartDelay;
-        int attackDelay;
         int playerResources = 9000;
         int buildResources = 10;
         // if built is false, player enters build phase; if built is true, that means player finished build phase and level starts
@@ -63,19 +60,12 @@ namespace Retribution
             try
             {
                 graphics = new GraphicsDeviceManager(this);
-                //graphics.IsFullScreen = false;
-                //Window.ClientSizeChanged += new EventHandler<EventArgs>(Window_ClientSizeChanged);
-                
+
             }
             catch
             {
             }
         }
-        //void Window_ClientSizeChanged(object sender, EventArgs e)
-        //{
-        //    OpenTKGameWindow window = sender as OpenTKGameWindow;
-        //    Console.WriteLine(window.ClientBounds.ToString());
-        //}
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
         /// This is where it can query for any required services and load any non-graphic
@@ -144,7 +134,6 @@ namespace Retribution
             movementManager = MovementManager.getInstance();
             movementManager.setMap(mainScreen);
             inputManager = new InputManager(ref modMan);
-            aiStartDelay = 0;
             aiManager = AIManager.getInstance(ref mainScreen);
             mousePrev = Mouse.GetState();
             //Create Player's units
@@ -174,6 +163,7 @@ namespace Retribution
         protected override void LoadContent()
         {
             Content.RootDirectory = "Content";
+            //loadMan.loadContent(this.Content);
             loadMan.load(this.Content, modMan.player);
             loadMan.load(this.Content, modMan.artificial);
             player = Content.Load<SoundEffect>("back.wav");
@@ -331,6 +321,21 @@ namespace Retribution
 
             KeyboardState keyboardState = Keyboard.GetState();
 
+
+            healthChecker.Update(modMan.player, modMan.artificial);
+            healthChecker.checkHealth(this.Content);
+            modMan.player = healthChecker.player;
+            modMan.artificial = healthChecker.artificial;
+            attackChecker.Update(ref modMan.player, ref modMan.artificial);
+            attackChecker.autoAttacks();
+            projMan.fireProjectiles();
+
+            movementManager.moveObjects(modMan.player, modMan.artificial);
+            aiManager.SetAIDestinations2(modMan.artificial);
+            
+            
+            
+            
             //inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref towers, ref gameobj);
 
             if (!built && playable) // Enter build phase if built is False, notice true flag at the end indicating we're in build phase
@@ -361,17 +366,8 @@ namespace Retribution
                 //Console.WriteLine("d");
                 theResource.ssY = playerResources * 32;
             }
-
-            healthChecker.Update(modMan.player, modMan.artificial);
-            healthChecker.checkHealth(this.Content);
-            modMan.player = healthChecker.player;
-            modMan.artificial = healthChecker.artificial;
-            attackChecker.Update(ref modMan.player, ref modMan.artificial );
-            attackChecker.autoAttacks();
-            projMan.fireProjectiles();
-            movementManager.moveObjects(modMan.player, modMan.artificial);
-
-            aiManager.SetAIDestinations2(modMan.artificial);
+            loadMan.load(Content, modMan.artificial);
+            loadMan.load(Content, modMan.player);
 
             if ((modMan.player.Count == 0) && built)
             {
@@ -441,8 +437,8 @@ namespace Retribution
             {
                 //Console.WriteLine("e");
                 playable = true;
-                //loadMan.load(this.Content, modMan.player);
-                //loadMan.load(this.Content, modMan.artificial);
+                loadMan.load(this.Content, modMan.player);
+                loadMan.load(this.Content, modMan.artificial);
             }
             else
             {

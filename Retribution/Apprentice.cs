@@ -87,7 +87,7 @@ namespace Retribution
         //  Load the image?
         public override void LoadContent(ContentManager content)
         {
-            this.texture = content.Load<Texture2D>("apprentice.png");
+            texture = content.Load<Texture2D>("apprentice.png");
         }
     }
 }

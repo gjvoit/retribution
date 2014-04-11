@@ -20,6 +20,10 @@ namespace Retribution
         Rectangle mouseRec;
         Vector2 mouseRecOrigin;
         Texture2D myTexture;
+        Vector2 mousepos;
+        bool buildPhase=true;
+        MouseState current;
+        MouseState previous;
         int spacing = 1;
         KeyboardState previousKeyboard;
         int default_player_y = 672;
@@ -33,10 +37,12 @@ namespace Retribution
             mouseRecOrigin = Vector2.Zero;
         }
 
-        public void Update(MouseState current, MouseState previous, KeyboardState keyPress, ref List<GameObject> units, ref LoadManager loadManager, ref ProjectileManager projMan, 
+        public void Update(MouseState newcurrent, MouseState newprevious, KeyboardState keyPress, ref List<GameObject> units, ref LoadManager loadManager, ref ProjectileManager projMan, 
                             ContentManager theContent, ref int playerResources, bool buildPhase)
 
         {
+            current = newcurrent;
+            previous = newprevious;
 
             if (keyPress.IsKeyDown(Keys.S)&&current.LeftButton==ButtonState.Pressed&&previous.LeftButton==ButtonState.Released)
             {
@@ -44,7 +50,7 @@ namespace Retribution
                  int y = Convert.ToInt32(current.Y);
                 Vector2 mousePosition = new Vector2(x,y);
                 ClickBox temp = new ClickBox(mousePosition);
-                temp.LoadContent(theContent);
+                //temp.LoadContent(theContent);
                 foreach (GameObject unit in units)
                 {
                     if (unit.selected)
@@ -54,19 +60,15 @@ namespace Retribution
                 }
             }
 
-            Vector2 mousepos;
-            if (buildPhase)
-                mousepos = new Vector2(current.X, current.Y);
-            else mousepos = new Vector2(current.X, default_player_y);
+            
+            
 
             //  Purchase Archer
             if (!previousKeyboard.IsKeyDown(Keys.Z) && keyPress.IsKeyDown(Keys.Z))
             {
                 if (playerResources >= 1)
                 {
-                    Archer temp = new Archer(mousepos);
-                    units.Add(temp);
-                    loadManager.load(theContent, units);
+                    modelManager.addUnit("PLAYER", "ARCHER", placementUtil());
                     playerResources--;
                 }
             }
@@ -76,9 +78,7 @@ namespace Retribution
             {
                 if (playerResources >= 2)
                 {
-                    Tower temp = new Tower(mousepos);
-                    units.Add(temp);
-                    loadManager.load(theContent, units);
+                    modelManager.addUnit("PLAYER", "TOWER", placementUtil());
                     playerResources -= 2;
                 }
             }
@@ -88,9 +88,7 @@ namespace Retribution
             {
                 if (playerResources >= 5)
                 {
-                    Warrior temp = new Warrior(mousepos);
-                    units.Add(temp);
-                    loadManager.load(theContent, units);
+                    modelManager.addUnit("PLAYER", "WARRIOR", placementUtil());
                     playerResources -= 5;
                 }
             }
@@ -100,17 +98,7 @@ namespace Retribution
             {
                 if (playerResources >= 0)
                 {
-                    Pawn temp;
-                    if (buildPhase)
-                    {
-                        temp = new Pawn(new Vector2(current.X, current.Y));
-                    }
-                    else
-                    {
-                        temp = new Pawn(new Vector2(current.X, 672));
-                    }
-                    units.Add(temp);
-                    loadManager.load(theContent, units);
+                    modelManager.addUnit("PLAYER", "PAWN", placementUtil());
                     playerResources -= 0;
                 }
             }
@@ -120,17 +108,7 @@ namespace Retribution
             {
                 if (playerResources >= 0)
                 {
-                    Apprentice temp;
-                    if (buildPhase)
-                    {
-                        temp = new Apprentice(new Vector2(current.X, current.Y));
-                    }
-                    else
-                    {
-                        temp = new Apprentice(new Vector2(current.X, 672));
-                    }
-                    units.Add(temp);
-                    loadManager.load(theContent, units);
+                    modelManager.addUnit("PLAYER", "APPRENTICE", placementUtil());
                     playerResources -= 0;
                 }
             }
@@ -140,17 +118,7 @@ namespace Retribution
             {
                 if (playerResources >= 0)
                 {
-                    Commander temp;
-                    if (buildPhase)
-                    {
-                        temp = new Commander(new Vector2(current.X, current.Y));
-                    }
-                    else
-                    {
-                        temp = new Commander(new Vector2(current.X, 672));
-                    }
-                    units.Add(temp);
-                    loadManager.load(theContent, units);
+                    modelManager.addUnit("PLAYER", "COMMANDER", placementUtil());
                     playerResources -= 0;
                 }
             }
@@ -160,17 +128,7 @@ namespace Retribution
             {
                 if (playerResources >= 0)
                 {
-                    Catapult temp;
-                    if (buildPhase)
-                    {
-                        temp = new Catapult(new Vector2(current.X, current.Y));
-                    }
-                    else
-                    {
-                        temp = new Catapult(new Vector2(current.X, 672));
-                    }
-                    units.Add(temp);
-                    loadManager.load(theContent, units);
+                    modelManager.addUnit("PLAYER", "CATAPULT", placementUtil());
                     playerResources -= 0;
                 }
             }
@@ -180,17 +138,15 @@ namespace Retribution
             {
                 if (playerResources >= 0)
                 {
-                    Rogue temp;
-                    if (buildPhase)
-                    {
-                        temp = new Rogue(new Vector2(current.X, current.Y));
-                    }
-                    else
-                    {
-                        temp = new Rogue(new Vector2(current.X, 672));
-                    }
-                    units.Add(temp);
-                    loadManager.load(theContent, units);
+                    modelManager.addUnit("PLAYER", "ROGUE", placementUtil());
+                    playerResources -= 0;
+                }
+            }
+            if (!previousKeyboard.IsKeyDown(Keys.K) && keyPress.IsKeyDown(Keys.K))
+            {
+                if (playerResources >= 0)
+                {
+                    modelManager.addUnit("PLAYER", "CLERIC", placementUtil());
                     playerResources -= 0;
                 }
             }
@@ -291,8 +247,16 @@ namespace Retribution
             previousKeyboard = keyPress;
 
         }
-        
 
+        public Vector2 placementUtil()
+        {
+            Vector2 posit;
+            if (buildPhase)
+                posit = new Vector2(current.X, current.Y);
+            else posit = new Vector2(current.X, default_player_y);
+            return posit;
+
+        }
         public void DrawMouseRectangle(SpriteBatch spriteBatch, ContentManager content)
         {
             if (myTexture == null)

@@ -39,7 +39,7 @@ namespace Retribution
 
         public override void LoadContent(ContentManager content)
         {
-            this.texture = content.Load<Texture2D>("cleric.png");
+            texture = content.Load<Texture2D>("cleric.png");
         }
 
 

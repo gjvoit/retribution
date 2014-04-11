@@ -39,10 +39,30 @@ namespace Retribution
             if (team == "PLAYER")
             {
                 switch(type){
+                    case "APPRENTICE":
+                        Apprentice app = new Apprentice(autoPlace);
+                        autoPlace.X += 32;
+                        player.Add(app);
+                        break;
                     case "ARCHER":
                         Archer temp = new Archer(autoPlace);
                         autoPlace.X+=50;
                         player.Add(temp);
+                        break;
+                    case "CATAPULT":
+                        Catapult cat = new Catapult(autoPlace);
+                        autoPlace.X += 32;
+                        player.Add(cat);
+                        break;
+                    case "COMMANDER":
+                        Commander com = new Commander(autoPlace);
+                        autoPlace.X += 32;
+                        player.Add(com);
+                        break;
+                    case "ROGUE":
+                        Rogue rog = new Rogue(autoPlace);
+                        autoPlace.X += 32;
+                        player.Add(rog);
                         break;
                     case "TOWER":
                         Tower tower = new Tower(autoPlace);
@@ -53,6 +73,11 @@ namespace Retribution
                         Warrior war = new Warrior(autoPlace);
                         autoPlace.X += 50;
                         player.Add(war);
+                        break;
+                    case "PAWN":
+                        Pawn paw = new Pawn(autoPlace);
+                        autoPlace.X += 50;
+                        player.Add(paw);
                         break;
                     case "CLERIC":
                         Cleric cler = new Cleric(autoPlace);
@@ -65,10 +90,36 @@ namespace Retribution
             {
                 //Console.WriteLine("creating artificial stuff");
                  switch(type){
+                    case "APPRENTICE":
+                        Apprentice app = new Apprentice(autoPlace);
+                        autoPlace.X += 32;
+                        artificial.Add(app);
+                        break;
                     case "ARCHER":
                         Archer temp = new Archer(autoPlace);
                         autoPlace.X+=32;
                         artificial.Add(temp);
+                        break;
+                    case "CATAPULT":
+                        Catapult cat = new Catapult(autoPlace);
+                        autoPlace.X += 32;
+                        artificial.Add(cat);
+                        break;
+                    case "COMMANDER":
+                        Commander com = new Commander(autoPlace);
+                        autoPlace.X += 32;
+                        artificial.Add(com);
+                        break;
+
+                    case "PAWN":
+                        Pawn paw = new Pawn(autoPlace);
+                        autoPlace.X += 50;
+                        artificial.Add(paw);
+                        break;
+                    case "ROGUE":
+                        Rogue rog = new Rogue(autoPlace);
+                        autoPlace.X += 32;
+                        artificial.Add(rog);
                         break;
                     case "TOWER":
                         Tower tower = new Tower(autoPlace);
@@ -95,9 +146,29 @@ namespace Retribution
             {
                 switch (type)
                 {
+                    case "APPRENTICE":
+                        Apprentice app = new Apprentice(position);
+                        player.Add(app);
+                        break;
                     case "ARCHER":
                         Archer temp = new Archer(position);
                         player.Add(temp);
+                        break;
+                    case "CATAPULT":
+                        Catapult cat = new Catapult(position);
+                        player.Add(cat);
+                        break;
+                    case "COMMANDER":
+                        Commander com = new Commander(position);
+                        player.Add(com);
+                        break;
+                    case "PAWN":
+                        Pawn paw = new Pawn(position);
+                        player.Add(paw);
+                        break;
+                    case "ROGUE":
+                        Rogue rog = new Rogue(position);
+                        player.Add(rog);
                         break;
                     case "TOWER":
                         Tower tower = new Tower(position);
@@ -121,19 +192,36 @@ namespace Retribution
             {
                 switch (type)
                 {
+                    case "APPRENTICE":
+                        Apprentice app = new Apprentice(position);
+                        artificial.Add(app);
+                        break;
                     case "ARCHER":
                         Archer temp = new Archer(position);
-                        autoPlace.X += 32;
                         artificial.Add(temp);
+                        break;
+                    case "CATAPULT":
+                        Catapult cat = new Catapult(position);
+                        artificial.Add(cat);
+                        break;
+                    case "COMMANDER":
+                        Commander com = new Commander(autoPlace);
+                        artificial.Add(com);
+                        break;
+                    case "PAWN":
+                        Pawn paw = new Pawn(position);
+                        artificial.Add(paw);
+                        break;
+                    case "ROGUE":
+                        Rogue rog = new Rogue(position);
+                        artificial.Add(rog);
                         break;
                     case "TOWER":
                         Tower tower = new Tower(position);
-                        autoPlace.X += 32;
                         artificial.Add(tower);
                         break;
                     case "WARRIOR":
                         Warrior war = new Warrior(position);
-                        autoPlace.X += 50;
                         artificial.Add(war);
                         break;
                     case "CLERIC":

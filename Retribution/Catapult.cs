@@ -13,10 +13,10 @@ namespace Retribution
     {
         public string state;
         public Texture2D image;
-
         public Catapult(Vector2 position, int health = 20, int damage = 8, int attackRange = 375)
             : base(health, position, damage, attackRange)
         {
+            type = "CATAPULT";
             this.attackSpeed = 800;
             this.moveSpeed = 1;
             this.imageSize = 64;
@@ -46,7 +46,7 @@ namespace Retribution
         //  Load the image?
         public override void LoadContent(ContentManager content)
         {
-            this.texture = content.Load<Texture2D>("catapult.png");
+            texture = content.Load<Texture2D>("catapult.png");
         }
     }
 }

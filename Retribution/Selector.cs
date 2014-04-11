@@ -15,6 +15,7 @@ namespace Retribution
         Map nextLevel;
         Boolean isInteractable; // This is for the level selection nodes
         Boolean unlocked;
+
         // Once you beat a map, you return to the level selection screen and the next level is now interactable.
 
         public Selector(Rectangle space, Map current, Map next, Boolean interact)

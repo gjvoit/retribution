@@ -12,7 +12,7 @@ namespace Retribution
     class Archer : Mobile
     {
         public Arrow myArrow;
-        public GameObject aiTarget;
+//        public GameObject aiTarget;
         SoundEffect soundEffect;
         public Archer(Vector2 position, int health = 25, int damage = 3, int attackRange = 150)
             : base(health, position, damage, attackRange)
@@ -62,7 +62,7 @@ namespace Retribution
         public override void LoadContent(ContentManager content)
         {
            
-            this.texture = content.Load<Texture2D>("archer.png");
+            texture = content.Load<Texture2D>("archer.png");
         }
 
     }

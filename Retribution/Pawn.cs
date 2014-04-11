@@ -39,6 +39,7 @@ namespace Retribution
     //  The most basic melee unit. It is a pawn, think of these units as disposable, a filler for extra resources.
     class Pawn : Mobile
     {
+        
         public override void attackSound(ContentManager content)
         {
             SoundEffect soundEffect = content.Load<SoundEffect>("blade.wav");
@@ -49,13 +50,14 @@ namespace Retribution
             SoundEffect soundEffect = content.Load<SoundEffect>("death.wav");
             soundEffect.Play();
         }
-        public Pawn(Vector2 position, int health = 18, int damage = 3, int attackRange = 90)
+        public Pawn(Vector2 position, int health = 18, int damage = 1, int attackRange = 50)
             : base(health, position, damage, attackRange)
         {
+            type = "PAWN";
             //  Set stats
             //  TyNote: I did not want to mess with the git hub/version conflictions, so I did not modify parameters in GameObject.
             //  Instead, I just defined the stats down below
-            this.attackSpeed = 200;
+            this.attackSpeed =200;
             this.moveSpeed = 3;
             //this.animationState        //  The actual animation the object is performing (moving left, moving right, attacking, etc.)
             //this.animationFrame   //  Keeps track of the animation frame the object is on
@@ -70,7 +72,7 @@ namespace Retribution
         //  TyDo: The LoadContent method loads every single image we will be using in our game. It's not many, so I feel this is appropriate
         public override void LoadContent(ContentManager content)
         {
-            this.texture = content.Load<Texture2D>("pawn.png");
+            texture = content.Load<Texture2D>("pawn.png");
         }
         //  TyDo: What is our game loop exactly? Is it:
         //  - Before game loop: initialize and load content

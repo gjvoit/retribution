@@ -78,7 +78,7 @@ namespace Retribution
                     gunit.selected = true;
                 }
                 }
-                Vector2 explore = new Vector2(random.Next(0, 704), random.Next(0, 1024));
+                Vector2 explore = new Vector2(random.Next(0, 704), random.Next(600, 1024));
                 MovementManager.changeDestination(searchParty, explore);
                 //foreach (GameObject cunit in searchParty)
                 //{

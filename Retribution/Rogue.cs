@@ -15,20 +15,19 @@ namespace Retribution
         public double stealthCD = 15.0;      //  Time till next stealth can be executed
         public string state;
         public Texture2D image;
+     
         public override void attackSound(ContentManager content)
         {
             SoundEffect soundEffect = content.Load<SoundEffect>("blade.wav");
             soundEffect.Play();
         }
 
-        public Rogue(Vector2 position, int health = 2, int damage = 3, int attack_range = 2)
-            : base(health, position, damage, attack_range)
+        public Rogue(Vector2 position, int health =40, int damage = 6, int attackRange = 40)
+            : base(health, position, damage, attackRange)
         {
-            this.health = 4;
-            this.damage = 12;
-            this.attackSpeed = 1;
-            this.attackRange = 1;
-            this.moveSpeed = 12;
+            type = "ROGUE";
+            this.attackSpeed = 60;
+            this.moveSpeed = 5;
             this.position = position;
             //this.animationState        //  The actual animation the object is performing (moving left, moving right, attacking, etc.)
             //this.animationFrame   //  Keeps track of the animation frame the object is on
@@ -68,7 +67,7 @@ namespace Retribution
         //  Load the image?
         public override void LoadContent(ContentManager content)
         {
-            this.texture = content.Load<Texture2D>("Rogue.png");
+            texture = content.Load<Texture2D>("Rogue.png");
         }
     }
 }

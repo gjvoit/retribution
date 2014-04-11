@@ -79,7 +79,7 @@ namespace Retribution
         //  A rectangle to represent the object
         public Rectangle Bounds
         {
-            get { return new Rectangle((int)position.X, (int)position.Y, this.texture.Width, this.texture.Height); }
+            get { return new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height); }
         }
         public virtual void attackSound(ContentManager content)
         {

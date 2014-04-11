@@ -15,6 +15,7 @@ namespace Retribution
         public string state;
         public Arrow myArrow;
         SoundEffect soundEffect;
+        
         public Tower(Vector2 position, int health = 5, int damage = 1, int attackRange = 250)
             : base (health, position, damage, attackRange)
         {
@@ -38,7 +39,7 @@ namespace Retribution
 
         public override void LoadContent(ContentManager content)
         {
-            this.texture = content.Load<Texture2D>("tower.png");
+            texture = content.Load<Texture2D>("tower.png");
         }
 
         public void Update(GameTime gameTime)

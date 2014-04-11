@@ -29,6 +29,7 @@ namespace Retribution
         public Commander(Vector2 position, int health = 30, int damage = 6, int attackRange = 100)
             : base(health, position, damage, attackRange)
         {
+            type = "COMMANDER";
             this.attackSpeed = 180;
             this.moveSpeed = 6;
             //this.animationState        //  The actual animation the object is performing (moving left, moving right, attacking, etc.)
@@ -82,7 +83,7 @@ namespace Retribution
         //  Load the image?
         public override void LoadContent(ContentManager content)
         {
-            this.texture = content.Load<Texture2D>("commander.png");
+            texture = content.Load<Texture2D>("commander.png");
         }
     }
 }

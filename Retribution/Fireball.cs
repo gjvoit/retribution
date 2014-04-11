@@ -13,7 +13,6 @@ namespace Retribution
     {
         public string state;
         public Texture2D image;
-
         public Fireball(Vector2 position, int damage, GameObject target, int health = 1, int attackRange = 0)
             : base(position, damage, target, health, attackRange)
         {
@@ -37,7 +36,7 @@ namespace Retribution
         //  Load the image?
         public override void LoadContent(ContentManager content)
         {
-            this.texture = content.Load<Texture2D>("fireball.png");
+            texture = content.Load<Texture2D>("fireball.png");
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Retribution
 {
     class titleShell : GameObject
     {
-        
+
 
         public titleShell(Vector2 position, int health = 2, int damage = 0, int attackRange = 150)
             : base(health, position, damage, attackRange)
@@ -19,7 +19,7 @@ namespace Retribution
 
         public override void LoadContent(ContentManager content)
         {
-            this.texture = content.Load<Texture2D>("ret.png");
+            texture = content.Load<Texture2D>("ret.png");
         }
     }
 }
