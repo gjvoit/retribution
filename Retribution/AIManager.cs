@@ -11,6 +11,7 @@ namespace Retribution
         private static AIManager instance;
         public Map myMap;
         public Random random;
+        public List<GameObject> aiUnits;
 
         private AIManager(ref Map newMap)
         {
@@ -26,64 +27,77 @@ namespace Retribution
             else
                 return instance;
         }
-        public void pursue(List<GameObject> aiUnits, GameObject unit)
+        public void pursue(GameObject unit)
         {
+            //Unit is the AI unit set to pursue
             List<GameObject> attackParty = new List<GameObject>();
+            unit.selected = true;
             attackParty.Add(unit);
             for (int x = 0; x < random.Next(1, aiUnits.Count); x++) // "Count/3" was breaking the game once a user got the enemy units to less than 3
             {
                 GameObject gunit = aiUnits[x];
-                if (gunit.aiTarget == null && gunit.GetType().BaseType == typeof(Mobile))
+                if (gunit.aiTarget == null && gunit.GetType().BaseType == typeof(Mobile))//if doesn't have target already and can move
                 {
-                    attackParty.Add(gunit);
+                    gunit.aiTarget = unit.aiTarget;
+                    gunit.selected = true;
+                    attackParty.Add(gunit);//band with this guy
                 }
             }
-            foreach (GameObject cunit in attackParty)
-            {
-                if (cunit.GetType().BaseType == typeof(Mobile) && unit.aiTarget != null)
-                {
-                    ((Mobile)cunit).setDestination( unit.aiTarget.position);
-                    List<Tile> newList = new List<Tile>();
+            MovementManager.changeDestination(attackParty, unit.aiTarget.position);
+            //foreach (GameObject cunit in attackParty)
+            //{
+            //    if (cunit.GetType().BaseType == typeof(Mobile))
+            //    {
+            //        ((Mobile)cunit).setDestination( unit.aiTarget.position);
+            //        List<Tile> newList = new List<Tile>();
 
-                    ((Mobile)cunit).pathList.Clear();
-                    ((Mobile)cunit).pathList.AddRange(myMap.GetPath(unit.position, ((Mobile)cunit).destination, newList));
-                    ((Mobile)cunit).isMoving = true;
-                }
-            }
+            //        ((Mobile)cunit).pathList.Clear();
+            //        ((Mobile)cunit).pathList.AddRange(myMap.GetPath(unit.position, ((Mobile)cunit).destination, newList));
+            //        ((Mobile)cunit).isMoving = true;
+            //        ((Mobile)cunit).isPaused=false;
+            //    }
+            //}
         }
 
-        public void explore(List<GameObject> aiUnits, GameObject unit)
+        public void explore(GameObject unit)
         {
  
-            if (random.NextDouble()*100==24)
+            if (random.NextDouble()*100<=4)
             {
                 List<GameObject> searchParty = new List<GameObject>();
+                unit.selected = true;
                 searchParty.Add(unit);
-                int randpull = random.Next(0, aiUnits.Count - 2);
-                for (int x = randpull; x < randpull+2; x++)
+                int randpull = random.Next(0, aiUnits.Count)/4;
+                for (int x = 0; x < randpull; x++)
                 {
                 GameObject gunit = aiUnits[x];
+
                 if (gunit.aiTarget == null && gunit.GetType().BaseType == typeof(Mobile))
-                     searchParty.Add(gunit);
-
-                }
-                foreach (GameObject cunit in searchParty)
                 {
-                    Vector2 explore = new Vector2(random.Next(180,248),random.Next(400,672));
-                    //((Mobile)cunit).setDestination(MovementManager.getNormalizedVector(cunit.position,explore), explore);
-                    ((Mobile)cunit).setDestination(explore);
-                    List<Tile> newList = new List<Tile>();
-
-                    ((Mobile)cunit).pathList.Clear();
-                    ((Mobile)cunit).pathList.AddRange(myMap.GetPath(cunit.position, ((Mobile)cunit).destination, newList));
-                    ((Mobile)cunit).isMoving = true;
-
+                    searchParty.Add(gunit);
+                    gunit.selected = true;
                 }
+                }
+                Vector2 explore = new Vector2(random.Next(0, 704), random.Next(0, 1024));
+                MovementManager.changeDestination(searchParty, explore);
+                //foreach (GameObject cunit in searchParty)
+                //{
+                   
+                    //((Mobile)cunit).setDestination(MovementManager.getNormalizedVector(cunit.position,explore), explore);
+                    //((Mobile)cunit).setDestination(explore);
+                    //List<Tile> newList = new List<Tile>();
+
+                    //((Mobile)cunit).pathList.Clear();
+                    //((Mobile)cunit).pathList.AddRange(myMap.GetPath(cunit.position, ((Mobile)cunit).destination, newList));
+                    //((Mobile)cunit).isMoving = true;
+
+               // }
             }
         }
 
-        public void SetAIDestinations2(List<GameObject> aiUnits)
+        public void SetAIDestinations2(List<GameObject> aiunits)
         {
+            this.aiUnits = aiunits;
             if (myMap.isDrawn == true)
             {
                 foreach (GameObject unit in aiUnits)
@@ -92,23 +106,19 @@ namespace Retribution
                     if(String.Compare(unit.type, "ARCHER", true) == 0)
                     {
                         if (unit.aiTarget != null)
-                            pursue(aiUnits, unit);
+                            pursue(unit);
                         else
-                            explore(aiUnits, unit);
+                            explore(unit);
                     }
 
-                    if (String.Compare(unit.type, "WARRIOR", true) == 0&& unit.aiTarget!=null)
+                    if (String.Compare(unit.type, "WARRIOR", true) == 0)
                     {
                         if (unit.aiTarget != null)
                         {
-                            if (String.Compare(unit.aiTarget.type, "ARCHER", true) == 0)
-                                pursue(aiUnits, unit);
-                            else
-                                if (random.Next(0, 15) == 7)
-                                    pursue(aiUnits, unit);
+                           pursue(unit);
                         }
                         else
-                            explore(aiUnits, unit);
+                            explore(unit);
                     }                
                 }
 
@@ -129,11 +139,11 @@ namespace Retribution
                             Random random = new Random();
                             int randomX = random.Next(10, 700);
                             int randomY = random.Next(10, 350);
-          
-                            ((Mobile)unit).setDestination(new Vector2(randomX, randomY));
-                            ((Mobile)unit).pathList.Clear();
-                            ((Mobile)unit).pathList.AddRange(myMap.GetPath(unit.position, ((Mobile)unit).destination, newList));
-                            ((Mobile)unit).isMoving = true;
+                            MovementManager.changeDestination(aiUnits,new Vector2(randomX,randomY));
+                            //((Mobile)unit).setDestination(new Vector2(randomX, randomY));
+                            //((Mobile)unit).pathList.Clear();
+                            //((Mobile)unit).pathList.AddRange(myMap.GetPath(unit.position, ((Mobile)unit).destination, newList));
+                            //((Mobile)unit).isMoving = true;
                         }
                     }
    

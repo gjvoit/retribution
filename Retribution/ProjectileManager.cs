@@ -44,8 +44,8 @@ namespace Retribution
             {
                 if (!item.isAlive()||item.collided)
                     proj.Remove(item);
-                else
-                   item.attackWait--;
+                //else
+                //   item.attackWait--;
             }
 
         }

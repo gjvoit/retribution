@@ -522,21 +522,21 @@ namespace Retribution
             // We want to start on the level castleDefense, then unlock riverDefense if victory, else exit to defeat screen
             // Need defeat and victory screen
 
-            foreach(Projectile item in projMan.proj)
+            foreach(Projectile item in projMan.proj)//draw arrows
             {
                 item.Draw(spriteBatch);
             }
-            for (int i = 0; i < modMan.player.Count; i++)
+            for (int i = 0; i < modMan.player.Count; i++)//draw player objects
             {
                 (modMan.player[i]).Draw(spriteBatch);
             }
 
-            for (int i = 0; i < modMan.artificial.Count; i++)
+            for (int i = 0; i < modMan.artificial.Count; i++)//draw AI objects
             {
                 modMan.artificial[i].Draw(spriteBatch,Color.Coral);
             }
 
-            inputManager.DrawMouseRectangle(spriteBatch, Content);
+            inputManager.DrawMouseRectangle(spriteBatch, Content);//draw select square?
 
             spriteBatch.End();
 
