@@ -124,6 +124,7 @@ namespace Retribution
                 return true;
             else
             {
+                alive = false;
                 return false;
             }
         }
