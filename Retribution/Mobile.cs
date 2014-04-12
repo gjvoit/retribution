@@ -43,14 +43,17 @@ namespace Retribution
 
             else
             {
+                /*
                 if (this.collisionList.Contains(this.pathList[0]))
                 {
-                    //this.isPaused = true;
-                    //return;
+                    System.Console.WriteLine("test");
+                    this.isPaused = true;
+                    return;
                 }
+                */
 
-                Vector2 end_point = Vector2.Add(new Vector2(this.pathList[0].Bounds.Center.X, this.pathList[0].Bounds.Center.Y), new Vector2(5, 5));
-                Vector2 prev_point = Vector2.Subtract(new Vector2(this.pathList[0].Bounds.Center.X, this.pathList[0].Bounds.Center.Y), new Vector2(5, 5));
+                Vector2 end_point = Vector2.Add(new Vector2(this.pathList[0].Bounds.Center.X, this.pathList[0].Bounds.Center.Y), new Vector2(3, 3));
+                Vector2 prev_point = Vector2.Subtract(new Vector2(this.pathList[0].Bounds.Center.X, this.pathList[0].Bounds.Center.Y), new Vector2(3, 3));
 
                 float xPos = this.Bounds.Center.X;
                 float yPos = this.Bounds.Center.Y;

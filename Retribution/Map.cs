@@ -81,6 +81,7 @@ namespace Retribution
             // Clear tile scores
             foreach (Tile myTile in mapTiles)
             {
+                myTile.parentTile = null;
                 myTile.fScore = 0;
                 myTile.gScore = 0;
                 myTile.hScore = 0;
@@ -133,9 +134,9 @@ namespace Retribution
             {
                 //System.Console.WriteLine(currentTile.xPosition + ", " + currentTile.yPosition);
                 pathList.Add(currentTile);
-                Tile temp = currentTile.parentTile;
-                currentTile.parentTile = null;
-                currentTile = temp;
+                //Tile temp = currentTile.parentTile;
+                //currentTile.parentTile = null;
+                currentTile = currentTile.parentTile;
 
                 if(pathList.Count > 50)
                 {
