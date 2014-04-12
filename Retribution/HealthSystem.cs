@@ -47,6 +47,7 @@ namespace Retribution
             {
                 if (artificial[i].isAlive() == false)
                 {
+                    MoraleBar.resourceAdd(1);
                     artificial.Remove(artificial[i]);
                 }
             }

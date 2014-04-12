@@ -20,6 +20,7 @@ namespace Retribution
             this.position = position;
             this.moveSpeed = 6;
             this.type = "ICEBALL";
+            this.collisionType = "homing";
             //this.health = 1000;
             //this.damage = 6;
             //this.attackSpeed = 0;

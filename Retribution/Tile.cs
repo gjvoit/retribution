@@ -67,7 +67,7 @@ namespace Retribution
             else if (typeChar == '3')
             {
                 type = "rock";
-                texture = Texture2DFromFile(graphics, "Content/rocktile.png");
+                texture = Texture2DFromFile(graphics, "Content/rock.png");
                 isWalkable = false;
             }
             else if (typeChar == '4')

@@ -14,6 +14,7 @@ namespace Retribution
     {
         public double shieldCD = 15.0;
         public double dashCD = 2.0;
+        public static int cost = 20;
         //public string state;
         //public Texture2D image;
         public override void kill(ContentManager content)
@@ -26,7 +27,7 @@ namespace Retribution
             SoundEffect soundEffect = content.Load<SoundEffect>("blade.wav");
             soundEffect.Play();
         }
-        public Commander(Vector2 position, int health = 30, int damage = 6, int attackRange = 100)
+        public Commander(Vector2 position, int health = 40, int damage = 6, int attackRange = 80)
             : base(health, position, damage, attackRange)
         {
             type = "COMMANDER";

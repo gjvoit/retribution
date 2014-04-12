@@ -10,8 +10,8 @@ namespace Retribution
     class ModelManager
     {
         public static ModelManager instance;
-        public List<GameObject> player;
-        public List<GameObject> artificial;
+        public static List<GameObject> player;
+        public static List<GameObject> artificial;
         public List<GameObject> inMotion;
         private Vector2 autoPlace;
         public Map myMap;
@@ -24,7 +24,14 @@ namespace Retribution
             autoPlace = new Vector2(0, 0);
             myMap = newMap;
         }
-
+        public static List<GameObject> getArtificial()
+        {
+            if (artificial != null)
+                return artificial;
+            else
+                artificial = new List<GameObject>();
+            return artificial;
+        }
         public static ModelManager getInstance(ref Map newMap){
             if (instance == null)
             {

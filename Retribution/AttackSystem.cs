@@ -143,63 +143,7 @@ namespace Retribution
                 aobj.attackWait--;
             }
             //  Test collision for projectiles
-            foreach (Projectile projectile in projMan.proj)       //  pobj stands for projectile object
-            {
-                foreach (GameObject aobj in artificial)
-                {
-                    if (projectile.isAlive())
-                    {
-                        if (projectile.collisionType == "homing")
-                        {
-                            if (projectile.position.X <= projectile.end_point.X && projectile.position.X >= projectile.prev_point.X
-                                && projectile.position.Y <= projectile.end_point.Y && projectile.position.Y >= projectile.prev_point.Y) //equivalent to IsInRange
-                            {
-                                projectile.health = -1;
-                                projectile.collided = true;
-                                if (projectile.target.isAlive())
-                                {
-                                    projectile.target.health -= projectile.damage;
-                                }
-                                /*
-                                if (String.Compare(this.type, "ICEBALL", true) == 0 && this.target.isAlive())
-                                {
-                                    if (this.target.attackRange > 5)
-                                        this.target.attackRange -= 5;
-                                    this.target.attackSpeed += 10;
-                                }
-                                 * */
-                            }
-                        }
-                        else if (projectile.collisionType == "straight")
-                        {
-                            if (projectile.IsInRange(aobj))
-                            {
-                                projectile.health = -1;
-                                projectile.collided = true;
-                                if (aobj.isAlive())
-                                {
-                                    aobj.health -= projectile.damage;
-                                }
-                            }
-                        }
-                        else if (projectile.collisionType == "arc")
-                        {
-                            if (projectile.position.X <= projectile.end_point.X && projectile.position.X >= projectile.prev_point.X
-                                && projectile.position.Y <= projectile.end_point.Y && projectile.position.Y >= projectile.prev_point.Y)
-                            {
-                                projectile.collided = true;
-                                if (aobj.isAlive() && projectile.IsInRange(aobj))
-                                {
-                                    aobj.health -= projectile.damage;
-                                }
-                            }
-                        }
-                    }
-                }
-                if (projectile.collisionType == "arc")  //  Kills the arc projectile at the end, after checking collision with all objects
-                    if (projectile.position.X <= projectile.end_point.X && projectile.position.X >= projectile.prev_point.X
-                        && projectile.position.Y <= projectile.end_point.Y && projectile.position.Y >= projectile.prev_point.Y)
-                        projectile.health = -1;
+            
 
 
                 /*
@@ -252,7 +196,7 @@ namespace Retribution
                 //}
                 pobj.attackWait--;
                  * */
-            }
+           
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Retribution
     {
         //public Arrow myArrow;
 //        public GameObject aiTarget;
-
+        public static int cost = 2;
         SoundEffect soundEffect;
         public Archer(Vector2 position, int health = 25, int damage = 15, int attackRange = 130)
             : base(health, position, damage, attackRange)

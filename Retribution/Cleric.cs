@@ -8,9 +8,11 @@ using Microsoft.Xna.Framework.Audio;
 
 namespace Retribution
 {
+    
     //  A tanky, high healthed, unit. Has armor that takes extra damage from magic
     class Cleric : Mobile
     {
+        public static int cost = 15;
         public override void attackSound(ContentManager content)
         {
             SoundEffect soundEffect = content.Load<SoundEffect>("blade.wav");

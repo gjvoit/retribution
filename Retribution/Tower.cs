@@ -12,6 +12,7 @@ namespace Retribution
     
     class Tower : GameObject
     {
+        public static int cost = 3;
         public string state;
         //public Arrow myArrow;
         //SoundEffect soundEffect;

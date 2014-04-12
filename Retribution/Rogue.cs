@@ -12,6 +12,7 @@ namespace Retribution
     //  TyNote: Refer to Pawn.cs for more general notes on GameObject classes
     class Rogue : Mobile
     {
+        public static int cost = 15;
         public double stealthCD = 15.0;      //  Time till next stealth can be executed
         //public string state;
         //public Texture2D image;

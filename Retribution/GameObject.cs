@@ -32,6 +32,7 @@ namespace Retribution
         public int animateTime = 0;
         public bool isUp = true;   //  Direction variable used to help with animation
         public bool isRight = true;
+        public static int cost = 2;
 
         public GameObject(int health, Vector2 position, int damage, int attackRange)
         {
@@ -51,7 +52,7 @@ namespace Retribution
             if (selected)
             {
                 Vector2 temp = Vector2.Subtract(position, new Vector2(attackRange-16, attackRange-16));
-                spriteBatch.Draw(createCircle(attackRange, spriteBatch.GraphicsDevice), temp, Color.Cyan);
+                spriteBatch.Draw(createCircle(attackRange, spriteBatch.GraphicsDevice), temp, Color.DarkSlateBlue);
                                         }
             spriteBatch.Draw(texture, new Rectangle((int)this.position.X, (int)this.position.Y, imageSize, imageSize), new Rectangle(ssX*32, ssY*32, imageSize, imageSize), Color.White);
             if(selected)

@@ -14,7 +14,7 @@ namespace Retribution
     {
         //public Fireball myArrow;
         //public GameObject aiTarget;
-        private static Timer fireballTimer = new Timer(1);  //  1 for testing purposes, should be 4000 possibly depending on balance issues
+        private static Timer fireballTimer = new Timer(4000);  //  1 for testing purposes, should be 4000 possibly depending on balance issues
         private static Timer animateTimer = new Timer(250);
         //public string state;
         //public Texture2D image;
@@ -46,7 +46,7 @@ namespace Retribution
             if (!fireballTimer.Enabled)
             {
                 fireballTimer.Start();
-                fireballTest = new Fireball(this.position, 100, target, 100, 0);
+                fireballTest = new Fireball(this.position,10, target, 1, 0);
                 Vector2 direction = MovementManager.getNormalizedVector(this.position, destination);
                 fireballTest.setDestination(direction, destination);
                 fireballTest.LoadContent(content);
@@ -77,7 +77,7 @@ namespace Retribution
             this.soundEffect = content.Load<SoundEffect>("fireball.wav");
             soundEffect.Play();
             Vector2 corrected = Vector2.Add(position, new Vector2(16, 16));
-            Projectile projectile = new Iceball(corrected, 100, target, 100, 0);
+            Projectile projectile = new Iceball(corrected, 0, target, 1, 0);
             Vector2 direction = MovementManager.getNormalizedVector(projectile.position, target.position);
             projectile.setDestination(direction, target.position);
             projectile.LoadContent(content);

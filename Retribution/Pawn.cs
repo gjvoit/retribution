@@ -39,7 +39,7 @@ namespace Retribution
     //  The most basic melee unit. It is a pawn, think of these units as disposable, a filler for extra resources.
     class Pawn : Mobile
     {
-        
+        public static int cost = 1;
         public override void attackSound(ContentManager content)
         {
             SoundEffect soundEffect = content.Load<SoundEffect>("blade.wav");

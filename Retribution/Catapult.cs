@@ -11,6 +11,7 @@ namespace Retribution
     //  TyNote: Refer to Pawn.cs for more general notes on GameObject classes
     class Catapult : Mobile
     {
+        public static int cost = 45;
         //public string state;
         //public Texture2D image;
         public Catapult(Vector2 position, int health = 20, int damage = 8, int attackRange = 375)

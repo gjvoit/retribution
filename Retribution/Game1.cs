@@ -42,7 +42,7 @@ namespace Retribution
         MoraleBar mBar;
       //  Warrior theCommander;
         int playerResources = 10;
-        int buildResources = 15;
+        int buildResources = 10;
         // if built is false, player enters build phase; if built is true, that means player finished build phase and level starts
         bool built = false;
         // if initialized is false, that means AI units have not been initialized
@@ -127,8 +127,8 @@ namespace Retribution
             screenManager.prevMap = defeatScreen;
             screenManager.currentMap = mainScreen;
             screenManager.nextMap = levelSelect;
-            healthChecker = new HealthSystem(modMan.player, modMan.artificial);
-            attackChecker = new AttackSystem(ref modMan.player, ref modMan.artificial);
+            healthChecker = new HealthSystem(ModelManager.player, ModelManager.artificial);
+            attackChecker = new AttackSystem(ref ModelManager.player, ref ModelManager.artificial);
             attackChecker.linkSystem(projMan);
             attackChecker.linkContent(Content);
             movementManager = MovementManager.getInstance();
@@ -136,6 +136,7 @@ namespace Retribution
             inputManager = new InputManager(ref modMan);
             aiManager = AIManager.getInstance(ref mainScreen);
             mBar = new MoraleBar(ref modMan);
+            MoraleBar.resourceVal(buildResources);
             mousePrev = Mouse.GetState();
             //Create Player's units
             //testInitialization();
@@ -165,8 +166,8 @@ namespace Retribution
         {
             Content.RootDirectory = "Content";
             //loadMan.loadContent(this.Content);
-            loadMan.load(this.Content, modMan.player);
-            loadMan.load(this.Content, modMan.artificial);
+            loadMan.load(this.Content, ModelManager.player);
+            loadMan.load(this.Content, ModelManager.artificial);
             player = Content.Load<SoundEffect>("back.wav");
             SoundEffectInstance instance = player.CreateInstance();
             instance.IsLooped = true;
@@ -202,8 +203,8 @@ namespace Retribution
             theTitle = new titleShell(new Vector2(375, 375));
             theResource.LoadContent(this.Content);
             theTitle.LoadContent(this.Content);
-            loadMan.load(this.Content, modMan.player);
-            loadMan.load(this.Content, modMan.artificial);
+            loadMan.load(this.Content, ModelManager.player);
+            loadMan.load(this.Content, ModelManager.artificial);
         }
 
         public void castleSiegeSpawn()
@@ -224,8 +225,8 @@ namespace Retribution
             theTitle = new titleShell(new Vector2(375, 375));
             theResource.LoadContent(this.Content);
             theTitle.LoadContent(this.Content);
-            loadMan.load(this.Content, modMan.player);
-            loadMan.load(this.Content, modMan.artificial);
+            loadMan.load(this.Content, ModelManager.player);
+            loadMan.load(this.Content, ModelManager.artificial);
         }
 
         public void riverDefenseSpawn() 
@@ -244,8 +245,8 @@ namespace Retribution
             theTitle = new titleShell(new Vector2(375, 375));
             theResource.LoadContent(this.Content);
             theTitle.LoadContent(this.Content);
-            loadMan.load(this.Content, modMan.player);
-            loadMan.load(this.Content, modMan.artificial);
+            loadMan.load(this.Content, ModelManager.player);
+            loadMan.load(this.Content, ModelManager.artificial);
         }
       
 
@@ -254,7 +255,7 @@ namespace Retribution
         {
             //theCommander = new Warrior(new Vector2(600, 400));
             modMan.addUnit("PLAYER", "WARRIOR", new Vector2(400, 600));
-            ((Mobile)modMan.player[0]).moveSpeed = 7;
+            ((Mobile)ModelManager.player[0]).moveSpeed = 7;
         }
 
         public void testInitialization()
@@ -328,16 +329,15 @@ namespace Retribution
             KeyboardState keyboardState = Keyboard.GetState();
 
 
-            healthChecker.Update(modMan.player, modMan.artificial);
+            healthChecker.Update(ModelManager.player, ModelManager.artificial);
             healthChecker.checkHealth(this.Content);
-            modMan.player = healthChecker.player;
-            modMan.artificial = healthChecker.artificial;
-            attackChecker.Update(ref modMan.player, ref modMan.artificial);
+            ModelManager.player = healthChecker.player;
+            ModelManager.artificial = healthChecker.artificial;
+            attackChecker.Update(ref ModelManager.player, ref ModelManager.artificial);
             attackChecker.autoAttacks();
             projMan.fireProjectiles();
             mBar.calculateScore();
-            movementManager.moveObjects(modMan.player, modMan.artificial);
-            aiManager.SetAIDestinations2(modMan.artificial);
+           
             
             
             
@@ -348,18 +348,23 @@ namespace Retribution
             {
                 //Console.WriteLine("a");
                 // Why is the "buildPhase" Boolean always true? Should it be equal to "built"?
-                inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref modMan.player, ref loadMan, ref projMan, this.Content, ref buildResources, true);
-                if (buildResources <= 1) // once we deplete our build resources, set built to true (doing so will initialize enemy AI units and starts the level)
+                inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref ModelManager.player, ref loadMan, ref projMan, this.Content, ref MoraleBar.resources, true);
+                //MoraleBar.resourceVal(buildResources);
+                if (MoraleBar.resources <= 1)
+                { // once we deplete our build resources, set built to true (doing so will initialize enemy AI units and starts the level)
                     built = true;
+                    MoraleBar.resourceAdd(playerResources);
+                }
             }
             else if (built && initialized)// player is not building in build phase but rather building reinforcements - notice the false flag at the end indicating not build phase
             {
                 //Console.WriteLine("b");
-                inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref modMan.player, ref loadMan, ref projMan, Content, ref playerResources, false);
+                inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref ModelManager.player, ref loadMan, ref projMan, Content, ref MoraleBar.resources, false);
+                //MoraleBar.resourceVal(playerResources);
             }
             else
             {
-                inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref modMan.player, ref loadMan, ref projMan, Content, ref noresource, false);
+                inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref ModelManager.player, ref loadMan, ref projMan, Content, ref MoraleBar.resources, false);
             }
             if (built && !initialized)// && castleDefenseSelector.getOccupied() == true)
             {
@@ -384,15 +389,16 @@ namespace Retribution
                 //Console.WriteLine("d");
                 theResource.ssY = playerResources * 32;
             }
-            loadMan.load(Content, modMan.artificial);
-            loadMan.load(Content, modMan.player);
-
-            if ((modMan.player.Count == 0) && built)
+            loadMan.load(Content, ModelManager.artificial);
+            loadMan.load(Content, ModelManager.player);
+            movementManager.moveObjects(ModelManager.player, ModelManager.artificial);
+            aiManager.SetAIDestinations2(ModelManager.artificial);
+            if ((ModelManager.player.Count == 0) && built)
             {
                 screenManager.victory = "defeat";
-                modMan.artificial.Clear();
+                ModelManager.artificial.Clear();
                 testCommander();
-                loadMan.load(Content, modMan.player);
+                loadMan.load(Content, ModelManager.player);
                 built = false;
                 playable = false;
                 initialized = false;
@@ -409,16 +415,16 @@ namespace Retribution
                 {
                     buildResources = 15;
                 }*/
-                buildResources = 10;
+                MoraleBar.resourceVal(10);
                 testBeta = true;
                 //Console.WriteLine("interaction for defeatscreenselector: " + screenManager.allSelectors[0].getInteraction());
             }
-            else if ((modMan.artificial.Count == 0) && built)
+            else if ((ModelManager.artificial.Count == 0) && built)
             {
                 screenManager.victory = "victory";
-                modMan.player.Clear();
+                ModelManager.player.Clear();
                 testCommander();
-                loadMan.load(Content, modMan.player);
+                loadMan.load(Content, ModelManager.player);
                 built = false;
                 playable = false;
                 initialized = false;
@@ -471,9 +477,9 @@ namespace Retribution
             spriteBatch.Begin();
             updateManagerMap(screenManager.currentMap);
             
-            if (modMan.player.Count != 0 && !playable)
+            if (ModelManager.player.Count != 0 && !playable)
             {
-                screenManager.chooseSelector((Mobile)modMan.player[0]);
+                screenManager.chooseSelector((Mobile)ModelManager.player[0]);
             }
             if (screenManager.currentMap.name.Equals("Content/castleDefense.txt")
                 || screenManager.currentMap.name.Equals("Content/riverDefense.txt")
@@ -482,8 +488,8 @@ namespace Retribution
                 //Console.WriteLine("e");
                 playable = true;
                 inputManager.buildPhase = false;
-                loadMan.load(this.Content, modMan.player);
-                loadMan.load(this.Content, modMan.artificial);
+                loadMan.load(this.Content, ModelManager.player);
+                loadMan.load(this.Content, ModelManager.artificial);
             }
             else
             {
@@ -506,7 +512,7 @@ namespace Retribution
             if (playable && testBeta)
             {
                 //Console.WriteLine("g");
-                modMan.player.Remove(modMan.player[0]);
+                ModelManager.player.Remove(ModelManager.player[0]);
                 testBeta = false;
             }
             if (built && initialized)  // hopefully get digits working and draw it to the screen (only when game starts)
@@ -524,14 +530,14 @@ namespace Retribution
             {
                 item.Draw(spriteBatch);
             }
-            for (int i = 0; i < modMan.player.Count; i++)//draw player objects
+            for (int i = 0; i < ModelManager.player.Count; i++)//draw player objects
             {
-                (modMan.player[i]).Draw(spriteBatch);
+                (ModelManager.player[i]).Draw(spriteBatch);
             }
 
-            for (int i = 0; i < modMan.artificial.Count; i++)//draw AI objects
+            for (int i = 0; i < ModelManager.artificial.Count; i++)//draw AI objects
             {
-                modMan.artificial[i].Draw(spriteBatch,Color.Coral);
+                ModelManager.artificial[i].Draw(spriteBatch,Color.Coral);
             }
 
             inputManager.DrawMouseRectangle(spriteBatch, Content);//draw select square?

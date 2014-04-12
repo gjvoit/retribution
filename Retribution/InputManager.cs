@@ -71,7 +71,7 @@ namespace Retribution
                 if (playerResources >= 1)
                 {
                     modelManager.addUnit("PLAYER", "ARCHER", placementUtil());
-                    playerResources--;
+                    playerResources-=Archer.cost;
                 }
             }
 
@@ -81,7 +81,7 @@ namespace Retribution
                 if (playerResources >= 2)
                 {
                     modelManager.addUnit("PLAYER", "TOWER", placementUtil());
-                    playerResources -= 2;
+                    playerResources -=Tower.cost;
                 }
             }
 
@@ -91,7 +91,7 @@ namespace Retribution
                 if (playerResources >= 5)
                 {
                     modelManager.addUnit("PLAYER", "WARRIOR", placementUtil());
-                    playerResources -= 5;
+                    playerResources -=Warrior.cost;
                 }
             }
 
@@ -101,7 +101,7 @@ namespace Retribution
                 if (playerResources >= 0)
                 {
                     modelManager.addUnit("PLAYER", "PAWN", placementUtil());
-                    playerResources -= 0;
+                    playerResources -=Pawn.cost;
                 }
             }
 
@@ -111,7 +111,7 @@ namespace Retribution
                 if (playerResources >= 0)
                 {
                     modelManager.addUnit("PLAYER", "APPRENTICE", placementUtil());
-                    playerResources -= 0;
+                    playerResources -=Apprentice.cost;
                 }
             }
 
@@ -121,7 +121,7 @@ namespace Retribution
                 if (playerResources >= 0)
                 {
                     modelManager.addUnit("PLAYER", "COMMANDER", placementUtil());
-                    playerResources -= 0;
+                    playerResources -= Commander.cost;
                 }
             }
 
@@ -131,7 +131,7 @@ namespace Retribution
                 if (playerResources >= 0)
                 {
                     modelManager.addUnit("PLAYER", "CATAPULT", placementUtil());
-                    playerResources -= 0;
+                    playerResources -=Catapult.cost;
                 }
             }
 
@@ -141,7 +141,7 @@ namespace Retribution
                 if (playerResources >= 0)
                 {
                     modelManager.addUnit("PLAYER", "ROGUE", placementUtil());
-                    playerResources -= 0;
+                    playerResources -= Rogue.cost;
                 }
             }
             if (!previousKeyboard.IsKeyDown(Keys.K) && keyPress.IsKeyDown(Keys.K))
@@ -149,7 +149,7 @@ namespace Retribution
                 if (playerResources >= 0)
                 {
                     modelManager.addUnit("PLAYER", "CLERIC", placementUtil());
-                    playerResources -= 0;
+                    playerResources -= Cleric.cost;
                 }
             }
 
@@ -247,7 +247,7 @@ namespace Retribution
             }
 
             previousKeyboard = keyPress;
-
+            //MoraleBar.resourceVal(playerResources);
         }
 
         public Vector2 placementUtil()
