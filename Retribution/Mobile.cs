@@ -16,12 +16,14 @@ namespace Retribution
         public List<Tile> pathList;
         public bool isPaused;
         public List<Tile> collisionList;
+        public int pauseTimer;
 
         public Mobile(int health, Vector2 position, int damage, int attackRange)
             : base(health, position, damage, attackRange)
         {
             this.isMoving = false;
             this.isPaused = false;
+            this.pauseTimer = 0;
             pathList = new List<Tile>();
             collisionList = new List<Tile>();
             this.animateState = "move";
@@ -43,14 +45,6 @@ namespace Retribution
 
             else
             {
-                /*
-                if (this.collisionList.Contains(this.pathList[0]))
-                {
-                    System.Console.WriteLine("test");
-                    this.isPaused = true;
-                    return;
-                }
-                */
 
                 Vector2 end_point = Vector2.Add(new Vector2(this.pathList[0].Bounds.Center.X, this.pathList[0].Bounds.Center.Y), new Vector2(3, 3));
                 Vector2 prev_point = Vector2.Subtract(new Vector2(this.pathList[0].Bounds.Center.X, this.pathList[0].Bounds.Center.Y), new Vector2(3, 3));

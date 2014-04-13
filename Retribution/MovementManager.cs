@@ -10,10 +10,12 @@ namespace Retribution
     {
         public static Map myMap;
         static MovementManager instance;
+        static List<UnitGroup> unitGroups;
 
         private MovementManager()
         {
             myMap = null;
+            unitGroups = new List<UnitGroup>();
         }
 
         public static MovementManager getInstance()
@@ -48,26 +50,19 @@ namespace Retribution
 
             List<Tile> newCollisionList = new List<Tile>();
 
+            foreach (UnitGroup group in unitGroups.ToList())
+            {
+                if (group.leader.isMoving == false)
+                {
+                    unitGroups.Remove(group);
+                }
+            }
+
             for (int i = 0; i < allUnits.Count; i++)
             {
 
                 if (allUnits[i].GetType().BaseType == typeof(Mobile) && ((Mobile)allUnits[i]).isMoving == true)
                 {
-                    //  If a unit's collision list contains it's destination tile, stop it:
-                    if (((Mobile)allUnits[i]).collisionList.Contains(myMap.GetTile(((Mobile)allUnits[i]).destination)))
-                        {
-                            ((Mobile)allUnits[i]).isMoving = false;
-                            ((Mobile)allUnits[i]).isPaused = false;
-                            break;
-                        }
-
-                    // If the next tile in a units path is on its collision list, pause it:
-                    //if (((Mobile)allUnits[i]).collisionList.Contains(((Mobile)allUnits[i]).pathList[0]))
-                    //{
-                     //   ((Mobile)allUnits[i]).isPaused = true;
-                    //    break;
-                    //}
-                     
 
                     // Iterate through all units again
                     for (int j = 0; j < allUnits.Count; j++)
@@ -76,7 +71,7 @@ namespace Retribution
                             if (allUnits[i].collidesWith(allUnits[j]) && i != j)
                            {
                                 //  If j is not moving, paused, or a tower, don't pause
-                               if (((allUnits[j].GetType().BaseType == typeof(Mobile) && (((Mobile)allUnits[j]).isMoving == false || ((Mobile)allUnits[j]).isPaused == true)))
+                               if ((allUnits[j].GetType().BaseType == typeof(Mobile) && (((Mobile)allUnits[j]).isMoving == false || ((Mobile)allUnits[j]).isPaused == true))
                                    || (allUnits[j].GetType() == typeof(Tower))
                                    )
                                {
@@ -85,21 +80,40 @@ namespace Retribution
                                }
 
                                //  If j is moving, pause i and end loop for this i
-                               else
+                               else if (GetGroup((Mobile)allUnits[i]) != null && GetGroup((Mobile)allUnits[i]).Contains((Mobile)allUnits[j]) == false)
                                {
                                    newCollisionList.Add(myMap.GetContainingTile(allUnits[j]));
                                    ((Mobile)allUnits[i]).isPaused = true;
+                                   ((Mobile)allUnits[i]).pauseTimer = 25;
                                    break;
                                }
+                                
+                               else if (GetGroup((Mobile)allUnits[i]) != null 
+                                   && GetGroup((Mobile)allUnits[i]).Contains((Mobile)allUnits[j]) == true 
+                                   && myMap.GetContainingTile((Mobile)allUnits[i]) == myMap.GetContainingTile((Mobile)allUnits[j])
+                                   && ((Mobile)allUnits[i]).pathList.Count <= 3
+                                   )
+                                {
+                                    newCollisionList.Add(myMap.GetContainingTile(allUnits[j]));
+                                    ((Mobile)allUnits[i]).isPaused = true;
+                                    ((Mobile)allUnits[i]).pauseTimer = 25;
+                                    break;
+                                }
+                                 
                             }
                         }
 
                         //  If there were no collisions and unit is paused, unpause it
                         if (newCollisionList.Count == 0 && ((Mobile)allUnits[i]).isPaused == true)
                         {
-                            ((Mobile)allUnits[i]).isPaused = false;
-                            ((Mobile)allUnits[i]).collisionList.Clear();
-                            break;
+                            if (((Mobile)allUnits[i]).pauseTimer <= 0)
+                            {
+                                ((Mobile)allUnits[i]).isPaused = false;
+                                ((Mobile)allUnits[i]).collisionList.Clear();
+                                break;
+                            }
+                            else
+                                ((Mobile)allUnits[i]).pauseTimer -- ;
                         }
 
                         // Else if there was a new collision and the unit isn't paused, get a new path:
@@ -111,6 +125,14 @@ namespace Retribution
                             ((Mobile)allUnits[i]).pathList.Clear();
                             Vector2 startPoint = new Vector2(allUnits[i].Bounds.Center.X, allUnits[i].Bounds.Center.Y);
                             ((Mobile)allUnits[i]).pathList.AddRange(myMap.GetPath(startPoint, ((Mobile)allUnits[i]).destination, newCollisionList));
+                        }
+
+                        //  If a unit's collision list contains it's destination tile, stop it:
+                        if (((Mobile)allUnits[i]).collisionList.Contains(myMap.GetTile(((Mobile)allUnits[i]).destination)))
+                        {
+                            ((Mobile)allUnits[i]).isMoving = false;
+                            ((Mobile)allUnits[i]).isPaused = false;
+                            break;
                         }
 
                         //  If unit i isn't paused and is moving, move it
@@ -127,6 +149,7 @@ namespace Retribution
 
         public static void changeDestination(List<GameObject> listOfSelectedObjects, Vector2 destination)
         {
+            List<Mobile> unitList = new List<Mobile>();
             for (int i = 0; i < listOfSelectedObjects.Count; i++)
             {
                 if (listOfSelectedObjects[i].GetType().BaseType == typeof(Projectile))
@@ -138,16 +161,23 @@ namespace Retribution
                 }
                 if (listOfSelectedObjects[i].selected == true && listOfSelectedObjects[i].GetType().BaseType == typeof(Mobile))
                 {
-                    ((Mobile)(listOfSelectedObjects[i])).isMoving = false;
-                    ((Mobile)(listOfSelectedObjects[i])).setDestination(destination);
-                    List<Tile> newClosedList = new List<Tile>();
-                    //System.Console.WriteLine(listOfSelectedObjects[i].destination.X + ", " + listOfSelectedObjects[i].destination.Y);
-                    Vector2 startPoint = new Vector2(listOfSelectedObjects[i].Bounds.Center.X, listOfSelectedObjects[i].Bounds.Center.Y);
-
-                    ((Mobile)(listOfSelectedObjects[i])).pathList = myMap.GetPath(startPoint, ((Mobile)(listOfSelectedObjects[i])).destination, newClosedList);
-                    ((Mobile)(listOfSelectedObjects[i])).isMoving = true;
+                    unitList.Add((Mobile)listOfSelectedObjects[i]);
                 }
             }
+
+            UnitGroup newGroup = new UnitGroup(unitList, destination);
+            newGroup.SetPaths(myMap);
+            unitGroups.Add(newGroup);
+        }
+
+        public UnitGroup GetGroup(Mobile unit)
+        {
+            foreach(UnitGroup group in unitGroups){
+                if (group.Contains(unit))
+                    return group;
+            }
+
+            return null;
         }
 
         public Boolean CompareLists(List<Tile> newList, List<Tile> oldList)
