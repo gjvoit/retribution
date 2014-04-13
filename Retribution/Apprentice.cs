@@ -12,7 +12,7 @@ namespace Retribution
     //  mage unit that can conjur a fireball
     class Apprentice : Mobile
     {
-        //public Fireball myArrow;
+        public Projectile myArrow;
         //public GameObject aiTarget;
         private static Timer fireballTimer = new Timer(4000);  //  1 for testing purposes, should be 4000 possibly depending on balance issues
         private static Timer animateTimer = new Timer(250);
@@ -48,6 +48,7 @@ namespace Retribution
             {
                 fireballTimer.Start();
                 fireballTest = new Fireball(this.position,10, target, 1, 0);
+                this.myArrow = fireballTest;
                 Vector2 direction = MovementManager.getNormalizedVector(this.position, destination);
                 fireballTest.setDestination(direction, destination);
                 fireballTest.LoadContent(content);

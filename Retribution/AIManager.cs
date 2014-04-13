@@ -33,7 +33,10 @@ namespace Retribution
             List<GameObject> attackParty = new List<GameObject>();
             unit.selected = true;
             attackParty.Add(unit);
-            for (int x = 0; x < random.Next(1, aiUnits.Count); x++) // "Count/3" was breaking the game once a user got the enemy units to less than 3
+            int size = random.Next(1, aiUnits.Count);
+            if (String.Compare(unit.type, "COMMANDER",true) == 0)
+                size = aiUnits.Count;
+            for (int x = 0; x < size; x++) // "Count/3" was breaking the game once a user got the enemy units to less than 3
             {
                 GameObject gunit = aiUnits[x];
                 if (gunit.aiTarget == null && gunit.GetType().BaseType == typeof(Mobile))//if doesn't have target already and can move
@@ -62,8 +65,8 @@ namespace Retribution
         public void explore(GameObject unit)
         {
  
-            if (random.NextDouble()*100<=4)
-            {
+            //if (random.NextDouble()*100<=4)
+            //{
                 List<GameObject> searchParty = new List<GameObject>();
                 unit.selected = true;
                 searchParty.Add(unit);
@@ -92,7 +95,7 @@ namespace Retribution
                     //((Mobile)cunit).isMoving = true;
 
                // }
-            }
+            //}
         }
 
         public void SetAIDestinations2(List<GameObject> aiunits)

@@ -19,7 +19,7 @@ namespace Retribution
             this.position = position;
             this.moveSpeed = 6;
             this.collisionType = "straight";
-            this.attackRange = 50;
+            this.attackRange = 5;
             //attackWait = 300;
             
             //this.health = 1000;

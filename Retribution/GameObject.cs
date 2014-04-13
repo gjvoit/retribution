@@ -12,6 +12,7 @@ namespace Retribution
     //  The overarching "Grandpa" class of all objects in the game (projectiles, towers, walls, boulders, etc.)
     public abstract class GameObject
     {
+        public Projectile myArrow = null;
         public Vector2 position;
         public Texture2D texture;
         public GameObject aiTarget;

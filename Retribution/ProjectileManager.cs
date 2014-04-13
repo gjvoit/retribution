@@ -62,7 +62,7 @@ namespace Retribution
 
                             }
                         }
-                        else if (projectile.collisionType == "straight")
+                        else if (projectile.collisionType == "straight"&&aobj.aiTarget!=aobj)
                         {
                             if (projectile.IsInRange(aobj))
                             {
@@ -87,17 +87,70 @@ namespace Retribution
                             }
                         }
                     }
-                }
+                }//check AI units
+
+                           
+               foreach (GameObject pobj in ModelManager.player)
+                {
+                    if (projectile.isAlive())
+                    {
+                        if (projectile.collisionType == "homing")
+                        {
+                            if (projectile.position.X <= projectile.end_point.X && projectile.position.X >= projectile.prev_point.X
+                                && projectile.position.Y <= projectile.end_point.Y && projectile.position.Y >= projectile.prev_point.Y) //equivalent to IsInRange
+                            {
+                                projectile.health = -1;
+                                projectile.collided = true;
+                                if (projectile.target.isAlive())
+                                {
+                                    projectile.target.health -= projectile.damage;
+                                }
+
+                                if (String.Compare(projectile.type, "ICEBALL", true) == 0 && projectile.target.isAlive())
+                                {
+                                    if (projectile.target.attackRange > 5)
+                                        projectile.target.attackRange -= 5;
+                                    projectile.target.attackSpeed += 10;
+                                }
+
+                            }
+                        }
+                        else if (projectile.collisionType == "straight"&&projectile.target!=pobj)
+                        {
+                            if (projectile.IsInRange(pobj))
+                            {
+                                projectile.health = -1;
+                                projectile.collided = true;
+                                if (pobj.isAlive())
+                                {
+                                    pobj.health -= projectile.damage;
+                                }
+                            }
+                        }
+                        else if (projectile.collisionType == "arc")
+                        {
+                            if (projectile.position.X <= projectile.end_point.X && projectile.position.X >= projectile.prev_point.X
+                                && projectile.position.Y <= projectile.end_point.Y && projectile.position.Y >= projectile.prev_point.Y)
+                            {
+                                projectile.collided = true;
+                                if (pobj.isAlive() && projectile.IsInRange(pobj))
+                                {
+                                    pobj.health -= projectile.damage;
+                                }
+                            }
+                        }
+                    }
+                }//check AI units
+
                 if (projectile.collisionType == "arc")  //  Kills the arc projectile at the end, after checking collision with all objects
                     if (projectile.position.X <= projectile.end_point.X && projectile.position.X >= projectile.prev_point.X
                         && projectile.position.Y <= projectile.end_point.Y && projectile.position.Y >= projectile.prev_point.Y)
-                        projectile.health = -1;
-
-                
-
+                        projectile.health = -1; 
             }
-            refreshProjectiles();
+             refreshProjectiles();
         }
+           
+        
 
         public void refreshProjectiles()
         {

@@ -11,7 +11,7 @@ namespace Retribution
     
     class Archer : Mobile
     {
-        //public Arrow myArrow;
+        public Projectile myArrow;
 //        public GameObject aiTarget;
         public static int cost = 2;
         SoundEffect soundEffect;
@@ -39,6 +39,7 @@ namespace Retribution
             attackSound(content);
             Vector2 corrected = Vector2.Add(position, new Vector2(16, 16));
             Projectile projectile = new Arrow(corrected, 100, target, 100, 0);
+            myArrow = projectile;
             Vector2 direction = MovementManager.getNormalizedVector(projectile.position, target.position);
             projectile.setDestination(direction, target.position);
             projectile.LoadContent(content);
