@@ -50,14 +50,14 @@ namespace Retribution
             SoundEffect soundEffect = content.Load<SoundEffect>("death.wav");
             soundEffect.Play();
         }
-        public Pawn(Vector2 position, int health = 18, int damage = 1, int attackRange = 50)
+        public Pawn(Vector2 position, int health = 12, int damage = 1, int attackRange = 50)
             : base(health, position, damage, attackRange)
         {
             type = "PAWN";
             //  Set stats
             //  TyNote: I did not want to mess with the git hub/version conflictions, so I did not modify parameters in GameObject.
             //  Instead, I just defined the stats down below
-            this.attackSpeed =200;
+            this.attackSpeed =180;
             this.moveSpeed = 3;
             //this.animationState        //  The actual animation the object is performing (moving left, moving right, attacking, etc.)
             //this.animationFrame   //  Keeps track of the animation frame the object is on

@@ -103,23 +103,12 @@ namespace Retribution
                 foreach (GameObject unit in aiUnits)
                 {
       
-                    if(String.Compare(unit.type, "ARCHER", true) == 0)
-                    {
                         if (unit.aiTarget != null)
                             pursue(unit);
                         else
                             explore(unit);
-                    }
+                   
 
-                    if (String.Compare(unit.type, "WARRIOR", true) == 0)
-                    {
-                        if (unit.aiTarget != null)
-                        {
-                           pursue(unit);
-                        }
-                        else
-                            explore(unit);
-                    }                
                 }
 
             }

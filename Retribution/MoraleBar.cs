@@ -20,6 +20,7 @@ namespace Retribution
         public static int resources = 0;
         public bool active;
         ModelManager modMan;
+        public SoundEffect horn;
         private MoraleBar()
         {
             waveNum = 0;
@@ -36,8 +37,8 @@ namespace Retribution
              }
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(createBar(spriteBatch.GraphicsDevice), new Vector2(1027,0), Color.White);
-            spriteBatch.Draw(createRBar(spriteBatch.GraphicsDevice), new Vector2(1048,0), Color.White);
+            spriteBatch.Draw(createBar(spriteBatch.GraphicsDevice), new Vector2(1025,0), Color.White);
+            spriteBatch.Draw(createRBar(spriteBatch.GraphicsDevice), new Vector2(1046,0), Color.White);
 
         }
         public Texture2D createRBar(GraphicsDevice arg){
@@ -77,13 +78,13 @@ namespace Retribution
             Texture2D texture = new Texture2D(arg, 20, 704);
             Color[] data = new Color[20*704];
             for (int i = 0; i < data.Length; i++)
-                data[i] = Color.Red;
+                data[i] = Color.Black;
 
             int scaled = playerScore*704;
             if(total!=0)
                 scaled=scaled/total;
             for (int j = scaled*20-1; j > 0; j--)
-                data[j] = Color.LawnGreen;
+                data[j] = Color.GhostWhite;
             texture.SetData(data);
             return texture;
         }
@@ -92,10 +93,13 @@ namespace Retribution
             if (playerScore <= 0 && aiScore > 0)
             {
                 waveNum++;
+                if (waveNum > 5)
+                    waveNum = 5;
                 disAd = 0;
                 timeDrain = 0;
+                horn.Play();
                 for(int x=0;x<waveNum;x++)
-                modMan.addUnit("ARTIFICIAL", reinforce(), new Vector2(175+waveNum*32, 25));
+                modMan.addUnit("ARTIFICIAL", reinforce(), new Vector2(150+x*32, 25));
             }
         }
         public String reinforce()

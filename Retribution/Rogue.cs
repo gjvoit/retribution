@@ -23,7 +23,7 @@ namespace Retribution
             soundEffect.Play();
         }
 
-        public Rogue(Vector2 position, int health =40, int damage = 6, int attackRange = 40)
+        public Rogue(Vector2 position, int health =20, int damage = 6, int attackRange = 40)
             : base(health, position, damage, attackRange)
         {
             type = "ROGUE";

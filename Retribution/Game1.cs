@@ -40,6 +40,7 @@ namespace Retribution
         ScreenManager screenManager;
         SoundEffect player;
         MoraleBar mBar;
+        GUIButtons gui;
       //  Warrior theCommander;
         int playerResources = 10;
         int buildResources = 10;
@@ -136,6 +137,8 @@ namespace Retribution
             inputManager = new InputManager(ref modMan);
             aiManager = AIManager.getInstance(ref mainScreen);
             mBar = new MoraleBar(ref modMan);
+            gui = new GUIButtons(ref modMan);
+            inputManager.linkGUI(gui);
             MoraleBar.resourceVal(buildResources);
             mousePrev = Mouse.GetState();
             //Create Player's units
@@ -168,6 +171,9 @@ namespace Retribution
             //loadMan.loadContent(this.Content);
             loadMan.load(this.Content, ModelManager.player);
             loadMan.load(this.Content, ModelManager.artificial);
+            gui.LoadContent(this.Content);
+            healthChecker.clink = Content.Load<SoundEffect>("coins.wav");
+            mBar.horn = Content.Load<SoundEffect>("horn.wav");
             player = Content.Load<SoundEffect>("back.wav");
             SoundEffectInstance instance = player.CreateInstance();
             instance.IsLooped = true;
@@ -398,6 +404,7 @@ namespace Retribution
                 screenManager.victory = "defeat";
                 ModelManager.artificial.Clear();
                 testCommander();
+                mBar.waveNum = 0;
                 loadMan.load(Content, ModelManager.player);
                 built = false;
                 playable = false;
@@ -424,6 +431,7 @@ namespace Retribution
                 screenManager.victory = "victory";
                 ModelManager.player.Clear();
                 testCommander();
+                mBar.waveNum = 0;
                 loadMan.load(Content, ModelManager.player);
                 built = false;
                 playable = false;
@@ -470,7 +478,7 @@ namespace Retribution
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
             // Create a list of Selectors and simply remove/add them depending on the map loaded. Associate selectors with Map.cs
@@ -542,6 +550,7 @@ namespace Retribution
 
             inputManager.DrawMouseRectangle(spriteBatch, Content);//draw select square?
             mBar.Draw(spriteBatch);
+            gui.Draw(spriteBatch);
             spriteBatch.End();
 
             

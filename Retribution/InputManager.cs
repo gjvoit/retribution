@@ -20,7 +20,7 @@ namespace Retribution
         Rectangle mouseRec;
         Vector2 mouseRecOrigin;
         Texture2D myTexture;
-
+        GUIButtons gui;
         Vector2 mousepos;
         public bool buildPhase=true;
 
@@ -38,11 +38,15 @@ namespace Retribution
             mouseRec = Rectangle.Empty;
             mouseRecOrigin = Vector2.Zero;
         }
-
+        public void linkGUI(GUIButtons gwee)
+        {
+            gui = gwee;
+        }
         public void Update(MouseState newcurrent, MouseState newprevious, KeyboardState keyPress, ref List<GameObject> units, ref LoadManager loadManager, ref ProjectileManager projMan, 
                             ContentManager theContent, ref int playerResources, bool dbuildPhase)
 
         {
+            bool singleClick = false;
             current = newcurrent;
             previous = newprevious;
             buildPhase = dbuildPhase;
@@ -61,14 +65,67 @@ namespace Retribution
                     }
                 }
             }
-
-            
-            
-
-            //  Purchase Archer
-            if (!previousKeyboard.IsKeyDown(Keys.Z) && keyPress.IsKeyDown(Keys.Z))
+            // Select units after releasing mouse and clear rectangle:
+            if (current.LeftButton == ButtonState.Released
+                && previous.LeftButton == ButtonState.Pressed
+                )
             {
-                if (playerResources >= 1)
+
+                for (int i = 0; i < units.Count; i++)
+                {
+                    units[i].selected = false;
+                    if (units[i].Bounds.Intersects(mouseRec))
+                    {
+                        units[i].selected = true;
+                    }
+
+                }
+
+                mouseRec = Rectangle.Empty;
+            }
+            // Select with a single mouse click:
+            if (current.LeftButton == ButtonState.Pressed
+                && previous.LeftButton == ButtonState.Released
+                )
+            {
+
+                mouseRec = new Rectangle((int)current.X, (int)current.Y, 0, 0);
+                mouseRecOrigin = new Vector2(current.X, current.Y);
+
+                for (int i = 0; i < units.Count; i++)
+                {
+
+                    units[i].selected = false;
+                    if (units[i].isSelectable(current) == true)
+                    {
+                        units[i].selected = true;
+                    }
+                }
+                singleClick = true;
+            }
+
+
+            // Move selected units or attack:
+            if (current.RightButton == ButtonState.Pressed
+                && previous.RightButton == ButtonState.Released
+                )
+            {
+
+                Vector2 testvec = new Vector2(current.X, current.Y);
+
+                MovementManager.changeDestination(units, testvec);
+
+            }
+
+
+            
+            
+            Rectangle rect;
+            //  Purchase Archer
+            gui.buttonCols.TryGetValue("ARCHER", out rect);
+            if (!previousKeyboard.IsKeyDown(Keys.Z) && keyPress.IsKeyDown(Keys.Z)||(buttonClick(rect)&&singleClick))
+            {
+                if (playerResources >= Archer.cost)
                 {
                     modelManager.addUnit("PLAYER", "ARCHER", placementUtil());
                     playerResources-=Archer.cost;
@@ -76,9 +133,10 @@ namespace Retribution
             }
 
             //  Purchase tower
-            if (!previousKeyboard.IsKeyDown(Keys.X) && keyPress.IsKeyDown(Keys.X))
+            gui.buttonCols.TryGetValue("TOWER", out rect);
+            if (!previousKeyboard.IsKeyDown(Keys.X) && keyPress.IsKeyDown(Keys.X) || (buttonClick(rect)&&singleClick))
             {
-                if (playerResources >= 2)
+                if (playerResources >= Tower.cost)
                 {
                     modelManager.addUnit("PLAYER", "TOWER", placementUtil());
                     playerResources -=Tower.cost;
@@ -86,9 +144,10 @@ namespace Retribution
             }
 
             //  Purchase warrior
-            if (!previousKeyboard.IsKeyDown(Keys.C) && keyPress.IsKeyDown(Keys.C))
+            gui.buttonCols.TryGetValue("WARRIOR", out rect);
+            if (!previousKeyboard.IsKeyDown(Keys.C) && keyPress.IsKeyDown(Keys.C) || (buttonClick(rect)&&singleClick))
             {
-                if (playerResources >= 5)
+                if (playerResources >= Warrior.cost)
                 {
                     modelManager.addUnit("PLAYER", "WARRIOR", placementUtil());
                     playerResources -=Warrior.cost;
@@ -96,9 +155,10 @@ namespace Retribution
             }
 
             //  Spawn Pawn For Free!!!! Yay
-            if (!previousKeyboard.IsKeyDown(Keys.V) && keyPress.IsKeyDown(Keys.V))
+            gui.buttonCols.TryGetValue("PAWN", out rect);
+            if (!previousKeyboard.IsKeyDown(Keys.V) && keyPress.IsKeyDown(Keys.V) || (buttonClick(rect)&&singleClick))
             {
-                if (playerResources >= 0)
+                if (playerResources >= Pawn.cost)
                 {
                     modelManager.addUnit("PLAYER", "PAWN", placementUtil());
                     playerResources -=Pawn.cost;
@@ -106,9 +166,10 @@ namespace Retribution
             }
 
             //  Spawn Apprentice For Free!!!! Yay
-            if (!previousKeyboard.IsKeyDown(Keys.B) && keyPress.IsKeyDown(Keys.B))
+            gui.buttonCols.TryGetValue("APPRENTICE", out rect);
+            if (!previousKeyboard.IsKeyDown(Keys.B) && keyPress.IsKeyDown(Keys.B) || (buttonClick(rect)&&singleClick))
             {
-                if (playerResources >= 0)
+                if (playerResources >= Apprentice.cost)
                 {
                     modelManager.addUnit("PLAYER", "APPRENTICE", placementUtil());
                     playerResources -=Apprentice.cost;
@@ -116,9 +177,10 @@ namespace Retribution
             }
 
             //  Spawn Commander For Free!!!! Yay
-            if (!previousKeyboard.IsKeyDown(Keys.N) && keyPress.IsKeyDown(Keys.N))
+            gui.buttonCols.TryGetValue("COMMANDER", out rect);
+            if (!previousKeyboard.IsKeyDown(Keys.N) && keyPress.IsKeyDown(Keys.N) || (buttonClick(rect)&&singleClick))
             {
-                if (playerResources >= 0)
+                if (playerResources >= Commander.cost)
                 {
                     modelManager.addUnit("PLAYER", "COMMANDER", placementUtil());
                     playerResources -= Commander.cost;
@@ -126,9 +188,10 @@ namespace Retribution
             }
 
             //  Spawn Catapult For Free!!!! Yay
-            if (!previousKeyboard.IsKeyDown(Keys.M) && keyPress.IsKeyDown(Keys.M))
+            gui.buttonCols.TryGetValue("CATAPULT", out rect);
+            if (!previousKeyboard.IsKeyDown(Keys.M) && keyPress.IsKeyDown(Keys.M) || (buttonClick(rect)&&singleClick))
             {
-                if (playerResources >= 0)
+                if (playerResources >= Catapult.cost)
                 {
                     modelManager.addUnit("PLAYER", "CATAPULT", placementUtil());
                     playerResources -=Catapult.cost;
@@ -136,15 +199,17 @@ namespace Retribution
             }
 
             //  Spawn Catapult For Free!!!! Yay
-            if (!previousKeyboard.IsKeyDown(Keys.J) && keyPress.IsKeyDown(Keys.J))
+            gui.buttonCols.TryGetValue("ROGUE", out rect);
+            if (!previousKeyboard.IsKeyDown(Keys.J) && keyPress.IsKeyDown(Keys.J) || (buttonClick(rect)&&singleClick))
             {
-                if (playerResources >= 0)
+                if (playerResources >= Rogue.cost)
                 {
                     modelManager.addUnit("PLAYER", "ROGUE", placementUtil());
                     playerResources -= Rogue.cost;
                 }
             }
-            if (!previousKeyboard.IsKeyDown(Keys.K) && keyPress.IsKeyDown(Keys.K))
+            gui.buttonCols.TryGetValue("CLERIC", out rect);
+            if (!previousKeyboard.IsKeyDown(Keys.K) && keyPress.IsKeyDown(Keys.K) || (buttonClick(rect)&&singleClick))
             {
                 if (playerResources >= 0)
                 {
@@ -168,25 +233,7 @@ namespace Retribution
                 //  SKill - etc.
             }
 
-            // Select with a single mouse click:
-            if (current.LeftButton == ButtonState.Pressed
-                && previous.LeftButton == ButtonState.Released
-                )
-            {
-
-                mouseRec = new Rectangle((int) current.X, (int)current.Y, 0, 0);
-                mouseRecOrigin = new Vector2(current.X, current.Y);
-
-                for (int i = 0; i < units.Count; i++)
-                {
-
-                    units[i].selected = false;
-                    if (units[i].isSelectable(current) == true)
-                    {
-                        units[i].selected = true;
-                    }
-                }
-            }
+          
 
             //  Update mouse rectangle:
             if (current.LeftButton == ButtonState.Pressed
@@ -215,37 +262,7 @@ namespace Retribution
 
             }
 
-            // Select units after releasing mouse and clear rectangle:
-            if (current.LeftButton == ButtonState.Released
-                && previous.LeftButton == ButtonState.Pressed
-                )
-            {
-                
-                for (int i = 0; i < units.Count; i++)
-                {
-                    units[i].selected = false;
-                    if (units[i].Bounds.Intersects(mouseRec))
-                    {
-                        units[i].selected = true;
-                    }
-                }
-
-                mouseRec = Rectangle.Empty;
-            }
-
-
-            // Move selected units or attack:
-            if (current.RightButton == ButtonState.Pressed
-                && previous.RightButton == ButtonState.Released
-                )
-            {
-
-                Vector2 testvec = new Vector2(current.X, current.Y);
-
-                MovementManager.changeDestination(units, testvec);
-
-            }
-
+         
             previousKeyboard = keyPress;
             //MoraleBar.resourceVal(playerResources);
         }
@@ -256,8 +273,15 @@ namespace Retribution
             if (buildPhase)
                 posit = new Vector2(current.X, current.Y);
             else posit = new Vector2(current.X, default_player_y);
+            if (posit.X > 1024)
+                posit.X = 496;
             return posit;
 
+        }
+        public bool buttonClick(Rectangle arg)
+        {
+            return arg.Intersects(mouseRec);
+                
         }
         public void DrawMouseRectangle(SpriteBatch spriteBatch, ContentManager content)
         {

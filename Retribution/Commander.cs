@@ -27,7 +27,7 @@ namespace Retribution
             SoundEffect soundEffect = content.Load<SoundEffect>("blade.wav");
             soundEffect.Play();
         }
-        public Commander(Vector2 position, int health = 40, int damage = 6, int attackRange = 80)
+        public Commander(Vector2 position, int health = 40, int damage = 10, int attackRange = 60)
             : base(health, position, damage, attackRange)
         {
             type = "COMMANDER";

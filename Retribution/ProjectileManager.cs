@@ -56,7 +56,7 @@ namespace Retribution
                                 if (String.Compare(projectile.type, "ICEBALL", true) == 0 && projectile.target.isAlive())
                                 {
                                     if (projectile.target.attackRange > 5)
-                                        projectile.attackRange -= 5;
+                                        projectile.target.attackRange -= 5;
                                     projectile.target.attackSpeed += 10;
                                 }
 

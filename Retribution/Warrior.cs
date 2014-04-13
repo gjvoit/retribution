@@ -19,7 +19,7 @@ namespace Retribution
             //this.damage = 6;
             //this.attackSpeed = 2;
             this.moveSpeed = 1;
-            attackSpeed = 420;
+            attackSpeed = 320;
             type = "WARRIOR";
             //this.animationState        //  The actual animation the object is performing (moving left, moving right, attacking, etc.)
             //this.animationFrame   //  Keeps track of the animation frame the object is on
@@ -34,7 +34,7 @@ namespace Retribution
         }
         public override void attackSound(ContentManager content)
         {
-            SoundEffect soundEffect = content.Load<SoundEffect>("blade.wav");
+            SoundEffect soundEffect = content.Load<SoundEffect>("clang.wav");
             soundEffect.Play();
         }
 

@@ -16,6 +16,7 @@ namespace Retribution
         //public GameObject aiTarget;
         private static Timer fireballTimer = new Timer(4000);  //  1 for testing purposes, should be 4000 possibly depending on balance issues
         private static Timer animateTimer = new Timer(250);
+        public static int cost = 15;
         //public string state;
         //public Texture2D image;
         SoundEffect soundEffect;

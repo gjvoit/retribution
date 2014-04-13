@@ -16,7 +16,7 @@ namespace Retribution
     {
         public List<GameObject> player;
         public List<GameObject> artificial;
-        //public SoundEffect soundEffect;
+        public SoundEffect clink;
 
         public HealthSystem(List<GameObject> newPlayer, List<GameObject> newArtificial)
         {
@@ -47,10 +47,39 @@ namespace Retribution
             {
                 if (artificial[i].isAlive() == false)
                 {
-                    MoraleBar.resourceAdd(1);
+                    MoraleBar.resourceAdd(resourceUtil(artificial[i].type));
+                    clink.Play();
                     artificial.Remove(artificial[i]);
                 }
             }
+        }
+        public int resourceUtil(String type)
+        {
+            switch (type)
+            {
+                case "ARCHER":
+                    return Archer.cost / 2;
+                case "APPRENTICE":
+                    return Apprentice.cost / 2;
+                case "PAWN":
+                    return Pawn.cost / 2;
+                case "COMMANDER":
+                    return Commander.cost/2;
+                case "CLERIC":
+                    return Cleric.cost/2;
+                case "CATAPULT":
+                    return Catapult.cost / 2;
+                case "TOWER":
+                    return Tower.cost;
+                case "ROGUE":
+                    return Rogue.cost / 2;
+                case "WARRIOR":
+                    return Warrior.cost / 2;
+            }
+            return 1;
+
+
+
         }
     }
 }

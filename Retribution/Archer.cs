@@ -15,12 +15,12 @@ namespace Retribution
 //        public GameObject aiTarget;
         public static int cost = 2;
         SoundEffect soundEffect;
-        public Archer(Vector2 position, int health = 25, int damage = 15, int attackRange = 130)
+        public Archer(Vector2 position, int health = 20, int damage = 1, int attackRange = 130)
             : base(health, position, damage, attackRange)
         {
             this.type = "ARCHER";
             this.moveSpeed = 2;
-            attackSpeed = 240;
+            attackSpeed = 180;
         }
         public override void attackSound(ContentManager content)
         {
