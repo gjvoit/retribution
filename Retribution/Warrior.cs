@@ -5,13 +5,14 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
-
+using System.Timers;
 namespace Retribution
 {
     //  A tanky, high healthed, unit. Has armor that takes extra damage from magic
     class Warrior : Mobile
     {
         public static int cost = 5;
+        private static Timer juggernautTimer = new Timer(4000);
         public Warrior(Vector2 position, int health = 30, int damage = 15, int attackRange = 50)
             : base(health, position, damage, attackRange)
         {
@@ -21,13 +22,44 @@ namespace Retribution
             this.moveSpeed = 1;
             attackSpeed = 320;
             type = "WARRIOR";
+            juggernautTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
             //this.animationState        //  The actual animation the object is performing (moving left, moving right, attacking, etc.)
             //this.animationFrame   //  Keeps track of the animation frame the object is on
             //this.animationTime    //  Calculates how much time has passed since animation began
             //this.attackReady = false;
             //this.isArmored = true;
         }
+        public override void Attack(GameObject target, ContentManager content, ProjectileManager projMan)
+        {
+            if (!juggernautTimer.Enabled)
+            {
+                damage = 15;
+                attackSpeed = 320;
+                moveSpeed = 1;
+                specialAttack = false;
+                attackRange = 50;
+            }
 
+            attackSound(content);
+            target.health -= this.damage;
+            
+        }
+        public void juggernaut()
+        {
+            if (!juggernautTimer.Enabled)
+            {
+                specialAttack = true;
+                juggernautTimer.Start();
+                attackSpeed = 150;
+                damage = 17;
+                moveSpeed = 3;
+                attackRange = 33;
+            }
+        }
+        private static void OnTimedEvent(object source, ElapsedEventArgs e)
+        {
+            juggernautTimer.Stop();
+        }
         public override void LoadContent(ContentManager content)
         {
             texture = content.Load<Texture2D>("warrior.png");

@@ -5,13 +5,14 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
-
+using System.Timers;
 namespace Retribution
 {
     
     class Archer : Mobile
     {
         public Projectile myArrow;
+        private static Timer rapidFireTimer = new Timer(2000);
 //        public GameObject aiTarget;
         public static int cost = 2;
         SoundEffect soundEffect;
@@ -21,6 +22,7 @@ namespace Retribution
             this.type = "ARCHER";
             this.moveSpeed = 2;
             attackSpeed = 180;
+            rapidFireTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
         }
         public override void attackSound(ContentManager content)
         {
@@ -36,6 +38,11 @@ namespace Retribution
         //  The new attack code
         public override void Attack(GameObject target, ContentManager content, ProjectileManager projMan)
         {
+            if (!rapidFireTimer.Enabled)
+            {
+                specialAttack = false;
+                attackSpeed = 180;
+            }
             attackSound(content);
             Vector2 corrected = Vector2.Add(position, new Vector2(16, 16));
             Projectile projectile = new Arrow(corrected, 100, target, 100, 0);
@@ -44,6 +51,22 @@ namespace Retribution
             projectile.setDestination(direction, target.position);
             projectile.LoadContent(content);
             projMan.proj.Add(projectile);
+        }
+        public void rapidFire()
+        {
+            
+            if (!rapidFireTimer.Enabled)
+            {
+                specialAttack = true;
+                rapidFireTimer.Start();
+                attackSpeed = 20;    
+            }
+           
+        }
+
+        private static void OnTimedEvent(object source, ElapsedEventArgs e)
+        {
+            rapidFireTimer.Stop();
         }
         /*
         public override void Attack(GameObject target)

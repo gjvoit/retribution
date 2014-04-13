@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
-
+using System.Timers;
 namespace Retribution
 {
     //  stealthy assassination unit capable of killing key units or injured units undetected
@@ -14,6 +14,7 @@ namespace Retribution
     {
         public static int cost = 15;
         public double stealthCD = 15.0;      //  Time till next stealth can be executed
+        public static Timer stealthTimer = new Timer(4000);
         //public string state;
         //public Texture2D image;
      
@@ -30,29 +31,49 @@ namespace Retribution
             this.attackSpeed = 60;
             this.moveSpeed = 5;
             this.position = position;
+            stealthTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
             //this.animationState        //  The actual animation the object is performing (moving left, moving right, attacking, etc.)
             //this.animationFrame   //  Keeps track of the animation frame the object is on
             //this.animationTime    //  Calculates how much time has passed since animation began
             //this.attackReady = false;
+        }
+        private static void OnTimedEvent(object source, ElapsedEventArgs e)
+        {
+            stealthTimer.Stop();
         }
         public override void kill(ContentManager content)
         {
             SoundEffect soundEffect = content.Load<SoundEffect>("death.wav");
             soundEffect.Play();
         }
+        public override void Attack(GameObject target, ContentManager content, ProjectileManager projMan)
+        {
+            base.Attack(target, content, projMan);
+            if (stealthTimer.Enabled)
+            {
+                stealthTimer.Start();
+                foreach (GameObject unit in ModelManager.artificial)
+                {
+                    if (unit.aiTarget == this)
+                        unit.aiTarget = null;
+                }
+            }
+        }
         //  On skill key press, hides the image of the unit
         //  TyNote: For now, we simply hide the rogue unit by changing its image. No indication of its location or transparency yet
         //  This means the target is also still targetable, if the user randomly clicks and knows where the unit is at
         public void stealth()
         {
-            if (this.stealthCD >= 15.0)
+            if (!stealthTimer.Enabled)
             {
-                stealthCD = 0.0;
-                //this.image = "none";
-                //  Later on, there will actually be a transparency animation, but animation also acts as a good way to set a timer,
-                //  which is exactly what stealth needs.
-                //this.animation = "stealth";
+                stealthTimer.Start();
+                foreach (GameObject unit in ModelManager.artificial)
+                {
+                    if (unit.aiTarget == this)
+                        unit.aiTarget = null;
+                }
             }
+        
         }
 
         //  Increment cooldown timer

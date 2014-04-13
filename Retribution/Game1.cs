@@ -540,7 +540,8 @@ namespace Retribution
             }
             for (int i = 0; i < ModelManager.player.Count; i++)//draw player objects
             {
-                (ModelManager.player[i]).Draw(spriteBatch);
+                
+                    (ModelManager.player[i]).Draw(spriteBatch);
             }
 
             for (int i = 0; i < ModelManager.artificial.Count; i++)//draw AI objects

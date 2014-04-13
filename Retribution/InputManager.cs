@@ -227,7 +227,15 @@ namespace Retribution
                 {
                     ((Apprentice)unit).fireball(projMan, theContent, unit, new Vector2(current.X, current.Y));
                 }
-
+                if (unit.selected && unit.GetType() == typeof(Archer) &&
+                    !previousKeyboard.IsKeyDown(Keys.F) && keyPress.IsKeyDown(Keys.F))
+                    ((Archer)unit).rapidFire();
+                if (unit.selected && unit.GetType() == typeof(Warrior) &&
+                    !previousKeyboard.IsKeyDown(Keys.F) && keyPress.IsKeyDown(Keys.F))
+                    ((Warrior)unit).juggernaut();
+                if (unit.selected && unit.GetType() == typeof(Rogue) &&
+                    !previousKeyboard.IsKeyDown(Keys.F) && keyPress.IsKeyDown(Keys.F))
+                    ((Rogue)unit).stealth();
                 //  Skill - Rogue stealth
 
                 //  SKill - etc.

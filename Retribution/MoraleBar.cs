@@ -90,7 +90,7 @@ namespace Retribution
         }
         public void waveMech()
         {
-            if (playerScore <= 0 && aiScore > 0)
+            if (playerScore <= 0 && aiScore > 0&&waveNum<5)
             {
                 waveNum++;
                 if (waveNum > 5)
@@ -98,8 +98,10 @@ namespace Retribution
                 disAd = 0;
                 timeDrain = 0;
                 horn.Play();
-                for(int x=0;x<waveNum;x++)
-                modMan.addUnit("ARTIFICIAL", reinforce(), new Vector2(150+x*32, 25));
+                for (int x = 0; x < waveNum; x++)
+                {
+                    modMan.addUnit("ARTIFICIAL", reinforce(), new Vector2(150 + x * 32, 25));
+                }
             }
         }
         public String reinforce()
