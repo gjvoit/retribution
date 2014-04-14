@@ -125,7 +125,7 @@ namespace Retribution
 
                 for (int i = 0; i < units.Count; i++)
                 {
-                    if (units[i].selected == true && selectedTarget != null)
+                    if (units[i].selected == true)
                     {
                         units[i].aiTarget = selectedTarget;
                     }
