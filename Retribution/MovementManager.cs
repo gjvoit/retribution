@@ -164,6 +164,13 @@ namespace Retribution
                 }
                 if (listOfSelectedObjects[i].selected == true && listOfSelectedObjects[i].GetType().BaseType == typeof(Mobile))
                 {
+                    foreach(UnitGroup group in unitGroups.ToList())
+                    {
+                        if(group.Contains((Mobile)listOfSelectedObjects[i]))
+                        {
+                            unitGroups.Remove(group);
+                        }
+                    }
                     unitList.Add((Mobile)listOfSelectedObjects[i]);
                 }
             }
@@ -173,7 +180,7 @@ namespace Retribution
                 UnitGroup newGroup = new UnitGroup(unitList, destination);
                 newGroup.SetPaths(myMap);
                 unitGroups.Add(newGroup);
-                System.Console.WriteLine(unitGroups.Count);
+                //System.Console.WriteLine(unitGroups.Count);
             }
         }
 
