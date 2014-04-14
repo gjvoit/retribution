@@ -15,7 +15,7 @@ namespace Retribution
     {
         //MovementManager movementManager;
 
-        ModelManager modelManager;
+        public ModelManager modelManager;
 
         Rectangle mouseRec;
         Vector2 mouseRecOrigin;
@@ -34,7 +34,7 @@ namespace Retribution
         public InputManager(ref ModelManager newmodelManager)
         {
             //movementManager = newMovementManager;
-            modelManager = newmodelManager;
+            this.modelManager = newmodelManager;
             mouseRec = Rectangle.Empty;
             mouseRecOrigin = Vector2.Zero;
         }
@@ -42,7 +42,7 @@ namespace Retribution
         {
             gui = gwee;
         }
-        public void Update(MouseState newcurrent, MouseState newprevious, KeyboardState keyPress, ref List<GameObject> units, ref LoadManager loadManager, ref ProjectileManager projMan, 
+        public void Update(MouseState newcurrent, MouseState newprevious, KeyboardState keyPress, ref List<GameObject> units, ref List<GameObject> aunits, ref LoadManager loadManager, ref ProjectileManager projMan, 
                             ContentManager theContent, ref int playerResources, bool dbuildPhase)
 
         {
@@ -112,7 +112,24 @@ namespace Retribution
             {
 
                 Vector2 testvec = new Vector2(current.X, current.Y);
+                GameObject selectedTarget = null;
 
+                for (int i = 0; i < aunits.Count; i++)
+                {
+                    if (aunits[i].isSelectable(current))
+                    {
+                        selectedTarget = aunits[i];
+                        break;
+                    }
+                }
+
+                for (int i = 0; i < units.Count; i++)
+                {
+                    if (units[i].selected == true && selectedTarget != null)
+                    {
+                        units[i].aiTarget = selectedTarget;
+                    }
+                }
                 MovementManager.changeDestination(units, testvec);
 
             }
