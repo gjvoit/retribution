@@ -12,7 +12,7 @@ namespace Retribution
     class Archer : Mobile
     {
         public Projectile myArrow;
-        private static Timer rapidFireTimer = new Timer(2000);
+        private Timer rapidFireTimer = new Timer(2000);
 //        public GameObject aiTarget;
         public static int cost = 2;
         SoundEffect soundEffect;
@@ -38,11 +38,11 @@ namespace Retribution
         //  The new attack code
         public override void Attack(GameObject target, ContentManager content, ProjectileManager projMan)
         {
-            if (!rapidFireTimer.Enabled)
-            {
-                specialAttack = false;
-                attackSpeed = 180;
-            }
+            //if (!rapidFireTimer.Enabled)
+            //{
+            //    specialAttack = false;
+            //    attackSpeed = 180;
+            //}
             attackSound(content);
             Vector2 corrected = Vector2.Add(position, new Vector2(16, 16));
             Projectile projectile = new Arrow(corrected, 100, target, 100, 0);
@@ -64,8 +64,10 @@ namespace Retribution
            
         }
 
-        private static void OnTimedEvent(object source, ElapsedEventArgs e)
+        private void OnTimedEvent(object source, ElapsedEventArgs e)
         {
+            specialAttack = false;
+            attackSpeed = 180;
             rapidFireTimer.Stop();
         }
         /*

@@ -12,7 +12,7 @@ namespace Retribution
     class Warrior : Mobile
     {
         public static int cost = 5;
-        private static Timer juggernautTimer = new Timer(4000);
+        private Timer juggernautTimer = new Timer(4000);
         public Warrior(Vector2 position, int health = 30, int damage = 15, int attackRange = 50)
             : base(health, position, damage, attackRange)
         {
@@ -31,14 +31,14 @@ namespace Retribution
         }
         public override void Attack(GameObject target, ContentManager content, ProjectileManager projMan)
         {
-            if (!juggernautTimer.Enabled)
-            {
-                damage = 15;
-                attackSpeed = 320;
-                moveSpeed = 1;
-                specialAttack = false;
-                attackRange = 50;
-            }
+            //if (!juggernautTimer.Enabled)
+            //{
+            //    damage = 15;
+            //    attackSpeed = 320;
+            //    moveSpeed = 1;
+            //    specialAttack = false;
+            //    attackRange = 50;
+            //}
 
             attackSound(content);
             target.health -= this.damage;
@@ -56,8 +56,13 @@ namespace Retribution
                 attackRange = 33;
             }
         }
-        private static void OnTimedEvent(object source, ElapsedEventArgs e)
+        private void OnTimedEvent(object source, ElapsedEventArgs e)
         {
+            damage = 15;
+            attackSpeed = 320;
+            moveSpeed = 1;
+            specialAttack = false;
+            attackRange = 50;
             juggernautTimer.Stop();
         }
         public override void LoadContent(ContentManager content)

@@ -14,7 +14,7 @@ namespace Retribution
     {
         public static int cost = 15;
         public double stealthCD = 15.0;      //  Time till next stealth can be executed
-        public static Timer stealthTimer = new Timer(8000);
+        public Timer stealthTimer = new Timer(8000);
         //public string state;
         //public Texture2D image;
      
@@ -37,8 +37,9 @@ namespace Retribution
             //this.animationTime    //  Calculates how much time has passed since animation began
             //this.attackReady = false;
         }
-        private static void OnTimedEvent(object source, ElapsedEventArgs e)
+        private void OnTimedEvent(object source, ElapsedEventArgs e)
         {
+            specialAttack = false;
             stealthTimer.Stop();
         }
         public override void kill(ContentManager content)
@@ -58,10 +59,7 @@ namespace Retribution
                         unit.aiTarget = null;
                 }
             }
-            if (!stealthTimer.Enabled && specialAttack)
-            {
-                specialAttack = false;
-            }
+            
         }
         //  On skill key press, hides the image of the unit
         //  TyNote: For now, we simply hide the rogue unit by changing its image. No indication of its location or transparency yet
