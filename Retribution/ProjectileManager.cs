@@ -145,7 +145,13 @@ namespace Retribution
                 if (projectile.collisionType == "arc")  //  Kills the arc projectile at the end, after checking collision with all objects
                     if (projectile.position.X <= projectile.end_point.X && projectile.position.X >= projectile.prev_point.X
                         && projectile.position.Y <= projectile.end_point.Y && projectile.position.Y >= projectile.prev_point.Y)
-                        projectile.health = -1; 
+                        projectile.health = -1;
+                if (projectile.collisionType == "straight")
+                    if (projectile.position.X > 1024 || projectile.position.Y > 704 || projectile.position.X < 0 || projectile.position.Y < 0)
+                    {
+                        projectile.collided = true;
+                        projectile.health = -1;
+                    }
             }
              refreshProjectiles();
         }

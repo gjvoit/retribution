@@ -15,7 +15,7 @@ namespace Retribution
     {
         //MovementManager movementManager;
 
-        ModelManager modelManager;
+        public ModelManager modelManager;
 
         Rectangle mouseRec;
         Vector2 mouseRecOrigin;
@@ -29,12 +29,14 @@ namespace Retribution
         int spacing = 1;
         KeyboardState previousKeyboard;
         int default_player_y = 672;
+        const double TimerDelay = 500;
+        bool selectSimilar = false;
 
         //public InputManager( MovementManager newMovementManager)
         public InputManager(ref ModelManager newmodelManager)
         {
             //movementManager = newMovementManager;
-            modelManager = newmodelManager;
+            this.modelManager = newmodelManager;
             mouseRec = Rectangle.Empty;
             mouseRecOrigin = Vector2.Zero;
         }
@@ -42,7 +44,7 @@ namespace Retribution
         {
             gui = gwee;
         }
-        public void Update(MouseState newcurrent, MouseState newprevious, KeyboardState keyPress, ref List<GameObject> units, ref LoadManager loadManager, ref ProjectileManager projMan, 
+        public void Update(MouseState newcurrent, MouseState newprevious, ref double ClickTimer, KeyboardState keyPress, ref List<GameObject> units, ref List<GameObject> aunits, ref LoadManager loadManager, ref ProjectileManager projMan, 
                             ContentManager theContent, ref int playerResources, bool dbuildPhase)
 
         {
@@ -91,16 +93,41 @@ namespace Retribution
 
                 mouseRec = new Rectangle((int)current.X, (int)current.Y, 0, 0);
                 mouseRecOrigin = new Vector2(current.X, current.Y);
+                GameObject selectedUnit = null;
+                if (ClickTimer < TimerDelay)
+                {
+                    selectSimilar = true;
+                }
+                else
+                {
+                    ClickTimer = 0;
+                    selectSimilar = false;
+                }
 
+                Console.WriteLine("select similar" + selectSimilar);
                 for (int i = 0; i < units.Count; i++)
                 {
-
-                    units[i].selected = false;
+                    if (!selectSimilar)
+                        units[i].selected = false;
                     if (units[i].isSelectable(current) == true)
                     {
                         units[i].selected = true;
+                        selectedUnit = units[i];
+                        break;
                     }
                 }
+                Console.WriteLine("selected unit" + selectedUnit);
+                if (selectSimilar && selectedUnit != null)
+                {
+                    for (int i = 0; i < units.Count; i++)
+                    {
+                        if (units[i].GetType() == selectedUnit.GetType())
+                        {
+                            units[i].selected = true;
+                        }
+                    }
+                }
+
                 singleClick = true;
             }
 
@@ -112,13 +139,27 @@ namespace Retribution
             {
 
                 Vector2 testvec = new Vector2(current.X, current.Y);
+                GameObject selectedTarget = null;
 
+                for (int i = 0; i < aunits.Count; i++)
+                {
+                    if (aunits[i].isSelectable(current) && aunits[i].isLoaded)
+                    {
+                        selectedTarget = aunits[i];
+                        break;
+                    }
+                }
+
+                for (int i = 0; i < units.Count; i++)
+                {
+                    if (units[i].selected == true)
+                    {
+                        units[i].aiTarget = selectedTarget;
+                    }
+                }
                 MovementManager.changeDestination(units, testvec);
 
             }
-
-
-            
             
             Rectangle rect;
             //  Purchase Archer
@@ -211,7 +252,7 @@ namespace Retribution
             gui.buttonCols.TryGetValue("CLERIC", out rect);
             if (!previousKeyboard.IsKeyDown(Keys.K) && keyPress.IsKeyDown(Keys.K) || (buttonClick(rect)&&singleClick))
             {
-                if (playerResources >= 0)
+                if (playerResources >= Cleric.cost)
                 {
                     modelManager.addUnit("PLAYER", "CLERIC", placementUtil());
                     playerResources -= Cleric.cost;

@@ -15,7 +15,7 @@ namespace Retribution
     class UnitGroup
     {
         Vector2 destination;
-        List<Mobile> units;
+        public List<Mobile> units;
         public Mobile leader;
         int urCounter, brCounter, blCounter, ulCounter;
 
@@ -50,7 +50,13 @@ namespace Retribution
                 unit.isMoving = false;
                 if(unit != leader)
                 {
-                    unit.setDestination(GetOffset(unit, myMap) + destination);
+                    Vector2 newDestination = GetOffset(unit, myMap) + destination;
+                    if(myMap.GetTile(newDestination) != null && myMap.GetTile(newDestination).isWalkable == true)
+                    {
+                        unit.setDestination(GetOffset(unit, myMap) + destination);
+                    }
+                    else
+                        unit.setDestination(destination);
                 }
                 //unit.setDestination(destination);
                 Vector2 startPoint = new Vector2(unit.Bounds.Center.X, unit.Bounds.Center.Y);
@@ -81,25 +87,41 @@ namespace Retribution
             // Upper left
             if (unitTile.xPosition < leaderTile.xPosition && unitTile.yPosition <= leaderTile.yPosition)
             {
-                return new Vector2(-32, 0);
+                ulCounter++;
+                if(ulCounter == 1)
+                    return new Vector2(-32, 0);
+                else
+                    return new Vector2(-32, -32);
             }
 
             //  Upper right
             if (unitTile.xPosition >= leaderTile.xPosition && unitTile.yPosition < leaderTile.yPosition)
             {
-                return new Vector2(0, -32);
+                urCounter++;
+                if (urCounter == 1)
+                    return new Vector2(0, -32);
+                else
+                    return new Vector2(32, -32);
             }
 
             //  Bottom right
             if (unitTile.xPosition > leaderTile.xPosition && unitTile.yPosition >= leaderTile.yPosition)
             {
-                return new Vector2(32, 0);
+                brCounter++;
+                if(brCounter == 1)
+                    return new Vector2(32, 0);
+                else
+                    return new Vector2(32, 32);
             }
 
             // Bottom left
             if (unitTile.xPosition <= leaderTile.xPosition && unitTile.yPosition > leaderTile.yPosition)
             {
-                return new Vector2(32, 0);
+                blCounter++;
+                if (blCounter == 1)
+                    return new Vector2(32, 0);
+                else
+                    return new Vector2(-32, 32);
             }
 
             else

@@ -48,6 +48,7 @@ namespace Retribution
             {
 
                 toLoad[x].LoadContent(content);
+                toLoad[x].isLoaded = true;
                 //switch (toLoad[x].type)
                 //{
                 //    case "ARCHER":

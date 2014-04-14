@@ -49,7 +49,7 @@ namespace Retribution
         // if initialized is false, that means AI units have not been initialized
         bool initialized = false;
         bool playable = false;
-        int noresource = 0;
+        double ClickTimer;
 
         //  TyDigit digit test to display amount of resources left
         Digits theResource;
@@ -89,6 +89,7 @@ namespace Retribution
             {
             }
             // Create a new SpriteBatch, which can be used to draw textures.
+            ClickTimer = 0;
             spriteBatch = new SpriteBatch(GraphicsDevice);
             // TODO: Add your initialization logic here
             defeatScreen = new Map("Content/defeatScreen.txt");
@@ -328,6 +329,7 @@ namespace Retribution
         {
             //if (riverDefenseSelector.getOccupied())
             //    betaInitialization();
+            ClickTimer += gameTime.ElapsedGameTime.TotalMilliseconds;
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             mouseCurrent = Mouse.GetState();
@@ -357,7 +359,7 @@ namespace Retribution
             {
                 //Console.WriteLine("a");
                 // Why is the "buildPhase" Boolean always true? Should it be equal to "built"?
-                inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref ModelManager.player, ref loadMan, ref projMan, this.Content, ref MoraleBar.resources, true);
+                inputManager.Update(mouseCurrent, mousePrev, ref ClickTimer, keyboardState, ref ModelManager.player, ref ModelManager.artificial, ref loadMan, ref projMan, this.Content, ref MoraleBar.resources, true);
                 //MoraleBar.resourceVal(buildResources);
                 if (MoraleBar.resources <= 1)
                 { // once we deplete our build resources, set built to true (doing so will initialize enemy AI units and starts the level)
@@ -368,12 +370,12 @@ namespace Retribution
             else if (built && initialized)// player is not building in build phase but rather building reinforcements - notice the false flag at the end indicating not build phase
             {
                 //Console.WriteLine("b");
-                inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref ModelManager.player, ref loadMan, ref projMan, Content, ref MoraleBar.resources, false);
+                inputManager.Update(mouseCurrent, mousePrev, ref ClickTimer, keyboardState, ref ModelManager.player, ref ModelManager.artificial, ref loadMan, ref projMan, Content, ref MoraleBar.resources, false);
                 //MoraleBar.resourceVal(playerResources);
             }
             else
             {
-                inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref ModelManager.player, ref loadMan, ref projMan, Content, ref MoraleBar.resources, false);
+                inputManager.Update(mouseCurrent, mousePrev, ref ClickTimer, keyboardState, ref ModelManager.player, ref ModelManager.artificial, ref loadMan, ref projMan, Content, ref MoraleBar.resources, false);
             }
             if (built && !initialized)// && castleDefenseSelector.getOccupied() == true)
             {
@@ -401,7 +403,7 @@ namespace Retribution
             loadMan.load(Content, ModelManager.artificial);
             loadMan.load(Content, ModelManager.player);
             movementManager.moveObjects(ModelManager.player, ModelManager.artificial);
-            //aiManager.SetAIDestinations2(ModelManager.artificial);
+            aiManager.SetAIDestinations2(ModelManager.artificial);
             if ((ModelManager.player.Count == 0) && built)
             {
                 screenManager.victory = "defeat";

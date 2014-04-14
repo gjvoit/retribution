@@ -50,13 +50,7 @@ namespace Retribution
 
             List<Tile> newCollisionList = new List<Tile>();
 
-            foreach (UnitGroup group in unitGroups.ToList())
-            {
-                if (group.leader.isMoving == false)
-                {
-                    unitGroups.Remove(group);
-                }
-            }
+            UpdateGroups();
 
             for (int i = 0; i < allUnits.Count; i++)
             {
@@ -138,7 +132,10 @@ namespace Retribution
                         //  If unit i isn't paused and is moving, move it
                         if (((Mobile)allUnits[i]).isPaused == false && ((Mobile)allUnits[i]).isMoving == true)
                         {
-                            ((Mobile)allUnits[i]).move();
+                            if (allUnits[i].aiTarget != null && allUnits[i].IsInRange(allUnits[i].aiTarget)) 
+                            {
+                            }
+                            else ((Mobile)allUnits[i]).move();
                         }
                     }
 
@@ -161,6 +158,13 @@ namespace Retribution
                 }
                 if (listOfSelectedObjects[i].selected == true && listOfSelectedObjects[i].GetType().BaseType == typeof(Mobile))
                 {
+                    foreach(UnitGroup group in unitGroups.ToList())
+                    {
+                        if(group.Contains((Mobile)listOfSelectedObjects[i]))
+                        {
+                            group.units.Remove(((Mobile)listOfSelectedObjects[i]));
+                        }
+                    }
                     unitList.Add((Mobile)listOfSelectedObjects[i]);
                 }
             }
@@ -186,11 +190,11 @@ namespace Retribution
 
         public void UpdateGroups()
         {
-            foreach (UnitGroup group in unitGroups)
+            foreach (UnitGroup group in unitGroups.ToList())
             {
-                if(group.leader.isMoving == false)
+                if(group.leader.isMoving == false || group.units.Count == 0)
                 {
-
+                    unitGroups.Remove(group);
                 }
             }
         }
