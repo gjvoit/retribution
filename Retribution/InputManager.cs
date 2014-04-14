@@ -85,15 +85,9 @@ namespace Retribution
 
                 mouseRec = Rectangle.Empty;
             }
-            // Select with a single mouse click:
-            if (current.LeftButton == ButtonState.Pressed
-                && previous.LeftButton == ButtonState.Released
-                )
-            {
 
-                mouseRec = new Rectangle((int)current.X, (int)current.Y, 0, 0);
-                mouseRecOrigin = new Vector2(current.X, current.Y);
-                GameObject selectedUnit = null;
+            if (current.LeftButton == ButtonState.Pressed && previous.LeftButton == ButtonState.Released && singleClick)
+            {
                 if (ClickTimer < TimerDelay)
                 {
                     selectSimilar = true;
@@ -103,12 +97,20 @@ namespace Retribution
                     ClickTimer = 0;
                     selectSimilar = false;
                 }
+            }
 
-                Console.WriteLine("select similar" + selectSimilar);
+            // Select with a single mouse click:
+            if (current.LeftButton == ButtonState.Pressed
+                && previous.LeftButton == ButtonState.Released
+                )
+            {
+                mouseRec = new Rectangle((int)current.X, (int)current.Y, 0, 0);
+                mouseRecOrigin = new Vector2(current.X, current.Y);
+                GameObject selectedUnit = null;
+
                 for (int i = 0; i < units.Count; i++)
                 {
-                    if (!selectSimilar)
-                        units[i].selected = false;
+                    units[i].selected = false;
                     if (units[i].isSelectable(current) == true)
                     {
                         units[i].selected = true;
@@ -116,7 +118,7 @@ namespace Retribution
                         break;
                     }
                 }
-                Console.WriteLine("selected unit" + selectedUnit);
+
                 if (selectSimilar && selectedUnit != null)
                 {
                     for (int i = 0; i < units.Count; i++)
@@ -143,11 +145,14 @@ namespace Retribution
 
                 for (int i = 0; i < aunits.Count; i++)
                 {
-                    if (aunits[i].isSelectable(current) && aunits[i].isLoaded)
-                    {
-                        selectedTarget = aunits[i];
-                        break;
+                    if (aunits[i].isLoaded) {
+                        if (aunits[i].isSelectable(current))
+                            {
+                                selectedTarget = aunits[i];
+                                break;
+                            }
                     }
+                    
                 }
 
                 for (int i = 0; i < units.Count; i++)
