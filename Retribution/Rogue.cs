@@ -14,7 +14,7 @@ namespace Retribution
     {
         public static int cost = 15;
         public double stealthCD = 15.0;      //  Time till next stealth can be executed
-        public static Timer stealthTimer = new Timer(4000);
+        public static Timer stealthTimer = new Timer(8000);
         //public string state;
         //public Texture2D image;
      
@@ -51,12 +51,16 @@ namespace Retribution
             base.Attack(target, content, projMan);
             if (stealthTimer.Enabled)
             {
-                stealthTimer.Start();
+                //stealthTimer.Start();
                 foreach (GameObject unit in ModelManager.artificial)
                 {
                     if (unit.aiTarget == this)
                         unit.aiTarget = null;
                 }
+            }
+            if (!stealthTimer.Enabled && specialAttack)
+            {
+                specialAttack = false;
             }
         }
         //  On skill key press, hides the image of the unit
@@ -66,6 +70,7 @@ namespace Retribution
         {
             if (!stealthTimer.Enabled)
             {
+                specialAttack = true;
                 stealthTimer.Start();
                 foreach (GameObject unit in ModelManager.artificial)
                 {

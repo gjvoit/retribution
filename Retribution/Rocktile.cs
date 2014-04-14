@@ -14,13 +14,12 @@ namespace Retribution
         public string state;
         public Texture2D image;
 
-        public Rocktile(Vector2 position, int damage, GameObject target, int health = 1, int attackRange = 0)
+        public Rocktile(Vector2 position, int damage, GameObject target, int health = 1, int attackRange = 32)
             : base(position, damage, target, health, attackRange)
         {
             this.position = position;
             this.moveSpeed = 6;
             this.damage = 30;
-            this.attackRange = 32;
             this.collisionType = "arc";
             
             //this.health = 1000;

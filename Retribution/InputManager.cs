@@ -211,7 +211,7 @@ namespace Retribution
             gui.buttonCols.TryGetValue("CLERIC", out rect);
             if (!previousKeyboard.IsKeyDown(Keys.K) && keyPress.IsKeyDown(Keys.K) || (buttonClick(rect)&&singleClick))
             {
-                if (playerResources >= 0)
+                if (playerResources >= Cleric.cost)
                 {
                     modelManager.addUnit("PLAYER", "CLERIC", placementUtil());
                     playerResources -= Cleric.cost;

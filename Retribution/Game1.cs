@@ -398,7 +398,7 @@ namespace Retribution
             loadMan.load(Content, ModelManager.artificial);
             loadMan.load(Content, ModelManager.player);
             movementManager.moveObjects(ModelManager.player, ModelManager.artificial);
-            //aiManager.SetAIDestinations2(ModelManager.artificial);
+            aiManager.SetAIDestinations2(ModelManager.artificial);
             if ((ModelManager.player.Count == 0) && built)
             {
                 screenManager.victory = "defeat";
