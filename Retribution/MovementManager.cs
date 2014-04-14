@@ -91,7 +91,7 @@ namespace Retribution
                                else if (GetGroup((Mobile)allUnits[i]) != null 
                                    && GetGroup((Mobile)allUnits[i]).Contains((Mobile)allUnits[j]) == true 
                                    && myMap.GetContainingTile((Mobile)allUnits[i]) == myMap.GetContainingTile((Mobile)allUnits[j])
-                                   && ((Mobile)allUnits[i]).pathList.Count <= 3
+                                   && ((Mobile)allUnits[i]).pathList.Count <= 2
                                    )
                                 {
                                     newCollisionList.Add(myMap.GetContainingTile(allUnits[j]));
@@ -168,9 +168,13 @@ namespace Retribution
                 }
             }
 
-            UnitGroup newGroup = new UnitGroup(unitList, destination);
-            newGroup.SetPaths(myMap);
-            unitGroups.Add(newGroup);
+            if(unitList.Count > 0)
+            {
+                UnitGroup newGroup = new UnitGroup(unitList, destination);
+                newGroup.SetPaths(myMap);
+                unitGroups.Add(newGroup);
+                //System.Console.WriteLine(unitGroups.Count);
+            }
         }
 
         public UnitGroup GetGroup(Mobile unit)
@@ -181,6 +185,17 @@ namespace Retribution
             }
 
             return null;
+        }
+
+        public void UpdateGroups()
+        {
+            foreach (UnitGroup group in unitGroups)
+            {
+                if(group.leader.isMoving == false)
+                {
+
+                }
+            }
         }
 
         public Boolean CompareLists(List<Tile> newList, List<Tile> oldList)
