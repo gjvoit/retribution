@@ -17,7 +17,7 @@ namespace Retribution
         //public Arrow myArrow;
         //SoundEffect soundEffect;
        
-        public Tower(Vector2 position, int health = 5, int damage = 1, int attackRange = 250)
+        public Tower(Vector2 position, int health = 35, int damage = 5, int attackRange = 200)
             : base (health, position, damage, attackRange)
         {
             this.position = position;

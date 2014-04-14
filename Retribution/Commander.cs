@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
+using System.Timers;
 namespace Retribution
 {
 
@@ -15,6 +16,7 @@ namespace Retribution
         public double shieldCD = 15.0;
         public double dashCD = 2.0;
         public static int cost = 20;
+        public Timer rallyTimer = new Timer(15000);
         //public string state;
         //public Texture2D image;
         public override void kill(ContentManager content)
@@ -37,8 +39,36 @@ namespace Retribution
             //this.animationFrame   //  Keeps track of the animation frame the object is on
             //this.animationTime    //  Calculates how much time has passed since animation began
             //this.attackReady = false;
+            rallyTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
         }
+        public void rally()
+        {
+            if (!rallyTimer.Enabled)
+            {
+                rallyTimer.Start();
+                specialAttack = true;
+                List<GameObject> rallied = new List<GameObject>();
+                foreach (GameObject unit in ModelManager.player){
+                    if (unit.GetType().BaseType == typeof(Mobile))
+                    {
+                        if (!((Mobile)unit).isMoving)
+                        {
+                            rallied.Add(unit);
+                            unit.selected=true;
+                            if(unit.basehealth-unit.health>=3)
+                            unit.health += 3;
+                        }
+                        }
+                }
+                MovementManager.changeDestination(rallied, this.position);
+            }
 
+        }
+        private void OnTimedEvent(object source, ElapsedEventArgs e)
+        {
+            specialAttack = false;
+            rallyTimer.Stop();
+        }
         //  When receiving damage, negate the initial attack and give a 15 point shield lasting for 5 seconds
         //  TyNote: For now, every 15 seconds that passes the commander regains half its hp back.
 

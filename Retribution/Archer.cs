@@ -13,6 +13,7 @@ namespace Retribution
     {
         public Projectile myArrow;
         private Timer rapidFireTimer = new Timer(2000);
+        private Timer cdTimer = new Timer(10000);
 //        public GameObject aiTarget;
         public static int cost = 2;
         SoundEffect soundEffect;
@@ -21,8 +22,9 @@ namespace Retribution
         {
             this.type = "ARCHER";
             this.moveSpeed = 2;
-            attackSpeed = 180;
+            attackSpeed = 100;
             rapidFireTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+            cdTimer.Elapsed += new ElapsedEventHandler(CDTimedEvent);
         }
         public override void attackSound(ContentManager content)
         {
@@ -55,20 +57,26 @@ namespace Retribution
         public void rapidFire()
         {
             
-            if (!rapidFireTimer.Enabled)
+            if (!rapidFireTimer.Enabled&&!cdTimer.Enabled)
             {
                 specialAttack = true;
                 rapidFireTimer.Start();
+                attackWait = 0;
                 attackSpeed = 20;    
             }
            
         }
-
+        private void CDTimedEvent(object source, ElapsedEventArgs e)
+        {
+            cdTimer.Stop();
+        }
         private void OnTimedEvent(object source, ElapsedEventArgs e)
         {
+            attackWait += 500;
             specialAttack = false;
             attackSpeed = 180;
             rapidFireTimer.Stop();
+            cdTimer.Start();
         }
         /*
         public override void Attack(GameObject target)

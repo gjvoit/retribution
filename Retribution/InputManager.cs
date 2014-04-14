@@ -277,6 +277,9 @@ namespace Retribution
                 if (unit.selected && unit.GetType() == typeof(Rogue) &&
                     !previousKeyboard.IsKeyDown(Keys.F) && keyPress.IsKeyDown(Keys.F))
                     ((Rogue)unit).stealth();
+                if (unit.selected && unit.GetType() == typeof(Commander) &&
+                    !previousKeyboard.IsKeyDown(Keys.F) && keyPress.IsKeyDown(Keys.F))
+                    ((Commander)unit).rally();
                 //  Skill - Rogue stealth
 
                 //  SKill - etc.
@@ -323,7 +326,10 @@ namespace Retribution
                 posit = new Vector2(current.X, current.Y);
             else posit = new Vector2(current.X, default_player_y);
             if (posit.X > 1024)
+            {
                 posit.X = 496;
+                posit.Y = default_player_y;
+            }
             return posit;
 
         }

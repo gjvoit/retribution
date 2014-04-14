@@ -70,12 +70,13 @@ namespace Retribution
             {
                 specialAttack = true;
                 stealthTimer.Start();
-                foreach (GameObject unit in ModelManager.artificial)
-                {
-                    if (unit.aiTarget == this)
-                        unit.aiTarget = null;
-                }
-            }
+                           
+                    foreach (GameObject unit in ModelManager.artificial)
+                    {
+                        if (unit.aiTarget == this)
+                            unit.aiTarget = null;
+                    }
+                            }
         
         }
 

@@ -48,9 +48,11 @@ namespace Retribution
         {
             if (!juggernautTimer.Enabled)
             {
+                attackWait = 0;
                 specialAttack = true;
                 juggernautTimer.Start();
                 attackSpeed = 150;
+                health -= (int)(health * .2);
                 damage = 17;
                 moveSpeed = 3;
                 attackRange = 33;
