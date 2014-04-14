@@ -93,7 +93,6 @@ namespace Retribution
                 if (ClickTimer < TimerDelay)
                 {
                     selectSimilar = true;
-                    Console.WriteLine("double clicked here");
                 }
                 else
                 {
