@@ -15,7 +15,7 @@ namespace Retribution
     class UnitGroup
     {
         Vector2 destination;
-        List<Mobile> units;
+        public List<Mobile> units;
         public Mobile leader;
         int urCounter, brCounter, blCounter, ulCounter;
 
