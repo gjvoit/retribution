@@ -105,11 +105,14 @@ namespace Retribution
             {
                 foreach (GameObject unit in aiUnits)
                 {
-      
-                        if (unit.aiTarget != null)
-                            pursue(unit);
-                        else
-                            explore(unit);
+
+                    if (unit.aiTarget != null)//if it has a target
+                    {
+                        pursue(unit);
+                        break;
+                    }
+                    if (((Mobile)unit).destination == null||!((Mobile)unit).isMoving) //
+                        explore(unit);
                    
 
                 }
