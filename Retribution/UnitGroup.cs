@@ -87,25 +87,41 @@ namespace Retribution
             // Upper left
             if (unitTile.xPosition < leaderTile.xPosition && unitTile.yPosition <= leaderTile.yPosition)
             {
-                return new Vector2(-32, 0);
+                ulCounter++;
+                if(ulCounter == 1)
+                    return new Vector2(-32, 0);
+                else
+                    return new Vector2(-32, -32);
             }
 
             //  Upper right
             if (unitTile.xPosition >= leaderTile.xPosition && unitTile.yPosition < leaderTile.yPosition)
             {
-                return new Vector2(0, -32);
+                urCounter++;
+                if (urCounter == 1)
+                    return new Vector2(0, -32);
+                else
+                    return new Vector2(32, -32);
             }
 
             //  Bottom right
             if (unitTile.xPosition > leaderTile.xPosition && unitTile.yPosition >= leaderTile.yPosition)
             {
-                return new Vector2(32, 0);
+                brCounter++;
+                if(brCounter == 1)
+                    return new Vector2(32, 0);
+                else
+                    return new Vector2(32, 32);
             }
 
             // Bottom left
             if (unitTile.xPosition <= leaderTile.xPosition && unitTile.yPosition > leaderTile.yPosition)
             {
-                return new Vector2(32, 0);
+                blCounter++;
+                if (blCounter == 1)
+                    return new Vector2(32, 0);
+                else
+                    return new Vector2(-32, 32);
             }
 
             else
