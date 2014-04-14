@@ -170,7 +170,7 @@ namespace Retribution
                 UnitGroup newGroup = new UnitGroup(unitList, destination);
                 newGroup.SetPaths(myMap);
                 unitGroups.Add(newGroup);
-                System.Console.WriteLine(unitGroups.Count);
+                //System.Console.WriteLine(unitGroups.Count);
             }
         }
 

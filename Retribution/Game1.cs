@@ -342,7 +342,10 @@ namespace Retribution
             attackChecker.Update(ref ModelManager.player, ref ModelManager.artificial);
             attackChecker.autoAttacks();
             projMan.fireProjectiles();
-            mBar.calculateScore();
+            if (built)
+            {
+                mBar.calculateScore();
+            }
            
             
             
@@ -409,20 +412,21 @@ namespace Retribution
                 built = false;
                 playable = false;
                 initialized = false;
-                /*if (screenManager.currentMap.Equals("Content/castleDefense.txt"))
+                if (screenManager.currentMap.name.Equals("Content/castleDefense.txt"))
                 {
-                    buildResources = 10;
+                    buildResources = 0;
                 }
 
-                else if (screenManager.currentMap.Equals("Content/riverDefense.txt"))
+                else if (screenManager.currentMap.name.Equals("Content/riverDefense.txt"))
                 {
                     buildResources = 10;
+                    MoraleBar.resourceVal(10);
                 }
-                else if (screenManager.currentMap.Equals("Content/castleSiege.txt"))
+                else if (screenManager.currentMap.name.Equals("Content/castleSiege.txt"))
                 {
                     buildResources = 15;
-                }*/
-                MoraleBar.resourceVal(10);
+                    MoraleBar.resourceVal(10);
+                }
                 testBeta = true;
                 //Console.WriteLine("interaction for defeatscreenselector: " + screenManager.allSelectors[0].getInteraction());
             }
@@ -436,20 +440,22 @@ namespace Retribution
                 built = false;
                 playable = false;
                 initialized = false;
-                /*if (screenManager.currentMap.Equals("Content/castleDefense.txt"))
+                if (screenManager.currentMap.name.Equals("Content/castleDefense.txt"))
                 {
                     buildResources = 15;
+                    MoraleBar.resourceVal(10);
                 }
 
-                else if (screenManager.currentMap.Equals("Content/riverDefense.txt")) 
+                else if (screenManager.currentMap.name.Equals("Content/riverDefense.txt")) 
                 {
                     buildResources = 20;
+                    MoraleBar.resourceVal(10);
                 }
-                else if (screenManager.currentMap.Equals("Content/castleSiege.txt"))
+                else if (screenManager.currentMap.name.Equals("Content/castleSiege.txt"))
                 {
                     buildResources = 10;
-                }*/
-                buildResources = 10;
+                    MoraleBar.resourceVal(10);
+                }
                 testBeta = true;
             }
 
