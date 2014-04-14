@@ -31,6 +31,7 @@ namespace Retribution
         int default_player_y = 672;
         const double TimerDelay = 500;
         bool selectSimilar = false;
+        bool prevclick = true;
 
         //public InputManager( MovementManager newMovementManager)
         public InputManager(ref ModelManager newmodelManager)
@@ -75,7 +76,8 @@ namespace Retribution
 
                 for (int i = 0; i < units.Count; i++)
                 {
-                    units[i].selected = false;
+                    if (!selectSimilar)
+                        units[i].selected = false;
                     if (units[i].Bounds.Intersects(mouseRec))
                     {
                         units[i].selected = true;
@@ -86,11 +88,12 @@ namespace Retribution
                 mouseRec = Rectangle.Empty;
             }
 
-            if (current.LeftButton == ButtonState.Pressed && previous.LeftButton == ButtonState.Released && singleClick)
+            if (current.LeftButton == ButtonState.Pressed && previous.LeftButton == ButtonState.Released && prevclick)
             {
                 if (ClickTimer < TimerDelay)
                 {
                     selectSimilar = true;
+                    Console.WriteLine("double clicked here");
                 }
                 else
                 {
@@ -131,6 +134,7 @@ namespace Retribution
                 }
 
                 singleClick = true;
+                prevclick = true;
             }
 
 
