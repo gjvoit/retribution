@@ -69,7 +69,7 @@ namespace Retribution
                     {
                         //Console.WriteLine("You're checking for collision with " + allSelectors[5].getInteraction());
                         allSelectors[5].isColliding(levelChooser);
-                        Console.WriteLine("Current map is: " + currentMap.name);
+                        //Console.WriteLine("Current map is: " + currentMap.name);
                     }
                     break;
             }
@@ -113,6 +113,10 @@ namespace Retribution
                         allSelectors[3].setInteraction(true);
                         allSelectors[3].setUnlocked(true);
                         allSelectors[2].setUnlocked(true);
+                        foreach (Selector select in allSelectors)
+                        {
+                            select.setOccupied(false);
+                        }
                         break;
                     case "Content/riverDefense.txt":
                         currentMap = allMaps[2];
@@ -120,11 +124,19 @@ namespace Retribution
                         allSelectors[2].setUnlocked(true);
                         allSelectors[4].setUnlocked(true);
                         allSelectors[4].setInteraction(true);
+                        foreach (Selector select in allSelectors)
+                        {
+                            select.setOccupied(false);
+                        }
                         break;
                     case "Content/castleSiege.txt":
                         currentMap = allMaps[6];
                         allSelectors[5].setUnlocked(true);
                         allSelectors[5].setInteraction(true);
+                        foreach (Selector select in allSelectors)
+                        {
+                            select.setOccupied(false);
+                        }
                         break;
                 }
                 victory = "undef";
@@ -135,7 +147,6 @@ namespace Retribution
                 {
                     case "Content/castleDefense.txt":
                         currentMap = allMaps[0];
-                        nextMap = allMaps[1];
                         allSelectors[0].setUnlocked(true);
                         allSelectors[0].setInteraction(true);
                         //Console.WriteLine("interaction for defeatScreen is: " + allSelectors[0].getInteraction());
@@ -165,9 +176,22 @@ namespace Retribution
                 {
                     case "Content/defeatScreen.txt":
                         //Console.WriteLine("Hello from updateSelectors in defeatScreen switch case");
-                        allSelectors[0].setInteraction(true);
-                        allSelectors[0].setUnlocked(true);
+                        //allSelectors[0].setInteraction(true);
+                        //allSelectors[0].setUnlocked(true);
                         //allSelectors[0].setOccupied(false);
+                        if ((allSelectors[0].getOccupied() == true) && (allSelectors[0].getInteraction() == true)
+                            && (allSelectors[0].getUnlocked() == true))
+                        {
+                            currentMap = allMaps[1];
+                            foreach (Selector select in allSelectors)
+                            {
+                                select.setUnlocked(false);
+                                select.setInteraction(false);
+                                select.setOccupied(false);
+                            }
+                            allSelectors[1].setInteraction(true);
+                            allSelectors[1].setUnlocked(true);
+                        }
                         break;
                     case "Content/MainScreen.txt":
                         // First update the selector attributes for the given level
@@ -217,7 +241,7 @@ namespace Retribution
                         }
                         break;
                     case "Content/victoryScreen.txt":
-                        Console.WriteLine("You made it!");
+                        //Console.WriteLine("You made it!");
                         //allSelectors[5].setInteraction(true);
                         //allSelectors[5].setUnlocked(true);
                         if ((allSelectors[5].getOccupied() == true)  && (allSelectors[5].getInteraction() == true)

@@ -31,6 +31,7 @@ namespace Retribution
         int default_player_y = 672;
         const double TimerDelay = 500;
         bool selectSimilar = false;
+        bool prevclick = true;
 
         //public InputManager( MovementManager newMovementManager)
         public InputManager(ref ModelManager newmodelManager)
@@ -75,7 +76,8 @@ namespace Retribution
 
                 for (int i = 0; i < units.Count; i++)
                 {
-                    units[i].selected = false;
+                    if (!selectSimilar)
+                        units[i].selected = false;
                     if (units[i].Bounds.Intersects(mouseRec))
                     {
                         units[i].selected = true;
@@ -85,30 +87,33 @@ namespace Retribution
 
                 mouseRec = Rectangle.Empty;
             }
-            // Select with a single mouse click:
-            if (current.LeftButton == ButtonState.Pressed
-                && previous.LeftButton == ButtonState.Released
-                )
-            {
 
-                mouseRec = new Rectangle((int)current.X, (int)current.Y, 0, 0);
-                mouseRecOrigin = new Vector2(current.X, current.Y);
-                GameObject selectedUnit = null;
+            if (current.LeftButton == ButtonState.Pressed && previous.LeftButton == ButtonState.Released && prevclick)
+            {
                 if (ClickTimer < TimerDelay)
                 {
                     selectSimilar = true;
+                    Console.WriteLine("double clicked here");
                 }
                 else
                 {
                     ClickTimer = 0;
                     selectSimilar = false;
                 }
+            }
 
-                Console.WriteLine("select similar" + selectSimilar);
+            // Select with a single mouse click:
+            if (current.LeftButton == ButtonState.Pressed
+                && previous.LeftButton == ButtonState.Released
+                )
+            {
+                mouseRec = new Rectangle((int)current.X, (int)current.Y, 0, 0);
+                mouseRecOrigin = new Vector2(current.X, current.Y);
+                GameObject selectedUnit = null;
+
                 for (int i = 0; i < units.Count; i++)
                 {
-                    if (!selectSimilar)
-                        units[i].selected = false;
+                    units[i].selected = false;
                     if (units[i].isSelectable(current) == true)
                     {
                         units[i].selected = true;
@@ -116,7 +121,7 @@ namespace Retribution
                         break;
                     }
                 }
-                Console.WriteLine("selected unit" + selectedUnit);
+
                 if (selectSimilar && selectedUnit != null)
                 {
                     for (int i = 0; i < units.Count; i++)
@@ -129,6 +134,7 @@ namespace Retribution
                 }
 
                 singleClick = true;
+                prevclick = true;
             }
 
 
@@ -143,11 +149,14 @@ namespace Retribution
 
                 for (int i = 0; i < aunits.Count; i++)
                 {
-                    if (aunits[i].isSelectable(current) && aunits[i].isLoaded)
-                    {
-                        selectedTarget = aunits[i];
-                        break;
+                    if (aunits[i].isLoaded) {
+                        if (aunits[i].isSelectable(current))
+                            {
+                                selectedTarget = aunits[i];
+                                break;
+                            }
                     }
+                    
                 }
 
                 for (int i = 0; i < units.Count; i++)
