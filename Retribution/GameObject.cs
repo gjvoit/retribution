@@ -35,6 +35,7 @@ namespace Retribution
         public bool isUp = true;   //  Direction variable used to help with animation
         public bool isRight = true;
         public static int cost = 2;
+        public bool isLoaded = false;
 
         public GameObject(int health, Vector2 position, int damage, int attackRange)
         {

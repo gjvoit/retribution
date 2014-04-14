@@ -141,15 +141,12 @@ namespace Retribution
                 Vector2 testvec = new Vector2(current.X, current.Y);
                 GameObject selectedTarget = null;
 
-                if (aunits != null || aunits.Count != 0)
+                for (int i = 0; i < aunits.Count; i++)
                 {
-                    for (int i = 0; i < aunits.Count; i++)
+                    if (aunits[i].isSelectable(current) && aunits[i].isLoaded)
                     {
-                        if (aunits[i].isSelectable(current))
-                        {
-                            selectedTarget = aunits[i];
-                            break;
-                        }
+                        selectedTarget = aunits[i];
+                        break;
                     }
                 }
 
