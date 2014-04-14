@@ -354,7 +354,7 @@ namespace Retribution
             {
                 //Console.WriteLine("a");
                 // Why is the "buildPhase" Boolean always true? Should it be equal to "built"?
-                inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref ModelManager.player, ref loadMan, ref projMan, this.Content, ref MoraleBar.resources, true);
+                inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref ModelManager.player, ref ModelManager.artificial, ref loadMan, ref projMan, this.Content, ref MoraleBar.resources, true);
                 //MoraleBar.resourceVal(buildResources);
                 if (MoraleBar.resources <= 1)
                 { // once we deplete our build resources, set built to true (doing so will initialize enemy AI units and starts the level)
@@ -365,12 +365,12 @@ namespace Retribution
             else if (built && initialized)// player is not building in build phase but rather building reinforcements - notice the false flag at the end indicating not build phase
             {
                 //Console.WriteLine("b");
-                inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref ModelManager.player, ref loadMan, ref projMan, Content, ref MoraleBar.resources, false);
+                inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref ModelManager.player, ref ModelManager.artificial, ref loadMan, ref projMan, Content, ref MoraleBar.resources, false);
                 //MoraleBar.resourceVal(playerResources);
             }
             else
             {
-                inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref ModelManager.player, ref loadMan, ref projMan, Content, ref MoraleBar.resources, false);
+                inputManager.Update(mouseCurrent, mousePrev, keyboardState, ref ModelManager.player, ref ModelManager.artificial, ref loadMan, ref projMan, Content, ref MoraleBar.resources, false);
             }
             if (built && !initialized)// && castleDefenseSelector.getOccupied() == true)
             {

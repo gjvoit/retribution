@@ -138,7 +138,10 @@ namespace Retribution
                         //  If unit i isn't paused and is moving, move it
                         if (((Mobile)allUnits[i]).isPaused == false && ((Mobile)allUnits[i]).isMoving == true)
                         {
-                            ((Mobile)allUnits[i]).move();
+                            if (allUnits[i].aiTarget != null && allUnits[i].IsInRange(allUnits[i].aiTarget)) 
+                            {
+                            }
+                            else ((Mobile)allUnits[i]).move();
                         }
                     }
 
