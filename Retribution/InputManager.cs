@@ -45,8 +45,9 @@ namespace Retribution
         {
             gui = gwee;
         }
-        public void Update(MouseState newcurrent, MouseState newprevious, ref double ClickTimer, KeyboardState keyPress, ref List<GameObject> units, ref List<GameObject> aunits, ref LoadManager loadManager, ref ProjectileManager projMan, 
-                            ContentManager theContent, ref int playerResources, bool dbuildPhase)
+        public void Update(MouseState newcurrent, MouseState newprevious, ref double ClickTimer, KeyboardState keyPress,
+            ref Dictionary<Keys, List<GameObject>> groupedUnits, ref List<GameObject> units, ref List<GameObject> aunits,
+            ref LoadManager loadManager, ref ProjectileManager projMan, ContentManager theContent, ref int playerResources, bool dbuildPhase)
 
         {
             bool singleClick = false;
@@ -169,6 +170,47 @@ namespace Retribution
                 MovementManager.changeDestination(units, testvec);
 
             }
+
+            if (keyPress.GetPressedKeys().Length > 0 && IsKeyADigit(keyPress.GetPressedKeys()[0]))
+            {
+                Keys pressedKey = keyPress.GetPressedKeys()[0];
+                if (previousKeyboard.IsKeyDown(Keys.LeftControl) && keyPress.IsKeyDown(pressedKey))
+                {
+                    List<GameObject> groupList = new List<GameObject>();
+
+                    foreach (GameObject gobj in units)
+                    {
+                        if (gobj.selected)
+                        {
+                            groupList.Add(gobj);
+                        }
+                    }
+
+                    if (groupList.Count > 0)
+                    {
+                        if (!groupedUnits.ContainsKey(pressedKey))
+                            groupedUnits.Add(pressedKey, groupList);
+                        else
+                            groupedUnits[pressedKey] = groupList;
+                    }
+                }
+
+            
+                if (!previousKeyboard.IsKeyDown(pressedKey) && keyPress.IsKeyDown(pressedKey))
+                {
+                    if (groupedUnits.ContainsKey(pressedKey))
+                    {
+                        deselect(ref groupedUnits, pressedKey);
+                        List<GameObject> groupList = groupedUnits[pressedKey];
+                        foreach (GameObject gobj in groupList)
+                            gobj.selected = true;
+                    }
+
+                }
+            }
+
+            
+
             
             Rectangle rect;
             //  Purchase Archer
@@ -403,6 +445,25 @@ namespace Retribution
 
            // spriteBatch.End();
 
+        }
+
+        public static bool IsKeyADigit(Keys key)
+        {
+            return (key >= Keys.D0 && key <= Keys.D9) || (key >= Keys.NumPad0 && key <= Keys.NumPad9);
+        }
+
+        public void deselect(ref Dictionary<Keys, List<GameObject>> groupedUnits, Keys pressedKey) 
+        {
+            foreach (KeyValuePair<Keys, List<GameObject>> pair in groupedUnits)
+            {
+                if (pair.Key != pressedKey)
+                {
+                    foreach (GameObject gobj in pair.Value)
+                    {
+                        gobj.selected = false;
+                    }
+                }
+            }
         }
     }
 }
