@@ -36,6 +36,7 @@ namespace Retribution
             int size = random.Next(1, aiUnits.Count);
             if (String.Compare(unit.type, "COMMANDER",true) == 0)
                 size = aiUnits.Count;
+            special(unit);
             for (int x = 0; x < size; x++) // "Count/3" was breaking the game once a user got the enemy units to less than 3
             {
                 GameObject gunit = aiUnits[x];
@@ -61,7 +62,24 @@ namespace Retribution
             //    }
             //}
         }
-
+        public void special(GameObject unit)
+        {
+            switch (unit.type)
+            {
+                case "ARCHER":
+                    ((Archer)unit).rapidFire();
+                    break;
+                case "COMMANDER":
+                    ((Commander)unit).rally();
+                    break;
+                case "ROGUE":
+                    ((Rogue)unit).stealth();
+                    break;
+                case "WARRIOR":
+                    ((Warrior)unit).juggernaut();
+                    break;
+            }
+        }
         public void explore(GameObject unit)
         {
  

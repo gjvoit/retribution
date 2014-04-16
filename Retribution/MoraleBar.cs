@@ -17,6 +17,8 @@ namespace Retribution
         public int timeDrain;
         public int disAd;
         public int waveNum;
+        public int scaled;
+        public SpriteFont txt;
         public static int resources = 0;
         public bool active;
         ModelManager modMan;
@@ -39,7 +41,7 @@ namespace Retribution
         {
             spriteBatch.Draw(createBar(spriteBatch.GraphicsDevice), new Vector2(1025,0), Color.White);
             spriteBatch.Draw(createRBar(spriteBatch.GraphicsDevice), new Vector2(1046,0), Color.White);
-
+            spriteBatch.DrawString(txt, resources.ToString(), new Vector2(1047, scaled), Color.White);
         }
         public Texture2D createRBar(GraphicsDevice arg){
             if (resources > 150)
@@ -51,7 +53,7 @@ namespace Retribution
                    for (int i = 0; i < data.Length; i++)
                        data[i] = Color.Gray;
 
-                   int scaled = resources * 704/150; //150 max resource right now
+                   scaled = resources * 704/150; //150 max resource right now
                  
                    for (int j = 0; j < scaled*20; j++)
                        data[j] = Color.Gold;
