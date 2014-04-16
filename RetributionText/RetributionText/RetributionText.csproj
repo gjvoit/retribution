@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ContentBuilder</RootNamespace>
-    <AssemblyName>IgnoreMe</AssemblyName>
+    <AssemblyName>RetributionText</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <XnaFrameworkVersion>v4.0</XnaFrameworkVersion>
@@ -47,7 +47,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RetributionTextContent\RetributionTextContent.contentproj">
-      <Name>RetributionTextContent</Name>
+      <Project>{F37CD7A6-1A22-415A-96C4-05B0A9CF8900}</Project>
+      <Name>RetributionTextContent %28Content%29</Name>
       <XnaReferenceType>Content</XnaReferenceType>
     </ProjectReference>
   </ItemGroup>

@@ -383,7 +383,8 @@ namespace Retribution
             }
             else
             {
-                inputManager.Update(mouseCurrent, mousePrev, ref ClickTimer, keyboardState, ref groupedUnits, ref ModelManager.player, ref ModelManager.artificial, ref loadMan, ref projMan, Content, ref MoraleBar.resources, false);
+                int noResources = 0;
+                inputManager.Update(mouseCurrent, mousePrev, ref ClickTimer, keyboardState, ref groupedUnits, ref ModelManager.player, ref ModelManager.artificial, ref loadMan, ref projMan, Content, ref noResources, false);
             }
             if (built && !initialized)// && castleDefenseSelector.getOccupied() == true)
             {
