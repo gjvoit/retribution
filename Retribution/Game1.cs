@@ -43,7 +43,7 @@ namespace Retribution
         GUIButtons gui;
       //  Warrior theCommander;
         int playerResources = 10;
-        int buildResources = 10;
+        int buildResources = 0;
         // if built is false, player enters build phase; if built is true, that means player finished build phase and level starts
         bool built = false;
         // if initialized is false, that means AI units have not been initialized
@@ -194,6 +194,7 @@ namespace Retribution
         public void castleDefenseSpawn()
         {
             int toweroffset = 0;
+            // This only gets called if built and initialized (aka player resources = 0)
             
             for (int i = 0; i < 5; i++)
             {
@@ -361,7 +362,7 @@ namespace Retribution
                 // Why is the "buildPhase" Boolean always true? Should it be equal to "built"?
                 inputManager.Update(mouseCurrent, mousePrev, ref ClickTimer, keyboardState, ref ModelManager.player, ref ModelManager.artificial, ref loadMan, ref projMan, this.Content, ref MoraleBar.resources, true);
                 //MoraleBar.resourceVal(buildResources);
-                if (MoraleBar.resources <= 1)
+                if (MoraleBar.resources <= 0)
                 { // once we deplete our build resources, set built to true (doing so will initialize enemy AI units and starts the level)
                     built = true;
                     MoraleBar.resourceAdd(playerResources);
@@ -421,13 +422,11 @@ namespace Retribution
 
                 else if (screenManager.currentMap.name.Equals("Content/riverDefense.txt"))
                 {
-                    buildResources = 10;
-                    MoraleBar.resourceVal(10);
+                    buildResources += 10;
                 }
                 else if (screenManager.currentMap.name.Equals("Content/castleSiege.txt"))
                 {
-                    buildResources = 15;
-                    MoraleBar.resourceVal(10);
+                    buildResources += 15;
                 }
                 testBeta = true;
                 //Console.WriteLine("interaction for defeatscreenselector: " + screenManager.allSelectors[0].getInteraction());
@@ -444,19 +443,16 @@ namespace Retribution
                 initialized = false;
                 if (screenManager.currentMap.name.Equals("Content/castleDefense.txt"))
                 {
-                    buildResources = 15;
-                    MoraleBar.resourceVal(10);
+                    buildResources = +15;
                 }
 
                 else if (screenManager.currentMap.name.Equals("Content/riverDefense.txt")) 
                 {
-                    buildResources = 20;
-                    MoraleBar.resourceVal(10);
+                    buildResources = +20;
                 }
                 else if (screenManager.currentMap.name.Equals("Content/castleSiege.txt"))
                 {
-                    buildResources = 10;
-                    MoraleBar.resourceVal(10);
+                    buildResources = 0;
                 }
                 testBeta = true;
             }
