@@ -42,6 +42,7 @@ namespace Retribution
         MoraleBar mBar;
         GUIButtons gui;
         InfoCard info;
+        int prevResources = 10;
         Dictionary<Keys, List<GameObject>> groupedUnits;
 
       //  Warrior theCommander;
@@ -52,6 +53,7 @@ namespace Retribution
         // if initialized is false, that means AI units have not been initialized
         bool initialized = false;
         bool playable = false;
+        bool preventBuilding = false;
         double ClickTimer;
 
         //  TyDigit digit test to display amount of resources left
@@ -274,59 +276,6 @@ namespace Retribution
             ((Mobile)ModelManager.player[0]).moveSpeed = 7;
         }
 
-        public void testInitialization()
-        {
-            //  TySoundTest (Must add own filepath here.)
-            //System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"c:\Users\TyDang\cs4730retribution\cs4730retribution\Retribution\Content\bow.wav");
-            player.Play();
-
-            int toweroffset = 50;
-            for (int i = 0; i < 5; i++)
-            {
-                modMan.addUnit("PLAYER", "TOWER", new Vector2(20 + toweroffset, 600));
-                //gameobj.Add(new Archer(new Vector2(20 + toweroffset, 400)));
-                toweroffset += 50;
-            }
-            toweroffset = 0;
-            //towers = new List<Tower>();
-            /*
-            for (int i = 0; i < 5; i++)
-            {
-                modMan.addUnit("PLAYER", "ARCHER", new Vector2(20 + toweroffset, 500));
-                //towers.Add(new Tower(new Vector2(20 + toweroffset, 600)));
-                toweroffset += 50;
-            }
-             */
-            //modMan.player[9].attackRange = 600;
-            toweroffset = 0;
-            for (int i = 0; i < 5; i++)
-            {
-                modMan.addUnit("ARTIFICIAL", "TOWER", new Vector2(20 + toweroffset, 20));
-                //gameobj.Add(new Archer(new Vector2( 60 + toweroffset , 20)));
-                toweroffset += 50;
-            }
-
-            toweroffset = 0;
-            for (int i = 0; i < 5; i++)
-            {
-                modMan.addUnit("ARTIFICIAL", "ARCHER", new Vector2(64 + toweroffset, 32*6));
-                //gameobj.Add(new Archer(new Vector2(60 + toweroffset, 100)));
-                toweroffset += 64;
-            }
-            modMan.addUnit("PLAYER", "WARRIOR", new Vector2(400,150));
-            modMan.addUnit("PLAYER", "WARRIOR", new Vector2(400, 190));
-            modMan.addUnit("PLAYER", "WARRIOR", new Vector2(400, 215));
-            modMan.addUnit("PLAYER", "WARRIOR", new Vector2(400, 250));
-            modMan.addUnit("PLAYER", "WARRIOR", new Vector2(400, 290));
-
-            //  TyDigit added digits object to display resources
-            theResource = new Digits(new Vector2(0, 672));
-            theTitle = new titleShell(new Vector2(375, 375));
-            theResource.LoadContent(this.Content);
-            theTitle.LoadContent(this.Content);
-
-        }
-
         // Change map and set managers to be equal to the current map
 
         /// <summary>
@@ -368,6 +317,8 @@ namespace Retribution
             {
                 //Console.WriteLine("a");
                 // Why is the "buildPhase" Boolean always true? Should it be equal to "built"?
+                // 2 checks: either you don’t want to use all your resources, and want to start the game now, or you’ve used all your resources
+                // and the player should receive a “ready check”
                 inputManager.Update(mouseCurrent, mousePrev, ref ClickTimer, keyboardState, ref groupedUnits, ref ModelManager.player, ref ModelManager.artificial, ref loadMan, ref projMan, this.Content, ref MoraleBar.resources, true);
                 //MoraleBar.resourceVal(buildResources);
                 if (MoraleBar.resources <= 0)
@@ -425,16 +376,19 @@ namespace Retribution
                 initialized = false;
                 if (screenManager.currentMap.name.Equals("Content/castleDefense.txt"))
                 {
+                    prevResources = 10;
                     buildResources = 0;
                 }
 
                 else if (screenManager.currentMap.name.Equals("Content/riverDefense.txt"))
                 {
-                    buildResources += 10;
+                    prevResources = 10;
+                    buildResources = 0;
                 }
                 else if (screenManager.currentMap.name.Equals("Content/castleSiege.txt"))
                 {
-                    buildResources += 15;
+                    prevResources = 10;
+                    buildResources = 0;
                 }
                 testBeta = true;
                 //Console.WriteLine("interaction for defeatscreenselector: " + screenManager.allSelectors[0].getInteraction());
@@ -451,16 +405,16 @@ namespace Retribution
                 initialized = false;
                 if (screenManager.currentMap.name.Equals("Content/castleDefense.txt"))
                 {
-                    buildResources = +15;
+                    prevResources = buildResources + 15;
                 }
 
                 else if (screenManager.currentMap.name.Equals("Content/riverDefense.txt")) 
                 {
-                    buildResources = +20;
+                    prevResources = buildResources + 20;
                 }
                 else if (screenManager.currentMap.name.Equals("Content/castleSiege.txt"))
                 {
-                    buildResources = 0;
+                    prevResources = 10;
                 }
                 testBeta = true;
             }
@@ -501,6 +455,7 @@ namespace Retribution
             {
                 screenManager.chooseSelector((Mobile)ModelManager.player[0]);
             }
+
             if (screenManager.currentMap.name.Equals("Content/castleDefense.txt")
                 || screenManager.currentMap.name.Equals("Content/riverDefense.txt")
                 || screenManager.currentMap.name.Equals("Content/castleSiege.txt"))
@@ -517,6 +472,16 @@ namespace Retribution
                 playable = false;
 
             }
+
+            if (playable && testBeta)
+            {
+                //Console.WriteLine("g");
+                ModelManager.player.Clear();
+                buildResources = prevResources;
+                //ModelManager.player.Remove(ModelManager.player[0]);
+                testBeta = false;
+            }
+
             screenManager.currentMap.DrawMap(spriteBatch);
             if (screenManager.currentMap.name.Equals("Content/MainScreen.txt")) 
             {
@@ -528,13 +493,15 @@ namespace Retribution
                 spriteBatch.Draw(Content.Load<Texture2D>("TheRiver.png"), new Rectangle(96+346, 346, 128, 64), Color.White);
                 spriteBatch.Draw(Content.Load<Texture2D>("CastleDefence.png"), new Rectangle(96 + 32, 335, 128, 64), Color.White);
             }
-
-            if (playable && testBeta)
+            if (screenManager.currentMap.name.Equals("Content/defeatScreen.txt"))
             {
-                //Console.WriteLine("g");
-                ModelManager.player.Remove(ModelManager.player[0]);
-                testBeta = false;
+                // Draw the defeat texture here: spriteBatch.Draw(Content.Load<Texture2D>(""));
             }
+            if (screenManager.currentMap.name.Equals("Content/victoryScreen.txt"))
+            {
+                // Draw the defeat texture here: spriteBatch.Draw(Content.Load<Texture2D>(""));
+            }
+
             if (built && initialized)  // hopefully get digits working and draw it to the screen (only when game starts)
             {
                 //Console.WriteLine("h");
