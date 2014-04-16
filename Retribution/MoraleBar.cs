@@ -100,7 +100,7 @@ namespace Retribution
                 disAd = 0;
                 timeDrain = 0;
                 horn.Play();
-                for (int x = 0; x < waveNum; x++)
+                for (int x = 0; x < (int)waveNum*1.2; x++)
                 {
                     modMan.addUnit("ARTIFICIAL", reinforce(), new Vector2(150 + x * 32, 25));
                 }
@@ -110,29 +110,79 @@ namespace Retribution
         {
             Random rand = new Random();
             int temp=rand.Next(1,12);
-            switch (temp)
+            if (waveNum <= 2)
             {
-                case 1:
-                case 2:
-                case 3:
-                    return "ARCHER";
-                case 4:
-                    return "APPRENTICE";
-                case 5:
-                    return "CLERIC";
-                case 6:
-                    return "WARRIOR";
-                case 7:
-                    return "COMMANDER";
-                case 8:
-                    return "ROGUE";
-                case 9:
-                    return "CATAPULT";
-                case 10:
-                case 11:
-                case 12:
-                    return "PAWN";
-                   // break;
+                switch (temp)
+                {
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                        return "ARCHER";
+                    case 6:
+                    case 7:
+                    case 8:
+                        return "WARRIOR";
+                    case 9:
+                    case 10:
+                    case 11:
+                    case 12:
+                        return "PAWN";
+                    // break;
+                }
+            }
+            if (waveNum <= 4)
+            {
+                switch (temp)
+                {
+                    case 1:
+                    case 2:
+                    case 3:
+                        return "ARCHER";
+                    case 4:
+                        return "COMMANDER";
+                    case 5:
+                        return "CLERIC";
+                    case 6:
+                        return "ROGUE";
+                    case 7:
+                    case 8:    
+                    case 9:
+                        return "WARRIOR";
+                    case 10:
+                        return "APPRENTICE";
+                    case 11:
+                    case 12:
+                        return "PAWN";
+                    // break;
+                }
+            }
+            if (waveNum <= 5)
+            {
+                switch (temp)
+                {
+                    case 1:
+                    case 2:
+                    case 3:
+                        return "ARCHER";
+                    case 4:
+                        return "COMMANDER";
+                    case 5:
+                        return "CATAPULT";
+                    case 6:
+                        return "CLERIC";
+                    case 7:      
+                    case 8:
+                    case 9:
+                        return "WARRIOR";
+                    case 10:
+                    case 11:
+                        return "ROGUE";
+                    case 12:
+                        return "APPRENTICE";
+                    // break;
+                }
             }
             return "PAWN";
         }
@@ -152,7 +202,7 @@ namespace Retribution
                 switch (unit.type)
                 {
                     case "ARCHER":
-                        playerScore+=200+unit.health;
+                        playerScore+=50+unit.health;
                         break;
                     case "APPRENTICE":
                         playerScore +=300+unit.health;
@@ -167,13 +217,13 @@ namespace Retribution
                         playerScore += 3000 + unit.health;
                         break;
                     case "PAWN":
-                        playerScore +=100+unit.health;
+                        playerScore +=25+unit.health;
                         break;
                     case"ROGUE":
                         playerScore +=1500+unit.health;
                         break;
                     case"TOWER":
-                        playerScore +=300+unit.health;
+                        playerScore +=100+unit.health;
                         break;
                     case"WARRIOR":
                         playerScore +=400+unit.health;
@@ -185,7 +235,7 @@ namespace Retribution
                 switch (unit.type)
                 {
                     case "ARCHER":
-                        aiScore +=200+unit.health;
+                        aiScore +=50+unit.health;
                         break;
                     case "APPRENTICE":
                         aiScore +=300+unit.health;
@@ -206,7 +256,7 @@ namespace Retribution
                         aiScore +=1500+unit.health;
                         break;
                     case "TOWER":
-                        aiScore +=300+unit.health;
+                        aiScore +=100+unit.health;
                         break;
                     case "WARRIOR":
                         aiScore +=400+unit.health;

@@ -36,7 +36,7 @@ namespace Retribution
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(txt, name, new Vector2(1070, 198), Color.White);
+            spriteBatch.DrawString(txt, name+"   COST:"+cost, new Vector2(1070, 198), Color.White);
             spriteBatch.Draw(texture, new Rectangle(1079,244,32,32), Color.White);
             spriteBatch.DrawString(txt, health + " HP", new Vector2(1120, 220), Color.White);
             spriteBatch.DrawString(txt, damage + " DAMAGE", new Vector2(1120, 240), Color.White);
@@ -45,13 +45,16 @@ namespace Retribution
             spriteBatch.DrawString(txt, movespeed + " MOVESPEED", new Vector2(1120, 300), Color.White);
             spriteBatch.DrawString(txt, descrip, new Vector2(1070, 320), Color.White);
             spriteBatch.DrawString(txt, special, new Vector2(1070, 360), Color.White);
-
+            spriteBatch.DrawString(txt, "Left Click(&Drag) to Select",new Vector2(1070,460), Color.White);
+            spriteBatch.DrawString(txt, "Right Click to Command", new Vector2(1070, 480), Color.White);
+            spriteBatch.DrawString(txt, "F for special attack", new Vector2(1070, 500), Color.White);
             //spriteBatch.Draw(createBar(spriteBatch.GraphicsDevice), new Vector2(1025, 0), Color.White);
             //spriteBatch.Draw(createRBar(spriteBatch.GraphicsDevice), new Vector2(1046, 0), Color.White);
 
         }
         public static void info(GameObject unit)
         {
+            cost = getCost(unit.type);
             name = unit.type;
             texture = unit.texture;
             descrip = pullText(unit.type);
@@ -65,6 +68,31 @@ namespace Retribution
             attackspeed=unit.attackSpeed.ToString();
             special=specialText(unit.type);
             
+        }
+        public static String getCost(String Type)
+        {
+            switch (Type)
+            {
+                case "ARCHER":
+                    return Archer.cost.ToString();
+                case "APPRENTICE":
+                    return Apprentice.cost.ToString();
+                case "CATAPULT":
+                    return Catapult.cost.ToString();
+                case "CLERIC":
+                    return Cleric.cost.ToString();
+                case "COMMANDER":
+                    return Commander.cost.ToString();
+                case "PAWN":
+                    return Pawn.cost.ToString();
+                case "ROGUE":
+                    return Rogue.cost.ToString();
+                case "TOWER":
+                    return Tower.cost.ToString();
+                case "WARRIOR":
+                    return Warrior.cost.ToString();
+            }
+            return "0";
         }
         public static String pullText(String type)
         {
@@ -85,7 +113,7 @@ namespace Retribution
                 case "ROGUE":
                     return "A quick, shadowy, assassin deadly\n with the hit and run";
                 case "TOWER":
-                    return "A stalwart defender with impressive range";
+                    return "A stalwart defender with impressive \nrange";
                 case "WARRIOR":
                     return "A chivalrous tank, slow but powerful\nunless enraged";
             }
@@ -110,7 +138,7 @@ namespace Retribution
                 case "ROGUE":
                     return "Stealth:Engages a high chance that he\nwill lose his enemy's aggression\nCooldown:8 sec";
                 case "TOWER":
-                    return "No Special";
+                    return "Entrench:Health and damage boost\nin exchange for range and attackspeed\nCooldown:Toggleable";
                 case "WARRIOR":
                     return "Juggernaut:Increased damage and speed\nat the cost of 20% health and range\nCooldown:4 sec";
             }

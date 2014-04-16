@@ -66,7 +66,7 @@ namespace Retribution
                                 if (pobj.isAlive() && !pobj.attacked)
                                 {
                                     //  Call player object attack
-                                    if (random.NextDouble() <= .8&& aobj.aiTarget==null)//50% chance to respond
+                                    if (random.NextDouble() <= .8&& aobj.aiTarget==null)//80% chance to respond
                                         aobj.aiTarget = pobj;
                                     pobj.Attack(aobj, content, projMan);
                                     pobj.resetAttack();

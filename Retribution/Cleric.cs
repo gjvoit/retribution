@@ -15,8 +15,8 @@ namespace Retribution
         public static int cost = 15;
         public override void attackSound(ContentManager content)
         {
-            SoundEffect soundEffect = content.Load<SoundEffect>("blade.wav");
-            soundEffect.Play();
+            //SoundEffect soundEffect = content.Load<SoundEffect>("blade.wav");
+            //soundEffect.Play();
         }
         public override void kill(ContentManager content)
         {

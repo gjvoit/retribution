@@ -63,9 +63,13 @@ namespace Retribution
                 //temp.LoadContent(theContent);
                 foreach (GameObject unit in units)
                 {
-                    if (unit.selected)
+                    if (unit.selected&&unit.GetType()==typeof(Tower))
                     {
-                        unit.position = mousePosition;
+                        if (!((Tower)unit).placed)
+                        {
+                            ((Tower)unit).placed = true;
+                            unit.position = mousePosition;
+                        }
                     }
                 }
             }
@@ -331,6 +335,9 @@ namespace Retribution
                 if (unit.selected && unit.GetType() == typeof(Commander) &&
                     !previousKeyboard.IsKeyDown(Keys.F) && keyPress.IsKeyDown(Keys.F))
                     ((Commander)unit).rally();
+                if (unit.selected && unit.GetType() == typeof(Tower) &&
+                    !previousKeyboard.IsKeyDown(Keys.F) && keyPress.IsKeyDown(Keys.F))
+                    ((Tower)unit).entrench();
                 //  Skill - Rogue stealth
 
                 //  SKill - etc.
