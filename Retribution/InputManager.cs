@@ -117,6 +117,7 @@ namespace Retribution
                     {
                         units[i].selected = true;
                         selectedUnit = units[i];
+                        InfoCard.info(units[i]);
                         break;
                     }
                 }

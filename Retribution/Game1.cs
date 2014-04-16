@@ -41,6 +41,7 @@ namespace Retribution
         SoundEffect player;
         MoraleBar mBar;
         GUIButtons gui;
+        InfoCard info;
       //  Warrior theCommander;
         int playerResources = 10;
         int buildResources = 10;
@@ -139,6 +140,7 @@ namespace Retribution
             aiManager = AIManager.getInstance(ref mainScreen);
             mBar = new MoraleBar(ref modMan);
             gui = new GUIButtons(ref modMan);
+            info = new InfoCard(ref modMan);
             inputManager.linkGUI(gui);
             MoraleBar.resourceVal(buildResources);
             mousePrev = Mouse.GetState();
@@ -169,6 +171,9 @@ namespace Retribution
         protected override void LoadContent()
         {
             Content.RootDirectory = "Content";
+            InfoCard.texture = Content.Load<Texture2D>("blank");
+            info.txt = Content.Load<SpriteFont>("Times New Roman");
+            mBar.txt = Content.Load<SpriteFont>("Times New Roman");
             //loadMan.loadContent(this.Content);
             loadMan.load(this.Content, ModelManager.player);
             loadMan.load(this.Content, ModelManager.artificial);
@@ -560,6 +565,7 @@ namespace Retribution
             inputManager.DrawMouseRectangle(spriteBatch, Content);//draw select square?
             mBar.Draw(spriteBatch);
             gui.Draw(spriteBatch);
+            info.Draw(spriteBatch);
             spriteBatch.End();
 
             
