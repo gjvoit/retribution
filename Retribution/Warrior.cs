@@ -42,7 +42,8 @@ namespace Retribution
 
             attackSound(content);
             target.health -= this.damage;
-            
+            this.animateState = "attack";
+            this.animateTime = 0;
         }
         public void juggernaut()
         {
@@ -69,7 +70,7 @@ namespace Retribution
         }
         public override void LoadContent(ContentManager content)
         {
-            texture = content.Load<Texture2D>("warrior.png");
+            texture = content.Load<Texture2D>("warrior_spritesheet.png");
         }
         public override void attackSound(ContentManager content)
         {

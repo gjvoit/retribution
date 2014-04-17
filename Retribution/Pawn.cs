@@ -72,7 +72,7 @@ namespace Retribution
         //  TyDo: The LoadContent method loads every single image we will be using in our game. It's not many, so I feel this is appropriate
         public override void LoadContent(ContentManager content)
         {
-            texture = content.Load<Texture2D>("pawn.png");
+            texture = content.Load<Texture2D>("pawn_spritesheet.png");
         }
         //  TyDo: What is our game loop exactly? Is it:
         //  - Before game loop: initialize and load content

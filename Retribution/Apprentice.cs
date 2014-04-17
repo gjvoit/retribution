@@ -53,6 +53,8 @@ namespace Retribution
                 fireballTest.setDestination(direction, destination);
                 fireballTest.LoadContent(content);
                 projMan.proj.Add(fireballTest);
+                this.animateState = "attack";
+                this.animateTime = 0;
             }
         }
 
@@ -84,12 +86,14 @@ namespace Retribution
             projectile.setDestination(direction, target.position);
             projectile.LoadContent(content);
             projMan.proj.Add(projectile);
+            this.animateState = "attack";
+            this.animateTime = 0;
         }
 
         //  Load the image?
         public override void LoadContent(ContentManager content)
         {
-            texture = content.Load<Texture2D>("apprentice.png");
+            texture = content.Load<Texture2D>("apprentice_spritesheet.png");
         }
     }
 }
