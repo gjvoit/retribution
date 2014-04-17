@@ -14,16 +14,18 @@ namespace Retribution
     {
         public static int cost = 3;
         public string state;
+        public bool entrenched = false;
+        public bool placed = false;
         //public Arrow myArrow;
         //SoundEffect soundEffect;
        
-        public Tower(Vector2 position, int health = 35, int damage = 5, int attackRange = 200)
+        public Tower(Vector2 position, int health = 35, int damage = 1, int attackRange = 200)
             : base (health, position, damage, attackRange)
         {
             this.position = position;
             this.state = "Wall";
             this.type = "TOWER";
-            this.attackSpeed = 300;
+            this.attackSpeed = 60;
         }
 
         // change the state of the Tower
@@ -37,7 +39,32 @@ namespace Retribution
             this.alive = false;
         }
          */
-
+        public void entrench()
+        {
+            if (entrenched)
+            {
+                entrenched = false;
+                specialAttack = false;
+                attackSpeed = 60;
+                this.damage = 1;
+                basehealth = 35;
+                health = health * 35 / 55;
+                attackRange = 200;
+                return;
+            }
+            else
+            {
+                entrenched = true;
+                specialAttack = true;
+                attackWait = 0;
+                attackSpeed = 300;
+                this.damage = 5;
+                basehealth = 55;
+                health = health * 55/35;
+                attackRange = 170;
+                return;
+            }
+        }
         public override void LoadContent(ContentManager content)
         {
             texture = content.Load<Texture2D>("tower.png");
@@ -65,6 +92,7 @@ namespace Retribution
             attackSound(content);
             Vector2 corrected = Vector2.Add(position, new Vector2(16, 16));
             Projectile projectile = new Arrow(corrected, 100, target, 100, 0);
+            projectile.damage = this.damage;
             Vector2 direction = MovementManager.getNormalizedVector(projectile.position, target.position);
             projectile.setDestination(direction, target.position);
             projectile.LoadContent(content);

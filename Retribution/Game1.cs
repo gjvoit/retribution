@@ -46,7 +46,7 @@ namespace Retribution
         Dictionary<Keys, List<GameObject>> groupedUnits;
 
       //  Warrior theCommander;
-        int playerResources = 10;
+        int playerResources = 15;
         int buildResources = 0;
         // if built is false, player enters build phase; if built is true, that means player finished build phase and level starts
         bool built = false;
@@ -214,8 +214,8 @@ namespace Retribution
             // Draw 2 towers for Player
             modMan.addUnit("ARTIFICIAL", "WARRIOR", new Vector2(475, 150));
             //modMan.addUnit("PLAYER", "CLERIC", new Vector2(250,550));
-            modMan.addUnit("PLAYER", "TOWER", new Vector2(384, 416));
-            modMan.addUnit("PLAYER", "TOWER", new Vector2(608, 416));
+            modMan.addUnit("PLAYER", "TOWER", new Vector2(416, 416));
+            modMan.addUnit("PLAYER", "TOWER", new Vector2(576, 416));
             /* ---------------------------------------------------------------------------------------------------- */
             theResource = new Digits(new Vector2(0, 672));
             theTitle = new titleShell(new Vector2(375, 375));

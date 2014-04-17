@@ -13,7 +13,7 @@ namespace Retribution
     {
         public static int cost = 5;
         private Timer juggernautTimer = new Timer(4000);
-        public Warrior(Vector2 position, int health = 30, int damage = 15, int attackRange = 50)
+        public Warrior(Vector2 position, int health = 40, int damage = 15, int attackRange = 50)
             : base(health, position, damage, attackRange)
         {
             //this.health = 40;

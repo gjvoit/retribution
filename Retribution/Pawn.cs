@@ -50,7 +50,7 @@ namespace Retribution
             SoundEffect soundEffect = content.Load<SoundEffect>("death.wav");
             soundEffect.Play();
         }
-        public Pawn(Vector2 position, int health = 12, int damage = 1, int attackRange = 50)
+        public Pawn(Vector2 position, int health = 16, int damage = 1, int attackRange = 50)
             : base(health, position, damage, attackRange)
         {
             type = "PAWN";

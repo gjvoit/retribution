@@ -48,19 +48,40 @@ namespace Retribution
                 rallyTimer.Start();
                 specialAttack = true;
                 List<GameObject> rallied = new List<GameObject>();
-                foreach (GameObject unit in ModelManager.player){
-                    if (unit.GetType().BaseType == typeof(Mobile))
+                if (ModelManager.player.Contains(this))
+                {
+                    foreach (GameObject unit in ModelManager.player)
                     {
-                        if (!((Mobile)unit).isMoving)
+                        if (unit.GetType().BaseType == typeof(Mobile))
                         {
-                            rallied.Add(unit);
-                            unit.selected=true;
-                            if(unit.basehealth-unit.health>=3)
-                            unit.health += 3;
+                            if (!((Mobile)unit).isMoving)
+                            {
+                                rallied.Add(unit);
+                                unit.selected = true;
+                                if (unit.basehealth - unit.health >= 3)
+                                    unit.health += 3;
+                            }
                         }
-                        }
+                    }
+                    MovementManager.changeDestination(rallied, this.position);
                 }
-                MovementManager.changeDestination(rallied, this.position);
+                if (ModelManager.artificial.Contains(this))
+                {
+                    foreach (GameObject unit in ModelManager.artificial)
+                    {
+                        if (unit.GetType().BaseType == typeof(Mobile))
+                        {
+                            if (!((Mobile)unit).isMoving)
+                            {
+                                rallied.Add(unit);
+                                unit.selected = true;
+                                if (unit.basehealth - unit.health >= 3)
+                                    unit.health += 3;
+                            }
+                        }
+                    }
+                    MovementManager.changeDestination(rallied, this.position);
+                }
             }
 
         }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
-
+using System.Timers;
 namespace Retribution
 {
     class AIManager
@@ -12,11 +12,25 @@ namespace Retribution
         public Map myMap;
         public Random random;
         public List<GameObject> aiUnits;
-
+        public static Timer moveTimer = new Timer(100);
+        public static Timer imTimer = new Timer(10000);
         private AIManager(ref Map newMap)
         {
             random = new Random();
             myMap = newMap;
+            moveTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+            imTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent2);
+        }
+        public void OnTimedEvent(object source, ElapsedEventArgs e)
+        {
+            moveTimer.Stop();
+            //if (!imTimer.Enabled)
+            //    moveTimer.Start();
+        }
+        public void OnTimedEvent2(object source, ElapsedEventArgs e)//after 3 seconds
+        {
+            imTimer.Stop();
+            moveTimer.Start();//open the window to explore
         }
         public static AIManager getInstance(ref Map newMap){
             if (instance == null)
@@ -42,6 +56,7 @@ namespace Retribution
                 GameObject gunit = aiUnits[x];
                 if (gunit.aiTarget == null && gunit.GetType().BaseType == typeof(Mobile))//if doesn't have target already and can move
                 {
+                    special(gunit);
                     gunit.aiTarget = unit.aiTarget;
                     gunit.selected = true;
                     attackParty.Add(gunit);//band with this guy
@@ -88,16 +103,17 @@ namespace Retribution
                 List<GameObject> searchParty = new List<GameObject>();
                 unit.selected = true;
                 searchParty.Add(unit);
-                int randpull = random.Next(0, aiUnits.Count)/4;
+                int randpull = random.Next(0, aiUnits.Count);
                 for (int x = 0; x < randpull; x++)
                 {
-                GameObject gunit = aiUnits[x];
+                    GameObject gunit = aiUnits[x];
 
-                if (gunit.aiTarget == null && gunit.GetType().BaseType == typeof(Mobile))
-                {
-                    searchParty.Add(gunit);
-                    gunit.selected = true;
-                }
+                    if (gunit.aiTarget == null && gunit.GetType().BaseType == typeof(Mobile))
+                    {
+                        gunit.specialAttack = true;
+                        searchParty.Add(gunit);
+                        gunit.selected = true;
+                    }
                 }
                 Vector2 explore = new Vector2(random.Next(0, 704), random.Next(600, 1024));
                 MovementManager.changeDestination(searchParty, explore);
@@ -118,22 +134,30 @@ namespace Retribution
 
         public void SetAIDestinations2(List<GameObject> aiunits)
         {
+            
             this.aiUnits = aiunits;
             if (myMap.isDrawn == true)
             {
                 foreach (GameObject unit in aiUnits)
                 {
+                    
                     if (unit.GetType().BaseType == typeof(Mobile))
                     {
                         if (unit.aiTarget != null)//if it has a target
                         {
+
                             pursue(unit);
-                            break;
+                            if (!unit.aiTarget.alive)
+                                unit.aiTarget = null;
+                            //break;
                         }
-                        if (((Mobile)unit).destination == null || !((Mobile)unit).isMoving||((Mobile)unit).isPaused) //
+                        else
+                        if (!((Mobile)unit).isMoving||(((Mobile)unit).isMoving&&unit.aiTarget==null&&moveTimer.Enabled))
+                        { //
                             explore(unit);
-
-
+                              break;
+                        }
+                        
                     }
                 }
             }

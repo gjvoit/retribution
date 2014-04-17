@@ -58,23 +58,23 @@ namespace Retribution
             switch (type)
             {
                 case "ARCHER":
-                    return Archer.cost / 2;
+                    return (int)(Archer.cost*.6);
                 case "APPRENTICE":
-                    return Apprentice.cost / 2;
+                    return (int)(Apprentice.cost *.6);
                 case "PAWN":
-                    return Pawn.cost / 2;
+                    return (int)(Pawn.cost*.6);
                 case "COMMANDER":
-                    return Commander.cost/2;
+                    return (int)(Commander.cost*.6);
                 case "CLERIC":
-                    return Cleric.cost/2;
+                    return (int)(Cleric.cost *.6);
                 case "CATAPULT":
-                    return Catapult.cost / 2;
+                    return (int)(Catapult.cost*.6);
                 case "TOWER":
-                    return Tower.cost;
+                    return (int)(Tower.cost*.6);
                 case "ROGUE":
-                    return Rogue.cost / 2;
+                    return (int)(Rogue.cost*.6);
                 case "WARRIOR":
-                    return Warrior.cost / 2;
+                    return (int)(Warrior.cost*.6);
             }
             return 1;
 
