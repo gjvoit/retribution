@@ -93,6 +93,9 @@ namespace Retribution
                 case "WARRIOR":
                     ((Warrior)unit).juggernaut();
                     break;
+                case "BOSS":
+                    ((BossUnit)unit).pound();
+                    break;
             }
         }
         public void explore(GameObject unit)

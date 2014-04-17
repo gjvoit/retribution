@@ -19,7 +19,7 @@ namespace Retribution
         {
             this.position = position;
             this.moveSpeed = 6;
-            this.damage = 30;
+            this.damage = 40;
             this.collisionType = "arc";
             
             //this.health = 1000;
