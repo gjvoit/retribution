@@ -59,7 +59,8 @@ namespace Retribution
                         unit.aiTarget = null;
                 }
             }
-            
+            this.animateState = "attack";
+            this.animateTime = 0;
         }
         //  On skill key press, hides the image of the unit
         //  TyNote: For now, we simply hide the rogue unit by changing its image. No indication of its location or transparency yet
@@ -93,7 +94,7 @@ namespace Retribution
         //  Load the image?
         public override void LoadContent(ContentManager content)
         {
-            texture = content.Load<Texture2D>("Rogue.png");
+            texture = content.Load<Texture2D>("rogue_spritesheet.png");
         }
     }
 }
