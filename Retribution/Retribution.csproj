@@ -286,6 +286,7 @@
     <Content Include="Content\trollface2.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\Victory.png" />
     <Content Include="Content\victoryScreen.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
