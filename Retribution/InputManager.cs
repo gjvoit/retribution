@@ -209,7 +209,31 @@ namespace Retribution
                 }
             }
 
-            
+            if (!previousKeyboard.IsKeyDown(Keys.Delete) && keyPress.IsKeyDown(Keys.Delete) && units.Count > 0)
+            {
+                if (dbuildPhase) // complete refund
+                {
+                    int refund = getCost(units[units.Count - 1]);
+                    units.RemoveAt(units.Count - 1);
+                }
+
+                // what to do when not in build phase? partial refund? currently can't undo build in play phase
+                
+            }
+
+            if (!previousKeyboard.IsKeyDown(Keys.Back) && keyPress.IsKeyDown(Keys.Back))
+            {
+                foreach (GameObject gobj in units)
+                {
+                    if (gobj.selected)
+                    {
+                        int refund = getCost(gobj);
+                        playerResources += refund;
+                    }
+                }
+
+                units.RemoveAll(gobj => gobj.selected);
+            }
 
             
             Rectangle rect;
@@ -464,6 +488,33 @@ namespace Retribution
                     }
                 }
             }
+        }
+
+        public int getCost(GameObject gobj)
+        {
+            switch (gobj.GetType().ToString())
+            {
+                case "Archer":
+                    return Archer.cost;
+                case "Tower":
+                    return Tower.cost;
+                case "Warrior":
+                    return Warrior.cost;
+                case "PAWN":
+                    return Pawn.cost;
+                case "APPRENTICE":
+                    return Apprentice.cost;
+                case "COMMANDER":
+                    return Commander.cost;
+                case "CATAPULT":
+                    return Catapult.cost;
+                case "ROGUE":
+                    return Rogue.cost;
+                case "CLERIC":
+                    return Cleric.cost;
+            }
+
+            return 0;
         }
     }
 }
