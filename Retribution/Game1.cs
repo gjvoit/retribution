@@ -325,7 +325,10 @@ namespace Retribution
                     built = true;
                     MoraleBar.resourceAdd(playerResources);
                 }
-                inputManager.Update(mouseCurrent, mousePrev, ref ClickTimer, keyboardState, ref groupedUnits, ref ModelManager.player, ref ModelManager.artificial, ref loadMan, ref projMan, this.Content, ref MoraleBar.resources, true);
+                else
+                {
+                    inputManager.Update(mouseCurrent, mousePrev, ref ClickTimer, keyboardState, ref groupedUnits, ref ModelManager.player, ref ModelManager.artificial, ref loadMan, ref projMan, this.Content, ref MoraleBar.resources, true);
+                }
                 //MoraleBar.resourceVal(buildResources);
                 
             }
