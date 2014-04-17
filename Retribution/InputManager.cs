@@ -260,8 +260,6 @@ namespace Retribution
 
             if (!previousKeyboard.IsKeyDown(Keys.Back) && keyPress.IsKeyDown(Keys.Back))
             {
-                Console.WriteLine("resources a" + playerResources);
-                Console.WriteLine("resources b" + MoraleBar.resources);
                 foreach (GameObject gobj in units)
                 {
                     if (gobj.selected)
