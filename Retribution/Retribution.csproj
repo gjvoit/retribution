@@ -54,6 +54,7 @@
     <Compile Include="Archer.cs" />
     <Compile Include="Arrow.cs" />
     <Compile Include="AttackSystem.cs" />
+    <Compile Include="BossUnit.cs" />
     <Compile Include="Builder.cs" />
     <Compile Include="Catapult.cs" />
     <Compile Include="Circle.cs" />
@@ -139,6 +140,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\blank.PNG">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\boss.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\bow.mp3">

@@ -24,6 +24,7 @@ namespace Retribution
         public SpriteFont txt;
         public static int resources = 0;
         public bool active;
+        public bool bossSpawn = false;
         ModelManager modMan;
         public SoundEffect horn;
         private MoraleBar()
@@ -98,18 +99,23 @@ namespace Retribution
         }
         public void waveMech()
         {
-            if (playerScore <= 0 && aiScore > 0&&waveNum<7)
+            
+            if (playerScore <= 0 && aiScore > 0&&waveNum<=7)
             {
                 waveNum++;
-                if (waveNum > 7)
+                if (waveNum >=7 &&!bossSpawn)
+                {
                     waveNum = 7;
+                    ModelManager.artificial.Add(new BossUnit(new Vector2(200, 25), (int)(playerScore * 10), 30, 100));
+                    bossSpawn = true;
+                }
                 disAd = 0;
                 catapults = 0;
                 clerics = 0;
                 commander = false;
                 timeDrain = 0;
                 horn.Play();
-                for (int x = 0; x < (int)waveNum*1.5; x++)
+                for (int x = 0; x < (ModelManager.player.Count-ModelManager.artificial.Count); x++)
                 {
                     modMan.addUnit("ARTIFICIAL", reinforce(), new Vector2(150 + x * 32, 25));
                 }

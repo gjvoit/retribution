@@ -79,6 +79,7 @@ namespace Retribution
                             if (projectile.position.X <= projectile.end_point.X && projectile.position.X >= projectile.prev_point.X
                                 && projectile.position.Y <= projectile.end_point.Y && projectile.position.Y >= projectile.prev_point.Y)
                             {
+                                projectile.health = -1;
                                 projectile.collided = true;
                                 if (aobj.isAlive() && projectile.IsInRange(aobj))
                                 {
@@ -133,6 +134,7 @@ namespace Retribution
                                 && projectile.position.Y <= projectile.end_point.Y && projectile.position.Y >= projectile.prev_point.Y)
                             {
                                 projectile.collided = true;
+                                projectile.health = -1;
                                 if (pobj.isAlive() && projectile.IsInRange(pobj))
                                 {
                                     pobj.health -= projectile.damage;

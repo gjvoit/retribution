@@ -60,7 +60,7 @@ namespace Retribution
                 case "ARCHER":
                     return (int)(Archer.cost*.6);
                 case "APPRENTICE":
-                    return (int)(Apprentice.cost *.6);
+                    return (int)(Apprentice.cost);
                 case "PAWN":
                     return (int)(Pawn.cost*.6);
                 case "COMMANDER":
