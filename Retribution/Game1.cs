@@ -47,7 +47,7 @@ namespace Retribution
 
       //  Warrior theCommander;
         int playerResources = 15;
-        int buildResources = 10;
+        int buildResources = 0;
         // if built is false, player enters build phase; if built is true, that means player finished build phase and level starts
         bool built = false;
         // if initialized is false, that means AI units have not been initialized
