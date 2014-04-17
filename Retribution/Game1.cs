@@ -321,7 +321,7 @@ namespace Retribution
                 // and the player should receive a “ready check”
                 inputManager.Update(mouseCurrent, mousePrev, ref ClickTimer, keyboardState, ref groupedUnits, ref ModelManager.player, ref ModelManager.artificial, ref loadMan, ref projMan, this.Content, ref MoraleBar.resources, true);
                 //MoraleBar.resourceVal(buildResources);
-                if (MoraleBar.resources <= 0 || keyboardState.IsKeyDown(Keys.Enter))
+                if (keyboardState.IsKeyDown(Keys.Enter))
                 { // once we deplete our build resources, set built to true (doing so will initialize enemy AI units and starts the level)
                     built = true;
                     MoraleBar.resourceAdd(playerResources);
