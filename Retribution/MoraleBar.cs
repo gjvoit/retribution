@@ -102,6 +102,8 @@ namespace Retribution
             
             if (playerScore <= 0 && aiScore > 0&&waveNum<=7)
             {
+                int unitcount=ModelManager.player.Count-ModelManager.artificial.Count;
+                if(unitcount>0)
                 waveNum++;
                 if (waveNum >=7 &&!bossSpawn)
                 {
@@ -115,7 +117,7 @@ namespace Retribution
                 commander = false;
                 timeDrain = 0;
                 horn.Play();
-                for (int x = 0; x < (ModelManager.player.Count-ModelManager.artificial.Count); x++)
+                for (int x = 0; x <unitcount+1; x++)
                 {
                     modMan.addUnit("ARTIFICIAL", reinforce(), new Vector2(150 + x * 32, 25));
                 }
