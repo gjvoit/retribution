@@ -106,7 +106,7 @@ namespace Retribution
                 case "CATAPULT":
                     return "A terror on the battlefield--inaccurate\nbut destructive to clumped units";
                 case "CLERIC":
-                    return "A holy healer dealing no damage but\nhealing all same-side units in range";
+                    return "A holy healer dealing no damage but\nheals all same-side units in range";
                 case "COMMANDER":
                     return "A formidable warrior with morale and\nrallying bonus";
                 case "PAWN":

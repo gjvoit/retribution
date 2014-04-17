@@ -74,7 +74,7 @@ namespace Retribution
         }
         private void OnTimedEvent(object source, ElapsedEventArgs e)
         {
-            attackWait += 500;
+            attackWait += 180;
             specialAttack = false;
             attackSpeed = 180;
             rapidFireTimer.Stop();

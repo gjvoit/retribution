@@ -56,7 +56,6 @@ namespace Retribution
             {
                 entrenched = true;
                 specialAttack = true;
-                attackWait = 0;
                 attackSpeed = 300;
                 this.damage = 5;
                 basehealth = 55;
