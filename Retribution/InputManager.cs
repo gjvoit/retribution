@@ -436,14 +436,26 @@ namespace Retribution
         public Vector2 placementUtil()
         {
             Vector2 posit;
+            int currentx = current.X;
+            int currenty = current.Y;
+            if (currenty < 450)
+                currenty = 450;
+            if (currenty > 650)
+                currenty = 650;
+            if (currentx < 50)
+                currentx = 50;
+            if (currentx > 950)
+                currentx = 950;
             if (buildPhase)
-                posit = new Vector2(current.X, current.Y);
-            else posit = new Vector2(current.X, default_player_y);
-            if (posit.X > 1024)
             {
-                posit.X = 496;
-                posit.Y = default_player_y;
+                posit = new Vector2(currentx, currenty);
             }
+            else posit = new Vector2(currentx, default_player_y);
+            //if (posit.X > 450)
+            //{
+            //    posit.X = 450;
+            //    posit.Y = default_player_y;
+            //}
             return posit;
 
         }
