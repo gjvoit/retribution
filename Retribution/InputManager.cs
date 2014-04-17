@@ -394,6 +394,9 @@ namespace Retribution
                 if (unit.selected && unit.GetType() == typeof(Tower) &&
                     !previousKeyboard.IsKeyDown(Keys.F) && keyPress.IsKeyDown(Keys.F))
                     ((Tower)unit).entrench();
+                if (unit.selected && unit.GetType() == typeof(BossUnit) &&
+                    !previousKeyboard.IsKeyDown(Keys.F) && keyPress.IsKeyDown(Keys.F))
+                    ((BossUnit)unit).pound();
                 //  Skill - Rogue stealth
 
                 //  SKill - etc.

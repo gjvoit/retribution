@@ -213,6 +213,7 @@ namespace Retribution
             }
             // Draw 2 towers for Player
             modMan.addUnit("ARTIFICIAL", "WARRIOR", new Vector2(475, 150));
+           // ModelManager.artificial.Add(new BossUnit(new Vector2(475,590),400));
             //modMan.addUnit("PLAYER", "CLERIC", new Vector2(250,550));
             modMan.addUnit("PLAYER", "TOWER", new Vector2(416, 416));
             modMan.addUnit("PLAYER", "TOWER", new Vector2(576, 416));
@@ -368,6 +369,8 @@ namespace Retribution
             if ((ModelManager.player.Count == 0) && built)
             {
                 screenManager.victory = "defeat";
+                SoundEffect defeatEffect = Content.Load<SoundEffect>("wilhelm.wav");
+                defeatEffect.Play();
                 ModelManager.artificial.Clear();
                 testCommander();
                 mBar.waveNum = 0;
