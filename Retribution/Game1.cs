@@ -49,11 +49,11 @@ namespace Retribution
         int playerResources = 15;
         int buildResources = 0;
         // if built is false, player enters build phase; if built is true, that means player finished build phase and level starts
-        bool built = false;
+        static bool built = false;
         // if initialized is false, that means AI units have not been initialized
         bool initialized = false;
-        bool playable = false;
-        bool preventBuilding = false;
+        static bool playable = false;
+        static bool preventBuilding = false;
         double ClickTimer;
 
         //  TyDigit digit test to display amount of resources left

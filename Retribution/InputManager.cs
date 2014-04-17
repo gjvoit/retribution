@@ -16,14 +16,24 @@ namespace Retribution
         //MovementManager movementManager;
 
         public ModelManager modelManager;
-
+        static Vector2 dummy = new Vector2(0,0);
+        Archer arc=new Archer(dummy);
+        Apprentice app= new Apprentice(dummy);
+        Catapult cat=new Catapult(dummy);
+        Cleric cle=new Cleric(dummy);
+        Commander com= new Commander(dummy);
+        Pawn paw= new Pawn(dummy);
+        Rogue rog= new Rogue(dummy);
+        Tower tow= new Tower(dummy);
+        Warrior war= new Warrior(dummy);
+        bool loaded = false;
         Rectangle mouseRec;
         Vector2 mouseRecOrigin;
         Texture2D myTexture;
         GUIButtons gui;
         Vector2 mousepos;
         public bool buildPhase=true;
-
+        ContentManager content;
         MouseState current;
         MouseState previous;
         int spacing = 1;
@@ -45,11 +55,33 @@ namespace Retribution
         {
             gui = gwee;
         }
+        public void loadMouseOvers(ContentManager cont)
+        {
+
+            arc.LoadContent(cont);
+            app.LoadContent(cont);
+            cle.LoadContent(cont);
+            paw.LoadContent(cont);
+            cat.LoadContent(cont);
+            com.LoadContent(cont);
+            tow.LoadContent(cont);
+            war.LoadContent(cont);
+            rog.LoadContent(cont);
+        }
         public void Update(MouseState newcurrent, MouseState newprevious, ref double ClickTimer, KeyboardState keyPress,
             ref Dictionary<Keys, List<GameObject>> groupedUnits, ref List<GameObject> units, ref List<GameObject> aunits,
             ref LoadManager loadManager, ref ProjectileManager projMan, ContentManager theContent, ref int playerResources, bool dbuildPhase)
 
         {
+            Rectangle holder = mouseRec;
+            mouseRec = new Rectangle(newcurrent.X, newcurrent.Y, 2, 2);
+            if (!loaded)
+            {
+                loadMouseOvers(theContent);
+                loaded = true;
+            }
+            mouseOver();
+            mouseRec = holder;
             bool singleClick = false;
             current = newcurrent;
             previous = newprevious;
@@ -390,6 +422,38 @@ namespace Retribution
             }
             return posit;
 
+        }
+        public void mouseOver()
+        {
+            
+            Rectangle rect;
+            gui.buttonCols.TryGetValue("ARCHER", out rect);
+            if (buttonClick(rect))
+                InfoCard.info(arc);
+            gui.buttonCols.TryGetValue("APPRENTICE", out rect);
+            if (buttonClick(rect))
+                InfoCard.info(app);
+            gui.buttonCols.TryGetValue("CATAPULT", out rect);
+            if (buttonClick(rect))
+                InfoCard.info(cat);
+            gui.buttonCols.TryGetValue("COMMANDER", out rect);
+            if (buttonClick(rect))
+                InfoCard.info(com);
+            gui.buttonCols.TryGetValue("CLERIC", out rect);
+            if (buttonClick(rect))
+                InfoCard.info(cle);
+            gui.buttonCols.TryGetValue("PAWN", out rect);
+            if (buttonClick(rect))
+                InfoCard.info(paw);
+            gui.buttonCols.TryGetValue("ROGUE", out rect);
+            if (buttonClick(rect))
+                InfoCard.info(rog);
+            gui.buttonCols.TryGetValue("TOWER", out rect);
+            if (buttonClick(rect))
+                InfoCard.info(tow);
+            gui.buttonCols.TryGetValue("WARRIOR", out rect);
+            if (buttonClick(rect))
+                InfoCard.info(war);
         }
         public bool buttonClick(Rectangle arg)
         {

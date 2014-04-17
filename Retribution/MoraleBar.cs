@@ -11,11 +11,14 @@ namespace Retribution
     class MoraleBar
     {
        
-        public int playerScore;
-        public int aiScore;
-        public int prevScore;
-        public int timeDrain;
-        public int disAd;
+        public double playerScore;
+        public double aiScore;
+        public double prevScore;
+        public double timeDrain;
+        public double disAd;
+        bool commander = false;
+        int catapults = 0;
+        int clerics = 0;
         public int waveNum;
         public int scaled;
         public SpriteFont txt;
@@ -76,15 +79,18 @@ namespace Retribution
             if (playerScore < 0)
                 playerScore = 0;
             
-            int total = aiScore + playerScore;
+            int total = (int)(aiScore + playerScore);
             Texture2D texture = new Texture2D(arg, 20, 704);
             Color[] data = new Color[20*704];
             for (int i = 0; i < data.Length; i++)
                 data[i] = Color.Black;
 
-            int scaled = playerScore*704;
+            int scaled = (int)(playerScore*704);
+            
             if(total!=0)
                 scaled=scaled/total;
+            if (scaled >= 704)
+                scaled = 704;
             for (int j = scaled*20-1; j > 0; j--)
                 data[j] = Color.GhostWhite;
             texture.SetData(data);
@@ -92,15 +98,18 @@ namespace Retribution
         }
         public void waveMech()
         {
-            if (playerScore <= 0 && aiScore > 0&&waveNum<5)
+            if (playerScore <= 0 && aiScore > 0&&waveNum<7)
             {
                 waveNum++;
-                if (waveNum > 5)
-                    waveNum = 5;
+                if (waveNum > 7)
+                    waveNum = 7;
                 disAd = 0;
+                catapults = 0;
+                clerics = 0;
+                commander = false;
                 timeDrain = 0;
                 horn.Play();
-                for (int x = 0; x < (int)waveNum*1.2; x++)
+                for (int x = 0; x < (int)waveNum*1.5; x++)
                 {
                     modMan.addUnit("ARTIFICIAL", reinforce(), new Vector2(150 + x * 32, 25));
                 }
@@ -110,7 +119,7 @@ namespace Retribution
         {
             Random rand = new Random();
             int temp=rand.Next(1,12);
-            if (waveNum <= 2)
+            if (waveNum <2)
             {
                 switch (temp)
                 {
@@ -132,7 +141,7 @@ namespace Retribution
                     // break;
                 }
             }
-            if (waveNum <= 4)
+            if (waveNum < 4)
             {
                 switch (temp)
                 {
@@ -141,9 +150,21 @@ namespace Retribution
                     case 3:
                         return "ARCHER";
                     case 4:
-                        return "COMMANDER";
+                        if (!commander)
+                        {
+                            commander = true;
+                            return "COMMANDER";
+                        }
+                        else
+                            return "WARRIOR";
                     case 5:
-                        return "CLERIC";
+                        if (clerics < 2)
+                        {
+                            clerics++;
+                            return "CLERIC";
+                        }
+                        else
+                            return "APPRENTICE";
                     case 6:
                         return "ROGUE";
                     case 7:
@@ -158,7 +179,7 @@ namespace Retribution
                     // break;
                 }
             }
-            if (waveNum <= 5)
+            if (waveNum < 5)
             {
                 switch (temp)
                 {
@@ -167,11 +188,29 @@ namespace Retribution
                     case 3:
                         return "ARCHER";
                     case 4:
-                        return "COMMANDER";
+                        if (!commander)
+                        {
+                            commander = true;
+                            return "COMMANDER";
+                        }
+                        else
+                            return "WARRIOR";
                     case 5:
-                        return "CATAPULT";
+                        if (catapults <= 2)
+                        {
+                            catapults++;
+                            return "CATAPULT";
+                        }
+                        else
+                            return "APPRENTICE";
                     case 6:
-                        return "CLERIC";
+                        if (clerics < 2)
+                        {
+                            clerics++;
+                            return "CLERIC";
+                        }
+                        else
+                            return "APPRENTICE";
                     case 7:      
                     case 8:
                     case 9:
@@ -202,28 +241,28 @@ namespace Retribution
                 switch (unit.type)
                 {
                     case "ARCHER":
-                        playerScore+=50+unit.health;
+                        playerScore+=200+unit.health;
                         break;
                     case "APPRENTICE":
-                        playerScore +=300+unit.health;
+                        playerScore +=350+unit.health;
                         break;
                     case "CATAPULT":
-                        playerScore +=800+unit.health;
+                        playerScore +=2000+unit.health;
                         break;
                     case "CLERIC":
-                        playerScore +=500+unit.health;
+                        playerScore +=600+unit.health;
                         break;
                     case "COMMANDER":
                         playerScore += 3000 + unit.health;
                         break;
                     case "PAWN":
-                        playerScore +=25+unit.health;
+                        playerScore +=60+unit.health;
                         break;
                     case"ROGUE":
                         playerScore +=1500+unit.health;
                         break;
                     case"TOWER":
-                        playerScore +=100+unit.health;
+                        playerScore +=200+unit.health;
                         break;
                     case"WARRIOR":
                         playerScore +=400+unit.health;
@@ -235,28 +274,28 @@ namespace Retribution
                 switch (unit.type)
                 {
                     case "ARCHER":
-                        aiScore +=50+unit.health;
+                        aiScore +=25+unit.health;
                         break;
                     case "APPRENTICE":
-                        aiScore +=300+unit.health;
+                        aiScore +=150+unit.health;
                         break;
                     case "CATAPULT":
-                        aiScore +=800+unit.health;
+                        aiScore +=400+unit.health;
                         break;
                     case "CLERIC":
-                        aiScore +=500+unit.health;
+                        aiScore +=250+unit.health;
                         break;
                     case "COMMANDER":
-                        aiScore += 3000 + unit.health;
+                        aiScore += 1500 + unit.health;
                         break;
                     case "PAWN":
-                        aiScore +=100+unit.health;
+                        aiScore +=17+unit.health;
                         break;
                     case "ROGUE":
-                        aiScore +=1500+unit.health;
+                        aiScore +=300+unit.health;
                         break;
                     case "TOWER":
-                        aiScore +=100+unit.health;
+                        aiScore +=50+unit.health;
                         break;
                     case "WARRIOR":
                         aiScore +=400+unit.health;
@@ -268,7 +307,7 @@ namespace Retribution
                 active = false;
                             }
             if (!active)
-                timeDrain++;
+                timeDrain+=700/(aiScore);
             if (prevScore - playerScore > 1)
             {//if you lost more than 1
                 disAd+= timeDrain;

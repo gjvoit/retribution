@@ -36,6 +36,7 @@ namespace Retribution
         }
         public void Draw(SpriteBatch spriteBatch)
         {
+            
             spriteBatch.DrawString(txt, name+"   COST:"+cost, new Vector2(1070, 198), Color.White);
             spriteBatch.Draw(texture, new Rectangle(1079,244,32,32), Color.White);
             spriteBatch.DrawString(txt, health + " HP", new Vector2(1120, 220), Color.White);
@@ -47,7 +48,7 @@ namespace Retribution
             spriteBatch.DrawString(txt, special, new Vector2(1070, 360), Color.White);
             spriteBatch.DrawString(txt, "Left Click(&Drag) to Select",new Vector2(1070,460), Color.White);
             spriteBatch.DrawString(txt, "Right Click to Command", new Vector2(1070, 480), Color.White);
-            spriteBatch.DrawString(txt, "F for special attack", new Vector2(1070, 500), Color.White);
+            spriteBatch.DrawString(txt, "F for special attack\nLeft click +S to place Towers", new Vector2(1070, 500), Color.White);
             //spriteBatch.Draw(createBar(spriteBatch.GraphicsDevice), new Vector2(1025, 0), Color.White);
             //spriteBatch.Draw(createRBar(spriteBatch.GraphicsDevice), new Vector2(1046, 0), Color.White);
 

@@ -14,7 +14,7 @@ namespace Retribution
     {
         public Projectile myArrow;
         //public GameObject aiTarget;
-        private static Timer fireballTimer = new Timer(4000);  //  1 for testing purposes, should be 4000 possibly depending on balance issues
+        private static Timer fireballTimer = new Timer(3500);  //  1 for testing purposes, should be 4000 possibly depending on balance issues
         private static Timer animateTimer = new Timer(250);
         public static int cost = 15;
         //public string state;

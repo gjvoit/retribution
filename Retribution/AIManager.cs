@@ -110,7 +110,6 @@ namespace Retribution
 
                     if (gunit.aiTarget == null && gunit.GetType().BaseType == typeof(Mobile))
                     {
-                        gunit.specialAttack = true;
                         searchParty.Add(gunit);
                         gunit.selected = true;
                     }
