@@ -73,7 +73,7 @@ namespace Retribution
             //spriteBatch.Draw(createCircle(attackRange, spriteBatch.GraphicsDevice), temp, Color.Crimson);
             if (specialAttack)
                 color = Color.Red;
-            spriteBatch.Draw(texture, new Rectangle((int)this.position.X, (int)this.position.Y, imageSize, imageSize), new Rectangle(ssX * 32, ssY * 32, imageSize, imageSize), color);
+            spriteBatch.Draw(texture, new Rectangle((int)this.position.X, (int)this.position.Y, imageSize, imageSize), new Rectangle(ssX * imageSize, ssY * imageSize, imageSize, imageSize), color);
             spriteBatch.Draw(createHPBar(this.health, spriteBatch.GraphicsDevice), position, color);
         }
         public void resetAttack()
