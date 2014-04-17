@@ -8,7 +8,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Retribution", "Retribution\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RetributionText", "RetributionText\RetributionText\RetributionText.csproj", "{AA799734-6A63-4EF9-8AC5-82C516450531}"
 EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "RetributionTextContent", "RetributionText\RetributionTextContent\RetributionTextContent.contentproj", "{F37CD7A6-1A22-415A-96C4-05B0A9CF8900}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RetributionTextContent", "RetributionText\RetributionTextContent\RetributionTextContent.contentproj", "{F37CD7A6-1A22-415A-96C4-05B0A9CF8900}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -96,6 +96,7 @@ Global
 		{AA799734-6A63-4EF9-8AC5-82C516450531}.Debug|Mixed Platforms.ActiveCfg = PSM|Any CPU
 		{AA799734-6A63-4EF9-8AC5-82C516450531}.Debug|Mixed Platforms.Build.0 = PSM|Any CPU
 		{AA799734-6A63-4EF9-8AC5-82C516450531}.Debug|x86.ActiveCfg = PSM|Any CPU
+		{AA799734-6A63-4EF9-8AC5-82C516450531}.Debug|x86.Build.0 = PSM|Any CPU
 		{AA799734-6A63-4EF9-8AC5-82C516450531}.iOS|Any CPU.ActiveCfg = iOS|Any CPU
 		{AA799734-6A63-4EF9-8AC5-82C516450531}.iOS|Any CPU.Build.0 = iOS|Any CPU
 		{AA799734-6A63-4EF9-8AC5-82C516450531}.iOS|Mixed Platforms.ActiveCfg = iOS|Any CPU
