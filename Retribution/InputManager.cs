@@ -249,10 +249,10 @@ namespace Retribution
             {
                 if (dbuildPhase) // complete refund
                 {
-                    //int refund = getCost(units[units.Count - 1]);
-                    //playerResources += refund;
-                    units.RemoveAt(units.Count - 1);
+                    int refund = getCost(units[units.Count - 1]);
+                    playerResources += refund;
                 }
+                units.RemoveAt(units.Count - 1);
 
                 // what to do when not in build phase? partial refund? currently can't undo build in play phase
                 
@@ -264,11 +264,10 @@ namespace Retribution
                 {
                     if (gobj.selected)
                     {
-                        //int refund = getCost(gobj);
-                        //playerResources += refund;
+                        int refund = getCost(gobj);
+                        playerResources += refund;
                     }
                 }
-
                 units.RemoveAll(gobj => gobj.selected);
             }
 
@@ -437,14 +436,26 @@ namespace Retribution
         public Vector2 placementUtil()
         {
             Vector2 posit;
+            int currentx = current.X;
+            int currenty = current.Y;
+            if (currenty < 450)
+                currenty = 450;
+            if (currenty > 650)
+                currenty = 650;
+            if (currentx < 50)
+                currentx = 50;
+            if (currentx > 950)
+                currentx = 950;
             if (buildPhase)
-                posit = new Vector2(current.X, current.Y);
-            else posit = new Vector2(current.X, default_player_y);
-            if (posit.X > 1024)
             {
-                posit.X = 496;
-                posit.Y = default_player_y;
+                posit = new Vector2(currentx, currenty);
             }
+            else posit = new Vector2(currentx, default_player_y);
+            //if (posit.X > 450)
+            //{
+            //    posit.X = 450;
+            //    posit.Y = default_player_y;
+            //}
             return posit;
 
         }
@@ -564,7 +575,7 @@ namespace Retribution
 
         public int getCost(GameObject gobj)
         {
-            switch (gobj.GetType().ToString())
+            switch (gobj.GetType().Name.ToString())
             {
                 case "Archer":
                     return Archer.cost;
