@@ -412,7 +412,7 @@ namespace Retribution
                 initialized = false;
                 if (screenManager.currentMap.name.Equals("Content/castleDefense.txt"))
                 {
-                    if (buildResources > 15)
+                    if (MoraleBar.resources > 15)
                     {
                         prevResources = MoraleBar.resources;
                     }
@@ -423,7 +423,7 @@ namespace Retribution
 
                 else if (screenManager.currentMap.name.Equals("Content/riverDefense.txt")) 
                 {
-                    if (buildResources > 20)
+                    if (MoraleBar.resources > 20)
                     {
                         prevResources = MoraleBar.resources;
                     }
