@@ -249,10 +249,10 @@ namespace Retribution
             {
                 if (dbuildPhase) // complete refund
                 {
-                    //int refund = getCost(units[units.Count - 1]);
-                    //playerResources += refund;
-                    units.RemoveAt(units.Count - 1);
+                    int refund = getCost(units[units.Count - 1]);
+                    playerResources += refund;
                 }
+                units.RemoveAt(units.Count - 1);
 
                 // what to do when not in build phase? partial refund? currently can't undo build in play phase
                 
@@ -264,11 +264,10 @@ namespace Retribution
                 {
                     if (gobj.selected)
                     {
-                        //int refund = getCost(gobj);
-                        //playerResources += refund;
+                        int refund = getCost(gobj);
+                        playerResources += refund;
                     }
                 }
-
                 units.RemoveAll(gobj => gobj.selected);
             }
 
@@ -564,7 +563,7 @@ namespace Retribution
 
         public int getCost(GameObject gobj)
         {
-            switch (gobj.GetType().ToString())
+            switch (gobj.GetType().Name.ToString())
             {
                 case "Archer":
                     return Archer.cost;
