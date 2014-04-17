@@ -135,7 +135,7 @@ namespace Retribution
         //  Load the image?
         public override void LoadContent(ContentManager content)
         {
-            texture = content.Load<Texture2D>("commander.png");
+            texture = content.Load<Texture2D>("commander_spritesheet.png");
         }
     }
 }

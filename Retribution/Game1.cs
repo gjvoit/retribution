@@ -538,7 +538,7 @@ namespace Retribution
             }
             for (int i = 0; i < ModelManager.player.Count; i++)//draw player objects
             {
-                
+                    (ModelManager.player[i]).Animate();
                     (ModelManager.player[i]).Draw(spriteBatch);
             }
 

@@ -63,7 +63,7 @@ namespace Retribution
                 spriteBatch.Draw(createCircle(attackRange, spriteBatch.GraphicsDevice), temp, dCol);
                                         }
            
-            spriteBatch.Draw(texture, new Rectangle((int)this.position.X, (int)this.position.Y, imageSize, imageSize), new Rectangle(ssX*32, ssY*32, imageSize, imageSize), dCol);
+            spriteBatch.Draw(texture, new Rectangle((int)this.position.X, (int)this.position.Y, imageSize, imageSize), new Rectangle(ssX*imageSize, ssY*imageSize, imageSize, imageSize), dCol);
             if(selected)
                 spriteBatch.Draw(createHPBar(this.health, spriteBatch.GraphicsDevice), position, Color.White);
         }
@@ -90,7 +90,7 @@ namespace Retribution
         //  A rectangle to represent the object
         public Rectangle Bounds
         {
-            get { return new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height); }
+            get { return new Rectangle((int)position.X, (int)position.Y, this.imageSize, this.imageSize); }
         }
         public virtual void attackSound(ContentManager content)
         {
@@ -102,6 +102,8 @@ namespace Retribution
         {
             attackSound(content);
             target.health -= this.damage;
+            this.animateState = "attack";
+            this.animateTime = 0;
         }
 
         public Boolean IsInRange(GameObject target)
@@ -161,7 +163,7 @@ namespace Retribution
         }
 
         public abstract void LoadContent(ContentManager content);
-        public void Animate()
+        public virtual void Animate()
         {
         }
         public Texture2D createHPBar(int health, GraphicsDevice arg)

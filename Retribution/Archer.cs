@@ -53,6 +53,8 @@ namespace Retribution
             projectile.setDestination(direction, target.position);
             projectile.LoadContent(content);
             projMan.proj.Add(projectile);
+            this.animateState = "attack";
+            this.animateTime = 0;
         }
         public void rapidFire()
         {
@@ -97,7 +99,7 @@ namespace Retribution
         public override void LoadContent(ContentManager content)
         {
            
-            texture = content.Load<Texture2D>("archer.png");
+            texture = content.Load<Texture2D>("archer_spritesheet.png");
         }
 
     }
