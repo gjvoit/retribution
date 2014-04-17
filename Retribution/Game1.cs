@@ -368,6 +368,8 @@ namespace Retribution
             if ((ModelManager.player.Count == 0) && built)
             {
                 screenManager.victory = "defeat";
+                SoundEffect defeatEffect = Content.Load<SoundEffect>("wilhelm.wav");
+                defeatEffect.Play();
                 ModelManager.artificial.Clear();
                 testCommander();
                 mBar.waveNum = 0;
