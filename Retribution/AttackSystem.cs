@@ -72,8 +72,8 @@ namespace Retribution
                                         aobj.aiTarget = pobj;
                                     pobj.Attack(aobj, content, projMan);
                                     pobj.resetAttack();
-                                    if (pobj.aiTarget!=null&&!pobj.aiTarget.isAlive())
-                                        pobj.aiTarget = null;
+                                    //if (!pobj.aiTarget.isAlive())
+                                    //    pobj.aiTarget = null;
                                     //break;
                                 }
                             }//rangecheck
@@ -121,8 +121,8 @@ namespace Retribution
                                 {
                                     aobj.Attack(pobj, content, projMan);
                                     aobj.resetAttack();
-                                    if (!aobj.aiTarget.isAlive())
-                                        aobj.aiTarget = null;
+                                    //if (!aobj.aiTarget.isAlive())
+                                    //    aobj.aiTarget = null;
                                     //break;
                                 }
                             }
