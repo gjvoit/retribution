@@ -30,6 +30,7 @@ namespace Retribution
         Map defeatScreen, mainScreen, levelSelect, castleDefense, riverDefense, castleSiege, victoryScreen;
         MouseState mouseCurrent, mousePrev;
         String currentTransition = "levelSelect";
+        Sprite levelLock;
         SpriteFont transitionText;
         HealthSystem healthChecker;
         AttackSystem attackChecker;
@@ -601,6 +602,14 @@ namespace Retribution
                     spriteBatch.Draw(Content.Load<Texture2D>("CastleSiege.png"), new Rectangle(96 + 32 + 640, 356, 128, 64), Color.White);
                     spriteBatch.Draw(Content.Load<Texture2D>("TheRiver.png"), new Rectangle(96 + 346, 346, 128, 64), Color.White);
                     spriteBatch.Draw(Content.Load<Texture2D>("CastleDefence.png"), new Rectangle(96 + 32, 335, 128, 64), Color.White);
+                    if (screenManager.allSelectors[3].getInteraction() == false)
+                    {
+                        spriteBatch.Draw(Content.Load<Texture2D>("lock.png"), new Rectangle(96 + 320, 320, 32, 32), Color.White);
+                    }
+                    if (screenManager.allSelectors[4].getInteraction() == false)
+                    {
+                        spriteBatch.Draw(Content.Load<Texture2D>("lock.png"), new Rectangle(96 + 640, 320, 32, 32), Color.White);
+                    }
                 }
             }
             if (screenManager.currentMap.name.Equals("Content/defeatScreen.txt"))
