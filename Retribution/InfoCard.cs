@@ -53,9 +53,15 @@ namespace Retribution
             spriteBatch.DrawString(txt, movespeed + " MOVESPEED", new Vector2(1120, 300), Color.White);
             spriteBatch.DrawString(txt, descrip, new Vector2(1070, 320), Color.White);
             spriteBatch.DrawString(txt, special, new Vector2(1070, 360), Color.White);
-            spriteBatch.DrawString(txt, "Left Click(&Drag) to Select",new Vector2(1070,460), Color.White);
-            spriteBatch.DrawString(txt, "Right Click to Command", new Vector2(1070, 480), Color.White);
-            spriteBatch.DrawString(txt, "F for special attack\nLeft click +S to place Towers", new Vector2(1070, 500), Color.White);
+            spriteBatch.DrawString(txt, "The Basics", new Vector2(1070, 460), Color.Gold);
+            spriteBatch.DrawString(txt, "Left Click(&Drag) to Select (or left click a single unit)",new Vector2(1070,480), Color.White);
+            spriteBatch.DrawString(txt, "Right Click to Command", new Vector2(1070, 500), Color.White);
+            spriteBatch.DrawString(txt, "Move the General on to the selector to move to the next level", new Vector2(1070, 520), Color.White);
+            spriteBatch.DrawString(txt, "Gettin' Fancy", new Vector2(1070, 560), Color.Gold);
+            spriteBatch.DrawString(txt, "Build your army then press enter to begin the battle", new Vector2(1070, 580), Color.White);
+            spriteBatch.DrawString(txt, "F for special attack", new Vector2(1070, 600), Color.White);
+            spriteBatch.DrawString(txt, "Ctrl + (1-9) will bind currently selected units to a squad", new Vector2(1070, 620), Color.White);
+            spriteBatch.DrawString(txt, "Pressing that number will then re-select that squad", new Vector2(1070, 640), Color.White);
             //spriteBatch.Draw(createBar(spriteBatch.GraphicsDevice), new Vector2(1025, 0), Color.White);
             //spriteBatch.Draw(createRBar(spriteBatch.GraphicsDevice), new Vector2(1046, 0), Color.White);
 
@@ -146,7 +152,7 @@ namespace Retribution
                 case "ROGUE":
                     return "Stealth:Engages a high chance that he\nwill lose his enemy's aggression\nCooldown:8 sec";
                 case "TOWER":
-                    return "Entrench:Health and damage boost\nin exchange for range and attackspeed\nCooldown:Toggleable";
+                    return "Entrench:Health and damage boost\nin exchange for range and attackspeed\nCooldown:Toggleable\nLeft click +S to place Towers";
                 case "WARRIOR":
                     return "Juggernaut:Increased damage and speed\nat the cost of 20% health and range\nCooldown:4 sec";
             }
