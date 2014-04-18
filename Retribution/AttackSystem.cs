@@ -44,33 +44,35 @@ namespace Retribution
             foreach (GameObject pobj in player)
             {
                 
-                if (pobj.aiTarget != null && pobj.aiTarget.alive && pobj.attackWait <= 0 && pobj.IsInRange(pobj.aiTarget))//Have target?
+                if (pobj.aiTarget != null && pobj.aiTarget.isAlive() && pobj.attackWait <= 0 && pobj.IsInRange(pobj.aiTarget))//Have target?
                 {
                     if (random.NextDouble() <= .5 && pobj.aiTarget.aiTarget==null)//80% chance to respond
                         (pobj.aiTarget).aiTarget = pobj;
                     pobj.Attack(pobj.aiTarget, content, projMan);
                     pobj.resetAttack();
+                    if (!pobj.aiTarget.isAlive())
+                        pobj.aiTarget = null;
                    // break;
                 }
                 else
                 {
-                    if (pobj.attackWait <= 0)//ready to attack
+                    if (pobj.attackWait <= 0 && pobj.aiTarget == null)//ready to attack
                     {
                         foreach (GameObject aobj in artificial)
                         {
-                            if (pobj.IsInRange(aobj)) //if ai is attackable by player
+                            if (pobj.IsInRange(aobj) && pobj.aiTarget == null) //if ai is attackable by player
                             {
-                                pobj.aiTarget = aobj;
-                               
+                                if (aobj.isAlive())
+                                    pobj.aiTarget = aobj;
                                                   //  If the player object is alive and is not currently being attacked
-                                if (pobj.isAlive() && !pobj.attacked)
+                                if (pobj.isAlive() && !pobj.attacked && pobj.attackWait <= 0)
                                 {
                                     //  Call player object attack
                                     if (random.NextDouble() <= .8&& aobj.aiTarget==null)//80% chance to respond
                                         aobj.aiTarget = pobj;
                                     pobj.Attack(aobj, content, projMan);
                                     pobj.resetAttack();
-                                    if (!pobj.aiTarget.alive)
+                                    if (!pobj.aiTarget.isAlive())
                                         pobj.aiTarget = null;
                                     //break;
                                 }
@@ -97,7 +99,7 @@ namespace Retribution
             {
                 
                 ///AI ATTACKING
-                if (aobj.aiTarget != null && aobj.aiTarget.alive && aobj.attackWait <= 0 && aobj.IsInRange(aobj.aiTarget))//Have target?
+                if (aobj.aiTarget != null && aobj.aiTarget.isAlive() && aobj.attackWait <= 0 && aobj.IsInRange(aobj.aiTarget))//Have target?
                 {
                     aobj.Attack(aobj.aiTarget, content, projMan);
                     aobj.resetAttack();
@@ -107,20 +109,21 @@ namespace Retribution
                 }
                 else//find target
                 {
-                    if (aobj.attackWait <= 0)
+                    if (aobj.attackWait <= 0 && aobj.aiTarget == null)
                     {
                         foreach (GameObject pobj in player)
                         {
-                            if (aobj.IsInRange(pobj))
+                            if (aobj.IsInRange(pobj) && aobj.aiTarget == null)
                             {
-                                if (aobj.isAlive() && !aobj.attacked)
-                                {
+                                if (pobj.isAlive())
                                     aobj.aiTarget = pobj;
+                                if (aobj.isAlive() && !aobj.attacked && aobj.attackWait <= 0)
+                                {
                                     aobj.Attack(pobj, content, projMan);
                                     aobj.resetAttack();
                                     if (!aobj.aiTarget.isAlive())
                                         aobj.aiTarget = null;
-                                    break;
+                                    //break;
                                 }
                             }
                         }//uses loop
