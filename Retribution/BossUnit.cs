@@ -91,47 +91,7 @@ namespace Retribution
         {
             poundCD.Stop();
         }
-        //  When receiving damage, negate the initial attack and give a 15 point shield lasting for 5 seconds
-        //  TyNote: For now, every 15 seconds that passes the commander regains half its hp back.
 
-        //  Increment cooldown timer
-        public void updateCD(GameTime gameTime)
-        {
-            if (this.shieldCD < 15.0)
-            {
-                //  TyDO: If time elapsed is 1 second,
-                this.shieldCD++;
-            }
-            else if (this.shieldCD >= 15.0)
-            {
-                if (this.health <= 15)
-                {
-                    this.health += 15;
-                }
-                else
-                {
-                    this.health = 30;
-                }
-                this.shieldCD = 0.0;
-            }
-
-            if (this.dashCD < 2.0)
-            {
-                this.dashCD++;
-            }
-        }
-
-        //  When skill key is pressed, dash to target location very quickly
-        //  TyNote: For now, increase movement speed temporarily
-        public void dash()
-        {
-            if (this.dashCD >= 2.0)
-            {
-                this.dashCD = 0.0;
-                this.moveSpeed *= 2;
-                //this.animate = "dash";
-            }
-        }
         public Vector2 circleFire(int x)
         {
             if (x == 0)
@@ -149,11 +109,14 @@ namespace Retribution
             Vector2 corrected = Vector2.Add(position, new Vector2(16, 16));
             for (int x = 0; x < 4; x++)
             {
-                Projectile projectile = new Fireball(corrected, 0, this, 1, 0);
+                Fireball projectile = new Fireball(corrected, 0, this, 1, 0);
                 Vector2 direction = MovementManager.getNormalizedVector(projectile.position, circleFire(x));
-                projectile.setDestination(direction, target.position);
-                ((Fireball)projectile).LoadContent(content);
+                projectile.setDestination(direction, circleFire(x));
+                projectile.LoadContent(content);
                 projMan.proj.Add(projectile);
+                            
+                
+                
             }
             
         }

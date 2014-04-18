@@ -214,7 +214,7 @@ namespace Retribution
             }
             // Draw 2 towers for Player
             modMan.addUnit("ARTIFICIAL", "WARRIOR", new Vector2(475, 150));
-           // ModelManager.artificial.Add(new BossUnit(new Vector2(475,590),400));
+           //ModelManager.player.Add(new BossUnit(new Vector2(475,590),4000));
             //modMan.addUnit("PLAYER", "CLERIC", new Vector2(250,550));
             /* ---------------------------------------------------------------------------------------------------- */
             theResource = new Digits(new Vector2(0, 672));
