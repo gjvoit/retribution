@@ -64,7 +64,7 @@ namespace Retribution
                                 ((Mobile)unit).moveSpeed = 900;
                                 bool mov = ((Mobile)unit).isMoving;
                                 bool paus = ((Mobile)unit).isPaused;
-                                ((Mobile)unit).isMoving = false;
+                                ((Mobile)unit).isMoving = true;
                                 ((Mobile)unit).isPaused = false;
                                 bool sel = unit.selected;
                                 unit.selected = true;
@@ -113,9 +113,7 @@ namespace Retribution
                 Vector2 direction = MovementManager.getNormalizedVector(projectile.position, circleFire(x));
                 projectile.setDestination(direction, circleFire(x));
                 projectile.LoadContent(content);
-                projMan.proj.Add(projectile);
-                            
-                
+                projMan.proj.Add(projectile);                      
                 
             }
             

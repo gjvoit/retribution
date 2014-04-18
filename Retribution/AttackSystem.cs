@@ -56,11 +56,11 @@ namespace Retribution
                 }
                 else
                 {
-                    if (pobj.attackWait <= 0 && pobj.aiTarget == null)//ready to attack
+                    if (pobj.attackWait <= 0)//ready to attack
                     {
                         foreach (GameObject aobj in artificial)
                         {
-                            if (pobj.IsInRange(aobj) && pobj.aiTarget == null) //if ai is attackable by player
+                            if (pobj.IsInRange(aobj)) //if ai is attackable by player
                             {
                                 if (aobj.isAlive())
                                     pobj.aiTarget = aobj;
@@ -109,11 +109,11 @@ namespace Retribution
                 }
                 else//find target
                 {
-                    if (aobj.attackWait <= 0 && aobj.aiTarget == null)
+                    if (aobj.attackWait <= 0)
                     {
                         foreach (GameObject pobj in player)
                         {
-                            if (aobj.IsInRange(pobj) && aobj.aiTarget == null)
+                            if (aobj.IsInRange(pobj))
                             {
                                 if (pobj.isAlive())
                                     aobj.aiTarget = pobj;
