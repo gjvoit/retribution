@@ -222,7 +222,7 @@ namespace Retribution
             modMan.addUnit("ARTIFICIAL", "WARRIOR", new Vector2(425, 175));
             modMan.addUnit("ARTIFICIAL", "WARRIOR", new Vector2(475, 175));
             modMan.addUnit("ARTIFICIAL", "WARRIOR", new Vector2(525, 175));
-           ModelManager.artificial.Add(new BossUnit(new Vector2(475,590),400));
+           //ModelManager.artificial.Add(new BossUnit(new Vector2(475,590),400));
            //ModelManager.player.Add(new BossUnit(new Vector2(475,590),4000));
             //modMan.addUnit("PLAYER", "CLERIC", new Vector2(250,550));
             /* ---------------------------------------------------------------------------------------------------- */
