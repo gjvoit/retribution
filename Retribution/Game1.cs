@@ -46,7 +46,7 @@ namespace Retribution
         Dictionary<Keys, List<GameObject>> groupedUnits;
 
       //  Warrior theCommander;
-        int playerResources = 150;
+        int playerResources = 15;
         int buildResources = 0;
         // if built is false, player enters build phase; if built is true, that means player finished build phase and level starts
         static bool built = false;
@@ -320,13 +320,14 @@ namespace Retribution
                 // Why is the "buildPhase" Boolean always true? Should it be equal to "built"?
                 // 2 checks: either you don’t want to use all your resources, and want to start the game now, or you’ve used all your resources
                 // and the player should receive a “ready check”
-                inputManager.Update(mouseCurrent, mousePrev, ref ClickTimer, keyboardState, ref groupedUnits, ref ModelManager.player, ref ModelManager.artificial, ref loadMan, ref projMan, this.Content, ref MoraleBar.resources, true);
-                //MoraleBar.resourceVal(buildResources);
                 if (keyboardState.IsKeyDown(Keys.Enter))
                 { // once we deplete our build resources, set built to true (doing so will initialize enemy AI units and starts the level)
                     built = true;
                     MoraleBar.resourceAdd(playerResources);
                 }
+                inputManager.Update(mouseCurrent, mousePrev, ref ClickTimer, keyboardState, ref groupedUnits, ref ModelManager.player, ref ModelManager.artificial, ref loadMan, ref projMan, this.Content, ref MoraleBar.resources, true);
+                //MoraleBar.resourceVal(buildResources);
+                
             }
             else if (built && initialized)// player is not building in build phase but rather building reinforcements - notice the false flag at the end indicating not build phase
             {
@@ -412,7 +413,7 @@ namespace Retribution
                 initialized = false;
                 if (screenManager.currentMap.name.Equals("Content/castleDefense.txt"))
                 {
-                    if (MoraleBar.resources > 15)
+                    if (buildResources > 15)
                     {
                         prevResources = MoraleBar.resources;
                     }
@@ -423,7 +424,7 @@ namespace Retribution
 
                 else if (screenManager.currentMap.name.Equals("Content/riverDefense.txt")) 
                 {
-                    if (MoraleBar.resources  > 20)
+                    if (buildResources > 20)
                     {
                         prevResources = MoraleBar.resources;
                     }
@@ -547,7 +548,6 @@ namespace Retribution
 
             for (int i = 0; i < ModelManager.artificial.Count; i++)//draw AI objects
             {
-                ModelManager.artificial[i].Animate();
                 ModelManager.artificial[i].Draw(spriteBatch,Color.Coral);
             }
 
