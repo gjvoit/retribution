@@ -29,6 +29,8 @@ namespace Retribution
             castleSiegeSelector, victoryScreenSelector;
         Map defeatScreen, mainScreen, levelSelect, castleDefense, riverDefense, castleSiege, victoryScreen;
         MouseState mouseCurrent, mousePrev;
+        String currentTransition = "levelSelect";
+        SpriteFont transitionText;
         HealthSystem healthChecker;
         AttackSystem attackChecker;
         InputManager inputManager;
@@ -42,9 +44,10 @@ namespace Retribution
         MoraleBar mBar;
         GUIButtons gui;
         InfoCard info;
+        Texture2D transitionScreen;
         int prevResources = 10;
         Dictionary<Keys, List<GameObject>> groupedUnits;
-
+        bool completeTransition = true;
       //  Warrior theCommander;
         int playerResources = 10;
         int buildResources = 0;
@@ -52,6 +55,7 @@ namespace Retribution
         static bool built = false;
         // if initialized is false, that means AI units have not been initialized
         bool initialized = false;
+        bool whatIsTruth = true;
         static bool playable = false;
         static bool preventBuilding = false;
         bool casdefbuilt = false;
@@ -178,6 +182,8 @@ namespace Retribution
         {
             Content.RootDirectory = "Content";
             InfoCard.texture = Content.Load<Texture2D>("blank");
+            transitionScreen = Content.Load<Texture2D>("blank");
+            transitionText = Content.Load<SpriteFont>("Times New Roman");
             info.txt = Content.Load<SpriteFont>("Times New Roman");
             mBar.txt = Content.Load<SpriteFont>("Times New Roman");
             //loadMan.loadContent(this.Content);
@@ -324,7 +330,7 @@ namespace Retribution
                 // Why is the "buildPhase" Boolean always true? Should it be equal to "built"?
                 // 2 checks: either you don’t want to use all your resources, and want to start the game now, or you’ve used all your resources
                 // and the player should receive a “ready check”
-                if (keyboardState.IsKeyDown(Keys.Enter))
+                if(keyboardState.IsKeyDown(Keys.Enter))
                 { // once we deplete our build resources, set built to true (doing so will initialize enemy AI units and starts the level)
                     built = true;
                     MoraleBar.resourceAdd(playerResources);
@@ -388,6 +394,8 @@ namespace Retribution
                     prevResources = 10;
                     buildResources = 0;
                     MoraleBar.resourceVal(buildResources);
+                    currentTransition = "defeatScreen";
+                    completeTransition = false;
                 }
 
                 else if (screenManager.currentMap.name.Equals("Content/riverDefense.txt"))
@@ -395,6 +403,8 @@ namespace Retribution
                     prevResources = 10;
                     buildResources = 0;
                     MoraleBar.resourceVal(buildResources);
+                    currentTransition = "fallBackToTheCastle";
+                    completeTransition = false;
                 }
                 else if (screenManager.currentMap.name.Equals("Content/castleSiege.txt"))
                 {
@@ -402,6 +412,8 @@ namespace Retribution
                     prevResources = 15;
                     buildResources = 0;
                     MoraleBar.resourceVal(buildResources);
+                    currentTransition = "fallBackToTheRiver";
+                    completeTransition = false;
                 }
                 testBeta = true;
                 //Console.WriteLine("interaction for defeatscreenselector: " + screenManager.allSelectors[0].getInteraction());
@@ -429,6 +441,8 @@ namespace Retribution
                         buildResources = 0;
                         MoraleBar.resourceVal(buildResources);
                     }
+                    currentTransition = "onwardToTheRiver";
+                    completeTransition = false;
                 }
 
                 else if (screenManager.currentMap.name.Equals("Content/riverDefense.txt")) 
@@ -444,6 +458,8 @@ namespace Retribution
                         buildResources = 0;
                         MoraleBar.resourceVal(buildResources);
                     }
+                    currentTransition = "onwardToTheCastle";
+                    completeTransition = false;
                 }
                 else if (screenManager.currentMap.name.Equals("Content/castleSiege.txt"))
                 {
@@ -451,11 +467,23 @@ namespace Retribution
                     prevResources = 10;
                     buildResources = 0;
                     MoraleBar.resourceVal(buildResources);
+                    currentTransition = "victoryScreen";
+                    completeTransition = false;
                 }
                 testBeta = true;
             }
+            if (completeTransition == false && keyboardState.IsKeyDown(Keys.Enter))
+            {
+                completeTransition = true;
+                currentTransition = "null";
+            }
 
             screenManager.updateSelectors(screenManager.victory);
+            if (screenManager.currentMap.name.Equals("Content/MainScreen.txt") && completeTransition == true && whatIsTruth == false) 
+            {
+                currentTransition = "levelSelect";
+                whatIsTruth = true;
+            }
             /*if (screenManager.victory.Equals("victory") && screenManager.currentMap.name.Equals("castleSiege"))
             {
                 screenManager.victory = "undef";
@@ -525,33 +553,62 @@ namespace Retribution
                 //ModelManager.player.Remove(ModelManager.player[0]);
                 testBeta = false;
             }
-
-            screenManager.currentMap.DrawMap(spriteBatch);
+            if (screenManager.currentMap.name.Equals("Content/levelSelect.txt") && whatIsTruth == true) 
+            {
+                completeTransition = false;
+                whatIsTruth = false;
+            }
+            if (completeTransition)
+            {
+                screenManager.currentMap.DrawMap(spriteBatch);
+            }
+            else
+            {
+                if (currentTransition.Equals("levelSelect"))
+                {
+                    spriteBatch.Draw(transitionScreen, new Rectangle(0, 0, 704, 1024), Color.Black);
+                    spriteBatch.DrawString(transitionText, "Your city has long held tenuous relations with a nearby nation.\nMany times, each has tried to conquer the other, but 'til now,\nneither has ever succeeded. As the heir ascendant to the throne\nof your nation, it is your responsibility to protect your people\nfrom harm and to repel the enemy attacks. But your nation is\nnot a mere victim. Both nations have always housed sizable\narmies who wield impressive tactical prowess. With the recent\ndeath of your father, the king, the rival nation has been undergoing\nobvious plans to launch yet another campaign against your city.\n\nIt is up to you to not only repel their assault, but to turn their attack\non its head, and bring the fight to them, once and for all.\n\nPress Enter to proceed to Level Select", new Vector2(350, 200), Color.White);
+                }
+                if (currentTransition.Equals("onwardToTheRiver"))
+                {
+                    spriteBatch.Draw(transitionScreen, new Rectangle(0, 0, 704, 1024), Color.Black);
+                    spriteBatch.DrawString(transitionText, "You successfully repeled the enemy attack.\nNow is your chance to strike back!", new Vector2(350, 270), Color.White);
+                }
+            }
             if (screenManager.currentMap.name.Equals("Content/MainScreen.txt")) 
             {
                 spriteBatch.Draw(Content.Load<Texture2D>("ret.png"), new Rectangle(262, 37, 500, 200), Color.White);
             }
             if (screenManager.currentMap.name.Equals("Content/levelSelect.txt"))//ghetto right now, but it'll do.
             {
-                spriteBatch.Draw(Content.Load<Texture2D>("CastleSiege.png"), new Rectangle(96+32+640, 356, 128, 64), Color.White);
-                spriteBatch.Draw(Content.Load<Texture2D>("TheRiver.png"), new Rectangle(96+346, 346, 128, 64), Color.White);
-                spriteBatch.Draw(Content.Load<Texture2D>("CastleDefence.png"), new Rectangle(96 + 32, 335, 128, 64), Color.White);
+                if ((!currentTransition.Equals("levelSelect") || !currentTransition.Equals(""))
+                {
+                    spriteBatch.Draw(Content.Load<Texture2D>("CastleSiege.png"), new Rectangle(96 + 32 + 640, 356, 128, 64), Color.White);
+                    spriteBatch.Draw(Content.Load<Texture2D>("TheRiver.png"), new Rectangle(96 + 346, 346, 128, 64), Color.White);
+                    spriteBatch.Draw(Content.Load<Texture2D>("CastleDefence.png"), new Rectangle(96 + 32, 335, 128, 64), Color.White);
+                }
             }
             if (screenManager.currentMap.name.Equals("Content/defeatScreen.txt"))
             {
-                spriteBatch.Draw(Content.Load<Texture2D>("Defeat.png"), new Rectangle(262, 37, 500, 200), Color.White);
+                if (currentTransition.Equals("defeatScreen"))
+                {
+                    spriteBatch.Draw(transitionScreen, new Rectangle(0, 0, 704, 1024), Color.Black);
+                    spriteBatch.DrawString(transitionText, "Your kingdom has fallen to the invaders.\nYour enemies were right to assume your \nweakness would lead to your kingdom's downfall.", new Vector2(350, 270), Color.White);
+                    spriteBatch.Draw(Content.Load<Texture2D>("Defeat.png"), new Rectangle(262, 37, 500, 200), Color.White);
+                    // Write about how your kingdom was destroyed
+                }
             }
             if (screenManager.currentMap.name.Equals("Content/victoryScreen.txt"))
             {
                 spriteBatch.Draw(Content.Load<Texture2D>("Victory.png"), new Rectangle(262, 37, 500, 200), Color.White);
             }
 
-            if (built && initialized)  // hopefully get digits working and draw it to the screen (only when game starts)
-            {
-                //Console.WriteLine("h");
-                theResource.ssY = playerResources * 32;
-                theResource.Draw(spriteBatch);
-            }
+            //if (built && initialized)  // hopefully get digits working and draw it to the screen (only when game starts)
+            //{
+            //    //Console.WriteLine("h");
+            //    theResource.ssY = playerResources * 32;
+            //    theResource.Draw(spriteBatch);
+            //}
             //}
             
             // We want to start on the level castleDefense, then unlock riverDefense if victory, else exit to defeat screen
