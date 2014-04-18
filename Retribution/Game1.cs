@@ -239,6 +239,7 @@ namespace Retribution
             modMan.addUnit("ARTIFICIAL", "TOWER", new Vector2(576, 224));
             modMan.addUnit("ARTIFICIAL", "WARRIOR", new Vector2(475, 150));
             //modMan.addUnit("PLAYER", "CLERIC", new Vector2(250,550));
+            mBar.bossSpawn = false;
             /* ---------------------------------------------------------------------------------------------------- */
             theResource = new Digits(new Vector2(0, 672));
             theTitle = new titleShell(new Vector2(375, 375));

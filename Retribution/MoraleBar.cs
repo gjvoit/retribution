@@ -24,7 +24,7 @@ namespace Retribution
         public SpriteFont txt;
         public static int resources = 0;
         public bool active;
-        public bool bossSpawn = false;
+        public bool bossSpawn = true;
         ModelManager modMan;
         public SoundEffect horn;
         private MoraleBar()
@@ -110,7 +110,7 @@ namespace Retribution
                 if (waveNum >=7 &&!bossSpawn)
                 {
                     waveNum = 7;
-                    ModelManager.artificial.Add(new BossUnit(new Vector2(200, 25), (int)(playerScore * 10), 30, 100));
+                    ModelManager.artificial.Add(new BossUnit(new Vector2(200, 25), (int)(aiScore *10+200), 30, 100));
                     bossSpawn = true;
                 }
                 disAd = 0;
