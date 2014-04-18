@@ -46,7 +46,7 @@ namespace Retribution
         Dictionary<Keys, List<GameObject>> groupedUnits;
 
       //  Warrior theCommander;
-        int playerResources = 15;
+        int playerResources = 150;
         int buildResources = 0;
         // if built is false, player enters build phase; if built is true, that means player finished build phase and level starts
         static bool built = false;

@@ -34,7 +34,7 @@ namespace Retribution
             : base(health, position, damage, attackRange)
         {
             type = "BOSS";
-            this.attackSpeed = 300;
+            this.attackSpeed = 200;
             this.moveSpeed = 2;
             //this.animationState        //  The actual animation the object is performing (moving left, moving right, attacking, etc.)
             //this.animationFrame   //  Keeps track of the animation frame the object is on
@@ -152,7 +152,7 @@ namespace Retribution
                 Projectile projectile = new Fireball(corrected, 0, this, 1, 0);
                 Vector2 direction = MovementManager.getNormalizedVector(projectile.position, circleFire(x));
                 projectile.setDestination(direction, target.position);
-                projectile.LoadContent(content);
+                ((Fireball)projectile).LoadContent(content);
                 projMan.proj.Add(projectile);
             }
             
@@ -161,6 +161,10 @@ namespace Retribution
         public override void LoadContent(ContentManager content)
         {
             texture = content.Load<Texture2D>("boss.png");
+        }
+        public override void Animate()
+        {
+            
         }
     }
 }

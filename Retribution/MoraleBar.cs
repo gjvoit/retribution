@@ -121,7 +121,14 @@ namespace Retribution
                 horn.Play();
                 for (int x = 0; x <unitcount+1; x++)
                 {
-                    modMan.addUnit("ARTIFICIAL", reinforce(), new Vector2(150 + x * 32, 25));
+                    int placementy=25;
+                    int placementx = 150 + x * 32;
+                    if(placementx>1000){
+                        placementx = 150;
+                        placementy=60;
+                    }
+                    
+                    modMan.addUnit("ARTIFICIAL", reinforce(), new Vector2(placementx, placementy));
                 }
             }
         }
