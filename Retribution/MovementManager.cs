@@ -67,6 +67,7 @@ namespace Retribution
                                 //  If j is not moving, paused, or a tower, don't pause
                                if ((allUnits[j].GetType().BaseType == typeof(Mobile) && (((Mobile)allUnits[j]).isMoving == false || ((Mobile)allUnits[j]).isPaused == true))
                                    || (allUnits[j].GetType() == typeof(Tower))
+                                   || aiUnits.Contains(allUnits[j])
                                    )
                                {
                                    newCollisionList.Add(myMap.GetContainingTile(allUnits[j]));
@@ -85,7 +86,7 @@ namespace Retribution
                                else if (GetGroup((Mobile)allUnits[i]) != null 
                                    && GetGroup((Mobile)allUnits[i]).Contains((Mobile)allUnits[j]) == true 
                                    && myMap.GetContainingTile((Mobile)allUnits[i]) == myMap.GetContainingTile((Mobile)allUnits[j])
-                                   && ((Mobile)allUnits[i]).pathList.Count <= 2
+                                   && ((Mobile)allUnits[i]).pathList.Count <= 3
                                    )
                                 {
                                     newCollisionList.Add(myMap.GetContainingTile(allUnits[j]));
@@ -110,11 +111,25 @@ namespace Retribution
                                 ((Mobile)allUnits[i]).pauseTimer -- ;
                         }
 
+                        
+                        else if (CompareLists(newCollisionList, ((Mobile)allUnits[i]).collisionList) == true 
+                            && ((Mobile)allUnits[i]).isPaused == true
+                            )
+                        {
+                            if (((Mobile)allUnits[i]).pauseTimer <= 0)
+                            {
+                                ((Mobile)allUnits[i]).isPaused = false;
+                                ((Mobile)allUnits[i]).collisionList.Clear();
+                                break;
+                            }
+                            else
+                                ((Mobile)allUnits[i]).pauseTimer--;
+                        }
+                        
+
                         // Else if there was a new collision and the unit isn't paused, get a new path:
                         else if (CompareLists(newCollisionList, ((Mobile)allUnits[i]).collisionList) == false && ((Mobile)allUnits[i]).isPaused == false)
                         {
-                            ((Mobile)allUnits[i]).collisionList.Clear();
-                            ((Mobile)allUnits[i]).collisionList.AddRange(newCollisionList);
 
                             ((Mobile)allUnits[i]).pathList.Clear();
                             Vector2 startPoint = new Vector2(allUnits[i].Bounds.Center.X, allUnits[i].Bounds.Center.Y);
@@ -128,15 +143,21 @@ namespace Retribution
                             ((Mobile)allUnits[i]).isPaused = false;
                             break;
                         }
-
+                        
                         //  If unit i isn't paused and is moving, move it
                         if (((Mobile)allUnits[i]).isPaused == false && ((Mobile)allUnits[i]).isMoving == true)
                         {
                             if (allUnits[i].aiTarget != null && allUnits[i].IsInRange(allUnits[i].aiTarget)) 
                             {
+                                ((Mobile)allUnits[i]).isMoving = false;
+                                ((Mobile)allUnits[i]).isPaused = false;
                             }
-                            else ((Mobile)allUnits[i]).move();
+                            else 
+                                ((Mobile)allUnits[i]).move();
                         }
+
+                        ((Mobile)allUnits[i]).collisionList.Clear();
+                        ((Mobile)allUnits[i]).collisionList.AddRange(newCollisionList);
                     }
 
                 newCollisionList.Clear();
