@@ -517,11 +517,11 @@ namespace Retribution
             }
             if (screenManager.currentMap.name.Equals("Content/defeatScreen.txt"))
             {
-                // Draw the defeat texture here: spriteBatch.Draw(Content.Load<Texture2D>(""));
+                spriteBatch.Draw(Content.Load<Texture2D>("Defeat.png"), new Rectangle(262, 37, 500, 200), Color.White);
             }
             if (screenManager.currentMap.name.Equals("Content/victoryScreen.txt"))
             {
-                // Draw the defeat texture here: spriteBatch.Draw(Content.Load<Texture2D>(""));
+                spriteBatch.Draw(Content.Load<Texture2D>("Victory.png"), new Rectangle(262, 37, 500, 200), Color.White);
             }
 
             if (built && initialized)  // hopefully get digits working and draw it to the screen (only when game starts)
