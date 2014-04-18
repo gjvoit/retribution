@@ -430,34 +430,34 @@ namespace Retribution
                 initialized = false;
                 if (screenManager.currentMap.name.Equals("Content/castleDefense.txt"))
                 {
-                    if (buildResources > 15)
+                    if (MoraleBar.resources > 15)
                     {
                         prevResources = MoraleBar.resources;
                     }
                     else
                     {
-                        playerResources = 10;
                         prevResources = 15;
-                        buildResources = 0;
-                        MoraleBar.resourceVal(buildResources);
                     }
                     currentTransition = "onwardToTheRiver";
+                    playerResources = 10;
+                    buildResources = 0;
+                    MoraleBar.resourceVal(buildResources);
                     completeTransition = false;
                 }
 
                 else if (screenManager.currentMap.name.Equals("Content/riverDefense.txt")) 
                 {
-                    if (buildResources > 20)
+                    if (MoraleBar.resources > 20)
                     {
                         prevResources = MoraleBar.resources;
                     }
                     else
                     {
-                        playerResources = 25;
                         prevResources = 20;
-                        buildResources = 0;
-                        MoraleBar.resourceVal(buildResources);
                     }
+                    playerResources = 10;
+                    buildResources = 0;
+                    MoraleBar.resourceVal(buildResources);
                     currentTransition = "onwardToTheCastle";
                     completeTransition = false;
                 }
@@ -572,7 +572,22 @@ namespace Retribution
                 if (currentTransition.Equals("onwardToTheRiver"))
                 {
                     spriteBatch.Draw(transitionScreen, new Rectangle(0, 0, 704, 1024), Color.Black);
-                    spriteBatch.DrawString(transitionText, "You successfully repeled the enemy attack.\nNow is your chance to strike back!", new Vector2(350, 270), Color.White);
+                    spriteBatch.DrawString(transitionText, "You successfully repeled the enemy attack.\nNow is your chance to strike back!\nBut be wary, this isn't over yet...", new Vector2(350, 270), Color.White);
+                }
+                if (currentTransition.Equals("onwardToTheCastle"))
+                {
+                    spriteBatch.Draw(transitionScreen, new Rectangle(0, 0, 704, 1024), Color.Black);
+                    spriteBatch.DrawString(transitionText, "You've reached the enemy's primary city.\nDestroy them now and end this conflict..\nonce and for all.", new Vector2(350, 270), Color.White);
+                }
+                if (currentTransition.Equals("fallBackToTheCastle"))
+                {
+                    spriteBatch.Draw(transitionScreen, new Rectangle(0, 0, 704, 1024), Color.Black);
+                    spriteBatch.DrawString(transitionText, "Your counter-attack has been thwarted, \nretreat to the castle!", new Vector2(350, 270), Color.White);
+                }
+                if (currentTransition.Equals("fallBackToTheRiver"))
+                {
+                    spriteBatch.Draw(transitionScreen, new Rectangle(0, 0, 704, 1024), Color.Black);
+                    spriteBatch.DrawString(transitionText, "There's a reason this war has raged for so long. \nThe enemy is chasing you back to the river!", new Vector2(350, 270), Color.White);
                 }
             }
             if (screenManager.currentMap.name.Equals("Content/MainScreen.txt")) 
@@ -581,7 +596,7 @@ namespace Retribution
             }
             if (screenManager.currentMap.name.Equals("Content/levelSelect.txt"))//ghetto right now, but it'll do.
             {
-                if ((!currentTransition.Equals("levelSelect") || !currentTransition.Equals(""))
+                if ((!currentTransition.Equals("levelSelect") || !currentTransition.Equals("onwardToTheCastle") || !currentTransition.Equals("onwardToTheRiver") || !currentTransition.Equals("fallBackToTheRiver") || !currentTransition.Equals("fallBackToTheCastle")) && completeTransition == true)
                 {
                     spriteBatch.Draw(Content.Load<Texture2D>("CastleSiege.png"), new Rectangle(96 + 32 + 640, 356, 128, 64), Color.White);
                     spriteBatch.Draw(Content.Load<Texture2D>("TheRiver.png"), new Rectangle(96 + 346, 346, 128, 64), Color.White);
@@ -593,14 +608,19 @@ namespace Retribution
                 if (currentTransition.Equals("defeatScreen"))
                 {
                     spriteBatch.Draw(transitionScreen, new Rectangle(0, 0, 704, 1024), Color.Black);
-                    spriteBatch.DrawString(transitionText, "Your kingdom has fallen to the invaders.\nYour enemies were right to assume your \nweakness would lead to your kingdom's downfall.", new Vector2(350, 270), Color.White);
+                    spriteBatch.DrawString(transitionText, "Your kingdom has fallen to the invaders.\nYour enemies were right to assume your \nweakness would lead to your kingdom's \ndownfall.", new Vector2(350, 270), Color.White);
                     spriteBatch.Draw(Content.Load<Texture2D>("Defeat.png"), new Rectangle(262, 37, 500, 200), Color.White);
                     // Write about how your kingdom was destroyed
                 }
             }
             if (screenManager.currentMap.name.Equals("Content/victoryScreen.txt"))
             {
-                spriteBatch.Draw(Content.Load<Texture2D>("Victory.png"), new Rectangle(262, 37, 500, 200), Color.White);
+                if (currentTransition.Equals("victoryScreen"))
+                {
+                    spriteBatch.Draw(transitionScreen, new Rectangle(0, 0, 704, 1024), Color.Black);
+                    spriteBatch.DrawString(transitionText, "You have conquered the capital city of your enemies.\nYour father smiles down on you from the heavens,\nproud that you have fulfilled your destiny\n and brought peace to the kingdom.", new Vector2(350, 270), Color.White);
+                    spriteBatch.Draw(Content.Load<Texture2D>("Victory.png"), new Rectangle(262, 37, 500, 200), Color.White);
+                }
             }
 
             //if (built && initialized)  // hopefully get digits working and draw it to the screen (only when game starts)

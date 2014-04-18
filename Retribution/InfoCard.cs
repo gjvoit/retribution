@@ -56,7 +56,7 @@ namespace Retribution
             spriteBatch.DrawString(txt, "The Basics", new Vector2(1070, 460), Color.Gold);
             spriteBatch.DrawString(txt, "Left Click(&Drag) to Select (or left click a single unit)",new Vector2(1070,480), Color.White);
             spriteBatch.DrawString(txt, "Right Click to Command", new Vector2(1070, 500), Color.White);
-            spriteBatch.DrawString(txt, "Move the General on to the selector to move to the next level", new Vector2(1070, 520), Color.White);
+            spriteBatch.DrawString(txt, "Move to the selector to move to the next level", new Vector2(1070, 520), Color.White);
             spriteBatch.DrawString(txt, "Gettin' Fancy", new Vector2(1070, 560), Color.Gold);
             spriteBatch.DrawString(txt, "Build your army then press enter to begin the battle", new Vector2(1070, 580), Color.White);
             spriteBatch.DrawString(txt, "F for special attack", new Vector2(1070, 600), Color.White);
