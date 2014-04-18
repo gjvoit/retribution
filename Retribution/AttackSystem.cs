@@ -62,8 +62,8 @@ namespace Retribution
                         {
                             if (pobj.IsInRange(aobj) && pobj.aiTarget == null) //if ai is attackable by player
                             {
-                                pobj.aiTarget = aobj;
-                               
+                                if (aobj.isAlive())
+                                    pobj.aiTarget = aobj;
                                                   //  If the player object is alive and is not currently being attacked
                                 if (pobj.isAlive() && !pobj.attacked && pobj.attackWait <= 0)
                                 {
@@ -115,9 +115,10 @@ namespace Retribution
                         {
                             if (aobj.IsInRange(pobj) && aobj.aiTarget == null)
                             {
+                                if (pobj.isAlive())
+                                    aobj.aiTarget = pobj;
                                 if (aobj.isAlive() && !aobj.attacked && aobj.attackWait <= 0)
                                 {
-                                    aobj.aiTarget = pobj;
                                     aobj.Attack(pobj, content, projMan);
                                     aobj.resetAttack();
                                     if (!aobj.aiTarget.isAlive())
