@@ -46,7 +46,7 @@ namespace Retribution
         Dictionary<Keys, List<GameObject>> groupedUnits;
 
       //  Warrior theCommander;
-        int playerResources = 15;
+        int playerResources = 0;
         int buildResources = 0;
         // if built is false, player enters build phase; if built is true, that means player finished build phase and level starts
         static bool built = false;
@@ -213,7 +213,11 @@ namespace Retribution
                 toweroffset += 50;
             }
             // Draw 2 towers for Player
-            modMan.addUnit("ARTIFICIAL", "WARRIOR", new Vector2(475, 150));
+            modMan.addUnit("ARTIFICIAL", "WARRIOR", new Vector2(375, 175));
+            modMan.addUnit("ARTIFICIAL", "WARRIOR", new Vector2(425, 175));
+            modMan.addUnit("ARTIFICIAL", "WARRIOR", new Vector2(475, 175));
+            modMan.addUnit("ARTIFICIAL", "WARRIOR", new Vector2(525, 175));
+            modMan.addUnit("ARTIFICIAL", "WARRIOR", new Vector2(575, 175));
            // ModelManager.artificial.Add(new BossUnit(new Vector2(475,590),400));
             //modMan.addUnit("PLAYER", "CLERIC", new Vector2(250,550));
             /* ---------------------------------------------------------------------------------------------------- */
@@ -381,6 +385,7 @@ namespace Retribution
                 initialized = false;
                 if (screenManager.currentMap.name.Equals("Content/castleDefense.txt"))
                 {
+                    playerResources = 0;
                     prevResources = 10;
                     buildResources = 0;
                     MoraleBar.resourceVal(buildResources);
@@ -388,12 +393,14 @@ namespace Retribution
 
                 else if (screenManager.currentMap.name.Equals("Content/riverDefense.txt"))
                 {
+                    playerResources = 0;
                     prevResources = 10;
                     buildResources = 0;
                     MoraleBar.resourceVal(buildResources);
                 }
                 else if (screenManager.currentMap.name.Equals("Content/castleSiege.txt"))
                 {
+                    playerResources = 10;
                     prevResources = 15;
                     buildResources = 0;
                     MoraleBar.resourceVal(buildResources);
@@ -417,9 +424,12 @@ namespace Retribution
                     {
                         prevResources = MoraleBar.resources;
                     }
-                    else prevResources = 15;
-                    buildResources = 0;
-                    MoraleBar.resourceVal(buildResources);
+                    else
+                    {
+                        prevResources = 15;
+                        buildResources = 0;
+                        MoraleBar.resourceVal(buildResources);
+                    }
                 }
 
                 else if (screenManager.currentMap.name.Equals("Content/riverDefense.txt")) 
@@ -428,9 +438,12 @@ namespace Retribution
                     {
                         prevResources = MoraleBar.resources;
                     }
-                    else prevResources = 20;
-                    buildResources = 0;
-                    MoraleBar.resourceVal(buildResources);
+                    else
+                    {
+                        prevResources = 20;
+                        buildResources = 0;
+                        MoraleBar.resourceVal(buildResources);
+                    }
                 }
                 else if (screenManager.currentMap.name.Equals("Content/castleSiege.txt"))
                 {

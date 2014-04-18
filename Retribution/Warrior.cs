@@ -13,7 +13,7 @@ namespace Retribution
     {
         public static int cost = 5;
         private Timer juggernautTimer = new Timer(4000);
-        public Warrior(Vector2 position, int health = 40, int damage = 15, int attackRange = 50)
+        public Warrior(Vector2 position, int health = 40, int damage = 10, int attackRange = 50)
             : base(health, position, damage, attackRange)
         {
             //this.health = 40;
@@ -54,14 +54,14 @@ namespace Retribution
                 juggernautTimer.Start();
                 attackSpeed = 150;
                 health -= (int)(health * .2);
-                damage = 17;
+                damage = 15;
                 moveSpeed = 3;
                 attackRange = 33;
             }
         }
         private void OnTimedEvent(object source, ElapsedEventArgs e)
         {
-            damage = 15;
+            damage = 8;
             attackSpeed = 320;
             moveSpeed = 1;
             specialAttack = false;
