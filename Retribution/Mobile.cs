@@ -28,6 +28,7 @@ namespace Retribution
             collisionList = new List<Tile>();
             this.animateState = "move";
         }
+
        public void setDestination(Vector2 destination)
         {
             //this.direction = direction;

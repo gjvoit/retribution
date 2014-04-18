@@ -12,8 +12,9 @@ namespace Retribution
         public Map myMap;
         public Random random;
         public List<GameObject> aiUnits;
-        public static Timer moveTimer = new Timer(100);
+        public static Timer moveTimer = new Timer(1000);
         public static Timer imTimer = new Timer(10000);
+
         private AIManager(ref Map newMap)
         {
             random = new Random();
@@ -23,7 +24,7 @@ namespace Retribution
         }
         public void OnTimedEvent(object source, ElapsedEventArgs e)
         {
-            moveTimer.Stop();
+            //moveTimer.AutoReset();
             //if (!imTimer.Enabled)
             //    moveTimer.Start();
         }
@@ -145,7 +146,7 @@ namespace Retribution
                     
                     if (unit.GetType().BaseType == typeof(Mobile))
                     {
-                        if (unit.aiTarget != null)//if it has a target
+                        if (unit.aiTarget != null && moveTimer.Enabled)//if it has a target
                         {
 
                             pursue(unit);
