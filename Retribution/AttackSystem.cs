@@ -72,7 +72,7 @@ namespace Retribution
                                         aobj.aiTarget = pobj;
                                     pobj.Attack(aobj, content, projMan);
                                     pobj.resetAttack();
-                                    if (!pobj.aiTarget.isAlive())
+                                    if (pobj.aiTarget!=null&&!pobj.aiTarget.isAlive())
                                         pobj.aiTarget = null;
                                     //break;
                                 }
