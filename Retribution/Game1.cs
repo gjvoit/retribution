@@ -618,7 +618,7 @@ namespace Retribution
                 if (currentTransition.Equals("victoryScreen"))
                 {
                     spriteBatch.Draw(transitionScreen, new Rectangle(0, 0, 704, 1024), Color.Black);
-                    spriteBatch.DrawString(transitionText, "You have conquered the capital city of your enemies.\nYour father smiles down on you from the heavens,\nproud that you have fulfilled your destiny\n and brought peace to the kingdom.", new Vector2(350, 270), Color.White);
+                    spriteBatch.DrawString(transitionText, "You have conquered the capital city of your enemies.\nYour father smiles down on you from the heavens,\nproud that you have fulfilled your destiny and \nbrought peace to the kingdom.", new Vector2(350, 270), Color.White);
                     spriteBatch.Draw(Content.Load<Texture2D>("Victory.png"), new Rectangle(262, 37, 500, 200), Color.White);
                 }
             }
