@@ -555,6 +555,7 @@ namespace Retribution
 
             for (int i = 0; i < ModelManager.artificial.Count; i++)//draw AI objects
             {
+                ModelManager.artificial[i].Animate();
                 ModelManager.artificial[i].Draw(spriteBatch,Color.Coral);
             }
 

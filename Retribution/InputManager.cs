@@ -253,6 +253,16 @@ namespace Retribution
                     int refund = getCost(units[units.Count - 1]);
                     playerResources += refund;
                 }
+                if (units.Count == 1)
+                {
+                    if (units[0].GetType() == typeof(Warrior))
+                    {
+                        if (((Warrior)(units[0])).moveSpeed == 7)
+                        {
+                            return;
+                        }
+                    }
+                }
                 units.RemoveAt(units.Count - 1);
                 offset -= 50;
                 if (offset < 0 && default_player_y > 608)
@@ -271,6 +281,11 @@ namespace Retribution
                 {
                     if (gobj.selected)
                     {
+                        if (gobj.GetType() == typeof(Warrior))
+                        {
+                            if (((Warrior)(gobj)).moveSpeed == 7)
+                                return;
+                        }
                         int refund = getCost(gobj);
                         playerResources += refund;
                     }
