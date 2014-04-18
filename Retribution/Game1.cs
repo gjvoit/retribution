@@ -54,6 +54,7 @@ namespace Retribution
         bool initialized = false;
         static bool playable = false;
         static bool preventBuilding = false;
+        bool casdefbuilt = false;
         double ClickTimer;
 
         //  TyDigit digit test to display amount of resources left
@@ -215,8 +216,6 @@ namespace Retribution
             modMan.addUnit("ARTIFICIAL", "WARRIOR", new Vector2(475, 150));
            // ModelManager.artificial.Add(new BossUnit(new Vector2(475,590),400));
             //modMan.addUnit("PLAYER", "CLERIC", new Vector2(250,550));
-            modMan.addUnit("PLAYER", "TOWER", new Vector2(416, 416));
-            modMan.addUnit("PLAYER", "TOWER", new Vector2(576, 416));
             /* ---------------------------------------------------------------------------------------------------- */
             theResource = new Digits(new Vector2(0, 672));
             theTitle = new titleShell(new Vector2(375, 375));
@@ -325,10 +324,7 @@ namespace Retribution
                     built = true;
                     MoraleBar.resourceAdd(playerResources);
                 }
-                else
-                {
-                    inputManager.Update(mouseCurrent, mousePrev, ref ClickTimer, keyboardState, ref groupedUnits, ref ModelManager.player, ref ModelManager.artificial, ref loadMan, ref projMan, this.Content, ref MoraleBar.resources, true);
-                }
+                inputManager.Update(mouseCurrent, mousePrev, ref ClickTimer, keyboardState, ref groupedUnits, ref ModelManager.player, ref ModelManager.artificial, ref loadMan, ref projMan, this.Content, ref MoraleBar.resources, true);
                 //MoraleBar.resourceVal(buildResources);
                 
             }
@@ -504,6 +500,13 @@ namespace Retribution
                 ModelManager.player.Clear();
                 buildResources = prevResources;
                 MoraleBar.resourceVal(buildResources);
+                if (screenManager.currentMap.name.Equals("Content/castleDefense.txt"))
+                {
+                    modMan.addUnit("PLAYER", "TOWER", new Vector2(416, 416));
+                    modMan.addUnit("PLAYER", "TOWER", new Vector2(576, 416));
+                }
+
+                loadMan.load(this.Content, ModelManager.player);
                 //ModelManager.player.Remove(ModelManager.player[0]);
                 testBeta = false;
             }
