@@ -13,7 +13,8 @@ namespace Retribution
         public Random random;
         public List<GameObject> aiUnits;
         public static Timer moveTimer = new Timer(1000);
-        public static Timer imTimer = new Timer(10000);
+        public static Timer imTimer = new Timer(3000);
+        public static Timer pursueTimer = new Timer(500);
 
         private AIManager(ref Map newMap)
         {
@@ -21,9 +22,11 @@ namespace Retribution
             myMap = newMap;
             moveTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
             imTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent2);
+            pursueTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent3);
         }
         public void OnTimedEvent(object source, ElapsedEventArgs e)
         {
+            moveTimer.Stop();
             //moveTimer.AutoReset();
             //if (!imTimer.Enabled)
             //    moveTimer.Start();
@@ -31,7 +34,12 @@ namespace Retribution
         public void OnTimedEvent2(object source, ElapsedEventArgs e)//after 3 seconds
         {
             imTimer.Stop();
+            pursueTimer.Start();
             moveTimer.Start();//open the window to explore
+        }
+        public void OnTimedEvent3(object source, ElapsedEventArgs e)
+        {
+            pursueTimer.Stop();
         }
         public static AIManager getInstance(ref Map newMap){
             if (instance == null)
@@ -137,7 +145,9 @@ namespace Retribution
 
         public void SetAIDestinations2(List<GameObject> aiunits)
         {
-            
+
+            if (!imTimer.Enabled)
+                imTimer.Start();
             this.aiUnits = aiunits;
             if (myMap.isDrawn == true)
             {
@@ -146,7 +156,7 @@ namespace Retribution
                     
                     if (unit.GetType().BaseType == typeof(Mobile))
                     {
-                        if (unit.aiTarget != null && moveTimer.Enabled)//if it has a target
+                        if (unit.aiTarget != null && pursueTimer.Enabled)//if it has a target
                         {
 
                             pursue(unit);

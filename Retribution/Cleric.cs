@@ -43,7 +43,10 @@ namespace Retribution
         {
             texture = content.Load<Texture2D>("cleric.png");
         }
-
+        public override void Animate()
+        {
+            
+        }
 
     }
 }

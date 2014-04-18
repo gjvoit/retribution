@@ -38,11 +38,13 @@ namespace Retribution
         MouseState previous;
         int spacing = 1;
         KeyboardState previousKeyboard;
-        int default_player_y = 608;
+        int default_player_y = 640;
         const double TimerDelay = 500;
         bool selectSimilar = false;
         bool prevclick = true;
+
         int offset = 0;
+
 
         //public InputManager( MovementManager newMovementManager)
         public InputManager(ref ModelManager newmodelManager)
@@ -74,6 +76,7 @@ namespace Retribution
             ref LoadManager loadManager, ref ProjectileManager projMan, ContentManager theContent, ref int playerResources, bool dbuildPhase)
 
         {
+           
             Rectangle holder = mouseRec;
             mouseRec = new Rectangle(newcurrent.X, newcurrent.Y, 2, 2);
             if (!loaded)
@@ -461,33 +464,39 @@ namespace Retribution
         public Vector2 placementUtil()
         {
             Vector2 posit;
-            //int currentx = current.X;
-            //int currenty = current.Y;
-            //if (currenty < 450)
-            //    currenty = 450;
-            //if (currenty > 650)
-            //    currenty = 650;
-            //if (currentx < 50)
-            //    currentx = 50;
-            //if (currentx > 950)
-            //    currentx = 950;
+            int currentx = current.X;
+            int currenty = current.Y;
+            if (currenty < 450)
+                currenty = 450;
+            if (currenty > 650)
+                currenty = 650;
+            if (currentx < 50)
+                currentx = 50;
+            if (currentx > 950)
+                currentx = 950;
+            if (currentx >= 950 && currenty <= 450)
+            {
+                currentx = offset;
+                currenty = default_player_y;
+            }
+
             if (buildPhase)
             {
-                posit = new Vector2(300+offset, default_player_y);
+                posit = new Vector2(currentx, currenty);
                 if (offset >= 300)
                 {
                     offset = 0;
-                    default_player_y += 32;
+                    //default_player_y += 32;
                 }
                 else offset += 50;
             }
             else
             {
-                posit = new Vector2(300 + offset, default_player_y);
-                if (offset >= 300)
+                posit = new Vector2(currentx, default_player_y);
+                if (offset >= 600)
                 {
                     offset = 0;
-                    default_player_y += 32;
+                    //default_player_y += 32;
                 }
                 else offset += 50;
             }
