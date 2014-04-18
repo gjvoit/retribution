@@ -54,6 +54,7 @@ namespace Retribution
         bool initialized = false;
         static bool playable = false;
         static bool preventBuilding = false;
+        bool casdefbuilt = false;
         double ClickTimer;
 
         //  TyDigit digit test to display amount of resources left
@@ -215,8 +216,6 @@ namespace Retribution
             modMan.addUnit("ARTIFICIAL", "WARRIOR", new Vector2(475, 150));
            // ModelManager.artificial.Add(new BossUnit(new Vector2(475,590),400));
             //modMan.addUnit("PLAYER", "CLERIC", new Vector2(250,550));
-            modMan.addUnit("PLAYER", "TOWER", new Vector2(416, 416));
-            modMan.addUnit("PLAYER", "TOWER", new Vector2(576, 416));
             /* ---------------------------------------------------------------------------------------------------- */
             theResource = new Digits(new Vector2(0, 672));
             theTitle = new titleShell(new Vector2(375, 375));
@@ -239,6 +238,7 @@ namespace Retribution
             modMan.addUnit("ARTIFICIAL", "TOWER", new Vector2(576, 224));
             modMan.addUnit("ARTIFICIAL", "WARRIOR", new Vector2(475, 150));
             //modMan.addUnit("PLAYER", "CLERIC", new Vector2(250,550));
+            mBar.bossSpawn = false;
             /* ---------------------------------------------------------------------------------------------------- */
             theResource = new Digits(new Vector2(0, 672));
             theTitle = new titleShell(new Vector2(375, 375));
@@ -320,13 +320,14 @@ namespace Retribution
                 // Why is the "buildPhase" Boolean always true? Should it be equal to "built"?
                 // 2 checks: either you don’t want to use all your resources, and want to start the game now, or you’ve used all your resources
                 // and the player should receive a “ready check”
-                inputManager.Update(mouseCurrent, mousePrev, ref ClickTimer, keyboardState, ref groupedUnits, ref ModelManager.player, ref ModelManager.artificial, ref loadMan, ref projMan, this.Content, ref MoraleBar.resources, true);
-                //MoraleBar.resourceVal(buildResources);
                 if (keyboardState.IsKeyDown(Keys.Enter))
                 { // once we deplete our build resources, set built to true (doing so will initialize enemy AI units and starts the level)
                     built = true;
                     MoraleBar.resourceAdd(playerResources);
                 }
+                    inputManager.Update(mouseCurrent, mousePrev, ref ClickTimer, keyboardState, ref groupedUnits, ref ModelManager.player, ref ModelManager.artificial, ref loadMan, ref projMan, this.Content, ref MoraleBar.resources, true);
+                //MoraleBar.resourceVal(buildResources);
+                
             }
             else if (built && initialized)// player is not building in build phase but rather building reinforcements - notice the false flag at the end indicating not build phase
             {
@@ -412,7 +413,7 @@ namespace Retribution
                 initialized = false;
                 if (screenManager.currentMap.name.Equals("Content/castleDefense.txt"))
                 {
-                    if (MoraleBar.resources > 15)
+                    if (buildResources > 15)
                     {
                         prevResources = MoraleBar.resources;
                     }
@@ -423,7 +424,7 @@ namespace Retribution
 
                 else if (screenManager.currentMap.name.Equals("Content/riverDefense.txt")) 
                 {
-                    if (MoraleBar.resources  > 20)
+                    if (buildResources > 20)
                     {
                         prevResources = MoraleBar.resources;
                     }
@@ -500,6 +501,13 @@ namespace Retribution
                 ModelManager.player.Clear();
                 buildResources = prevResources;
                 MoraleBar.resourceVal(buildResources);
+                if (screenManager.currentMap.name.Equals("Content/castleDefense.txt"))
+                {
+                    modMan.addUnit("PLAYER", "TOWER", new Vector2(416, 416));
+                    modMan.addUnit("PLAYER", "TOWER", new Vector2(576, 416));
+                }
+
+                loadMan.load(this.Content, ModelManager.player);
                 //ModelManager.player.Remove(ModelManager.player[0]);
                 testBeta = false;
             }
