@@ -105,6 +105,8 @@ namespace Retribution
                 int unitcount=ModelManager.player.Count-ModelManager.artificial.Count;
                 if(unitcount>0)
                 waveNum++;
+                if (unitcount < 0)
+                    unitcount = 0;
                 if (waveNum >=7 &&!bossSpawn)
                 {
                     waveNum = 7;

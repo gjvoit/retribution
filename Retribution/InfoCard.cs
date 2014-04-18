@@ -38,7 +38,14 @@ namespace Retribution
         {
             
             spriteBatch.DrawString(txt, name+"   COST:"+cost, new Vector2(1070, 198), Color.White);
-            spriteBatch.Draw(texture, new Rectangle(1079,244,32,32), Color.White);
+            if(String.Compare(name,"CATAPULT")==0)
+                spriteBatch.Draw(texture, new Rectangle(1079, 244, 32, 32), new Rectangle(68, 64, 64, 64), Color.White);
+            else
+            if(String.Compare(name,"CLERIC")==0||String.Compare(name,"TOWER")==0)
+                spriteBatch.Draw(texture, new Rectangle(1079, 244, 32, 32), Color.White);
+            else
+            spriteBatch.Draw(texture, new Rectangle(1079, 244, 32, 32), new Rectangle(1 * 32, 1 * 32, 32, 32), Color.White);
+
             spriteBatch.DrawString(txt, health + " HP", new Vector2(1120, 220), Color.White);
             spriteBatch.DrawString(txt, damage + " DAMAGE", new Vector2(1120, 240), Color.White);
             spriteBatch.DrawString(txt, range + " RANGE", new Vector2(1120, 260), Color.White);
